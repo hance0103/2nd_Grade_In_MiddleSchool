@@ -5,16 +5,16 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    static GameManager _inst;
+    static GameManager s_inst;
     public static GameManager Inst
     {
         get
         {
-            if (_inst == null)
+            if (s_inst == null)
             {
-                _inst = new GameManager();
+                s_inst = new GameManager();
             }
-            return _inst;
+            return s_inst;
         }
     }
 
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     }
     static void Init()
     {
-        if (_inst == null)
+        if (s_inst == null)
         {
             GameObject go = GameObject.Find("@GameManager");
             if (go == null)
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             }
 
             DontDestroyOnLoad(go);
-            _inst = go.GetComponent<GameManager>();
+            s_inst = go.GetComponent<GameManager>();
 
         }
     }
