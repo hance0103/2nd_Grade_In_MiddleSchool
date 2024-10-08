@@ -89,7 +89,7 @@ public class PlayerMover : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            Player.Inst.playerState = PlayerState.None;
+            //Player.Inst.playerState = PlayerState.None;
         }
     }
 }
