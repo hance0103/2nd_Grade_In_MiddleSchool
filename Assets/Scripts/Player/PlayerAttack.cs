@@ -28,6 +28,8 @@ public class PlayerAttack : MonoBehaviour
     {
         GameManager.Input.KeyAction -= OnKeyDown;
         GameManager.Input.KeyAction += OnKeyDown;
+
+
     }
     public void OnKeyDown()
     {

@@ -15,7 +15,7 @@ public enum Sound
     Effect,
     MaxCount
 }
-public enum PlayerMoveDirection
+public enum PlayerInputDirection
 {
     Up,
     Down,
@@ -30,14 +30,14 @@ public enum PlayerMoveDirection
 public enum PlayerLookingDirection
 {
     Right,
-    Left,
-    None
+    Left
 }
 public enum PlayerState
 {
-    None,
+    Idle,
     Move,
     Jump,
     Dash,
-    Attack
+    Attack,
+    JumpAttack
 }

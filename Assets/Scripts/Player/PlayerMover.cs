@@ -4,92 +4,148 @@ using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
 {
-    [SerializeField]
-    private float _movSpeed;
-    [SerializeField]
-    private float _maxMovSpeed;
-    [SerializeField]
-    private float _movAccel;
+    private Player _player;
 
+    // 이동 관련 변수
     [SerializeField]
-    private float _jumpHeight;
+    private float _movSpeed;    //이동 속도
     [SerializeField]
-    private float _jumpTimeToApex;
+    private float _maxMovSpeed; //최대 속도
     [SerializeField]
-    private float _maxFallingSpeed;
-    [SerializeField]
-    private float _jumpHangGravityMult;
+    private float _movAccel;    //가속도
 
+    // 점프 관련 변수
     [SerializeField]
-    private float _dashDistance;
+    private float _jumpSpeed;   // 기본 점프 속도
     [SerializeField]
-    private float _dashDelay;
+    private float _maxJumpHeight;   // 최고 점프 높이
+    private bool _isJumping;    // 점프 중인지
+    private bool _canJump;      // 점프 가능한지
+    private bool _isKeyHeld;    // 점프 키가 눌려있는지
+    private float _initY;
 
-    private PlayerMoveDirection direction = PlayerMoveDirection.None;
-
-    [SerializeField]
-    private PlayerLookingDirection _looking = PlayerLookingDirection.None;
+    private PlayerInputDirection _direction;
+    private PlayerLookingDirection _looking;
 
     void Start()
     {
-        GameManager.Input.KeyAction -= OnKeyDown;
-        GameManager.Input.KeyAction += OnKeyDown;
-    }
 
-    public void OnKeyDown()
+        _player = GetComponent<Player>();
+        _movSpeed = 0;
+        _isJumping = false;
+        _canJump = true;
+        _direction = PlayerInputDirection.None;
+        _looking = PlayerLookingDirection.Right;
+        _initY = transform.position.y;
+
+    }
+    private void Update()
+    {
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            // 키가 눌렸을 때
+            if (Input.GetKeyDown(key))
+            {
+                Debug.Log("Pressed Key: " + key);
+            }
+        }
+    }
+    private void FixedUpdate()
+    {
+        PlayerMoveInput();
+        PlayerJumpInput();
+    }
+    private void PlayerMoveInput()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                direction = PlayerMoveDirection.UpLeft;
+                _direction = PlayerInputDirection.UpLeft;
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                direction = PlayerMoveDirection.DownLeft;
+                _direction = PlayerInputDirection.DownLeft;
             }
             else
-                direction = PlayerMoveDirection.Left;
+            {
+                _direction = PlayerInputDirection.Left;
+            }
+
+            if (!_isJumping)
+                _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Left;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                direction = PlayerMoveDirection.UpRight;
+                _direction = PlayerInputDirection.UpRight;
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                direction = PlayerMoveDirection.DownRight;
+                _direction = PlayerInputDirection.DownRight;
             }
             else
-                direction = PlayerMoveDirection.Right;
+            {
+                _direction = PlayerInputDirection.Right;
+            }
+            if (!_isJumping)
+                _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Right;
         }
         else if (Input.GetKey(KeyCode.UpArrow))
         {
-            direction = PlayerMoveDirection.Up;
+            _direction = PlayerInputDirection.Up;
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if(Input.GetKey(KeyCode.DownArrow))
         {
-            direction = PlayerMoveDirection.Down;
+            _direction = PlayerInputDirection.Down;
+        }
+        PlayerMoveVec();
+        if (!Input.GetKey(KeyCode.RightArrow) &&
+            !Input.GetKey(KeyCode.LeftArrow) &&
+            !_isJumping)
+        {
+            _player.playerState = PlayerState.Idle;
+            _movSpeed = 0;
         }
 
-        if (direction != PlayerMoveDirection.None)
-        {
-            Debug.Log(direction.ToString());
-            //Player.Inst.playerState = PlayerState.Move;
-        }
-            
-
-        if (Input.GetKey(KeyCode.C))
-        {
-            Debug.Log("점프");
-        }
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            //Player.Inst.playerState = PlayerState.None;
-        }
     }
+    private void PlayerMoveVec()
+    {
+        float moveInput = Input.GetAxis("Horizontal");
+        if (moveInput != 0)
+        {
+            _movSpeed += _movAccel * Time.deltaTime;
+            _movSpeed = Mathf.Min(_movSpeed, _maxMovSpeed);
+        }
+
+        Vector3 movement = new Vector3(moveInput * _movSpeed * Time.deltaTime, 0, 0);
+        transform.position += movement;
+    }
+
+    private void PlayerJumpInput()
+    {
+
+    }
+    private void PlayerJump()
+    {
+
+    }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        _canJump = true;
+    //    }
+    //}
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        _canJump = false;
+    //    }
+    //}
 }

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    static Player s_inst;
-    public static Player Inst { get { return s_inst; } }
-
-    public PlayerState playerState = PlayerState.None;
+    public PlayerState playerState = PlayerState.Idle;
 
 }

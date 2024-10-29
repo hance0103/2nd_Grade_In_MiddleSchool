@@ -19,10 +19,18 @@ public class InputManager
     public void OnUpdate()
     {
         // 키 입력이 아무것도 없었다면
-        if (Input.anyKey == false) { return; }
+        if (Input.anyKey == false)
+        {
+            return;
+        }
 
         // 키 액션이 있었다면 
         if (KeyAction != null)
             KeyAction.Invoke();
     }
+    /*
+     * 발견한 문제
+     * 키를 뗄때 작동하는것도 필요한데
+     * 키를 떼면 Input.anyKey == false 이기때문에 return되어 KeyAction이 작동하지 않는다.
+     * */
 }
