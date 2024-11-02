@@ -7,5 +7,23 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    guid: 6c0388d9c18409f49b8db3b42bd7e914
+  - enabled: 1
+    path: Assets/Scenes/MainMenu/Main.unity
+    guid: 837bde8e5ae3e9549b266f31f0a78c29
+  - enabled: 0
+    path: Assets/Scenes/Stages/Stage Select.unity
+    guid: 43c3f392bfa708346a88d5fd8e2c7170
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage1.unity
+    guid: 40adfd9657e70d04689898d9b2c3662d
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage2.unity
+    guid: a47be65281f04c246b42baf2c1614836
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage3.unity
+    guid: b980483d4b730d04dafea811b44916a0
+  - enabled: 1
+    path: Assets/Scenes/Stages/Victory.unity
+    guid: 5ee85c915c108ac48a99ba0f26e6fc6b
   m_configObjects: {}
