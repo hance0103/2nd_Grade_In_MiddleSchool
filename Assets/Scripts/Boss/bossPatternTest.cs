@@ -6,6 +6,7 @@ public class bossPatternTest : MonoBehaviour
 {
     enum BossState
     {
+        None,
         Idle,
         WeakPattern1,
         WeakPattern2,
@@ -21,7 +22,8 @@ public class bossPatternTest : MonoBehaviour
         Attacking,
         PostAttack,
     }
-    private Coroutine currentCoroutine; 
+
+    private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
     
@@ -37,7 +39,7 @@ public class bossPatternTest : MonoBehaviour
     {
         if(currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
-            currentCoroutine = StartCoroutine (WeakPattern1());
+            currentCoroutine = StartCoroutine (WeakPattern1Teleport());
         }
 
         if(currentState == BossState.WeakPattern2 && currentCoroutine == null)
@@ -59,25 +61,50 @@ public class bossPatternTest : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(StrongPattern2());
         }
+
+        if(currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
+        {
+            StartCoroutine(Idle());
+        }
     }
 
-    public IEnumerator Idle()
+    public IEnumerator Idle() // 패턴을 랜덤하게 선택해서 지정해주는 함수
     {
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for(int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
+            //currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
         }
         yield return null;
     }
 
-    public IEnumerator WeakPattern1()
+    public IEnumerator WeakPattern1Teleport()
     {
-        StartCoroutine(Teleport());
-        //yield return new WaitForSeconds();
-        // 이 안에 들어가는 변수들이 많은텐데 어떻게 관리를 할것인가?
-        // 스크립터블 오브젝트? 혹은 하드코딩? 혹은 다른 방법
+        //내용 기입
+        StartCoroutine(WeakPattern1PreAttack()); // 다음 코루틴 실행
+        yield return null;
+    }
+
+    public IEnumerator WeakPattern1PreAttack()
+    {
+        //내용 기입
+        StartCoroutine(WeakPattern1Attacking()); // 다음 코루틴 실행
+        yield return null;
+    }
+
+    public IEnumerator WeakPattern1Attacking()
+    {
+        //내용 기입
+        StartCoroutine(WeakPattern1PostAttack()); // 다음 코루틴 실행
+        yield return null;
+    }
+    public IEnumerator WeakPattern1PostAttack()
+    {
+        //내용 기입
+        currentState = BossState.None; // 패턴이 종료되었으니 currentState를 None으로
         yield return null;
     }
 
