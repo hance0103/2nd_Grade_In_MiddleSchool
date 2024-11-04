@@ -114,7 +114,7 @@ public class PlayerMover : MonoBehaviour
     }
     private void PlayerMoveVec()
     {
-        float moveInput = Input.GetAxis("Horizontal");
+        float moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0)
         {
             _movSpeed += _movAccel * Time.deltaTime;
