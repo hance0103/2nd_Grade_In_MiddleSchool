@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class bossPatternTest : MonoBehaviour
 {
+    
     enum BossState
     {
         None,
