@@ -31,13 +31,13 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField]
     private BossScriptableObject weakPattern1Data; // ScriptableObject 데이터
     [SerializeField]
-    private BossScriptableObject weakPatter2Data; // ScriptableObject 데이터
+    private BossScriptableObject weakPattern2Data; 
     [SerializeField]
-    private BossScriptableObject weakPattern3Data; // ScriptableObject 데이터
+    private BossScriptableObject weakPattern3Data; 
     [SerializeField]
-    private BossScriptableObject strongPattern1Data; // ScriptableObject 데이터
+    private BossScriptableObject strongPattern1Data; 
     [SerializeField]
-    private BossScriptableObject strongPattern2Data; // ScriptableObject 데이터
+    private BossScriptableObject strongPattern2Data; 
 
 
     void Start()
@@ -108,14 +108,19 @@ public class bossPatternTest : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator WeakPattern1Attacking()
+    public IEnumerator WeakPattern1Attacking() //플레이어 주변으로 텔레포트 후 근접공격
     {
         Debug.Log("패턴 이름 :: " + weakPattern1Data.PatternName);
         Debug.Log("공격력 :: " + weakPattern1Data.Damage);
-        Debug.Log("텔레포트 범위 :: " + weakPattern1Data.TeleportRange);
+        Debug.Log("텔레포트 오프셋 :: " + weakPattern1Data.TeleportOffset);
+        Debug.Log("공격 딜레이 :: " + weakPattern1Data.AttackDelay);
+        Debug.Log("이동속도 :: " + weakPattern1Data.MoveSpeed);
 
         // 패턴 로직 - 텔레포트와 공격 등
-        yield return new WaitForSeconds(1f);
+        //Vector3 targetPosition = player.position + weakPattern1Data.TeleportOffset; // 플레이어 주변으로 텔레포트
+        //transform.position = targetPosition;
+        yield return new WaitForSeconds(weakPattern1Data.AttackDelay);
+        Debug.Log($"근접 공격 시작. 패턴: {weakPattern1Data.PatternName}, 공격력: {weakPattern1Data.Damage}");
         currentState = BossState.None;
         currentCoroutine = null;
         //내용 기입
@@ -129,23 +134,68 @@ public class bossPatternTest : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator WeakPattern2()
+    public IEnumerator WeakPattern2() //플레이어와 이격된 부분으로 텔레포트 후 레이저 공격
+    {
+        Debug.Log("패턴 이름 :: " + weakPattern2Data.PatternName);
+        Debug.Log("공격력 :: " + weakPattern2Data.Damage);
+        Debug.Log("텔레포트 오프셋 :: " + weakPattern2Data.TeleportOffset);
+        Debug.Log("공격 딜레이 :: " + weakPattern2Data.AttackDelay);
+        Debug.Log("이동속도 :: " + weakPattern2Data.MoveSpeed);
+
+        //Vector3 targetPosition = player.position + patternData.TeleportOffset; // 일정 거리에서 레이저 공격
+        //transform.position = targetPosition;
+        yield return new WaitForSeconds(weakPattern2Data.AttackDelay);
+        FireLaser();
+        Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
+        currentState = BossState.None;
+        yield return null;
+    }
+
+    public IEnumerator WeakPattern3() //플레이어 위로 텔레포트 후 내려찍기
+    {
+        Debug.Log("패턴 이름 :: " + weakPattern3Data.PatternName);
+        Debug.Log("공격력 :: " + weakPattern3Data.Damage);
+        Debug.Log("텔레포트 오프셋 :: " + weakPattern3Data.TeleportOffset);
+        Debug.Log("공격 딜레이 :: " + weakPattern3Data.AttackDelay);
+        Debug.Log("이동속도 :: " + weakPattern3Data.MoveSpeed);
+
+        //Vector3 targetPosition = player.position + Vector3.up * weakPattern3Data.TeleportOffset.y; // 플레이어 위에서 내려찍기
+        //transform.position = targetPosition;
+        yield return new WaitForSeconds(weakPattern3Data.AttackDelay);
+        Debug.Log($"내려찍기 공격 시작. 패턴: {weakPattern3Data.PatternName} , 공격력:  {weakPattern3Data.Damage}");
+        currentState = BossState.None;
+        yield return null;
+    }
+
+    public IEnumerator StrongPattern1() //맵 사이드로 텔레포트 후 투사체 공격
     {
         yield return null;
     }
 
-    public IEnumerator WeakPattern3()
-    {
-        yield return null;
-    }
+    public IEnumerator StrongPattern2() //카운트 다운이 끝나면 시간을 멈춘 후에 레이저 공격
 
-    public IEnumerator StrongPattern1()
     {
-        yield return null;
-    }
+        Debug.Log("카운트다운 시작");
 
-    public IEnumerator StrongPattern2()
-    {
+        // 카운트다운
+        for (int i = 3; i > 0; i--)
+        {
+            Debug.Log("카운트다운: " + i);
+            yield return new WaitForSeconds(1f); // 1초씩 카운트다운
+        }
+
+        // 시간 정지
+        Debug.Log("시간 정지!");
+        Time.timeScale = 0; // 시간을 일시적으로 멈춤
+        yield return new WaitForSecondsRealtime(2f); // 실제 시간 기준 2초간 대기
+        Time.timeScale = 1; // 시간 재개
+
+        // 레이저 공격
+        Debug.Log("레이저 공격 시작. 패턴: " + strongPattern2Data.PatternName + ", 공격력: " + strongPattern2Data.Damage);
+        FireLaser(); // 레이저 공격 함수
+
+        currentState = BossState.None; // 상태 초기화
+        currentCoroutine = null;
         yield return null;
     }
 
@@ -153,4 +203,11 @@ public class bossPatternTest : MonoBehaviour
     {
         yield return null;
     }
+
+    private void FireLaser() //레이저 공격이 약2, 강2공격에 들어 있어서 함수로 구현하는게 맞을까요 아니면 코루틴이 맞나요..?
+    {
+        // 레이저 공격
+        
+    }
+
 }

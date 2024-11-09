@@ -759,10 +759,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPattern1Data: {fileID: 11400000, guid: f7f01cfdd1add01499418824060f5405, type: 2}
-  weakPatter2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
-  weakPattern3Data: {fileID: 0}
-  strongPattern1Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
-  strongPattern2Data: {fileID: 0}
+  weakPattern2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
+  weakPattern3Data: {fileID: 11400000, guid: 10b1f7f87fc61ca4993cd048b28fbd70, type: 2}
+  strongPattern1Data: {fileID: 11400000, guid: 72277fea6b5ebd947a58989115a067f1, type: 2}
+  strongPattern2Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
 --- !u!1 &1983939110
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,7 +877,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1983939113
@@ -973,6 +973,10 @@ PrefabInstance:
     - target: {fileID: 5052225282729758635, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Name
       value: TempBoss1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757117832083197418, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
