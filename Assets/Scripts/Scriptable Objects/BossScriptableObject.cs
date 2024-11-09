@@ -1,8 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOTest", menuName = "Scriptable Object/SOTest", order = int.MaxValue)]
+[CreateAssetMenu(fileName = "BossScriptableObject", menuName = "Scriptable Object/BossScriptableObject", order = int.MaxValue)]
 
-public class ScriptableObjectTest : ScriptableObject
+public class BossScriptableObject : ScriptableObject
 {
     [SerializeField]
     private string patternName;

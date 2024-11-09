@@ -27,7 +27,19 @@ public class bossPatternTest : MonoBehaviour
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
-    
+
+    [SerializeField]
+    private BossScriptableObject weakPattern1Data; // ScriptableObject 데이터
+    [SerializeField]
+    private BossScriptableObject weakPatter2Data; // ScriptableObject 데이터
+    [SerializeField]
+    private BossScriptableObject weakPattern3Data; // ScriptableObject 데이터
+    [SerializeField]
+    private BossScriptableObject strongPattern1Data; // ScriptableObject 데이터
+    [SerializeField]
+    private BossScriptableObject strongPattern2Data; // ScriptableObject 데이터
+
+
     void Start()
     {
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
@@ -98,6 +110,14 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1Attacking()
     {
+        Debug.Log("패턴 이름 :: " + weakPattern1Data.PatternName);
+        Debug.Log("공격력 :: " + weakPattern1Data.Damage);
+        Debug.Log("텔레포트 범위 :: " + weakPattern1Data.TeleportRange);
+
+        // 패턴 로직 - 텔레포트와 공격 등
+        yield return new WaitForSeconds(1f);
+        currentState = BossState.None;
+        currentCoroutine = null;
         //내용 기입
         StartCoroutine(WeakPattern1PostAttack()); // 다음 코루틴 실행
         yield return null;

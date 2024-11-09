@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a5cb7d9d9378f64690301356bcff8ce, type: 3}
-  m_Name: SOTest 2
+  m_Name: StrongSOT
   m_EditorClassIdentifier: 
   patternName: Strong
   damage: 100
