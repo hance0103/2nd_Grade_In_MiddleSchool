@@ -17,7 +17,7 @@ public class BackgroundAndEffectMusicSlider : MonoBehaviour
         bgmSource.volume = savedVolume;
 
         // 슬라이더 값이 변경될 때 이벤트 등록
-        bgmSlider.onValueChanged.RemoveAllListeners();
+        bgmSlider.onValueChanged.RemoveAllListeners(); 
         bgmSlider.onValueChanged.AddListener(ChangeBGMVolume);
 
         /* 효과음 슬라이더 값 설정 및 이벤트 등록
