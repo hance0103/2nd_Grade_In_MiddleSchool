@@ -4,11 +4,14 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - player: {instanceID: 0}
   - weakPattern1Data: {fileID: 11400000, guid: f7f01cfdd1add01499418824060f5405, type: 2}
   - weakPattern2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
-  - weakPattern3Data: {instanceID: 0}
+  - weakPattern3Data: {fileID: 11400000, guid: 10b1f7f87fc61ca4993cd048b28fbd70, type: 2}
   - strongPattern1Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
-  - strongPattern2Data: {instanceID: 0}
+  - strongPattern2Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
+  - weakLaserData: {fileID: 11400000, guid: 4ddf9da0949ad5c48b6e230a4f32bd59, type: 2}
+  - strongLaserData: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

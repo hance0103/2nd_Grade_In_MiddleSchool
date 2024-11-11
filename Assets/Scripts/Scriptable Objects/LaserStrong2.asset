@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5cb7d9d9378f64690301356bcff8ce, type: 3}
-  m_Name: Weak1
+  m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
+  m_Name: LaserStrong2
   m_EditorClassIdentifier: 
-  patternName: Weak1
-  damage: 10
-  teleportOffset: {x: 50, y: 0, z: 0}
-  moveSpeed: 40
-  attackDelay: 3
-  attackRange: 0
+  laserType: LaserStrong2
+  damage: 0
+  laserOffset: {x: 0, y: 0, z: 0}
+  laserSpeed: 0
+  laserDuration: 0
