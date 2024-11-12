@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternName: Weak3
   damage: 100
+  beforeattackDelay: 5
+  attackRange: 0
+  afterAttackDelay: 0
   teleportOffset: {x: 0, y: 0, z: 0}
-  moveSpeed: 100
-  attackDelay: 0
+  teleportWaitTime: 0

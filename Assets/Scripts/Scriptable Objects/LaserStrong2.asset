@@ -16,4 +16,4 @@ MonoBehaviour:
   damage: 0
   laserOffset: {x: 0, y: 0, z: 0}
   laserSpeed: 0
-  laserDuration: 0
+  laserDuration: 5
