@@ -42,33 +42,30 @@ public class PlayerMover : MonoBehaviour
     }
     private void Update()
     {
-        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
-        {
-            // 키가 눌렸을 때
-            if (Input.GetKeyDown(key))
-            {
-                Debug.Log("Pressed Key: " + key);
-            }
-        }
-    }
-    private void FixedUpdate()
-    {
         PlayerMoveInput();
         PlayerJumpInput();
     }
+    // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
+    // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
+    // 픽스드 업데이트에서 물리 연산이 일어나도록 유니티는 세팅이 되어 있다.
+    private void FixedUpdate()
+    {
+
+    }
     private void PlayerMoveInput()
     {
+        // 왼쪽 이동 관리
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow))  // 왼쪽 위 방향키 입력
             {
                 _direction = PlayerInputDirection.UpLeft;
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow))   // 왼쪽 아래 방향키 입력
             {
                 _direction = PlayerInputDirection.DownLeft;
             }
-            else
+            else // 왼쪽 방향키만 입력
             {
                 _direction = PlayerInputDirection.Left;
             }
@@ -77,17 +74,18 @@ public class PlayerMover : MonoBehaviour
                 _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Left;
         }
+        // 오른쪽 이동 관리
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow)) // 오른쪽 위 방향키 입력
             {
                 _direction = PlayerInputDirection.UpRight;
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow)) // 오른쪽 아래 방향키 입력
             {
                 _direction = PlayerInputDirection.DownRight;
             }
-            else
+            else //오른쪽 방향키만 입력
             {
                 _direction = PlayerInputDirection.Right;
             }
@@ -128,6 +126,7 @@ public class PlayerMover : MonoBehaviour
 
     private void PlayerJumpInput()
     {
+
     }
     private void PlayerJump()
     {

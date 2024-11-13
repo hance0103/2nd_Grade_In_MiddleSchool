@@ -8,7 +8,7 @@ public class CreditsManager : MonoBehaviour
     {
         // 디폴트 값으로 팝업 비활성화
 
-        creditsPopup.SetActive(false);
+        //creditsPopup.SetActive(false);
     }
 
 

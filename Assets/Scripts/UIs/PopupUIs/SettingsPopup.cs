@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour
     void Start()
     {
         // 디폴트 값으로 팝업 비활성화
-        settingsPopup.SetActive(false);
+        //settingsPopup.SetActive(false);
 
     }
 
