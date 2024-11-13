@@ -10,9 +10,14 @@ public class BackgroundAndEffectMusicSlider : MonoBehaviour
     {
         // `BackgroundMusicDontDestroy` 오브젝트의 AudioSource를 가져오기
         BackgroundMusicDontDestroy musicManager = FindObjectOfType<BackgroundMusicDontDestroy>();
+        // 싱글톤으로 설정하려고 이렇게 짜신거 같은데
+        // 이거 어차피 같은 오브젝트에 들어있어서 find해서 가져오실 필요가 없습니다.
+
+        //여기도 같은 오브젝트에 들어있어서 바로 GetComponent해서 가져올수 있습니다.
         if (musicManager != null)
         {
-            bgmSource = musicManager.GetComponent<AudioSource>();
+            //bgmSource = musicManager.GetComponent<AudioSource>();
+            bgmSource = GetComponent<AudioSource>();
         }
 
         // AudioSource가 유효한지 확인
