@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 public class SceneLoader : MonoBehaviour
 {
+    public void LoadMain()
+    {
+        SceneManager.LoadScene("Main");
+    }
     public void LoadStageSelect()
     {
         SceneManager.LoadScene("StageSelect");
