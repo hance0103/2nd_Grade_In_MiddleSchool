@@ -6,7 +6,7 @@ public class PlayerMover : MonoBehaviour
 {
     private Player _player;
 
-    // 이동 관련 변수
+    [Header ("Move")]
     [SerializeField]
     private float _movSpeed;    //이동 속도
     [SerializeField]
@@ -14,7 +14,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private float _movAccel;    //가속도
 
-    // 점프 관련 변수
+    [Header ("Jump")]
     [SerializeField]
     private float _jumpSpeed;   // 기본 점프 속도
     [SerializeField]
@@ -22,6 +22,7 @@ public class PlayerMover : MonoBehaviour
     private bool _isJumping;    // 점프 중인지
     private bool _canJump;      // 점프 가능한지
     private bool _isKeyHeld;    // 점프 키가 눌려있는지
+
     private float _initY;
 
     private PlayerInputDirection _direction;
@@ -127,7 +128,6 @@ public class PlayerMover : MonoBehaviour
 
     private void PlayerJumpInput()
     {
-
     }
     private void PlayerJump()
     {

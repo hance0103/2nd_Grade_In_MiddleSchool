@@ -20,7 +20,7 @@ public class SoundManager
         currentEffectVolume = 1;
 
 
-        audioMixer = Resources.Load<AudioMixer>("MyMixer");
+        audioMixer = Resources.Load<AudioMixer>("NewMixer");
         AudioMixerGroup[] audioMixerGroups = audioMixer.FindMatchingGroups("Master");
 
         GameObject root = GameObject.Find("@Sound");
