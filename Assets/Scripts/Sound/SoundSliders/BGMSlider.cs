@@ -23,6 +23,7 @@ public class BackgroundAndEffectMusicSlider : MonoBehaviour
         }
 
         // 슬라이더 값 설정 및 이벤트 등록
+
         float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
         bgmSlider.value = savedVolume;
         bgmSource.volume = savedVolume;
