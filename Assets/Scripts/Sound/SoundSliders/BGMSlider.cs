@@ -3,53 +3,35 @@ using UnityEngine.UI;
 
 public class BackgroundAndEffectMusicSlider : MonoBehaviour
 {
-    public Slider bgmSlider;           // 배경음 슬라이더
-    private AudioSource bgmSource;     // 배경음악 Audio Source
+    public Slider bgmSlider; // 배경음 슬라이더
 
     void Start()
     {
-        // `BackgroundMusicDontDestroy` 오브젝트의 AudioSource를 가져오기
-        BackgroundMusicDontDestroy musicManager = FindObjectOfType<BackgroundMusicDontDestroy>();
-        // 싱글톤으로 설정하려고 이렇게 짜신거 같은데
-        // 이거 어차피 같은 오브젝트에 들어있어서 find해서 가져오실 필요가 없습니다.
-
-        //여기도 같은 오브젝트에 들어있어서 바로 GetComponent해서 가져올수 있습니다.
-        if (musicManager != null)
-        {
-            //bgmSource = musicManager.GetComponent<AudioSource>();
-            bgmSource = GetComponent<AudioSource>();
-        }
+        // SoundManager 싱글톤을 통해 AudioSource 가져오기
+        AudioSource bgmSource = SoundManager.Instance.BgmAudioSource;
 
         // AudioSource가 유효한지 확인
         if (bgmSource == null)
         {
-            Debug.LogError("AudioSource를 찾을 수 없습니다. 오브젝트가 삭제되었는지 확인하세요.");
+            Debug.LogError("AudioSource를 찾을 수 없습니다. SoundManager를 확인하세요.");
             return;
         }
 
         // 슬라이더 값 설정 및 이벤트 등록
-
         float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
         bgmSlider.value = savedVolume;
         bgmSource.volume = savedVolume;
 
         // 슬라이더 값이 변경될 때 이벤트 등록
         bgmSlider.onValueChanged.RemoveAllListeners();
-        bgmSlider.onValueChanged.AddListener(ChangeBGMVolume);
+        bgmSlider.onValueChanged.AddListener(volume => ChangeBGMVolume(bgmSource, volume));
     }
 
     // 배경음 볼륨 조절
-    public void ChangeBGMVolume(float volume)
+    void ChangeBGMVolume(AudioSource bgmSource, float volume)
     {
-        if (bgmSource != null)
-        {
-            bgmSource.volume = volume;
-            PlayerPrefs.SetFloat("BGMVolume", volume); // 슬라이더 값을 저장
-            PlayerPrefs.Save(); // PlayerPrefs에 변경 사항 저장
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource가 null입니다. 볼륨 조정을 할 수 없습니다.");
-        }
+        bgmSource.volume = volume;
+        PlayerPrefs.SetFloat("BGMVolume", volume); // 슬라이더 값을 저장
+        PlayerPrefs.Save(); // PlayerPrefs에 변경 사항 저장
     }
 }

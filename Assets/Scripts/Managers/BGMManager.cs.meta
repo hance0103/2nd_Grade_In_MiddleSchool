@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a1587a6ba95bc6d4ba5c2b4c8876dfbe
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bgmAudioSource: {instanceID: 0}
+  - sfxAudioSource: {instanceID: 0}
+  - audioMixer: {fileID: 24100000, guid: be582c704ac789345a88b60d94644505, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
