@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class bossPatternTest : MonoBehaviour
 { 
@@ -29,6 +30,8 @@ public class bossPatternTest : MonoBehaviour
     private BossState currentState;
     public Player player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController laserController; // LaserController 참조
+    public GameObject projectilePrefab;
+
 
 
     // ScriptableObject 데이터
@@ -46,6 +49,9 @@ public class bossPatternTest : MonoBehaviour
     private LaserScriptableObject weakLaserData;
     [SerializeField]
     private LaserScriptableObject strongLaserData;
+    [SerializeField]
+    private ProjectileScriptableObject ProjectileData;
+
 
     //[SerializeField]
     //private Animator animator; // 애니메이터 참조 추가
@@ -60,6 +66,8 @@ public class bossPatternTest : MonoBehaviour
     //[SerializeField]
     //private float damageCooldown = 1f;
     //private float lastDamageTime = 0f;
+
+
 
     void Start()
     {
@@ -250,13 +258,14 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("강공격1");
 
         // 맵 사이드로 텔레포트
-        Vector3 sidePosition = new Vector3(Random.Range(-1f, 1f) > 0 ? 10 : -10, transform.position.y, transform.position.z);
-        transform.position = sidePosition;
+        Debug.Log("강공격1 텔레포트");
+        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x;
+        Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
+        transform.position = targetPosition;
 
         yield return new WaitForSeconds(strongPattern1Data.BeforeAttackDelay);
 
-        // 투사체 발사 로직 추가
-        FireProjectile();
+      
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -291,31 +300,34 @@ public class bossPatternTest : MonoBehaviour
         yield return null;
     }
 
-    //몸박 데미지 로직
-    //private void ApplyContactDamage()
-    //{
-    //    if (Time.time >= lastDamageTime + damageCooldown)
-    //    {
-    //        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-    //        if (distanceToPlayer <= damageRange)
-    //        {
-    //            Debug.Log("보스 몸박 데미지 적용");
-    //            //player.TakeDamage(contactDamage);
-    //            lastDamageTime = Time.time;
-    //        }
-    //    }
-    //}
 
     //강공격 1 투사체
     private void FireProjectile()
     {
-        // 투사체 발사 로직 구현
-    
+        
     }
-
-    // 공격 이펙트 생성 로직
-    //private void SpawnAttackEffect()
-    //{
-    //    // 예: GameObject effect = Instantiate(attackEffectPrefab, attackPoint.position, attackPoint.rotation);
-    //}
 }
+
+
+
+// 공격 이펙트 생성 로직
+//private void SpawnAttackEffect()
+//{
+//    // 예: GameObject effect = Instantiate(attackEffectPrefab, attackPoint.position, attackPoint.rotation);
+//}
+
+
+//몸박 데미지 로직
+//private void ApplyContactDamage()
+//{
+//    if (Time.time >= lastDamageTime + damageCooldown)
+//    {
+//        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+//        if (distanceToPlayer <= damageRange)
+//        {
+//            Debug.Log("보스 몸박 데미지 적용");
+//            //player.TakeDamage(contactDamage);
+//            lastDamageTime = Time.time;
+//        }
+//    }
+//}
