@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 public class bossPatternTest : MonoBehaviour
-{ 
+{
     enum BossState
     {
         None,
@@ -30,27 +30,17 @@ public class bossPatternTest : MonoBehaviour
     private BossState currentState;
     public Player player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController laserController; // LaserController 참조
-    public GameObject projectilePrefab;
-
-
+    private ProjectileController projectileController; // ProjectileController 참조
 
     // ScriptableObject 데이터
-    [SerializeField]
-    private BossScriptableObject weakPattern1Data;
-    [SerializeField]
-    private BossScriptableObject weakPattern2Data; 
-    [SerializeField]
-    private BossScriptableObject weakPattern3Data; 
-    [SerializeField]
-    private BossScriptableObject strongPattern1Data; 
-    [SerializeField]
-    private BossScriptableObject strongPattern2Data;
-    [SerializeField]
-    private LaserScriptableObject weakLaserData;
-    [SerializeField]
-    private LaserScriptableObject strongLaserData;
-    [SerializeField]
-    private ProjectileScriptableObject ProjectileData;
+    [SerializeField] private BossScriptableObject weakPattern1Data;
+    [SerializeField] private BossScriptableObject weakPattern2Data;
+    [SerializeField] private BossScriptableObject weakPattern3Data;
+    [SerializeField] private BossScriptableObject strongPattern1Data;
+    [SerializeField] private BossScriptableObject strongPattern2Data;
+    [SerializeField] private LaserScriptableObject weakLaserData;
+    [SerializeField] private LaserScriptableObject strongLaserData;
+    [SerializeField] private ProjectileScriptableObject projectileData;
 
 
     //[SerializeField]
@@ -73,42 +63,41 @@ public class bossPatternTest : MonoBehaviour
     {
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        laserController = FindObjectOfType<LaserController>();
+
         StartCoroutine(Idle());
     }
 
     // Update is called once per frame
     void Update()
     {
-
         //ApplyContactDamage(); // Update에서 몸박 데미지 처리
 
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
-            currentCoroutine = StartCoroutine (WeakPattern1Teleport());
+            currentCoroutine = StartCoroutine(WeakPattern1Teleport());
         }
 
-        if(currentState == BossState.WeakPattern2 && currentCoroutine == null)
+        if (currentState == BossState.WeakPattern2 && currentCoroutine == null)
         {
-            currentCoroutine = StartCoroutine (WeakPattern2());
+            currentCoroutine = StartCoroutine(WeakPattern2());
         }
 
-        if(currentState == BossState.WeakPattern3 && currentCoroutine == null)
+        if (currentState == BossState.WeakPattern3 && currentCoroutine == null)
         {
-            currentCoroutine = StartCoroutine (WeakPattern3());
+            currentCoroutine = StartCoroutine(WeakPattern3());
         }
 
-        if(currentState == BossState.StrongPattern1 && currentCoroutine == null)
+        if (currentState == BossState.StrongPattern1 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(StrongPattern1());
         }
 
-        if( currentState == BossState.StrongPattern2 && currentCoroutine == null)
+        if (currentState == BossState.StrongPattern2 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(StrongPattern2());
         }
 
-        if(currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
+        if (currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
         {
             StartCoroutine(Idle());
         }
@@ -118,7 +107,7 @@ public class bossPatternTest : MonoBehaviour
     {
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
-        for(int i = 0; i < currentPattern.Length; i++)
+        for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
             yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
@@ -130,6 +119,7 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern1Teleport()
     {
         Debug.Log("약공격1 텔레포트");
+        currentState = BossState.WeakPattern1;
 
         // 텔레포트 전 이펙트나 애니메이션 재생 가능
         //animator?.SetTrigger("StartTeleport");
@@ -154,6 +144,8 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern1PreAttack()
     {
         Debug.Log("약공격1 Pre");
+        currentState = BossState.WeakPattern1;
+
         // 근접 공격을 위한 준비 단계 (필요한 애니메이션 또는 사운드 추가 가능)
         yield return new WaitForSeconds(0.5f); // 준비 시간
         StartCoroutine(WeakPattern1Attacking()); // 다음 코루틴 실행
@@ -163,6 +155,7 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern1Attacking() //플레이어 주변으로 텔레포트 후 근접공격
     {
         Debug.Log("약공격1 실행");
+        currentState = BossState.WeakPattern1;
 
         // 공격 애니메이션 시작
         //animator?.SetTrigger("Attack");
@@ -208,12 +201,17 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern2() //플레이어와 이격된 부분으로 텔레포트 후 레이저 공격
     {
         Debug.Log("약공격2");
+        currentState = BossState.WeakPattern2;
 
+        //텔레포트
         Vector3 targetPosition = player.transform.position + weakPattern2Data.TeleportOffset; // 일정 거리에서 레이저 공격
         transform.position = targetPosition;
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
-        laserController.FireLaser(strongLaserData, transform); // 레이저 공격 함수
+        //공격의 방향은 플레이어를 바라보는 방향으로
+
+        //레이저 공격 함수
+
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
 
         currentState = BossState.None;
@@ -224,9 +222,11 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern3() //플레이어 위로 텔레포트 후 내려찍기
     {
         Debug.Log("약공격3");
+        currentState = BossState.WeakPattern3;
 
         Vector3 targetPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y; // 플레이어 위에서 내려찍기
         transform.position = targetPosition;
+
         // 카운트다운
         for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
         {
@@ -256,19 +256,23 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator StrongPattern1() //맵 사이드로 텔레포트 후 투사체 공격
     {
         Debug.Log("강공격1");
+        currentState = BossState.StrongPattern1;
 
         // 맵 사이드로 텔레포트
         Debug.Log("강공격1 텔레포트");
-        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x;
+        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
         Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
 
         yield return new WaitForSeconds(strongPattern1Data.BeforeAttackDelay);
 
-      
+        // 투사체 패턴 시작
+        Debug.Log("투사체 패턴 시작");
+        
 
-        currentState = BossState.None;
+
         currentCoroutine = null;
+        currentState = BossState.Idle;
         yield return null;
     }
 
@@ -276,58 +280,49 @@ public class bossPatternTest : MonoBehaviour
 
     {
         Debug.Log("강공격2");
-        Debug.Log("카운트다운 시작");
+        currentState = BossState.StrongPattern2;
+
+        // 맵 사이드로 텔레포트
+        Debug.Log("강공격1 텔레포트");
+        float teleportX = Random.value > 0.5f ? -strongPattern2Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
+        Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
+        transform.position = targetPosition;
+
+
+        //위험지역 표시
 
         // 카운트다운
+        Debug.Log("카운트다운 시작");
         for (float i = strongPattern2Data.BeforeAttackDelay; i > 0; i--)
         {
             Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f); // 1초씩 카운트다운
         }
 
+        //빨간불로
+
         // 시간 정지
         Debug.Log("시간 정지!");
         Time.timeScale = 0; // 시간을 일시적으로 멈춤
-        yield return new WaitForSecondsRealtime(2f); // 실제 시간 기준 2초간 대기
-        Time.timeScale = 1; // 시간 재개
+        yield return new WaitForSecondsRealtime(2f); // 실제 시간 기준 2초간 대기(조정)
 
         // 레이저 공격
         Debug.Log("레이저 공격 시작. 패턴: " + strongPattern2Data.PatternName + ", 공격력: " + strongPattern2Data.Damage);
-        laserController.FireLaser(strongLaserData, transform); // 레이저 공격 함수
 
-        currentState = BossState.None;
+
+        // 시간 재개
+        Debug.Log("시간 재개");
+        Time.timeScale = 1; 
+
+       
+
+        //레이저 공격 함수
+
+
         currentCoroutine = null;
+        currentState = BossState.Idle;
         yield return null;
     }
 
-
-    //강공격 1 투사체
-    private void FireProjectile()
-    {
-        
-    }
 }
 
-
-
-// 공격 이펙트 생성 로직
-//private void SpawnAttackEffect()
-//{
-//    // 예: GameObject effect = Instantiate(attackEffectPrefab, attackPoint.position, attackPoint.rotation);
-//}
-
-
-//몸박 데미지 로직
-//private void ApplyContactDamage()
-//{
-//    if (Time.time >= lastDamageTime + damageCooldown)
-//    {
-//        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-//        if (distanceToPlayer <= damageRange)
-//        {
-//            Debug.Log("보스 몸박 데미지 적용");
-//            //player.TakeDamage(contactDamage);
-//            lastDamageTime = Time.time;
-//        }
-//    }
-//}

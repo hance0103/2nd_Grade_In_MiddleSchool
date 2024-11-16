@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserType: LaserStrong2
   damage: 0
-  laserOffset: {x: 0, y: 0, z: 0}
-  laserSpeed: 0
-  laserDuration: 5
+  laserSpeed: 150
+  laserDuration: 3

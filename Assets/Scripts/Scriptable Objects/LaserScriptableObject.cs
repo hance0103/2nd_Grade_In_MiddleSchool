@@ -12,10 +12,6 @@ public class LaserScriptableObject : ScriptableObject
     [SerializeField]
     private float damage;
     public float Damage { get { return damage; } }
-    //레이저 발사 위치 오프셋
-    [SerializeField]
-    private Vector3 laserOffset;
-    public Vector3 LaserOffset { get { return laserOffset; } }
     //레이저속도
     [SerializeField]
     private float laserSpeed;
