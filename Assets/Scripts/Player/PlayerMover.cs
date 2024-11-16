@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerMover : MonoBehaviour
 {
     private Player _player;
+    private Rigidbody2D _rigid;
 
-    [Header ("Move")]
+    [Header("Move")]
     [SerializeField]
-    private float _movSpeed;    //이동 속도
+    private float _movSpeed = 0f;    //이동 속도
     [SerializeField]
     private float _maxMovSpeed; //최대 속도
     [SerializeField]
@@ -16,42 +17,35 @@ public class PlayerMover : MonoBehaviour
 
     [Header ("Jump")]
     [SerializeField]
-    private float _jumpSpeed;   // 기본 점프 속도
+    private float _maxJumpForce;   // 최대 점프
     [SerializeField]
-    private float _maxJumpHeight;   // 최고 점프 높이
-    private bool _isJumping;    // 점프 중인지
-    private bool _canJump;      // 점프 가능한지
-    private bool _isKeyHeld;    // 점프 키가 눌려있는지
+    private float _minJumpForce;   // 최소 점프 
+    [SerializeField]
+    private float _maxChargeTime;  // 최대 점프 충전 시간
 
-    private float _initY;
+    [SerializeField]
+    private float _jumpTimer = 0f;          // 점프 키 누르는 시간
+    [SerializeField]
+    private bool _canJump = true;           // 점프 가능한지
+    [SerializeField]
+    private bool _isJumping = false;        // 점프 중인지
 
-    private PlayerInputDirection _direction;
-    private PlayerLookingDirection _looking;
+    private PlayerInputDirection _direction = PlayerInputDirection.None;
+    private PlayerLookingDirection _looking = PlayerLookingDirection.Right;
 
     void Start()
     {
-
         _player = GetComponent<Player>();
-        _movSpeed = 0;
-        _isJumping = false;
-        _canJump = true;
-        _direction = PlayerInputDirection.None;
-        _looking = PlayerLookingDirection.Right;
-        _initY = transform.position.y;
-
+        _rigid = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
         PlayerMoveInput();
-        PlayerJumpInput();
+        PlayerJump();
     }
     // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
     // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
     // 픽스드 업데이트에서 물리 연산이 일어나도록 유니티는 세팅이 되어 있다.
-    private void FixedUpdate()
-    {
-
-    }
     private void PlayerMoveInput()
     {
         // 왼쪽 이동 관리
@@ -123,28 +117,40 @@ public class PlayerMover : MonoBehaviour
         Vector3 movement = new Vector3(moveInput * _movSpeed * Time.deltaTime, 0, 0);
         transform.position += movement;
     }
-
-    private void PlayerJumpInput()
-    {
-
-    }
     private void PlayerJump()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space) && _canJump)
+        {
+            _isJumping = true;
+            _jumpTimer = 0f;
+        }
+        if (Input.GetKey(KeyCode.Space) && _isJumping)
+        {
+            _jumpTimer += Time.deltaTime;
+            float jumpForce = Mathf.Lerp(_minJumpForce, _maxJumpForce, _jumpTimer / _maxChargeTime);
+            _rigid.velocity = new Vector2(_rigid.velocity.x, jumpForce);
+            if (_jumpTimer >= _maxChargeTime)
+            {
+                _isJumping = false;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.Space) && _isJumping)
+        {
+            _isJumping = false;
+        }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        _canJump = true;
-    //    }
-    //}
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        _canJump = false;
-    //    }
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _canJump = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _canJump = false;
+        }
+    }
 }
