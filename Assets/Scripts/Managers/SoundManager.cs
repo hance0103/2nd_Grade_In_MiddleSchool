@@ -12,17 +12,6 @@ public class SoundManager : MonoBehaviour
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
     public AudioMixer audioMixer;
-    public void SetBGMVolume(float volume)
-    {
-        if (volume <= 0.0001f) // 슬라이더 값이 0에 가까우면 아주 작은 값으로 설정
-        {
-            audioMixer.SetFloat("BGMVolume", -80f); // 최소 볼륨 (일반적으로 -80dB은 무음으로 간주)
-        }
-        else
-        {
-            audioMixer.SetFloat("BGMVolume", Mathf.Log10(volume) * 20); // 로그 변환으로 볼륨 조정
-        }
-    }
     public float currentBGMVolume { get; set; }
     public float currentEffectVolume { get; set; }
 
@@ -43,11 +32,9 @@ public class SoundManager : MonoBehaviour
 
     public void Init()
     {
-        // 나중에 세이브데이터에서 받아오기
         currentBGMVolume = 1;
         currentEffectVolume = 1;
 
-        // AudioMixer 로드
         audioMixer = Resources.Load<AudioMixer>("NewMixer");
         if (audioMixer == null)
         {
@@ -67,35 +54,61 @@ public class SoundManager : MonoBehaviour
         if (root == null)
         {
             root = new GameObject { name = "@Sound" };
-            root.transform.parent = this.transform; // SoundManager의 자식으로 설정
+            root.transform.parent = this.transform;
             DontDestroyOnLoad(root);
+        }
 
-            // AudioSource 생성 및 설정
-            string[] soundNames = System.Enum.GetNames(typeof(Sound));
-            for (int i = 0; i < soundNames.Length - 1; i++)
+        // 배열 크기 확인 및 AudioSource 초기화
+        if (_audioSources == null || _audioSources.Length != (int)Sound.MaxCount)
+        {
+            _audioSources = new AudioSource[(int)Sound.MaxCount];
+        }
+
+        // AudioSource 생성 및 설정
+        string[] soundNames = System.Enum.GetNames(typeof(Sound));
+        for (int i = 0; i < (int)Sound.MaxCount; i++) // MaxCount까지 반복
+        {
+            if (_audioSources[i] == null)
             {
                 GameObject go = new GameObject { name = soundNames[i] };
                 _audioSources[i] = go.AddComponent<AudioSource>();
                 go.transform.parent = root.transform;
 
-                // AudioSource에 AudioMixerGroup 할당
-                if (i + 1 < audioMixerGroups.Length)
+                if (i < audioMixerGroups.Length)
                 {
-                    _audioSources[i].outputAudioMixerGroup = audioMixerGroups[i + 1];
+                    _audioSources[i].outputAudioMixerGroup = audioMixerGroups[i];
                 }
                 else
                 {
                     Debug.LogWarning($"AudioMixerGroup 할당 실패: {soundNames[i]}에 적절한 그룹이 없습니다.");
                 }
             }
+        }
 
-            // 배경음악 AudioSource 설정
+        // BGM AudioSource 설정 확인
+        if (_audioSources[(int)Sound.Bgm] != null)
+        {
             _audioSources[(int)Sound.Bgm].loop = true;
+        }
+        else
+        {
+            Debug.LogError("BGM AudioSource가 초기화되지 않았습니다.");
         }
     }
 
+    public void SetBGMVolume(float volume)
+    {
+        if (volume <= 0.0001f) // 슬라이더 값이 0에 가까우면 아주 작은 값으로 설정
+        {
+            audioMixer.SetFloat("BGMVolume", -80f); // 최소 볼륨 (일반적으로 -80dB은 무음으로 간주)
+        }
+        else
+        {
+            audioMixer.SetFloat("BGMVolume", Mathf.Log10(volume) * 20); // 로그 변환으로 볼륨 조정
+        }
+    }
 
-public void Clear()
+    public void Clear()
     {
         foreach (AudioSource audioSource in _audioSources)
         {
@@ -132,6 +145,28 @@ public void Clear()
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
         Play(audioClip, type, pitch);
+    }
+
+    public void ChangeBGM(AudioClip newBGM)
+    {
+        if (newBGM == null) return;
+
+        AudioSource bgmSource = _audioSources[(int)Sound.Bgm];
+        if (bgmSource == null)
+        {
+            Debug.LogError("BGM AudioSource가 초기화되지 않았습니다.");
+            return;
+        }
+
+        // 이미 재생 중인 배경음악이라면 중복 재생 방지
+        if (bgmSource.clip == newBGM && bgmSource.isPlaying)
+        {
+            return; // 같은 음악이 이미 재생 중이면 종료
+        }
+
+        bgmSource.Stop(); // 기존 배경음악 멈춤
+        bgmSource.clip = newBGM; // 새로운 배경음악 설정
+        bgmSource.Play(); // 새로운 배경음악 재생
     }
 
     AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)

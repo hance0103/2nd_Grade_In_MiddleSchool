@@ -3,7 +3,12 @@ guid: 606addcf685aaea489c27c4ef8fd78c0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainBGM: {fileID: 8300000, guid: ff4e66d384698164789c6c52775f096b, type: 3}
+  - stageSelectBGM: {fileID: 8300000, guid: ff4e66d384698164789c6c52775f096b, type: 3}
+  - stage1BGM: {fileID: 8300000, guid: 89b4cd65b712fe041af338311e1fdc46, type: 3}
+  - stage2BGM: {fileID: 8300000, guid: 89b4cd65b712fe041af338311e1fdc46, type: 3}
+  - stage3BGM: {fileID: 8300000, guid: 89b4cd65b712fe041af338311e1fdc46, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
