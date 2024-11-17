@@ -98,14 +98,8 @@ public class SoundManager : MonoBehaviour
 
     public void SetBGMVolume(float volume)
     {
-        if (volume <= 0.0001f) // 슬라이더 값이 0에 가까우면 아주 작은 값으로 설정
-        {
-            audioMixer.SetFloat("BGMVolume", -80f); // 최소 볼륨 (일반적으로 -80dB은 무음으로 간주)
-        }
-        else
-        {
-            audioMixer.SetFloat("BGMVolume", Mathf.Log10(volume) * 20); // 로그 변환으로 볼륨 조정
-        }
+        float linearVolume = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("BGMVolume", linearVolume);
     }
 
     public void Clear()

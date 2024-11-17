@@ -2,17 +2,7 @@ using UnityEngine;
 
 public class CreditsManager : MonoBehaviour
 {
-    public GameObject creditsPopup;  // 크레딧 팝업
-
-    void Start()
-    {
-        // 디폴트 값으로 팝업 비활성화
-
-        creditsPopup.SetActive(false);
-    }
-
-
-    
+    public GameObject creditsPopup; // 설정 팝업
 
     // 크레딧 팝업 열기
     public void OpenCredits()

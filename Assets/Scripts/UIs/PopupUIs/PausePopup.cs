@@ -2,17 +2,9 @@ using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
-    public GameObject PausePopup; // 일시정지 팝업
-
-    void Start()
-    {
-        // 디폴트 값으로 팝업 비활성화
-        PausePopup.SetActive(false);
-
-        // 게임 시작 시 시간을 정상 속도로 설정
-        Time.timeScale = 1f;
-    }
-
+ 
+    public GameObject PausePopup; // 설정 팝업
+    
     // 일시정지 팝업 열기 (게임 일시정지)
     public void OpenPause()
     {
