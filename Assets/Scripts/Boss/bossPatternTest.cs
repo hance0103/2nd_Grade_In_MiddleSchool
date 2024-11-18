@@ -230,6 +230,9 @@ public class bossPatternTest : MonoBehaviour
         Vector3 teleportPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y;
         transform.position = teleportPosition;
 
+        // ★중요: 공격 시작 전 플레이어의 위치를 미리 저장
+        Vector3 attackTargetPosition = player.transform.position;
+
         // 카운트다운
         for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
         {
@@ -239,42 +242,40 @@ public class bossPatternTest : MonoBehaviour
 
         Debug.Log($"내려찍기 공격 시작. 패턴: {weakPattern3Data.PatternName} , 공격력:  {weakPattern3Data.Damage}");
 
-        // 내려찍기 시작 위치와 목표 위치 설정
+
+        // 내려찍기 시작 위치
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = player.transform.position;
+
 
         ////////////////////////////////////////////////////////////////////////////////////(GPT)
         //Raycast로 지면 감지
         RaycastHit hit;
         float groundY = 0f;
-        if (Physics.Raycast(targetPosition + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(attackTargetPosition + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
         {
             groundY = hit.point.y;
             Debug.Log($"지면 감지됨: {groundY}");
         }
         else
         {
-            // Raycast가 실패할 경우 기본값 사용
-            groundY = 0f; // 또는 원하는 기본 높이값
+            groundY = 0f;
             Debug.Log("지면이 감지되지 않아 기본값 사용");
         }
 
         float elapsedTime = 0f;
         float attackDuration = 0.5f;
-        float strikeHeight = groundY + 2f; // 지면으로부터 2유닛 위
-        // 내려찍기 모션 실행
+
         while (elapsedTime < attackDuration)
         {
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / attackDuration;
             float easedProgress = 1 - Mathf.Pow(1 - progress, 3);
 
-            // 수정된 높이 계산
+            // ★중요: 저장된 타겟 위치(attackTargetPosition)를 사용
             float currentHeight = Mathf.Lerp(startPosition.y, groundY, easedProgress);
-            Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition, easedProgress);
+            Vector3 currentPosition = Vector3.Lerp(startPosition, attackTargetPosition, easedProgress);
             currentPosition.y = currentHeight;
 
-            // 최소 높이 제한
             if (currentPosition.y < groundY)
             {
                 currentPosition.y = groundY;
@@ -284,7 +285,7 @@ public class bossPatternTest : MonoBehaviour
             yield return null;
         }
 
-        
+
         // 최종 위치를 지면에 맞춤
         Vector3 finalPosition = transform.position;
         finalPosition.y = groundY;
