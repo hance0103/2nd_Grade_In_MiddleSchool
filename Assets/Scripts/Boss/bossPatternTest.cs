@@ -41,6 +41,9 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
     [SerializeField] private ProjectileScriptableObject projectileData;
+    
+    
+    [SerializeField] private float rotationSpeed = 5f;
 
 
     //[SerializeField]
@@ -71,6 +74,7 @@ public class bossPatternTest : MonoBehaviour
     void Update()
     {
         //ApplyContactDamage(); // Update에서 몸박 데미지 처리
+        FacePlayer();
 
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
@@ -135,6 +139,7 @@ public class bossPatternTest : MonoBehaviour
 
         // 적을 텔포시킬 위치로 이동
         transform.position = targetPosition;
+        FacePlayer();
 
         yield return new WaitForSeconds(weakPattern1Data.BeforeAttackDelay);
         StartCoroutine(WeakPattern1PreAttack()); // 다음 코루틴 실행
@@ -208,6 +213,7 @@ public class bossPatternTest : MonoBehaviour
         //텔레포트
         Vector3 targetPosition = player.transform.position + weakPattern2Data.TeleportOffset; // 일정 거리에서 레이저 공격
         transform.position = targetPosition;
+        FacePlayer();
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
         //공격의 방향은 플레이어를 바라보는 방향으로
@@ -229,6 +235,7 @@ public class bossPatternTest : MonoBehaviour
         // 플레이어 위로 텔레포트
         Vector3 teleportPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y;
         transform.position = teleportPosition;
+        FacePlayer();
 
         // ★중요: 공격 시작 전 플레이어의 위치를 미리 저장
         Vector3 attackTargetPosition = player.transform.position;
@@ -332,6 +339,7 @@ public class bossPatternTest : MonoBehaviour
         float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
         Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
+        FacePlayer();
 
         yield return new WaitForSeconds(strongPattern1Data.BeforeAttackDelay);
 
@@ -357,7 +365,7 @@ public class bossPatternTest : MonoBehaviour
         Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
 
-
+        FacePlayer();
         //위험지역 표시
 
         // 카운트다운
@@ -407,6 +415,20 @@ public class bossPatternTest : MonoBehaviour
 
         // 잠깐의 경직
         yield return new WaitForSeconds(0.2f);
+    }
+
+    // 시선
+    private void FacePlayer()
+    {
+        if (player != null)
+        {
+            float direction = transform.position.x - player.transform.position.x;
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x) * (direction > 0 ? 1 : -1),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
     }
 }
 
