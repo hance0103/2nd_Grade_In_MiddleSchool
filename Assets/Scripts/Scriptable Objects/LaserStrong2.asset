@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: LaserStrong2
   m_EditorClassIdentifier: 
   laserType: LaserStrong2
-  damage: 0
-  laserSpeed: 150
-  laserDuration: 3
+  damage: 100
+  laserSpeed: 100
+  laserDuration: 5
+  laserWidth: 100
+  laserColor: {r: 1, g: 0, b: 0, a: 1}
+  maxDistance: 100
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0

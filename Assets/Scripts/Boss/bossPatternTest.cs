@@ -41,9 +41,6 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
     [SerializeField] private ProjectileScriptableObject projectileData;
-    
-    
-    [SerializeField] private float rotationSpeed = 5f;
 
 
     //[SerializeField]
@@ -216,15 +213,17 @@ public class bossPatternTest : MonoBehaviour
         FacePlayer();
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
-        //공격의 방향은 플레이어를 바라보는 방향으로
-
         //레이저 공격 함수
 
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
 
+        // 레이저 생성 및 발사
+        LaserController laser = LaserController.Create(weakLaserData, transform, player.transform);
+        yield return StartCoroutine(laser.FireLaser(transform));
+
+
         currentState = BossState.None;
         currentCoroutine = null;
-        yield return null;
     }
 
     public IEnumerator WeakPattern3() //플레이어 위로 텔레포트 후 내려찍기
@@ -366,7 +365,9 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
 
         FacePlayer();
-        //위험지역 표시
+        // 위험지역 표시
+        //ShowDangerZone();
+
 
         // 카운트다운
         Debug.Log("카운트다운 시작");
@@ -384,20 +385,16 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f); // 실제 시간 기준 2초간 대기(조정)
 
         // 레이저 공격
-        Debug.Log("레이저 공격 시작. 패턴: " + strongPattern2Data.PatternName + ", 공격력: " + strongPattern2Data.Damage);
-
+        Debug.Log($"레이저 공격 시작. 패턴: {strongPattern2Data.PatternName}, 공격력: {strongPattern2Data.Damage}");
+        LaserController laser = LaserController.Create(strongLaserData, transform, player.transform);
+        yield return StartCoroutine(laser.FireStrongLaser(transform)); // FireStrongLaser 사용
 
         // 시간 재개
         Debug.Log("시간 재개");
-        Time.timeScale = 1; 
+        Time.timeScale = 1;
 
-       
-
-        //레이저 공격 함수
-
-
-        currentCoroutine = null;
         currentState = BossState.Idle;
+        currentCoroutine = null;
         yield return null;
     }
 
