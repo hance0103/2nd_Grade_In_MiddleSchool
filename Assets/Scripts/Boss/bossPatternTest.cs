@@ -147,6 +147,8 @@ public class bossPatternTest : MonoBehaviour
         currentState = BossState.WeakPattern1;
 
         // 근접 공격을 위한 준비 단계 (필요한 애니메이션 또는 사운드 추가 가능)
+
+
         yield return new WaitForSeconds(0.5f); // 준비 시간
         StartCoroutine(WeakPattern1Attacking()); // 다음 코루틴 실행
         //yield return null;
@@ -224,8 +226,9 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
 
-        Vector3 targetPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y; // 플레이어 위에서 내려찍기
-        transform.position = targetPosition;
+        // 플레이어 위로 텔레포트
+        Vector3 teleportPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y;
+        transform.position = teleportPosition;
 
         // 카운트다운
         for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
@@ -235,14 +238,79 @@ public class bossPatternTest : MonoBehaviour
         }
 
         Debug.Log($"내려찍기 공격 시작. 패턴: {weakPattern3Data.PatternName} , 공격력:  {weakPattern3Data.Damage}");
-        // 공격 범위 내에 플레이어가 있는지 확인하고 데미지 적용
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceToPlayer <= weakPattern3Data.AttackRange)
+
+        // 내려찍기 시작 위치와 목표 위치 설정
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = player.transform.position;
+
+        ////////////////////////////////////////////////////////////////////////////////////(GPT)
+        //Raycast로 지면 감지
+        RaycastHit hit;
+        float groundY = 0f;
+        if (Physics.Raycast(targetPosition + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
         {
-            Debug.Log("플레이어에게 내려찍기 공격 성공!");
-            //player.TakeDamage(weakPattern3Data.Damage); // 플레이어에게 데미지 적용
+            groundY = hit.point.y;
+            Debug.Log($"지면 감지됨: {groundY}");
         }
         else
+        {
+            // Raycast가 실패할 경우 기본값 사용
+            groundY = 0f; // 또는 원하는 기본 높이값
+            Debug.Log("지면이 감지되지 않아 기본값 사용");
+        }
+
+        float elapsedTime = 0f;
+        float attackDuration = 0.5f;
+        float strikeHeight = groundY + 2f; // 지면으로부터 2유닛 위
+        // 내려찍기 모션 실행
+        while (elapsedTime < attackDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / attackDuration;
+            float easedProgress = 1 - Mathf.Pow(1 - progress, 3);
+
+            // 수정된 높이 계산
+            float currentHeight = Mathf.Lerp(startPosition.y, groundY, easedProgress);
+            Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition, easedProgress);
+            currentPosition.y = currentHeight;
+
+            // 최소 높이 제한
+            if (currentPosition.y < groundY)
+            {
+                currentPosition.y = groundY;
+            }
+
+            transform.position = currentPosition;
+            yield return null;
+        }
+
+        
+        // 최종 위치를 지면에 맞춤
+        Vector3 finalPosition = transform.position;
+        finalPosition.y = groundY;
+        transform.position = finalPosition;
+        // 착지 효과
+        yield return StartCoroutine(CreateStrikeEffect());
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+
+        // 공격 판정
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, weakPattern3Data.AttackRange);
+        bool playerHit = false;
+
+        foreach (Collider col in hitColliders)
+        {
+            if (col.CompareTag("Player"))
+            {
+                Debug.Log("플레이어에게 내려찍기 공격 성공!");
+                //player.TakeDamage(weakPattern3Data.Damage);
+                playerHit = true;
+                break;
+            }
+        }
+
+        if (!playerHit)
         {
             Debug.Log("플레이어가 공격 범위 밖에 있습니다.");
         }
@@ -283,7 +351,7 @@ public class bossPatternTest : MonoBehaviour
         currentState = BossState.StrongPattern2;
 
         // 맵 사이드로 텔레포트
-        Debug.Log("강공격1 텔레포트");
+        Debug.Log("강공격2 텔레포트");
         float teleportX = Random.value > 0.5f ? -strongPattern2Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
         Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
@@ -324,5 +392,20 @@ public class bossPatternTest : MonoBehaviour
         yield return null;
     }
 
+    // 착지 효과 생성
+    private IEnumerator CreateStrikeEffect()
+    {
+        // 카메라 흔들림 효과 (만약 구현되어 있다면)
+        //CameraShake.Instance.ShakeCamera(0.5f, 0.5f);
+
+        // 바닥 이펙트 생성 (파티클 시스템이 있다면)
+        //if (strikeEffectPrefab != null)
+        //{
+        //    Instantiate(strikeEffectPrefab, transform.position, Quaternion.identity);
+        //}
+
+        // 잠깐의 경직
+        yield return new WaitForSeconds(0.2f);
+    }
 }
 

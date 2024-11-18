@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 1640362628}
   - component: {fileID: 1640362627}
   - component: {fileID: 1640362626}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -666,7 +666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3440681458603044326, guid: d55ff4ea03949e94295f2eae637bc7c2, type: 3}
 --- !u!1 &2023161927
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +683,7 @@ GameObject:
   - component: {fileID: 2023161933}
   m_Layer: 0
   m_Name: Idle_01
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
