@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserType: LaserStrong2
   damage: 100
-  laserSpeed: 100
-  laserDuration: 5
-  laserWidth: 100
+  laserSpeed: 90
+  laserDuration: 3
+  laserWidth: 75
   laserColor: {r: 1, g: 0, b: 0, a: 1}
   maxDistance: 100
   targetLayer:

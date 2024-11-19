@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserType: LaserWeak2
   damage: 10
-  laserSpeed: 100
-  laserDuration: 5
+  laserSpeed: 75
+  laserDuration: 3
   laserWidth: 50
   laserColor: {r: 0.49803925, g: 0.83921576, b: 0.98823535, a: 1}
   maxDistance: 100

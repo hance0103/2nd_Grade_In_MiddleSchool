@@ -365,8 +365,17 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
 
         FacePlayer();
-        // 위험지역 표시
-        //ShowDangerZone();
+
+        // 위험지역 표시 (레이저 경로 미리보기)
+        LineRenderer dangerZone = CreateDangerZone();
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
+
+        dangerZone.SetPosition(0, transform.position);
+        dangerZone.SetPosition(1, endPosition);
+
+        // 깜빡이는 효과를 저장
+        Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));
 
 
         // 카운트다운
@@ -375,6 +384,16 @@ public class bossPatternTest : MonoBehaviour
         {
             Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f); // 1초씩 카운트다운
+        }
+        
+        // 깜빡임 코루틴 정지 후 위험지역 표시 제거
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+        }
+        if (dangerZone != null)
+        {
+            Destroy(dangerZone.gameObject);
         }
 
         //빨간불로
@@ -427,5 +446,71 @@ public class bossPatternTest : MonoBehaviour
             );
         }
     }
+
+    private LineRenderer CreateDangerZone()
+    {
+        GameObject dangerZoneObj = new GameObject("DangerZone");
+        LineRenderer lineRenderer = dangerZoneObj.AddComponent<LineRenderer>();
+
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = strongLaserData.LaserWidth;
+        lineRenderer.endWidth = strongLaserData.LaserWidth;
+
+        // 빨간색 반투명 material 설정
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = new Color(1f, 0f, 0f, 0.5f); // 빨간색 반투명
+        lineRenderer.endColor = new Color(1f, 0f, 0f, 0.5f);
+
+        return lineRenderer;
+    }
+
+    private IEnumerator BlinkDangerZone(LineRenderer dangerZone)
+    {
+        float blinkSpeed = 0.5f; // 깜빡임 속도
+
+        while (dangerZone != null && dangerZone.gameObject != null) // null 체크 추가
+        {
+            // 알파값 조절로 깜빡임 효과
+            if (dangerZone == null) yield break; // 안전 장치 추가
+
+            // Fade out
+            for (float t = 0; t < blinkSpeed; t += Time.deltaTime)
+            {
+                if (dangerZone == null) yield break; // 안전 장치 추가
+                float alpha = Mathf.Lerp(0.5f, 0.1f, t / blinkSpeed);
+                dangerZone.startColor = new Color(1f, 0f, 0f, alpha);
+                dangerZone.endColor = new Color(1f, 0f, 0f, alpha);
+                yield return null;
+            }
+
+            // Fade in
+            for (float t = 0; t < blinkSpeed; t += Time.deltaTime)
+            {
+                if (dangerZone == null) yield break; // 안전 장치 추가
+                float alpha = Mathf.Lerp(0.1f, 0.5f, t / blinkSpeed);
+                dangerZone.startColor = new Color(1f, 0f, 0f, alpha);
+                dangerZone.endColor = new Color(1f, 0f, 0f, alpha);
+                yield return null;
+            }
+        }
+    }
+
+    private Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
+    {
+        float vertExtent = Camera.main.orthographicSize;
+        float horizExtent = vertExtent * Screen.width / Screen.height;
+
+        Vector2 cameraPos = Camera.main.transform.position;
+        Rect mapBounds = new Rect(
+            cameraPos.x - horizExtent,
+            cameraPos.y - vertExtent,
+            horizExtent * 2,
+            vertExtent * 2
+        );
+
+        float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
+        return startPos + (direction * maxDistance);
+    }
+
 }
 
