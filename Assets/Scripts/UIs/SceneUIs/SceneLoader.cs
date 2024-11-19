@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
     public AudioClip stage1BGM;
     public AudioClip stage2BGM;
     public AudioClip stage3BGM;
-
+    
     public void LoadMain()
     {
         DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
