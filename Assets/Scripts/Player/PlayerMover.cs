@@ -6,7 +6,10 @@ public class PlayerMover : MonoBehaviour
 {
     private Player _player;
     private Rigidbody2D _rigid;
+    private SpriteRenderer _spriteRenderer;
 
+    [SerializeField]
+    private string left_or_right;
     [Header("Move")]
     [SerializeField]
     private float _movSpeed = 0f;    //이동 속도
@@ -35,6 +38,7 @@ public class PlayerMover : MonoBehaviour
 
     void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _player = GetComponent<Player>();
         _rigid = GetComponent<Rigidbody2D>();
     }
@@ -42,6 +46,8 @@ public class PlayerMover : MonoBehaviour
     {
         PlayerMoveInput();
         PlayerJump();
+        PlayerAni();
+        Debug.Log(_canJump);
     }
     // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
     // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
@@ -137,6 +143,26 @@ public class PlayerMover : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space) && _isJumping)
         {
             _isJumping = false;
+        }
+    }
+
+    /// <summary>
+    /// 점프 스프라이트 교체를 위해서 임시로 작성한 함수.
+    /// 나중에 애니메이션 작업할때 지우고 새로 만들기
+    /// </summary>
+    private void PlayerAni() 
+    {
+        if (!_canJump && _rigid.velocity.y > 0)
+        {
+            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_01");
+        }
+        else if(!_canJump && _rigid.velocity.y < -1)
+        {
+            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_02");
+        }
+        if(_canJump)
+        {
+            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/Idle_01");
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
