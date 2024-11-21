@@ -1,45 +1,32 @@
 using UnityEngine;
 
-public class CameraAdjuster : MonoBehaviour
+public class Fixed : MonoBehaviour
 {
-    public float gridCellSize = 1.0f;
-    public int gridHeight = 10;
-
-    private float targetAspect = 2400f / 1080f; // 고정할 해상도 비율
-
-    void Start()
+    private void Start()
     {
-        AdjustCameraSize();
+        SetResolution(); // 초기에 게임 해상도 고정
     }
 
-    void AdjustCameraSize()
+    /* 해상도 설정하는 함수 */
+    public void SetResolution()
     {
-        float windowAspect = (float)Screen.width / (float)Screen.height;
-        float scaleHeight = windowAspect / targetAspect;
+        int setWidth = 2400; // 사용자 설정 너비
+        int setHeight = 1080; // 사용자 설정 높이
 
-        Camera mainCamera = Camera.main;
+        int deviceWidth = Screen.width; // 기기 너비 저장
+        int deviceHeight = Screen.height; // 기기 높이 저장
 
-        if (scaleHeight < 1.0f)
+        Screen.SetResolution(setWidth, (int)(((float)deviceHeight / deviceWidth) * setWidth), true); // SetResolution 함수 제대로 사용하기
+
+        if ((float)setWidth / setHeight < (float)deviceWidth / deviceHeight) // 기기의 해상도 비가 더 큰 경우
         {
-            // 세로가 더 큰 경우: 검은 띠를 좌우에 추가
-            Rect rect = mainCamera.rect;
-            rect.width = 1.0f;
-            rect.height = scaleHeight;
-            rect.x = 0;
-            rect.y = (1.0f - scaleHeight) / 2.0f;
-            mainCamera.rect = rect;
+            float newWidth = ((float)setWidth / setHeight) / ((float)deviceWidth / deviceHeight); // 새로운 너비
+            Camera.main.rect = new Rect((1f - newWidth) / 2f, 0f, newWidth, 1f); // 새로운 Rect 적용
         }
-        else
+        else // 게임의 해상도 비가 더 큰 경우
         {
-            // 가로가 더 큰 경우: 검은 띠를 상하에 추가
-            float scaleWidth = 1.0f / scaleHeight;
-
-            Rect rect = mainCamera.rect;
-            rect.width = scaleWidth;
-            rect.height = 1.0f;
-            rect.x = (1.0f - scaleWidth) / 2.0f;
-            rect.y = 0;
-            mainCamera.rect = rect;
+            float newHeight = ((float)deviceWidth / deviceHeight) / ((float)setWidth / setHeight); // 새로운 높이
+            Camera.main.rect = new Rect(0f, (1f - newHeight) / 2f, 1f, newHeight); // 새로운 Rect 적용
         }
     }
 }
