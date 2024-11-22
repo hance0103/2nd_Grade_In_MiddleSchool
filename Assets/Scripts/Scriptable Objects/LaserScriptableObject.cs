@@ -24,7 +24,7 @@ public class LaserScriptableObject : ScriptableObject
     private float laserDuration;
     public float LaserDuration { get { return laserDuration; } }
 
-    // 추가 설정을 위한 변수들
+    [Header("추가 설정을 위한 변수들")]
     [SerializeField]
     private float laserWidth = 0.2f;
     public float LaserWidth { get { return laserWidth; } }

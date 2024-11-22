@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Projectile
   m_EditorClassIdentifier: 
   damage: 10
-  projectileSpeed: 20
-  projectileScale: {x: 10, y: 10, z: 10}
-  fireRate: 5
+  projectileSpeed: 100
+  projectileCount: 15
+  projectileScale: {x: 20, y: 20, z: 20}
+  fireRate: 3
+  patternDuration: 5
+  patternRepeatDelay: 2
+  afterFireDelay: 2

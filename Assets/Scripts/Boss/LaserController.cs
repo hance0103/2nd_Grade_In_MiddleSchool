@@ -51,13 +51,13 @@ public class LaserController : MonoBehaviour
     }
 
     // 일반 레이저 발사 (약공격용)
-    public IEnumerator FireLaser(Transform bossTransform)
+    public IEnumerator FireLaser(Transform bossTransform, Vector2 staticPlayerPosition)
     {
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
         Vector2 startPosition = bossTransform.position;
-        Vector2 direction = (playerTransform.position - bossTransform.position).normalized;
+        Vector2 direction = (staticPlayerPosition - startPosition).normalized;
         Vector2 endPosition = GetMapEndPoint(startPosition, direction);
 
         lineRenderer.SetPosition(0, startPosition);
@@ -73,17 +73,6 @@ public class LaserController : MonoBehaviour
             lineRenderer.endWidth = width;
             yield return null;
         }
-
-        // 데미지 체크
-        //RaycastHit2D hit = Physics2D.Raycast(startPosition, direction, Vector2.Distance(startPosition, endPosition), laserData.TargetLayer);
-        //if (hit.collider != null && hit.collider.CompareTag("Player"))
-        //{
-        //    PlayerHealth playerHealth = hit.collider.GetComponent<PlayerHealth>();
-        //    if (playerHealth != null)
-        //    {
-        //        playerHealth.TakeDamage(laserData.Damage);
-        //    }
-        //}
 
         // 레이저 지속
         yield return new WaitForSeconds(laserData.LaserDuration);
@@ -102,14 +91,13 @@ public class LaserController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // 시간 정지와 함께하는 레이저 발사 (강공격용)
-    public IEnumerator FireStrongLaser(Transform bossTransform)
+    public IEnumerator FireStrongLaser(Transform bossTransform, Vector2 staticPlayerPosition)
     {
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
         Vector2 startPosition = bossTransform.position;
-        Vector2 direction = (playerTransform.position - bossTransform.position).normalized;
+        Vector2 direction = (staticPlayerPosition - startPosition).normalized;
         Vector2 endPosition = GetMapEndPoint(startPosition, direction);
 
         lineRenderer.SetPosition(0, startPosition);
@@ -125,17 +113,6 @@ public class LaserController : MonoBehaviour
             lineRenderer.endWidth = width;
             yield return null;
         }
-
-        // 데미지 체크
-        //RaycastHit2D hit = Physics2D.Raycast(startPosition, direction, Vector2.Distance(startPosition, endPosition), laserData.TargetLayer);
-        //if (hit.collider != null && hit.collider.CompareTag("Player"))
-        //{
-        //    PlayerHealth playerHealth = hit.collider.GetComponent<PlayerHealth>();
-        //    if (playerHealth != null)
-        //    {
-        //        playerHealth.TakeDamage(laserData.Damage);
-        //    }
-        //}
 
         // 레이저 지속 (실제 시간 기준)
         yield return new WaitForSecondsRealtime(laserData.LaserDuration);

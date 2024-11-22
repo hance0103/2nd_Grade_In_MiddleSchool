@@ -8,6 +8,9 @@ public class BossScriptableObject : ScriptableObject
     [SerializeField]
     private string patternName;
     public string PatternName { get { return patternName; } }
+
+    [Header("공격")]
+    [Space(10f)]
     //데미지
     [SerializeField]
     private float damage;
@@ -25,6 +28,7 @@ public class BossScriptableObject : ScriptableObject
     private float afterAttackDelay;
     public float AfterAttackDelay { get { return afterAttackDelay; } }
 
+    [Header("텔레포트")]
     [Space (10f)]
     //텔포 오프셋 (플리이어로부터 거리)
     [SerializeField]

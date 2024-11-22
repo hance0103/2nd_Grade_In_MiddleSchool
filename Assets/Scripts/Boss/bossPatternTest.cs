@@ -41,6 +41,7 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
     [SerializeField] private ProjectileScriptableObject projectileData;
+    [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
 
 
     //[SerializeField]
@@ -211,15 +212,18 @@ public class bossPatternTest : MonoBehaviour
         Vector3 targetPosition = player.transform.position + weakPattern2Data.TeleportOffset; // 일정 거리에서 레이저 공격
         transform.position = targetPosition;
         FacePlayer();
+        
+
+        // 고정된 플레이어 위치 계산
+        Vector2 staticPlayerPosition = player.transform.position;
+        Vector2 direction = (staticPlayerPosition - (Vector2)transform.position).normalized;
+        Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
-        //레이저 공격 함수
-
+        // 레이저 공격
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
-
-        // 레이저 생성 및 발사
         LaserController laser = LaserController.Create(weakLaserData, transform, player.transform);
-        yield return StartCoroutine(laser.FireLaser(transform));
+        yield return StartCoroutine(laser.FireLaser(transform, staticPlayerPosition));
 
 
         currentState = BossState.None;
@@ -335,7 +339,7 @@ public class bossPatternTest : MonoBehaviour
 
         // 맵 사이드로 텔레포트
         Debug.Log("강공격1 텔레포트");
-        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
+        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; // 맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
         Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
         FacePlayer();
@@ -344,8 +348,8 @@ public class bossPatternTest : MonoBehaviour
 
         // 투사체 패턴 시작
         Debug.Log("투사체 패턴 시작");
-        
-
+        ProjectileController projectileController = ProjectileController.Create(projectileData, transform, player.transform, projectilePrefab);
+        yield return StartCoroutine(projectileController.ExecutePattern(transform));
 
         currentCoroutine = null;
         currentState = BossState.Idle;
@@ -366,11 +370,13 @@ public class bossPatternTest : MonoBehaviour
 
         FacePlayer();
 
-        // 위험지역 표시 (레이저 경로 미리보기)
-        LineRenderer dangerZone = CreateDangerZone();
-        Vector2 direction = (player.transform.position - transform.position).normalized;
+        // 고정된 플레이어 위치 계산
+        Vector2 staticPlayerPosition = player.transform.position;
+        Vector2 direction = (staticPlayerPosition - (Vector2)transform.position).normalized;
         Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
 
+        // 위험지역 표시 (레이저 경로 미리보기)
+        LineRenderer dangerZone = CreateDangerZone();
         dangerZone.SetPosition(0, transform.position);
         dangerZone.SetPosition(1, endPosition);
 
@@ -406,7 +412,7 @@ public class bossPatternTest : MonoBehaviour
         // 레이저 공격
         Debug.Log($"레이저 공격 시작. 패턴: {strongPattern2Data.PatternName}, 공격력: {strongPattern2Data.Damage}");
         LaserController laser = LaserController.Create(strongLaserData, transform, player.transform);
-        yield return StartCoroutine(laser.FireStrongLaser(transform)); // FireStrongLaser 사용
+        yield return StartCoroutine(laser.FireStrongLaser(transform, staticPlayerPosition)); ; // FireStrongLaser 사용
 
         // 시간 재개
         Debug.Log("시간 재개");
