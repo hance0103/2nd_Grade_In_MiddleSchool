@@ -3,19 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public AudioClip mainBGM;
-    public AudioClip stage1BGM;
-    public AudioClip stage2BGM;
-    public AudioClip stage3BGM;
-    
     public void LoadMain()
     {
-        DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
         SceneManager.LoadScene("Main");
-        if (mainBGM != null)
-        {
-            SoundManager.Instance.ChangeBGM(mainBGM);
-        }
+        SoundManager.Instance.MainBgmOn();
     }
 
     public void LoadMainNoChange()
@@ -23,57 +14,34 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void LoadStageSelectNoChange()
+    public void LoadStageSelectfromMain()
     {
         SceneManager.LoadScene("StageSelect");
     }
 
     public void LoadStageSelect()
     {
-        DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
         SceneManager.LoadScene("StageSelect");
-        if (mainBGM != null)
-        {
-            SoundManager.Instance.ChangeBGM(mainBGM);
-        }
+        SoundManager.Instance.MainBgmOn();
     }
 
     public void LoadStage1()
-    {
-        DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
+    { 
         SceneManager.LoadScene("Stage1");
-        if (stage1BGM != null)
-        {
-            SoundManager.Instance.ChangeBGM(stage1BGM);
-        }
+        SoundManager.Instance.StageBgmOn();
     }
 
     public void LoadStage2()
     {
-        DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
         SceneManager.LoadScene("Stage2");
-        if (stage2BGM != null)
-        {
-            SoundManager.Instance.ChangeBGM(stage2BGM);
-        }
+        SoundManager.Instance.StageBgmOn();
     }
 
     public void LoadStage3()
     {
-        DestroySoundManagerInstance(); // 기존 SoundManager 인스턴스를 제거
         SceneManager.LoadScene("Stage3");
-        if (stage3BGM != null)
-        {
-            SoundManager.Instance.ChangeBGM(stage3BGM);
-        }
+        SoundManager.Instance.StageBgmOn();
     }
 
-    private void DestroySoundManagerInstance()
-    {
-        if (SoundManager.Instance != null)
-        {
-            Destroy(SoundManager.Instance.gameObject);
-        }
-    }
     
 }

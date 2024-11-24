@@ -12,24 +12,24 @@ public class BGMSlider : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
 
         // 저장된 슬라이더 값 불러오기
-        float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 1.0f); // 기본값은 1.0f
+        float savedVolume = PlayerPrefs.GetFloat("bgmVolume", 1.0f); // 기본값은 1.0f
         if (soundManager != null && bgmSlider != null)
         {
             bgmSlider.value = savedVolume; // 저장된 값으로 슬라이더 초기화
-            bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+            bgmSlider.onValueChanged.AddListener(SoundManager.Instance.OnBgmVolumeChange);
         }
 
         // 배경음악 볼륨 설정
-        SetBGMVolume(savedVolume);
+        //SetBGMVolume(savedVolume);
     }
 
-    void SetBGMVolume(float value)
-    {
-        if (soundManager != null)
-        {
-            soundManager.SetBGMVolume(value);
-            PlayerPrefs.SetFloat("BGMVolume", value); // 볼륨 값 저장
-            PlayerPrefs.Save(); // 저장된 데이터 즉시 적용
-        }
-    }
+    //void SetBGMVolume(float value)
+    //{
+    //    if (soundManager != null)
+    //    {
+    //        soundManager.SetBGMVolume(value);
+    //        PlayerPrefs.SetFloat("BGMVolume", value); // 볼륨 값 저장
+    //        PlayerPrefs.Save(); // 저장된 데이터 즉시 적용
+    //    }
+    //}
 }

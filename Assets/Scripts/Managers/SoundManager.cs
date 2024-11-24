@@ -1,195 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
-    // 싱글톤 인스턴스
-    public static SoundManager Instance { get; private set; }
-
-    AudioSource[] _audioSources = new AudioSource[(int)Sound.MaxCount];
-    Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
-
-    public AudioMixer audioMixer;
-    public float currentBGMVolume { get; set; }
-    public float currentEffectVolume { get; set; }
-
+    private static SoundManager instance = null;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
     private void Awake()
     {
-        // 싱글톤 설정
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환 시에도 유지
-            Init(); // 초기화
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Destroy(gameObject); // 이미 인스턴스가 존재하면 새 오브젝트를 삭제
+            Destroy(this.gameObject);
         }
     }
 
-    public void Init()
+    AudioClip bgmMain; // 메인 오디오클립
+    AudioClip bgmStage; // 스테이지 오디오클립
+
+
+    private AudioSource audioSource1; // 배경음 오디오소스, 배경음들을 저장해서 사용함
+    private AudioSource audioSource2; // 효과음 오디오소스, 효과음들을 저장해서 사용함
+
+    void Start() // 게임 처음 시작시 음악세팅
     {
-        currentBGMVolume = 1;
-        currentEffectVolume = 1;
+        // 만약 플레이어 프렙스에 저장된 bgm과 effect의 Volume값이 있다면 불러온다. 게임이 꺼졌다 켜져도 전의 값을 유지하기 위함.
+        if (!PlayerPrefs.HasKey("bgmVolume")) PlayerPrefs.SetFloat("bgmVolume", 1.0f);
+        if (!PlayerPrefs.HasKey("effectVolume")) PlayerPrefs.SetFloat("effectVolume", 1.0f);
 
-        audioMixer = Resources.Load<AudioMixer>("NewMixer");
-        if (audioMixer == null)
-        {
-            Debug.LogError("AudioMixer를 찾을 수 없습니다. 'NewMixer'가 Resources 폴더에 있는지 확인하세요.");
-            return;
-        }
+        // audioSource에 AudioSource 컴포넌트를 추가
+        audioSource1 = gameObject.AddComponent<AudioSource>();
+        audioSource2 = gameObject.AddComponent<AudioSource>();
+        audioSource1.loop = true;
 
-        AudioMixerGroup[] audioMixerGroups = audioMixer.FindMatchingGroups("Master");
-        if (audioMixerGroups.Length == 0)
-        {
-            Debug.LogError("AudioMixerGroup을 찾을 수 없습니다.");
-            return;
-        }
+        // 오디오 클립에 오디오 추가
+        bgmMain = Resources.Load<AudioClip>("Sounds/SampleBGM");
+        bgmStage = Resources.Load<AudioClip>("Sounds/SampleBossBGM");
+        
 
-        // @Sound 오브젝트 설정
-        GameObject root = GameObject.Find("@Sound");
-        if (root == null)
-        {
-            root = new GameObject { name = "@Sound" };
-            root.transform.parent = this.transform;
-            DontDestroyOnLoad(root);
-        }
-
-        // 배열 크기 확인 및 AudioSource 초기화
-        if (_audioSources == null || _audioSources.Length != (int)Sound.MaxCount)
-        {
-            _audioSources = new AudioSource[(int)Sound.MaxCount];
-        }
-
-        // AudioSource 생성 및 설정
-        string[] soundNames = System.Enum.GetNames(typeof(Sound));
-        for (int i = 0; i < (int)Sound.MaxCount; i++) // MaxCount까지 반복
-        {
-            if (_audioSources[i] == null)
-            {
-                GameObject go = new GameObject { name = soundNames[i] };
-                _audioSources[i] = go.AddComponent<AudioSource>();
-                go.transform.parent = root.transform;
-
-                if (i < audioMixerGroups.Length)
-                {
-                    _audioSources[i].outputAudioMixerGroup = audioMixerGroups[i];
-                }
-                else
-                {
-                    Debug.LogWarning($"AudioMixerGroup 할당 실패: {soundNames[i]}에 적절한 그룹이 없습니다.");
-                }
-            }
-        }
-
-        // BGM AudioSource 설정 확인
-        if (_audioSources[(int)Sound.Bgm] != null)
-        {
-            _audioSources[(int)Sound.Bgm].loop = true;
-        }
-        else
-        {
-            Debug.LogError("BGM AudioSource가 초기화되지 않았습니다.");
-        }
+        MainBgmOn(); // 게임 시작시 메인메뉴에서 오프닝Bgm 재생
     }
 
-    public void SetBGMVolume(float volume)
+    public void MainBgmOn()
     {
-        float linearVolume = Mathf.Log10(volume) * 20;
-        audioMixer.SetFloat("BGMVolume", linearVolume);
+        audioSource1.clip = bgmMain;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume"); // 플레이어프렙스에서 bgmVolume 값 가져오기
+        audioSource1.Play();
+    }
+    public void StageBgmOn()
+    {
+        audioSource1.clip = bgmStage;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    
+
+    //옵션창 음향 슬라이더에서 값 변경시 오디오소스의 볼륨을 조절하고 이 값을 플레이어 프렙스에 저장
+    public void OnBgmVolumeChange(float volume)
+    {
+        audioSource1.volume = volume;
+        PlayerPrefs.SetFloat("bgmVolume", volume);
+    }
+    public void OnEffectVolumeChange(float volume)
+    {
+        audioSource2.volume = volume;
+        PlayerPrefs.SetFloat("effectVolume", volume);
     }
 
-    public void Clear()
+    // 원하는 곳에 효과음 추가 위한 함수
+    // SoundManager.Instance.EffectSoundOn("Walk")와 같이 사용
+    public void EffectSoundOn(string effectName)
     {
-        foreach (AudioSource audioSource in _audioSources)
-        {
-            audioSource.clip = null;
-            audioSource.Stop();
-        }
-        _audioClips.Clear();
+        string effect = "Sounds/" + effectName;
+        AudioClip effectClip = Resources.Load<AudioClip>(effect);
+        audioSource2.clip = effectClip;
+        audioSource2.PlayOneShot(effectClip);
     }
 
-    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f)
+    public void EffectSoundOff()
     {
-        if (audioClip == null)
-        {
-            return;
-        }
-        if (type == Sound.Bgm)
-        {
-            AudioSource audioSource = _audioSources[(int)Sound.Bgm];
-            if (audioSource.isPlaying)
-                audioSource.Stop();
-            audioSource.pitch = pitch;
-            audioSource.clip = audioClip;
-            audioSource.Play();
-        }
-        else
-        {
-            AudioSource audioSource = _audioSources[(int)Sound.Effect];
-            audioSource.pitch = pitch;
-            audioSource.PlayOneShot(audioClip);
-        }
-    }
-
-    public void Play(string path, Sound type = Sound.Effect, float pitch = 1.0f)
-    {
-        AudioClip audioClip = GetOrAddAudioClip(path, type);
-        Play(audioClip, type, pitch);
-    }
-
-    public void ChangeBGM(AudioClip newBGM)
-    {
-        if (newBGM == null) return;
-
-        AudioSource bgmSource = _audioSources[(int)Sound.Bgm];
-        if (bgmSource == null)
-        {
-            Debug.LogError("BGM AudioSource가 초기화되지 않았습니다.");
-            return;
-        }
-
-        // 이미 재생 중인 배경음악이라면 중복 재생 방지
-        if (bgmSource.clip == newBGM && bgmSource.isPlaying)
-        {
-            return; // 같은 음악이 이미 재생 중이면 종료
-        }
-
-        bgmSource.Stop(); // 기존 배경음악 멈춤
-        bgmSource.clip = newBGM; // 새로운 배경음악 설정
-        bgmSource.Play(); // 새로운 배경음악 재생
-    }
-
-    AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)
-    {
-        if (!path.Contains("Sounds/"))
-            path = $"Sounds/{path}";
-        AudioClip audioClip = null;
-
-        if (type == Sound.Bgm)
-        {
-            audioClip = GameManager.Resource.Load<AudioClip>(path);
-        }
-        else
-        {
-            if (!_audioClips.TryGetValue(path, out audioClip))
-            {
-                audioClip = GameManager.Resource.Load<AudioClip>(path);
-                _audioClips.Add(path, audioClip);
-            }
-        }
-
-        if (audioClip == null)
-            Debug.Log($"AudioClip Missing {path}");
-
-        return audioClip;
-    }
-
-    public bool isBGMPlaying()
-    {
-        return _audioSources[(int)Sound.Bgm].isPlaying;
+        audioSource2.Stop();
     }
 }

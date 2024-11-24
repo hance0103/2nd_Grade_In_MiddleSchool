@@ -11,9 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu/Main.unity
     guid: 837bde8e5ae3e9549b266f31f0a78c29
-  - enabled: 0
-    path: Assets/Scenes/Stages/Stage Select.unity
-    guid: 43c3f392bfa708346a88d5fd8e2c7170
+  - enabled: 1
+    path: Assets/Scenes/MainMenu/StageSelect.unity
+    guid: 8487c6e22cdd6d94d9a95d8809ae22f5
   - enabled: 1
     path: Assets/Scenes/Stages/Stage1.unity
     guid: 40adfd9657e70d04689898d9b2c3662d
@@ -23,10 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stages/Stage3.unity
     guid: b980483d4b730d04dafea811b44916a0
-  - enabled: 0
-    path: Assets/Scenes/Stages/Victory.unity
-    guid: 5ee85c915c108ac48a99ba0f26e6fc6b
-  - enabled: 1
-    path: Assets/Scenes/MainMenu/StageSelect.unity
-    guid: e9dd7b775ccca694cb9fff6bd8cce745
   m_configObjects: {}
