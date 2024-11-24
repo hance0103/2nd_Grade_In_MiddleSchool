@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 업데이트문에 항상 키를 감지하게 하려면 너무 부하가 커지기 때문에,
@@ -9,8 +10,15 @@ using UnityEngine;
 /// </summary>
 public class InputManager
 {
+    // 사용할 키를 리스트로 만든다.
+    // 
     // void 반환형의 Delegate다.
     public Action KeyAction = null;
+
+    public Action[] KeyActionsDown = new Action[600];
+
+    public Action[] KeyActionsUp = new Action[600];
+    public bool[] KeyActionWhile = new bool[600];
 
     /// <summary>
     /// Monobehavior 받아서 사용하는 업데이트문과 다르다,
@@ -23,7 +31,13 @@ public class InputManager
         {
             return;
         }
-
+        if (Input.anyKeyDown == false)
+        {
+            return;
+        }
+        if (Input.anyKey)
+        {
+        }
         // 키 액션이 있었다면 
         if (KeyAction != null)
             KeyAction.Invoke();

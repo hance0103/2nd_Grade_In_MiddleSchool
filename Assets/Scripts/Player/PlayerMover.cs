@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -33,7 +34,17 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private bool _isJumping = false;        // 점프 중인지
 
+    [Header("Dash")]
+    [SerializeField]
+    private float _dashDistance;
+    [SerializeField]
+    private float _dashCoolDown;
+    private float _dashTime = 0;
+    private bool _canDash = true;
+
+    [SerializeField]
     private PlayerInputDirection _direction = PlayerInputDirection.None;
+    [SerializeField]
     private PlayerLookingDirection _looking = PlayerLookingDirection.Right;
 
     void Start()
@@ -41,13 +52,14 @@ public class PlayerMover : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _player = GetComponent<Player>();
         _rigid = GetComponent<Rigidbody2D>();
+
     }
     private void Update()
     {
         PlayerMoveInput();
         PlayerJump();
+        PlayerDash();
         PlayerAni();
-        Debug.Log(_canJump);
     }
     // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
     // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
@@ -125,6 +137,7 @@ public class PlayerMover : MonoBehaviour
     }
     private void PlayerJump()
     {
+
         if (Input.GetKeyDown(KeyCode.Space) && _canJump)
         {
             _isJumping = true;
@@ -143,6 +156,15 @@ public class PlayerMover : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space) && _isJumping)
         {
             _isJumping = false;
+        }
+
+    }
+    private void PlayerDash()
+    {
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("dash");
+            //대시
         }
     }
 
@@ -165,16 +187,20 @@ public class PlayerMover : MonoBehaviour
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/Idle_01");
         }
     }
+
+
+    //나중에 발 부분에 콜라이더 하나 더 만들어서
+    //벽에 부딪혔을때 점프 초기화 안되도록 고쳐야함
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             _canJump = true;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             _canJump = false;
         }
