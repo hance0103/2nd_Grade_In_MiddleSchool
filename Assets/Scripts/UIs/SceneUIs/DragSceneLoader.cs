@@ -1,4 +1,3 @@
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -30,21 +29,25 @@ public class DragAndExecute : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         Debug.Log("드래그 종료");
 
-        // 드래그가 끝나면 특정 기능 실행
-        StartCoroutine(ExecuteFunction());
+        // 드래그가 끝나면 씬 전환 코루틴 실행
+        CoroutineManager.Instance.StartCoroutineExternally(LoadStageSelect());
 
         // 오브젝트를 원래 위치로 되돌림
         transform.position = initialPosition;
     }
 
-    private IEnumerator ExecuteFunction()
+    private IEnumerator LoadStageSelect()
     {
         PlayEffectSound();
         Debug.Log(delayBeforeSceneLoad);
         yield return new WaitForSeconds(delayBeforeSceneLoad);
 
-        Debug.Log("실행 여부판단");
-        LoadStageSelect();
+        Debug.Log("LoadScene 실행 여부 판단");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("StageSelect");
+        while (!asyncLoad.isDone)
+        {
+            yield return null; // 씬 로드가 완료될 때까지 대기
+        }
     }
 
     private void PlayEffectSound()
@@ -52,12 +55,5 @@ public class DragAndExecute : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         // 효과음 로드
         SoundManager.Instance.EffectSoundOn("Guitarplug");
         Debug.Log("효과음 재생");
-       
-    }
-
-    private void LoadStageSelect()
-    {
-        Debug.Log("LoadScene");
-        SceneManager.LoadScene("StageSelect");
     }
 }
