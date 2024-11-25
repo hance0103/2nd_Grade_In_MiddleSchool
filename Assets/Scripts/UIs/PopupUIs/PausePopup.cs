@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PauseManager : MonoBehaviour
+public class PopupPause : MonoBehaviour
 {
  
     public GameObject PausePopup; // ¼³Á¤ ÆË¾÷

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DiaryManager : MonoBehaviour
+public class PopupDiary : MonoBehaviour
 {
     public GameObject DiaryPopup;  // 다이어리 팝업
 

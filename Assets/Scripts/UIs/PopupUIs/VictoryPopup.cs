@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class VictoryManager : MonoBehaviour
+public class PopupVictory : MonoBehaviour
 {
     
-    public GameObject VictoryPopup; // ¼³Á¤ ÆË¾÷
+    public GameObject VictoryPopup; // ½Â¸® ÆË¾÷
 
     // ½Â¸® ÆË¾÷ ¿­±â (°ÔÀÓ ÀÏ½ÃÁ¤Áö)
     public void OpenVictory()

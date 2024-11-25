@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CreditsManager : MonoBehaviour
+public class PopupCredits : MonoBehaviour
 {
     public GameObject creditsPopup; // ¼³Á¤ ÆË¾÷
 

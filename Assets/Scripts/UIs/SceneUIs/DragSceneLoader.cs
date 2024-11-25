@@ -30,10 +30,7 @@ public class DragAndExecute : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         yield return new WaitForSeconds(soundEffect_delayTime);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("StageSelect");
-        while (!asyncLoad.isDone)
-        {
-            yield return null; // 씬 로드가 완료될 때까지 대기
-        }
+        SceneManager.LoadScene("StageSelect");
+        
     }
 }

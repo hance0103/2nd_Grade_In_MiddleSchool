@@ -1,19 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DefeatManager : MonoBehaviour
+public class PopupDefeat : MonoBehaviour
 {
     
-    public GameObject DefeatPopup; // 설정 팝업
+    public GameObject DefeatPopup; // 패배 팝업
 
-    // 승리 팝업 열기 (게임 일시정지)
+    // 패배 팝업 열기 (게임 일시정지)
     public void OpenDefeat()
     {
         DefeatPopup.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
     }
 
-    // 승리 팝업 닫기 (게임 재개)
+    // 패배 팝업 닫기 (게임 재개)
     public void CloseDefeat()
     {
         DefeatPopup.SetActive(false);

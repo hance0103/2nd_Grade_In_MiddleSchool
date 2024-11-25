@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class SettingsManager : MonoBehaviour
+public class PopupSettings : MonoBehaviour
 {
     public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷
-
 
     // ¼³Á¤ ÆË¾÷ ¿­±â
     public void OpenSettings()
