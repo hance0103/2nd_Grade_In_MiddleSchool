@@ -27,19 +27,19 @@ public class bossTest : MonoBehaviour
     {
         if (currentState == BossState.Idle)
         {
-            Debug.Log("현재 상태: Idle");
+            //Debug.Log("현재 상태: Idle");
         }
         else if (currentState == BossState.weakPattern1)
         {
-            Debug.Log("현재 상태: weakPattern1");
+            //Debug.Log("현재 상태: weakPattern1");
         }
         else if (currentState == BossState.strongPattern2)
         {
-            Debug.Log("현재 상태: strongPattern2");
+            //Debug.Log("현재 상태: strongPattern2");
         }
         else if (currentState == BossState.groggy)
         {
-            Debug.Log("현재 상태: groggy");
+            //Debug.Log("현재 상태: groggy");
         }
     }
 

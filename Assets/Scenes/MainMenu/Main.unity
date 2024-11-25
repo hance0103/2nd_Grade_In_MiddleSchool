@@ -627,8 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64ad3ea0cf638f40b8d5b9e27c406e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPath: Sounds/Guitarplug
-  delayBeforeSceneLoad: 1.6
+  soundEffect_delayTime: 1.6
 --- !u!1 &246017719
 GameObject:
   m_ObjectHideFlags: 0
