@@ -158,6 +158,14 @@ public class PlayerMover : MonoBehaviour
             _isJumping = false;
         }
 
+        if (!_canJump && _rigid.velocity.y < 0)
+        {
+            _rigid.gravityScale = 5f;
+        }
+        else
+        {
+            _rigid.gravityScale = 4f;
+        }
     }
     private void PlayerDash()
     {
