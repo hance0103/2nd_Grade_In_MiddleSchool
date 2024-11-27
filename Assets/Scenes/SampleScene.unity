@@ -495,6 +495,8 @@ MonoBehaviour:
   _jumpTimer: 0
   _canJump: 1
   _isJumping: 0
+  normalGravityScale: 4
+  fallingGravityScale: 5
   _dashDistance: 0
   _dashCoolDown: 0
   _direction: 8

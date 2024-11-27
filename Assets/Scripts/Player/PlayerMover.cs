@@ -19,7 +19,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private float _movAccel;    //가속도
 
-    [Header ("Jump")]
+    [Header("Jump")]
     [SerializeField]
     private float _maxJumpForce;   // 최대 점프
     [SerializeField]
@@ -33,6 +33,10 @@ public class PlayerMover : MonoBehaviour
     private bool _canJump = true;           // 점프 가능한지
     [SerializeField]
     private bool _isJumping = false;        // 점프 중인지
+    [SerializeField]
+    private float normalGravityScale;       // 일반 중력스케일
+    [SerializeField]
+    private float fallingGravityScale;      // 낙하 중력스케일
 
     [Header("Dash")]
     [SerializeField]
@@ -109,7 +113,7 @@ public class PlayerMover : MonoBehaviour
         {
             _direction = PlayerInputDirection.Up;
         }
-        else if(Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             _direction = PlayerInputDirection.Down;
         }
@@ -155,21 +159,28 @@ public class PlayerMover : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space) && _isJumping)
         {
+            if (_jumpTimer < 0.1f)
+            {
+                _jumpTimer = 0.1f;
+                float jumpForce = Mathf.Lerp(_minJumpForce, _maxJumpForce, _jumpTimer / _maxChargeTime);
+                _rigid.velocity = new Vector2(_rigid.velocity.x, jumpForce);
+                Debug.Log("_jumpTimer < 0.1f");
+            }
             _isJumping = false;
         }
 
         if (!_canJump && _rigid.velocity.y < 0)
         {
-            _rigid.gravityScale = 5f;
+            _rigid.gravityScale = fallingGravityScale;
         }
         else
         {
-            _rigid.gravityScale = 4f;
+            _rigid.gravityScale = normalGravityScale;
         }
     }
     private void PlayerDash()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("dash");
             //대시
@@ -180,17 +191,17 @@ public class PlayerMover : MonoBehaviour
     /// 점프 스프라이트 교체를 위해서 임시로 작성한 함수.
     /// 나중에 애니메이션 작업할때 지우고 새로 만들기
     /// </summary>
-    private void PlayerAni() 
+    private void PlayerAni()
     {
         if (!_canJump && _rigid.velocity.y > 0)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_01");
         }
-        else if(!_canJump && _rigid.velocity.y < -1)
+        else if (!_canJump && _rigid.velocity.y < -1)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_02");
         }
-        if(_canJump)
+        if (_canJump)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/Idle_01");
         }
