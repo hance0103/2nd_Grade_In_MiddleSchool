@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 75695457}
   - component: {fileID: 75695456}
   - component: {fileID: 75695455}
-  - component: {fileID: 75695454}
+  - component: {fileID: 75695458}
   m_Layer: 0
   m_Name: TouchingOutside
   m_TagString: Untagged
@@ -237,19 +237,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &75695454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 75695452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156dd3828e3688488d890ddf3672cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 1338663284}
 --- !u!114 &75695455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,8 +281,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1338663288}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 75695458}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -344,6 +331,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75695452}
   m_CullTransparentMesh: 0
+--- !u!114 &75695458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75695452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
+  creditsPopup: {fileID: 828235634}
 --- !u!1 &79215727
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +511,7 @@ GameObject:
   - component: {fileID: 211505714}
   m_Layer: 0
   m_Name: StageselectButton
-  m_TagString: Untagged
+  m_TagString: DraggableButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -576,7 +578,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 211505712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 211505709}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &211505712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,10 +638,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 211505709}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64ad3ea0cf638f40b8d5b9e27c406e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect_delayTime: 1.6
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
+  creditsPopup: {fileID: 828235634}
 --- !u!1 &246017719
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +656,7 @@ GameObject:
   - component: {fileID: 246017724}
   - component: {fileID: 246017723}
   - component: {fileID: 246017722}
-  - component: {fileID: 246017721}
+  - component: {fileID: 246017725}
   m_Layer: 0
   m_Name: SettingsCloseButton
   m_TagString: Untagged
@@ -667,19 +683,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.697, y: 0.79899997}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &246017721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246017719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156dd3828e3688488d890ddf3672cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 1338663284}
 --- !u!114 &246017722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,8 +727,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1338663288}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 246017725}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -774,6 +777,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246017719}
   m_CullTransparentMesh: 1
+--- !u!114 &246017725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246017719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
+  creditsPopup: {fileID: 828235634}
 --- !u!1 &247876616
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,8 +875,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 828235639}
-        m_TargetAssemblyTypeName: CreditsManager, Assembly-CSharp
+      - m_Target: {fileID: 247876622}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: OpenCredits
         m_Mode: 1
         m_Arguments:
@@ -916,9 +934,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 247876616}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545232c24c4f6704bb4f6e20dbf9253f, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
   creditsPopup: {fileID: 828235634}
 --- !u!1 &353242258
 GameObject:
@@ -1219,8 +1239,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 828235639}
-        m_TargetAssemblyTypeName: CreditsManager, Assembly-CSharp
+      - m_Target: {fileID: 625237077}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: CloseCredits
         m_Mode: 1
         m_Arguments:
@@ -1278,9 +1298,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 625237071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545232c24c4f6704bb4f6e20dbf9253f, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
   creditsPopup: {fileID: 828235634}
 --- !u!1 &742886321
 GameObject:
@@ -1634,9 +1656,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 828235634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545232c24c4f6704bb4f6e20dbf9253f, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
   creditsPopup: {fileID: 828235634}
 --- !u!1 &1016863034
 GameObject:
@@ -1761,7 +1785,7 @@ GameObject:
   - component: {fileID: 1058260776}
   - component: {fileID: 1058260775}
   - component: {fileID: 1058260774}
-  - component: {fileID: 1058260773}
+  - component: {fileID: 1058260777}
   m_Layer: 0
   m_Name: SettingsOpenButton
   m_TagString: Untagged
@@ -1788,19 +1812,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.92, y: 1.43}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1058260773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058260771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156dd3828e3688488d890ddf3672cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 1338663284}
 --- !u!114 &1058260774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1845,8 +1856,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1338663288}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1058260777}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
@@ -1895,6 +1906,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058260771}
   m_CullTransparentMesh: 1
+--- !u!114 &1058260777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058260771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
+  creditsPopup: {fileID: 828235634}
 --- !u!1 &1103798372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2238,10 +2264,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1338663284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156dd3828e3688488d890ddf3672cc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
   settingsPopup: {fileID: 1338663284}
+  creditsPopup: {fileID: 828235634}
 --- !u!1 &1516119930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2663,8 +2691,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 828235639}
-        m_TargetAssemblyTypeName: CreditsManager, Assembly-CSharp
+      - m_Target: {fileID: 2022320273}
+        m_TargetAssemblyTypeName: SceneMain, Assembly-CSharp
         m_MethodName: CloseCredits
         m_Mode: 1
         m_Arguments:
@@ -2722,9 +2750,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2022320267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545232c24c4f6704bb4f6e20dbf9253f, type: 3}
+  m_Script: {fileID: 11500000, guid: 488fd63f294712c4c9dcb1ce1bed9d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect_delayTime: 1.5
+  settingsPopup: {fileID: 1338663284}
   creditsPopup: {fileID: 828235634}
 --- !u!1 &2074851488
 GameObject:

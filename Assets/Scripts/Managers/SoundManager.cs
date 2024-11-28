@@ -89,6 +89,7 @@ public class SoundManager : MonoBehaviour
     {
         string effect = "Sounds/" + effectName;
         AudioClip effectClip = Resources.Load<AudioClip>(effect);
+        audioSource2.volume = PlayerPrefs.GetFloat("effectVolume"); // 플레이어프렙스에서 effectVolume 값 가져오기
         audioSource2.clip = effectClip;
         audioSource2.PlayOneShot(effectClip);
     }

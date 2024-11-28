@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Boss
   - Platform
+  - DraggableButton
   layers:
   - Default
   - TransparentFX
