@@ -55,13 +55,13 @@ public class ProjectileController : MonoBehaviour
             projectile.transform.position += (Vector3)(direction * projectileData.ProjectileSpeed * Time.deltaTime);
             timer += Time.deltaTime;
 
-            Vector3 screenPos = Camera.main.WorldToViewportPoint(projectile.transform.position);
-            if (screenPos.x < -0.1f || screenPos.x > 1.1f || screenPos.y < -0.1f || screenPos.y > 1.1f)
-            {
-                // 화면 밖으로 벗어나면 투사체 풀로 반환
-                projectilePool.Release(projectile);
-                yield break;
-            }
+            //Vector3 screenPos = Camera.main.WorldToViewportPoint(projectile.transform.position);
+            //if (screenPos.x < -0.1f || screenPos.x > 1.1f || screenPos.y < -0.1f || screenPos.y > 1.1f)
+            //{
+            //    // 화면 밖으로 벗어나면 투사체 풀로 반환
+            //    projectilePool.Release(projectile);
+            //    yield break;
+            //}
 
             yield return null;
         }
@@ -70,7 +70,7 @@ public class ProjectileController : MonoBehaviour
     public IEnumerator ExecutePattern(Transform bossTransform)
     {
         float nextFireTime = 0f;
-        float verticalSpacing = 10f;
+        float verticalSpacing = 1f;
         int currentRow = 0;  // 0: 상단, 1: 중단, 2: 하단
         bool isDescending = true;
         int projectilesFired = 0;

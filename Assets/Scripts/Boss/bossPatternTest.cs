@@ -72,7 +72,7 @@ public class bossPatternTest : MonoBehaviour
     void Update()
     {
         //ApplyContactDamage(); // Update에서 몸박 데미지 처리
-        FacePlayer();
+      
 
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {

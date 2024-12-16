@@ -25,5 +25,11 @@ public class ProjectileBehaviour : MonoBehaviour
             // 풀에 반환
             pool.Release(gameObject);
         }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            // 풀로 반환
+            pool.Release(gameObject);
+        }
     }
 }
