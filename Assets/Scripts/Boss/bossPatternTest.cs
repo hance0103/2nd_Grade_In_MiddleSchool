@@ -133,7 +133,14 @@ public class bossPatternTest : MonoBehaviour
         teleportOffset.x = (Random.value > 0.5f) ? teleportOffset.x : -teleportOffset.x;
 
         // 플레이어 위치 + 텔포 오프셋
-        Vector3 targetPosition = player.transform.position + teleportOffset;
+        Vector3 playerPos = player.transform.position;
+        Vector3 targetPosition = new Vector3(
+            playerPos.x + weakPattern2Data.TeleportOffset.x,
+            transform.position.y, // 현재 enemy의 y값 유지
+            playerPos.z + weakPattern2Data.TeleportOffset.z
+        );
+        transform.position = targetPosition;
+        FacePlayer();
 
         // 적을 텔포시킬 위치로 이동
         transform.position = targetPosition;
@@ -209,10 +216,15 @@ public class bossPatternTest : MonoBehaviour
         currentState = BossState.WeakPattern2;
 
         //텔레포트
-        Vector3 targetPosition = player.transform.position + weakPattern2Data.TeleportOffset; // 일정 거리에서 레이저 공격
+        Vector3 playerPos = player.transform.position;
+        Vector3 targetPosition = new Vector3(
+            playerPos.x + weakPattern2Data.TeleportOffset.x,
+            transform.position.y, // 현재 enemy의 y값 유지
+            playerPos.z + weakPattern2Data.TeleportOffset.z
+        );
         transform.position = targetPosition;
         FacePlayer();
-        
+
 
         // 고정된 플레이어 위치 계산
         Vector2 staticPlayerPosition = player.transform.position;
@@ -235,20 +247,34 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
 
+        // 텔레포트 전에 중력 영향 제거
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0f;
+        rb.velocity = Vector2.zero;  // 현재 속도 초기화
+
         // 플레이어 위로 텔레포트
         Vector3 teleportPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y;
         transform.position = teleportPosition;
         FacePlayer();
 
         // ★중요: 공격 시작 전 플레이어의 위치를 미리 저장
-        Vector3 attackTargetPosition = player.transform.position;
+        // Vector3 attackTargetPosition = player.transform.position;
+        Vector3 attackTargetPosition = new Vector3(
+        player.transform.position.x,
+        transform.position.y, // 보스의 현재 y값 사용
+        player.transform.position.z
+        );
 
         // 카운트다운
         for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
         {
+            transform.position = teleportPosition;  // 위치 고정
             Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f); // 1초씩 카운트다운
         }
+
+        // 공격 시작 전에 중력 다시 활성화
+        rb.gravityScale = 1f;  // 또는 원래 설정했던 gravityScale 값으로
 
         Debug.Log($"내려찍기 공격 시작. 패턴: {weakPattern3Data.PatternName} , 공격력:  {weakPattern3Data.Damage}");
 
