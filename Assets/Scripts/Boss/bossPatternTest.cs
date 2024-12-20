@@ -25,6 +25,9 @@ public class bossPatternTest : MonoBehaviour
         PostAttack,
     }
 
+    [Header("Strong Pattern Positions")]
+    [SerializeField] private Transform[] strongPatternPositions; // 강공격용 위치들
+
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
@@ -62,6 +65,12 @@ public class bossPatternTest : MonoBehaviour
 
     void Start()
     {
+        // 시작 시 위치 포인트들이 할당되었는지 확인
+        if (strongPatternPositions == null || strongPatternPositions.Length == 0)
+        {
+            Debug.LogError("Strong pattern positions are not assigned!");
+        }
+
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
 
@@ -363,11 +372,12 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("강공격1");
         currentState = BossState.StrongPattern1;
 
-        // 맵 사이드로 텔레포트
+        // 랜덤한 위치 선택
+        Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
+
+        // 선택된 위치로 텔레포트
         Debug.Log("강공격1 텔레포트");
-        float teleportX = Random.value > 0.5f ? -strongPattern1Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; // 맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
-        Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
-        transform.position = targetPosition;
+        transform.position = selectedPosition.position;
         FacePlayer();
 
         yield return new WaitForSeconds(strongPattern1Data.BeforeAttackDelay);
@@ -388,12 +398,12 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("강공격2");
         currentState = BossState.StrongPattern2;
 
-        // 맵 사이드로 텔레포트
-        Debug.Log("강공격2 텔레포트");
-        float teleportX = Random.value > 0.5f ? -strongPattern2Data.TeleportOffset.x : strongPattern1Data.TeleportOffset.x; //맵 크기 결정 후 s.obj에서 x값 조정 부탁드려요
-        Vector3 targetPosition = new Vector3(teleportX, transform.position.y, transform.position.z);
-        transform.position = targetPosition;
+        // 랜덤한 위치 선택 (StrongPattern1과 같은 위치 배열 사용)
+        Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
 
+        // 선택된 위치로 텔레포트
+        Debug.Log("강공격2 텔레포트");
+        transform.position = selectedPosition.position;
         FacePlayer();
 
         // 고정된 플레이어 위치 계산
