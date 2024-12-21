@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using TMPro.Examples;
 public class StageSelect : MonoBehaviour
 {
     public void LoadMainNoChange()
@@ -31,7 +33,7 @@ public class StageSelect : MonoBehaviour
     }
 
     public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷
-    public GameObject DiaryPopup;  // ´ÙÀÌ¾î¸® ÆË¾÷
+   
     public GameObject creditsPopup; // Å©·¹µ÷ ÆË¾÷
 
     // ¼³Á¤ ÆË¾÷ ¿­±â
@@ -57,16 +59,5 @@ public class StageSelect : MonoBehaviour
     {
         creditsPopup.SetActive(false);
     }
-
-    // ´ÙÀÌ¾î¸® ÆË¾÷ ¿­±â
-    public void OpenDiary()
-    {
-        DiaryPopup.SetActive(true);
-    }
-
-    // ´ÙÀÌ¾î¸® ÆË¾÷ ´Ý±â
-    public void CloseDiary()
-    {
-        DiaryPopup.SetActive(false);
-    }
+    
 }

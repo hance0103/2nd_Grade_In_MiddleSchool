@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public Text talkText;
+    public GameObject scanObject;
+
+    public void Action(GameObject scanObj)
+    {
+        scanObject = scanObj;
+        talkText.text = "¿Ã∞Õ¿∫" + scanObj.name;
+    }
+
     static GameManager s_inst;
     public static GameManager Inst
     {

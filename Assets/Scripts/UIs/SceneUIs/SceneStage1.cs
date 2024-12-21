@@ -26,7 +26,7 @@ public class SceneStage1 : MonoBehaviour
     public GameObject settingsPopup; // 설정 팝업
     public GameObject creditsPopup; // 크레딧 팝업
     public GameObject PausePopup; // 일시정지 팝업
-
+    public GameObject TextPopup;
     // 설정 팝업 열기
     public void OpenSettings()
     {
@@ -49,6 +49,14 @@ public class SceneStage1 : MonoBehaviour
     public void CloseCredits()
     {
         creditsPopup.SetActive(false);
+    }
+    public void OpenText()
+    {
+        TextPopup.SetActive(true);
+    }
+    public void CloseText()
+    {
+        TextPopup.SetActive(false);
     }
 
     // 일시정지 팝업 열기 (게임 일시정지)
