@@ -70,24 +70,24 @@ public class ProjectileController : MonoBehaviour
     public IEnumerator ExecutePattern(Transform bossTransform)
     {
         float nextFireTime = 0f;
-        float verticalSpacing = 1f;
-        int currentRow = 0;  // 0: 상단, 1: 중단, 2: 하단
-        bool isDescending = true;
+        float verticalSpacing = projectileData.VerticalSpacing;
+        int currentRow = 0;  // 시작 위치: 상단
+        int direction = 1;   // 1: 하강, -1: 상승
         int projectilesFired = 0;
 
-        // 패턴 시작 시 플레이어 방향 한 번만 계산
-        Vector2 directionToPlayer = (playerTransform.position - bossTransform.position).normalized;
-        float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+        // 플레이어 방향 계산
+        float targetX = playerTransform.position.x;
+        float directionX = (targetX > bossTransform.position.x) ? 1f : -1f;
+        float angleToPlayer = (directionX > 0) ? 0f : 180f;
 
         while (projectilesFired < projectileData.ProjectileCount)
         {
             if (Time.time >= nextFireTime)
             {
-                // 지그재그 패턴의 위치 계산
+                // 기본 위치 설정
                 Vector3 basePosition = bossTransform.position;
-                float xOffset = (currentRow % 2) * 2f;
 
-                // 각 행의 높이 설정
+                // 높이 계산
                 float yOffset = 0f;
                 switch (currentRow)
                 {
@@ -103,27 +103,20 @@ public class ProjectileController : MonoBehaviour
                 }
 
                 // 발사체 생성 및 발사
-                Vector3 spawnPosition = basePosition + new Vector3(xOffset, yOffset, 0);
+                Vector3 spawnPosition = basePosition + new Vector3(0, yOffset, 0);
                 SpawnProjectile(spawnPosition, angleToPlayer);
+
+                Debug.Log($"Row: {currentRow}, Direction: {(direction == 1 ? "Down" : "Up")}");
 
                 projectilesFired++;
 
-                // 다음 행 위치 계산 (0->1->2->1->0 패턴)
-                if (isDescending)
+                // 다음 행 위치 계산 (0->1->2->1->0)
+                currentRow += direction;
+
+                // 방향 전환
+                if (currentRow >= 2 || currentRow <= 0)
                 {
-                    currentRow++;
-                    if (currentRow == 2)
-                    {
-                        isDescending = false;
-                    }
-                }
-                else
-                {
-                    currentRow--;
-                    if (currentRow == 0)
-                    {
-                        isDescending = true;
-                    }
+                    direction *= -1;
                 }
 
                 nextFireTime = Time.time + (1f / projectileData.FireRate);
@@ -131,12 +124,10 @@ public class ProjectileController : MonoBehaviour
             yield return null;
         }
 
-        // 모든 투사체가 발사되면 마지막 투사체가 화면을 벗어날 때까지 대기
-        yield return StartCoroutine(WaitForProjectilesOffScreen());// 투사체가 화면을 완전히 벗어날 때까지의 시간
+        yield return StartCoroutine(WaitForProjectilesOffScreen());
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
         Destroy(gameObject);
     }
-
 
     private void SpawnProjectile(Vector3 position, float angle)
     {
@@ -145,7 +136,8 @@ public class ProjectileController : MonoBehaviour
         projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
         projectile.transform.localScale = projectileData.ProjectileScale;
 
-        Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
+        // 수평 방향으로만 발사
+        Vector2 direction = new Vector2((angle == 0f) ? 1f : -1f, 0f);
         StartCoroutine(MoveProjectile(projectile, direction));
     }
 

@@ -137,19 +137,20 @@ public class bossPatternTest : MonoBehaviour
 
         // 텔포할 위치 계산
         Vector3 teleportOffset = weakPattern1Data.TeleportOffset;
+        Vector3 playerPos = player.transform.position;
 
-        // (Random.value는 0과 1 사이의 값을 반환하므로, 0.5f보다 큰 값이면 +x, 그렇지 않으면 -x으로 설정)
-        teleportOffset.x = (Random.value > 0.5f) ? teleportOffset.x : -teleportOffset.x;
+        ////// (Random.value는 0과 1 사이의 값을 반환하므로, 0.5f보다 큰 값이면 +x, 그렇지 않으면 -x으로 설정)
+        ////teleportOffset.x = (Random.value > 0.5f) ? teleportOffset.x : -teleportOffset.x;
 
         // 플레이어 위치 + 텔포 오프셋
-        Vector3 playerPos = player.transform.position;
-        Vector3 targetPosition = new Vector3(
-            playerPos.x + weakPattern1Data.TeleportOffset.x,
-            transform.position.y, // 현재 enemy의 y값 유지
-            playerPos.z + weakPattern1Data.TeleportOffset.z
-        );
-        transform.position = targetPosition;
-        FacePlayer();
+        ////Vector3 playerPos = player.transform.position;
+        ////Vector3 targetPosition = new Vector3(
+        ////    playerPos.x + weakPattern1Data.TeleportOffset.x,
+        ////    transform.position.y, // 현재 enemy의 y값 유지
+        ////    playerPos.z + weakPattern1Data.TeleportOffset.z
+        ////);
+        // 안전한 텔레포트 위치 계산
+        Vector3 targetPosition = GetSafeTeleportPosition(playerPos, teleportOffset);
 
         // 적을 텔포시킬 위치로 이동
         transform.position = targetPosition;
@@ -226,11 +227,8 @@ public class bossPatternTest : MonoBehaviour
 
         //텔레포트
         Vector3 playerPos = player.transform.position;
-        Vector3 targetPosition = new Vector3(
-            playerPos.x + weakPattern2Data.TeleportOffset.x,
-            transform.position.y, // 현재 enemy의 y값 유지
-            playerPos.z + weakPattern2Data.TeleportOffset.z
-        );
+        Vector3 targetPosition = GetSafeTeleportPosition(playerPos, weakPattern2Data.TeleportOffset);
+
         transform.position = targetPosition;
         FacePlayer();
 
@@ -480,8 +478,7 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
     }
 
-    // 시선
-    private void FacePlayer()
+    private void FacePlayer() // 시선
     {
         if (player != null)
         {
@@ -558,6 +555,86 @@ public class bossPatternTest : MonoBehaviour
         float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
         return startPos + (direction * maxDistance);
     }
+    private Vector3 GetSafeTeleportPosition(Vector3 playerPos, Vector3 desiredOffset)
+    {
+        // 왼쪽과 오른쪽 위치 계산
+        Vector3 leftPosition = new Vector3(
+            playerPos.x - Mathf.Abs(desiredOffset.x),
+            transform.position.y,
+            playerPos.z + desiredOffset.z
+        );
 
+        Vector3 rightPosition = new Vector3(
+            playerPos.x + Mathf.Abs(desiredOffset.x),
+            transform.position.y,
+            playerPos.z + desiredOffset.z
+        );
+
+        bool leftSafe = false;
+        bool rightSafe = false;
+        RaycastHit2D hit;
+        float checkHeight = 10f;
+
+        // 디버그 레이 표시
+        Debug.DrawRay(new Vector3(leftPosition.x, checkHeight, leftPosition.z), Vector2.down * checkHeight * 2, Color.red, 2f);
+        Debug.DrawRay(new Vector3(rightPosition.x, checkHeight, rightPosition.z), Vector2.down * checkHeight * 2, Color.blue, 2f);
+
+        // 레이어마스크 직접 지정
+        int groundLayer = LayerMask.NameToLayer("Ground");
+        int layerMask = 1 << groundLayer;
+
+        // 왼쪽 위치 체크
+        Vector2 leftRayStart = new Vector2(leftPosition.x, checkHeight);
+        hit = Physics2D.Raycast(leftRayStart, Vector2.down, checkHeight * 2, layerMask);
+        if (hit.collider != null)
+        {
+            leftSafe = true;
+            Debug.Log($"왼쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
+        }
+        else
+        {
+            Debug.Log("왼쪽 레이캐스트 미스");
+        }
+
+        // 오른쪽 위치 체크
+        Vector2 rightRayStart = new Vector2(rightPosition.x, checkHeight);
+        hit = Physics2D.Raycast(rightRayStart, Vector2.down, checkHeight * 2, layerMask);
+        if (hit.collider != null)
+        {
+            rightSafe = true;
+            Debug.Log($"오른쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
+        }
+        else
+        {
+            Debug.Log("오른쪽 레이캐스트 미스");
+        }
+
+        // 결과 반환
+        if (leftSafe && rightSafe)
+        {
+            Debug.Log("양쪽 모두 안전, 랜덤 선택");
+            return Random.value > 0.5f ? rightPosition : leftPosition;
+        }
+        else if (leftSafe)
+        {
+            Debug.Log("왼쪽만 안전");
+            return leftPosition;
+        }
+        else if (rightSafe)
+        {
+            Debug.Log("오른쪽만 안전");
+            return rightPosition;
+        }
+        else
+        {
+            Debug.Log("안전한 위치 없음, 플레이어 근처로 이동");
+            float safeOffset = 2f;
+            return new Vector3(
+                playerPos.x + (Random.value > 0.5f ? safeOffset : -safeOffset),
+                transform.position.y,
+                playerPos.z
+            );
+        }
+    }
 }
 
