@@ -966,6 +966,7 @@ GameObject:
   - component: {fileID: 714604715}
   - component: {fileID: 714604717}
   - component: {fileID: 714604716}
+  - component: {fileID: 714604718}
   m_Layer: 5
   m_Name: Stage1ClearText
   m_TagString: Untagged
@@ -1012,7 +1013,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC2A4\uD14C\uC774\uC9C0 1\n"
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8eac491122c1146429c8848f828d4a71, type: 2}
   m_sharedMaterial: {fileID: 6445929676871110110, guid: 8eac491122c1146429c8848f828d4a71, type: 2}
@@ -1089,6 +1092,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 714604714}
   m_CullTransparentMesh: 1
+--- !u!114 &714604718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714604714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30cecd1cec8787041af625c0ba7e1b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stage1ClearTime: {fileID: 0}
+  Stage1ClearText: {fileID: 714604716}
+  Stage2ClearTime: {fileID: 0}
+  Stage2ClearText: {fileID: 0}
+  Stage3ClearTime: {fileID: 0}
+  Stage3ClearText: {fileID: 0}
+  time: 0
+  curTime: 0
 --- !u!1 &742886321
 GameObject:
   m_ObjectHideFlags: 0
@@ -4176,7 +4199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage1ClearTime: {fileID: 773390988}
-  Stage1ClearText: {fileID: 0}
+  Stage1ClearText: {fileID: 714604716}
   Stage2ClearTime: {fileID: 0}
   Stage2ClearText: {fileID: 0}
   Stage3ClearTime: {fileID: 0}

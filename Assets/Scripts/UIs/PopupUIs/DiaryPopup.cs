@@ -28,10 +28,11 @@ public class DiaryPopup : MonoBehaviour
         Debug.Log(savedTime);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-
-
         Stage1ClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
-
+        
+        string loadedData = PlayerPrefs.GetString("FinalText1", "기본값");
+        Debug.Log("불러온 데이터: " + loadedData);
+        Stage1ClearText.text = "피니쉬 대사: " + loadedData;
 
     }
     
