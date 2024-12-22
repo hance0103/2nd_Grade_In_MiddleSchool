@@ -234,20 +234,19 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
         FacePlayer();
 
-        // 플레이어의 y값을 보스의 y값으로 고정하여 수평 레이저 발사
+        // 보스의 현재 위치를 Vector2로 저장
+        Vector2 bossPosition = transform.position;
         Vector2 staticPlayerPosition = new Vector2(
             player.transform.position.x,
-            transform.position.y  // 보스의 y값을 사용하여 수평 유지
+            bossPosition.y  // 보스의 y값을 사용하여 수평 유지
         );
 
-        Vector2 direction = (staticPlayerPosition - (Vector2)transform.position).normalized;
-        Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
         // 레이저 공격
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
-        LaserController laser = LaserController.Create(weakLaserData, transform, player.transform);
-        yield return StartCoroutine(laser.FireLaser(transform, staticPlayerPosition));
+        LaserController laser = LaserController.Create(weakLaserData, bossPosition, player.transform);
+        yield return StartCoroutine(laser.FireLaser(bossPosition, staticPlayerPosition));
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -407,32 +406,25 @@ public class bossPatternTest : MonoBehaviour
         transform.position = selectedPosition.position;
         FacePlayer();
 
-        // 보스 현재 위치 저장
+        // 보스의 시작 위치를 정확하게 저장
         Vector2 bossPosition = transform.position;
-
-        // 플레이어의 y값을 보스의 y값으로 고정하여 수평 레이저 발사
         Vector2 staticPlayerPosition = new Vector2(
             player.transform.position.x,
-            bossPosition.y  // 보스의 y값을 사용하여 수평 유지
+            bossPosition.y
         );
 
-        // 방향 계산을 확실하게 수평으로 고정
-        Vector2 direction = new Vector2(
-            (staticPlayerPosition.x > bossPosition.x) ? 1 : -1,
-            0  // y방향은 0으로 고정
-        );
+        // 임시 레이저 컨트롤러로 방향과 끝점 계산
+        LaserController tempLaser = LaserController.Create(strongLaserData, bossPosition, player.transform);
+        Vector2 direction = tempLaser.GetHorizontalDirection(bossPosition, staticPlayerPosition);
+        Vector2 endPosition = tempLaser.GetMapEndPoint(bossPosition, direction);
+        Destroy(tempLaser.gameObject); // 임시 컨트롤러 제거
 
-        Vector2 endPosition = GetMapEndPoint(bossPosition, direction);
-
-
-        // 위험지역 표시 (레이저 경로 미리보기)
+        // 위험지역 표시
         LineRenderer dangerZone = CreateDangerZone();
-        dangerZone.SetPosition(0, transform.position);
+        dangerZone.SetPosition(0, bossPosition);
         dangerZone.SetPosition(1, endPosition);
 
-        // 깜빡이는 효과를 저장
-        Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));
-
+        Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));     // 깜빡이는 효과를 저장
 
         // 카운트다운
         Debug.Log("카운트다운 시작");
@@ -459,10 +451,9 @@ public class bossPatternTest : MonoBehaviour
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(2f);
 
-        // 레이저 공격
-        Debug.Log($"레이저 공격 시작. 패턴: {strongPattern2Data.PatternName}, 공격력: {strongPattern2Data.Damage}");
-        LaserController laser = LaserController.Create(strongLaserData, transform, null);  // player.transform 대신 null 전달
-        yield return StartCoroutine(laser.FireStrongLaser(transform, staticPlayerPosition));
+        // 저장된 위치를 사용하여 레이저 발사
+        LaserController laser = LaserController.Create(strongLaserData, bossPosition, player.transform);
+        yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
 
         // 시간 재개
         Debug.Log("시간 재개");
@@ -509,8 +500,8 @@ public class bossPatternTest : MonoBehaviour
         LineRenderer lineRenderer = dangerZoneObj.AddComponent<LineRenderer>();
 
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = strongLaserData.LaserWidth;
-        lineRenderer.endWidth = strongLaserData.LaserWidth;
+        lineRenderer.startWidth = strongLaserData.LaserWidth;  // LaserWidth 사용
+        lineRenderer.endWidth = strongLaserData.LaserWidth;    // LaserWidth 사용
 
         // 빨간색 반투명 material 설정
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
