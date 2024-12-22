@@ -223,16 +223,16 @@ public class PlayerMover : MonoBehaviour
                 _dashDirection = new Vector2(-_dashDistance, 0);
                 break;
             case PlayerInputDirection.UpRight:
-                _dashDirection = new Vector2(Mathf.Sqrt(_dashDistance), Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(2*Mathf.Sqrt(_dashDistance), 2*Mathf.Sqrt(_dashDistance));
                 break;
             case PlayerInputDirection.UpLeft:
-                _dashDirection = new Vector2(-Mathf.Sqrt(_dashDistance), Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(2*-Mathf.Sqrt(_dashDistance), 2*Mathf.Sqrt(_dashDistance));
                 break;
             case PlayerInputDirection.DownRight:
-                _dashDirection = new Vector2(Mathf.Sqrt(_dashDistance), -Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(2*Mathf.Sqrt(_dashDistance), 2* -Mathf.Sqrt(_dashDistance));
                 break;
             case PlayerInputDirection.DownLeft:
-                _dashDirection = new Vector2(-Mathf.Sqrt(_dashDistance), -Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(2*-Mathf.Sqrt(_dashDistance), 2*-Mathf.Sqrt(_dashDistance));
                 break;
             case PlayerInputDirection.None:
                 switch (_looking)
