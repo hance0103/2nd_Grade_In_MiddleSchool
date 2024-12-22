@@ -34,8 +34,8 @@ public class bossPatternTest : MonoBehaviour
     public Player player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController laserController; // LaserController 참조
     private ProjectileController projectileController; // ProjectileController 참조
-
-    // ScriptableObject 데이터
+    
+    [Header("ScriptableObject 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakPattern3Data;
@@ -144,9 +144,9 @@ public class bossPatternTest : MonoBehaviour
         // 플레이어 위치 + 텔포 오프셋
         Vector3 playerPos = player.transform.position;
         Vector3 targetPosition = new Vector3(
-            playerPos.x + weakPattern2Data.TeleportOffset.x,
+            playerPos.x + weakPattern1Data.TeleportOffset.x,
             transform.position.y, // 현재 enemy의 y값 유지
-            playerPos.z + weakPattern2Data.TeleportOffset.z
+            playerPos.z + weakPattern1Data.TeleportOffset.z
         );
         transform.position = targetPosition;
         FacePlayer();
@@ -234,9 +234,12 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
         FacePlayer();
 
+        // 플레이어의 y값을 보스의 y값으로 고정하여 수평 레이저 발사
+        Vector2 staticPlayerPosition = new Vector2(
+            player.transform.position.x,
+            transform.position.y  // 보스의 y값을 사용하여 수평 유지
+        );
 
-        // 고정된 플레이어 위치 계산
-        Vector2 staticPlayerPosition = player.transform.position;
         Vector2 direction = (staticPlayerPosition - (Vector2)transform.position).normalized;
         Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
@@ -245,7 +248,6 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
         LaserController laser = LaserController.Create(weakLaserData, transform, player.transform);
         yield return StartCoroutine(laser.FireLaser(transform, staticPlayerPosition));
-
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -393,7 +395,6 @@ public class bossPatternTest : MonoBehaviour
     }
 
     public IEnumerator StrongPattern2() //카운트 다운이 끝나면 시간을 멈춘 후에 레이저 공격
-
     {
         Debug.Log("강공격2");
         currentState = BossState.StrongPattern2;
@@ -406,10 +407,23 @@ public class bossPatternTest : MonoBehaviour
         transform.position = selectedPosition.position;
         FacePlayer();
 
-        // 고정된 플레이어 위치 계산
-        Vector2 staticPlayerPosition = player.transform.position;
-        Vector2 direction = (staticPlayerPosition - (Vector2)transform.position).normalized;
-        Vector2 endPosition = GetMapEndPoint((Vector2)transform.position, direction);
+        // 보스 현재 위치 저장
+        Vector2 bossPosition = transform.position;
+
+        // 플레이어의 y값을 보스의 y값으로 고정하여 수평 레이저 발사
+        Vector2 staticPlayerPosition = new Vector2(
+            player.transform.position.x,
+            bossPosition.y  // 보스의 y값을 사용하여 수평 유지
+        );
+
+        // 방향 계산을 확실하게 수평으로 고정
+        Vector2 direction = new Vector2(
+            (staticPlayerPosition.x > bossPosition.x) ? 1 : -1,
+            0  // y방향은 0으로 고정
+        );
+
+        Vector2 endPosition = GetMapEndPoint(bossPosition, direction);
+
 
         // 위험지역 표시 (레이저 경로 미리보기)
         LineRenderer dangerZone = CreateDangerZone();
@@ -442,13 +456,13 @@ public class bossPatternTest : MonoBehaviour
 
         // 시간 정지
         Debug.Log("시간 정지!");
-        Time.timeScale = 0; // 시간을 일시적으로 멈춤
-        yield return new WaitForSecondsRealtime(2f); // 실제 시간 기준 2초간 대기(조정)
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(2f);
 
         // 레이저 공격
         Debug.Log($"레이저 공격 시작. 패턴: {strongPattern2Data.PatternName}, 공격력: {strongPattern2Data.Damage}");
-        LaserController laser = LaserController.Create(strongLaserData, transform, player.transform);
-        yield return StartCoroutine(laser.FireStrongLaser(transform, staticPlayerPosition)); ; // FireStrongLaser 사용
+        LaserController laser = LaserController.Create(strongLaserData, transform, null);  // player.transform 대신 null 전달
+        yield return StartCoroutine(laser.FireStrongLaser(transform, staticPlayerPosition));
 
         // 시간 재개
         Debug.Log("시간 재개");

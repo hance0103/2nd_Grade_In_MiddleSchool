@@ -50,14 +50,21 @@ public class LaserController : MonoBehaviour
         return startPos + (direction * maxDistance);
     }
 
-    // 일반 레이저 발사 (약공격용)
+    // 방향을 수평으로만 계산하는 새로운 메서드
+    private Vector2 GetHorizontalDirection(Vector2 from, Vector2 to)
+    {
+        // x 방향만 고려하여 방향 벡터 생성
+        return new Vector2(to.x > from.x ? 1 : -1, 0).normalized;
+    }
+
+    /// 일반 레이저 발사 (약공격용)
     public IEnumerator FireLaser(Transform bossTransform, Vector2 staticPlayerPosition)
     {
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
         Vector2 startPosition = bossTransform.position;
-        Vector2 direction = (staticPlayerPosition - startPosition).normalized;
+        Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
         Vector2 endPosition = GetMapEndPoint(startPosition, direction);
 
         lineRenderer.SetPosition(0, startPosition);
@@ -97,7 +104,7 @@ public class LaserController : MonoBehaviour
         float fadeOutTime = 0.1f;
 
         Vector2 startPosition = bossTransform.position;
-        Vector2 direction = (staticPlayerPosition - startPosition).normalized;
+        Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
         Vector2 endPosition = GetMapEndPoint(startPosition, direction);
 
         lineRenderer.SetPosition(0, startPosition);
