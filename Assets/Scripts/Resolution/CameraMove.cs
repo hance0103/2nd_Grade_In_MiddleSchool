@@ -13,7 +13,7 @@ public class CameraMove : MonoBehaviour
     {
         player = GameObject.Find("Player");
     }
-    private void Update()
+    private void LateUpdate()
     {
         Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, this.transform.position.z);
         targetPos.x = Mathf.Clamp(targetPos.x, minCameraBoundary.x, maxCameraBoundary.x);

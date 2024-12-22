@@ -43,7 +43,13 @@ public class PlayerMover : MonoBehaviour
     private float _dashDistance;
     [SerializeField]
     private float _dashCoolDown;
+    [SerializeField]
+    private float _dashDuration;
+    private bool _isDashing = false;
     private float _dashTime = 0;
+
+    // 쿨타임 계산 관련 변수
+
     private bool _canDash = true;
 
     [SerializeField]
@@ -60,7 +66,10 @@ public class PlayerMover : MonoBehaviour
     }
     private void Update()
     {
-        PlayerMoveInput();
+        if (_player.playerState != PlayerState.Dash)
+        {
+            PlayerMoveInput();
+        }
         PlayerJump();
         PlayerDash();
         PlayerAni();
@@ -122,9 +131,14 @@ public class PlayerMover : MonoBehaviour
             !Input.GetKey(KeyCode.LeftArrow) &&
             !_isJumping)
         {
-            _player.playerState = PlayerState.Idle;
+            if (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
+            {
+                _direction = PlayerInputDirection.None;
+            }
             _movSpeed = 0;
+            _player.playerState = PlayerState.Idle;
         }
+
 
     }
     private void PlayerMoveVec()
@@ -183,10 +197,77 @@ public class PlayerMover : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("dash");
-            //대시
+            StartCoroutine(Dash());
         }
     }
+    private IEnumerator Dash()
+    {
+        Debug.Log("대시 시작");
+        _rigid.gravityScale = 0;
+        _player.playerState = PlayerState.Dash;
+        _isDashing = true;
 
+        Vector2 _dashDirection = Vector2.zero;
+        switch (_direction)
+        {
+            case PlayerInputDirection.Up:
+                _dashDirection = new Vector2(0, _dashDistance);
+                break;
+            case PlayerInputDirection.Down:
+                _dashDirection = new Vector2(0, -_dashDistance);
+                break;
+            case PlayerInputDirection.Right:
+                _dashDirection = new Vector2(_dashDistance, 0);
+                break;
+            case PlayerInputDirection.Left:
+                _dashDirection = new Vector2(-_dashDistance, 0);
+                break;
+            case PlayerInputDirection.UpRight:
+                _dashDirection = new Vector2(Mathf.Sqrt(_dashDistance), Mathf.Sqrt(_dashDistance));
+                break;
+            case PlayerInputDirection.UpLeft:
+                _dashDirection = new Vector2(-Mathf.Sqrt(_dashDistance), Mathf.Sqrt(_dashDistance));
+                break;
+            case PlayerInputDirection.DownRight:
+                _dashDirection = new Vector2(Mathf.Sqrt(_dashDistance), -Mathf.Sqrt(_dashDistance));
+                break;
+            case PlayerInputDirection.DownLeft:
+                _dashDirection = new Vector2(-Mathf.Sqrt(_dashDistance), -Mathf.Sqrt(_dashDistance));
+                break;
+            case PlayerInputDirection.None:
+                switch (_looking)
+                {
+                    case PlayerLookingDirection.Right:
+                        _dashDirection = new Vector2(_dashDistance, 0);
+                        break;
+                    case PlayerLookingDirection.Left:
+                        _dashDirection = new Vector2(-_dashDistance, 0);
+                        break;
+                }
+                break;
+        }
+
+        Vector2 dashStartPos = _rigid.position;
+        Vector2 dashEndPos = _rigid.position + _dashDirection;
+        _dashTime = 0f;
+        Debug.Log(dashStartPos);
+        Debug.Log(dashEndPos);
+        //_rigid.position = dashEndPos;
+        while (_dashTime < _dashDuration)
+        {
+            Debug.Log("대시 진행중");
+            _dashTime += Time.deltaTime;
+            float t = _dashTime / _dashDuration;
+            Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
+            _rigid.MovePosition(newPosition);
+            yield return null;
+        }
+        Debug.Log("대시 끝");
+        yield return null;
+        _isDashing = false;
+        _player.playerState = PlayerState.Idle;
+        _rigid.gravityScale = 4;
+    }
     /// <summary>
     /// 점프 스프라이트 교체를 위해서 임시로 작성한 함수.
     /// 나중에 애니메이션 작업할때 지우고 새로 만들기
@@ -196,14 +277,17 @@ public class PlayerMover : MonoBehaviour
         if (!_canJump && _rigid.velocity.y > 0)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_01");
+
         }
         else if (!_canJump && _rigid.velocity.y < -1)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_02");
+
         }
         if (_canJump)
         {
             _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/Idle_01");
+
         }
     }
 
