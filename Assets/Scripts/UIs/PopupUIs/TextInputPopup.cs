@@ -5,7 +5,7 @@ using TMPro;
 public class TextInputPopup : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private GameObject inputPanel;   // 입력 패널(Panel) GameObject
+    
     [SerializeField] private TMP_InputField inputField; // TextMeshPro 버전
 
     private string savedData;
@@ -16,7 +16,7 @@ public class TextInputPopup : MonoBehaviour
     public void Stage1OpenInputPanel()
     {
         Time.timeScale = 0f; // 시간 정지
-        inputPanel.SetActive(true);
+        gameObject.SetActive(true);
         
         
         // 패널이 열릴 때 입력란 초기화
@@ -32,7 +32,7 @@ public class TextInputPopup : MonoBehaviour
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
-        inputPanel.SetActive(false);
+        gameObject.SetActive(false);
         
     }
 }

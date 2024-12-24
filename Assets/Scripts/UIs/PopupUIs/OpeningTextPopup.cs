@@ -1,0 +1,107 @@
+using System.Collections.Generic;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class OpeningTextPopup : MonoBehaviour
+{
+    public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
+    public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
+    public GameObject OpeningTextPanel;
+    public GameObject TempPenal;
+    public Button NextButton;
+    [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
+
+    public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
+    public GameObject CharacterPose2; // 머리에 손 포즈, 눈 감고 미소
+    public GameObject CharacterPose3; // 손가락 포즈, 화난 표정(이글이글)
+    public GameObject CharacterPose4; // 머리에 손 포즈, 어둡고 째려보는 표정(분노를 억누르는 듯한)
+    public GameObject CharacterPose5; // 젖히고 웃는 포즈
+    public GameObject CharacterPose6; // 머리에 손 포즈, 진지한 표정
+    public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
+    public GameObject Boss;
+
+
+    private bool isNextButtonClicked = false;
+    public string writerText = "";
+
+    void Start()
+    {
+        NextButton.onClick.AddListener(OnNextButtonClicked);
+        StartCoroutine(TextStage1());
+        Timer.SetActive(false);
+    }
+    void OnNextButtonClicked()
+    {
+        isNextButtonClicked = true;
+    }
+
+    void Update()
+    {
+    }
+
+    public float typingSpeed = 0.01f;
+    public bool isSkipping = false;
+    IEnumerator NormalChat(string narrator, string narration)
+    {
+        int a = 0;
+        CharacterName.text = narrator;
+        ChatText.text = "";
+        writerText = "";
+
+        // 텍스트 타이핑 효과
+        for (a = 0; a < narration.Length; a++)
+        {
+            writerText += narration[a];
+            ChatText.text = writerText;
+            yield return new WaitForSecondsRealtime(typingSpeed);
+        }
+
+        // 키를 다시 누를 때까지 무한정 대기
+        isNextButtonClicked = false;
+        yield return new WaitUntil(() => isNextButtonClicked);
+    }
+
+    IEnumerator TextStage1()
+    {
+        yield return StartCoroutine(NormalChat("주인공", "오늘은 이 몸이 문화재에 공연을 하러 가는 초-스페셜한 날 !!"));
+        yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭"));
+        yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 자비를 베풀어 인간놈들과 어울려 주겠다 !"));
+        yield return StartCoroutine(NormalChat("주인공", "나타났구나."));
+        yield return StartCoroutine(NormalChat("주인공", "엉겁의 세월 동안 [오 레 사 마]를 잡아두고"));
+        yield return StartCoroutine(NormalChat("주인공", "지각이라는 치욕스러운 경험을 하게 했던..."));
+        yield return StartCoroutine(NormalChat("주인공", "신호등 !!!"));
+        yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 네게 허비할 시간이 없다"));
+        yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..꺼져라."));
+        yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
+        yield return StartCoroutine(NormalChat("신호등", "연약한 [소녀]여"));
+        yield return StartCoroutine(NormalChat("신호등", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
+        yield return StartCoroutine(NormalChat("신호등", "안타깝지만 오늘도 [패배]를 안겨 주마."));
+        yield return StartCoroutine(NormalChat("주인공", "아-? 하찮구나 고작 속세의 [미물] 따위가-"));
+        yield return StartCoroutine(NormalChat("주인공", "감히 [마왕]에게 도전장을 던진다는 것이냐?"));
+        yield return StartCoroutine(NormalChat("주인공", "뭐 그렇게 나온다면 할 수 없지.."));
+        yield return StartCoroutine(NormalChat("주인공", "정의를 위해"));
+        yield return StartCoroutine(NormalChat("주인공", "[처리한다.]"));
+        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
+        CloseOpeningText();
+    }
+
+    void CloseOpeningText()
+    {
+        if (OpeningTextPanel != null)
+        {
+            
+            OpeningTextPanel.SetActive(false); // 패널 비활성화
+            TempPenal.SetActive(true);
+        }
+        var timer = FindObjectOfType<Timer>();
+        if (timer != null)
+        {
+            // 타이머의 TimeActive 켜고, 코루틴 수동 실행
+            Timer.SetActive(true);
+            timer.TimeActive = true;
+            timer.StartCoroutine("StartTimer");
+        }
+    }
+}

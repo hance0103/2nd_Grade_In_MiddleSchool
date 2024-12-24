@@ -16,8 +16,7 @@ public class Timer : MonoBehaviour
     public bool TimeActive = true;
     private void Awake()
     {
-        time = 0;
-        StartCoroutine(StartTimer());
+        TimeActive = false; // 대화 중 타이머 정지
     }
 
     IEnumerator StartTimer()
