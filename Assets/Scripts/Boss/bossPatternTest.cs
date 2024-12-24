@@ -25,16 +25,19 @@ public class bossPatternTest : MonoBehaviour
         PostAttack,
     }
 
-    [Header("Strong Pattern Positions")]
-    [SerializeField] private Transform[] strongPatternPositions; // 강공격용 위치들
-
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
     public Player player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController laserController; // LaserController 참조
     private ProjectileController projectileController; // ProjectileController 참조
-    
+
+    [Header("광폭화 T/F")]
+    [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
+
+    [Header("Strong Pattern Positions")]
+    [SerializeField] private Transform[] strongPatternPositions; // 강공격용 위치들
+
     [Header("ScriptableObject 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
@@ -46,22 +49,14 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
 
+    //[SerializeField] private Animator animator; // 애니메이터 참조 추가
+    //[SerializeField] private float rotationSpeed = 5f; // 보스가 플레이어를 바라보는 회전 속도
 
-    //[SerializeField]
-    //private Animator animator; // 애니메이터 참조 추가
-    //[SerializeField]
-    //private float rotationSpeed = 5f; // 보스가 플레이어를 바라보는 회전 속도
-
-    // 보스의 몸박 데미지 관련 설정
-    //[SerializeField]
-    //private float contactDamage = 10f;
-    //[SerializeField]
-    //private float damageRange = 1.5f;
-    //[SerializeField]
-    //private float damageCooldown = 1f;
-    //private float lastDamageTime = 0f;
-
-
+    //// 보스의 몸박 데미지 관련 설정
+    //[SerializeField] private float contactDamage = 10f;
+    //[SerializeField] private float damageRange = 1.5f;
+    //[SerializeField] private float damageCooldown = 1f;
+    //[SerializeField] private float lastDamageTime = 0f;
 
     void Start()
     {
@@ -81,7 +76,6 @@ public class bossPatternTest : MonoBehaviour
     void Update()
     {
         //ApplyContactDamage(); // Update에서 몸박 데미지 처리
-      
 
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
@@ -225,142 +219,214 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격2");
         currentState = BossState.WeakPattern2;
 
-        //텔레포트
+        // 텔레포트
         Vector3 playerPos = player.transform.position;
         Vector3 targetPosition = GetSafeTeleportPosition(playerPos, weakPattern2Data.TeleportOffset);
-
         transform.position = targetPosition;
         FacePlayer();
 
-        // 보스의 현재 위치를 Vector2로 저장
+        // 텔레포트 직후 보스와 플레이어의 위치를 저장 (모든 레이저가 이 위치를 사용)
         Vector2 bossPosition = transform.position;
-        Vector2 staticPlayerPosition = new Vector2(
+        Vector2 savedPlayerPosition = new Vector2(
             player.transform.position.x,
             bossPosition.y  // 보스의 y값을 사용하여 수평 유지
         );
 
         yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
 
-        // 레이저 공격
+        // 첫 번째 레이저 발사
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
         LaserController laser = LaserController.Create(weakLaserData, bossPosition, player.transform);
-        yield return StartCoroutine(laser.FireLaser(bossPosition, staticPlayerPosition));
+        yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+
+        // 광폭화 상태일 때 두 번째 레이저 공격
+        if (isEnraged)
+        {
+            Debug.Log("광폭화 상태: 같은 위치로 두 번째 레이저 발사");
+            yield return new WaitForSeconds(0.5f);
+
+            // 저장된 동일한 위치로 두 번째 레이저 발사
+            laser = LaserController.Create(weakLaserData, bossPosition, player.transform);
+            yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+        }
+
+        yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
         currentState = BossState.None;
         currentCoroutine = null;
+        yield return null;
+
     }
 
-    public IEnumerator WeakPattern3() //플레이어 위로 텔레포트 후 내려찍기
+    public IEnumerator WeakPattern3()
     {
         Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
 
-        // 텔레포트 전에 중력 영향 제거
+        // 중력 영향 제거 및 속도 초기화
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
-        rb.velocity = Vector2.zero;  // 현재 속도 초기화
+        rb.velocity = Vector2.zero;
 
         // 플레이어 위로 텔레포트
         Vector3 teleportPosition = player.transform.position + Vector3.up * weakPattern3Data.TeleportOffset.y;
         transform.position = teleportPosition;
         FacePlayer();
 
-        // ★중요: 공격 시작 전 플레이어의 위치를 미리 저장
-        // Vector3 attackTargetPosition = player.transform.position;
-        Vector3 attackTargetPosition = new Vector3(
-        player.transform.position.x,
-        transform.position.y, // 보스의 현재 y값 사용
-        player.transform.position.z
-        );
+        // 플레이어의 X 위치 저장
+        float targetX = player.transform.position.x;
 
         // 카운트다운
         for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
         {
-            transform.position = teleportPosition;  // 위치 고정
+            transform.position = teleportPosition;
             Debug.Log("카운트다운: " + i);
-            yield return new WaitForSeconds(1f); // 1초씩 카운트다운
+            yield return new WaitForSeconds(1f);
         }
 
-        // 공격 시작 전에 중력 다시 활성화
-        rb.gravityScale = 1f;  // 또는 원래 설정했던 gravityScale 값으로
+        // 공격 횟수 결정 (광폭화 상태에 따라)
+        int attackCount = isEnraged ? 3 : 1;
 
-        Debug.Log($"내려찍기 공격 시작. 패턴: {weakPattern3Data.PatternName} , 공격력:  {weakPattern3Data.Damage}");
-
-
-        // 내려찍기 시작 위치
-        Vector3 startPosition = transform.position;
-
-
-        ////////////////////////////////////////////////////////////////////////////////////(GPT)
-        //Raycast로 지면 감지
-        RaycastHit hit;
-        float groundY = 0f;
-        if (Physics.Raycast(attackTargetPosition + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+        for (int strike = 0; strike < attackCount; strike++)
         {
-            groundY = hit.point.y;
-            Debug.Log($"지면 감지됨: {groundY}");
-        }
-        else
-        {
-            groundY = 0f;
-            Debug.Log("지면이 감지되지 않아 기본값 사용");
-        }
+            rb.gravityScale = 1f;
 
-        float elapsedTime = 0f;
-        float attackDuration = 0.5f;
+            Debug.Log($"내려찍기 공격 {strike + 1}/{attackCount} 시작. 패턴: {weakPattern3Data.PatternName}, 공격력: {weakPattern3Data.Damage}");
 
-        while (elapsedTime < attackDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float progress = elapsedTime / attackDuration;
-            float easedProgress = 1 - Mathf.Pow(1 - progress, 3);
+            // 시작 위치 저장
+            Vector3 startPosition = transform.position;
 
-            // ★중요: 저장된 타겟 위치(attackTargetPosition)를 사용
-            float currentHeight = Mathf.Lerp(startPosition.y, groundY, easedProgress);
-            Vector3 currentPosition = Vector3.Lerp(startPosition, attackTargetPosition, easedProgress);
-            currentPosition.y = currentHeight;
-
-            if (currentPosition.y < groundY)
+            // 보스의 콜라이더 크기 가져오기
+            float bossHeight = 1f;
+            Collider2D bossCollider = GetComponent<Collider2D>();
+            if (bossCollider != null)
             {
-                currentPosition.y = groundY;
+                bossHeight = bossCollider.bounds.size.y;
             }
 
-            transform.position = currentPosition;
-            yield return null;
-        }
+            // 2D 레이캐스트로 지면 감지
+            RaycastHit2D groundHit = Physics2D.Raycast(
+                new Vector2(targetX, startPosition.y),
+                Vector2.down,
+                100f,
+                LayerMask.GetMask("Ground")
+            );
 
-
-        // 최종 위치를 지면에 맞춤
-        Vector3 finalPosition = transform.position;
-        finalPosition.y = groundY;
-        transform.position = finalPosition;
-        // 착지 효과
-        yield return StartCoroutine(CreateStrikeEffect());
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-
-
-        // 공격 판정
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, weakPattern3Data.AttackRange);
-        bool playerHit = false;
-
-        foreach (Collider col in hitColliders)
-        {
-            if (col.CompareTag("Player"))
+            float groundY = 0f;
+            if (groundHit.collider != null)
             {
-                Debug.Log("플레이어에게 내려찍기 공격 성공!");
-                //player.TakeDamage(weakPattern3Data.Damage);
-                playerHit = true;
-                break;
+                groundY = groundHit.point.y + (bossHeight / 2);
+                Debug.Log($"지면 감지됨: {groundY}, 충돌한 오브젝트: {groundHit.collider.name}");
+            }
+            else
+            {
+                Debug.LogWarning("지면이 감지되지 않아 기본값 사용");
+            }
+
+            float elapsedTime = 0f;
+            float attackDuration = 0.5f;
+
+            // 내려찍기 모션
+            while (elapsedTime < attackDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float progress = elapsedTime / attackDuration;
+                float easedProgress = 1 - Mathf.Pow(1 - progress, 3); // Ease-out cubic
+
+                float currentY = Mathf.Lerp(startPosition.y, groundY, easedProgress);
+                Vector3 currentPosition = new Vector3(targetX, currentY, transform.position.z);
+
+                if (currentPosition.y < groundY)
+                {
+                    currentPosition.y = groundY;
+                }
+
+                transform.position = currentPosition;
+                yield return null;
+            }
+
+            // 최종 위치 설정
+            transform.position = new Vector3(targetX, groundY, transform.position.z);
+
+            // 플레이어 감지를 위한 LayerMask
+            int playerLayer = LayerMask.NameToLayer("Player");
+            int playerMask = 1 << playerLayer;
+
+            // 원형 범위 내 플레이어 감지
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
+                transform.position,
+                weakPattern3Data.AttackRange,
+                playerMask
+            );
+
+            // 디버그용 원 그리기
+            DrawDebugCircle(transform.position, weakPattern3Data.AttackRange, Color.red, 1f);
+
+            bool playerHit = false;
+            foreach (Collider2D hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Player"))
+                {
+                    Debug.Log("플레이어에게 내려찍기 공격 성공!");
+                    //player.TakeDamage(weakPattern3Data.Damage);
+                    playerHit = true;
+                    break;
+                }
+            }
+
+            if (!playerHit)
+            {
+                Debug.Log("플레이어가 공격 범위 밖에 있습니다.");
+            }
+
+            // 착지 효과
+            yield return StartCoroutine(CreateStrikeEffect());
+
+            // 마지막 공격이 아닌 경우에만 위로 올라가는 모션 실행
+            if (strike < attackCount - 1)
+            {
+                // 위로 올라가는 모션을 위한 설정
+                rb.gravityScale = 0f;
+                rb.velocity = Vector2.zero;
+
+                float risingDuration = 1.0f; // 올라가는 시간
+                elapsedTime = 0f;
+                Vector3 groundPosition = transform.position;
+                float maxHeight = teleportPosition.y;
+
+                // 상승 시작 시 약간의 딜레이
+                yield return new WaitForSeconds(0.1f);
+
+                // 순수하게 수직으로만 올라가는 모션
+                while (elapsedTime < risingDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    float progress = elapsedTime / risingDuration;
+
+                    // 부드러운 가속과 감속을 위한 이징
+                    float easedProgress = progress < 0.5f ?
+                        2f * progress * progress :
+                        1f - Mathf.Pow(-2f * progress + 2f, 2f) / 2f;
+
+                    // 수직 이동 (처음에는 빠르게, 나중에는 천천히)
+                    float currentY = Mathf.Lerp(groundPosition.y, maxHeight, easedProgress);
+
+                    // 현재 위치 업데이트 (X 위치는 고정)
+                    transform.position = new Vector3(targetX, currentY, transform.position.z);
+
+                    yield return null;
+                }
+
+                // 최종 위치 정확하게 설정
+                transform.position = new Vector3(targetX, maxHeight, transform.position.z);
+
+                // 다음 공격 전 준비 시간
+                yield return new WaitForSeconds(0.2f);
             }
         }
 
-        if (!playerHit)
-        {
-            Debug.Log("플레이어가 공격 범위 밖에 있습니다.");
-        }
+        yield return new WaitForSeconds(weakPattern3Data.AfterAttackDelay);
 
-        // 패턴 종료 후 상태 및 코루틴 초기화
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -555,6 +621,7 @@ public class bossPatternTest : MonoBehaviour
         float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
         return startPos + (direction * maxDistance);
     }
+
     private Vector3 GetSafeTeleportPosition(Vector3 playerPos, Vector3 desiredOffset)
     {
         // 왼쪽과 오른쪽 위치 계산
@@ -634,6 +701,24 @@ public class bossPatternTest : MonoBehaviour
                 transform.position.y,
                 playerPos.z
             );
+        }
+    }
+
+    // 디버그용 원 그리기 함수
+    private void DrawDebugCircle(Vector3 center, float radius, Color color, float duration)
+    {
+        int segments = 36;
+        float angle = 360f / segments;
+
+        for (int i = 0; i < segments; i++)
+        {
+            float currentAngle = angle * i * Mathf.Deg2Rad;
+            float nextAngle = angle * (i + 1) * Mathf.Deg2Rad;
+
+            Vector3 currentPoint = center + new Vector3(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle)) * radius;
+            Vector3 nextPoint = center + new Vector3(Mathf.Cos(nextAngle), Mathf.Sin(nextAngle)) * radius;
+
+            Debug.DrawLine(currentPoint, nextPoint, color, duration);
         }
     }
 }
