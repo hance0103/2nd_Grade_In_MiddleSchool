@@ -449,7 +449,7 @@ public class bossPatternTest : MonoBehaviour
 
         // 투사체 패턴 시작
         Debug.Log("투사체 패턴 시작");
-        ProjectileController projectileController = ProjectileController.Create(projectileData, transform, player.transform, projectilePrefab);
+        ProjectileController projectileController = ProjectileController.Create(projectileData, transform, player.transform, projectilePrefab, isEnraged);
         yield return StartCoroutine(projectileController.ExecutePattern(transform));
 
         currentCoroutine = null;

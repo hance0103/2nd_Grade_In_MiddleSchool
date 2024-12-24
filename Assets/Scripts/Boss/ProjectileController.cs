@@ -9,6 +9,7 @@ public class ProjectileController : MonoBehaviour
     private ProjectileScriptableObject projectileData;
     private Transform playerTransform;
     private GameObject projectilePrefab;
+    private bool isEnraged = false;
 
     private void Awake()
     {
@@ -35,13 +36,14 @@ public class ProjectileController : MonoBehaviour
         return proj;
     }
 
-    public static ProjectileController Create(ProjectileScriptableObject data, Transform bossTransform, Transform player, GameObject prefab)
+    public static ProjectileController Create(ProjectileScriptableObject data, Transform bossTransform, Transform player, GameObject prefab, bool enraged)
     {
         GameObject controllerObj = new GameObject("ProjectileController");
         ProjectileController controller = controllerObj.AddComponent<ProjectileController>();
         controller.projectileData = data;
         controller.playerTransform = player;
         controller.projectilePrefab = prefab;
+        controller.isEnraged = enraged;
         controllerObj.transform.position = bossTransform.position;
         return controller;
     }
@@ -54,14 +56,6 @@ public class ProjectileController : MonoBehaviour
         {
             projectile.transform.position += (Vector3)(direction * projectileData.ProjectileSpeed * Time.deltaTime);
             timer += Time.deltaTime;
-
-            //Vector3 screenPos = Camera.main.WorldToViewportPoint(projectile.transform.position);
-            //if (screenPos.x < -0.1f || screenPos.x > 1.1f || screenPos.y < -0.1f || screenPos.y > 1.1f)
-            //{
-            //    // 화면 밖으로 벗어나면 투사체 풀로 반환
-            //    projectilePool.Release(projectile);
-            //    yield break;
-            //}
 
             yield return null;
         }
@@ -84,39 +78,40 @@ public class ProjectileController : MonoBehaviour
         {
             if (Time.time >= nextFireTime)
             {
-                // 기본 위치 설정
                 Vector3 basePosition = bossTransform.position;
 
-                // 높이 계산
-                float yOffset = 0f;
-                switch (currentRow)
+                if (isEnraged)
                 {
-                    case 0: // 상단
-                        yOffset = verticalSpacing;
-                        break;
-                    case 1: // 중단
-                        yOffset = 0f;
-                        break;
-                    case 2: // 하단
-                        yOffset = -verticalSpacing;
-                        break;
+                    //광폭화 패턴: 02 1 02 1 ...
+                    if (currentRow == 1)
+                    {
+                        // Middle row - fire single projectile
+                        SpawnProjectile(basePosition, angleToPlayer);
+                        projectilesFired++;
+                    }
+                    else
+                    {
+                        // Top and bottom rows - fire simultaneously
+                        SpawnProjectile(basePosition + new Vector3(0, verticalSpacing, 0), angleToPlayer);
+                        SpawnProjectile(basePosition + new Vector3(0, -verticalSpacing, 0), angleToPlayer);
+                        projectilesFired += 2;
+                    }
+                    currentRow = (currentRow == 1) ? 0 : 1;
                 }
-
-                // 발사체 생성 및 발사
-                Vector3 spawnPosition = basePosition + new Vector3(0, yOffset, 0);
-                SpawnProjectile(spawnPosition, angleToPlayer);
-
-                Debug.Log($"Row: {currentRow}, Direction: {(direction == 1 ? "Down" : "Up")}");
-
-                projectilesFired++;
-
-                // 다음 행 위치 계산 (0->1->2->1->0)
-                currentRow += direction;
-
-                // 방향 전환
-                if (currentRow >= 2 || currentRow <= 0)
+                else
                 {
-                    direction *= -1;
+                    // 기본패턴: 0 1 2 1 0 ...
+                    float yOffset = currentRow == 0 ? verticalSpacing :
+                                  currentRow == 1 ? 0f : -verticalSpacing;
+
+                    SpawnProjectile(basePosition + new Vector3(0, yOffset, 0), angleToPlayer);
+                    projectilesFired++;
+
+                    currentRow += direction;
+                    if (currentRow >= 2 || currentRow <= 0)
+                    {
+                        direction *= -1;
+                    }
                 }
 
                 nextFireTime = Time.time + (1f / projectileData.FireRate);
