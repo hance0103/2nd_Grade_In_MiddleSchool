@@ -318,7 +318,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1092,6 +1092,10 @@ PrefabInstance:
     - target: {fileID: 254861628137691086, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _dashCoolDown
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: _dashDistance

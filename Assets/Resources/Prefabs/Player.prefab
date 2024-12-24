@@ -128,6 +128,7 @@ MonoBehaviour:
   fallingGravityScale: 5
   _dashDistance: 0
   _dashCoolDown: 0
+  _dashDuration: 0
   _direction: 8
   _looking: 0
 --- !u!114 &2514338841622194121
@@ -192,7 +193,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

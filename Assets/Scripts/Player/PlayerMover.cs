@@ -40,17 +40,17 @@ public class PlayerMover : MonoBehaviour
 
     [Header("Dash")]
     [SerializeField]
-    private float _dashDistance;
+    private float _dashDistance;        //대쉬 거리
     [SerializeField]
-    private float _dashCoolDown;
-    [SerializeField]
-    private float _dashDuration;
-    private bool _isDashing = false;
-    private float _dashTime = 0;
+    private float _dashDuration;        //대쉬 지속시간
+    private bool _isDashing = false;    //대쉬 하고있는지
+    private float _dashTime = 0;        //대쉬를 얼마나 했는지 시간
 
     // 쿨타임 계산 관련 변수
-
+    [SerializeField]
+    private float _dashCoolDown;    //대쉬 쿨타임
     private bool _canDash = true;
+    private float _dashCooldownTimer = 0f;
 
     [SerializeField]
     private PlayerInputDirection _direction = PlayerInputDirection.None;
@@ -95,7 +95,7 @@ public class PlayerMover : MonoBehaviour
                 _direction = PlayerInputDirection.Left;
             }
 
-            if (!_isJumping)
+            if (_player.playerState != PlayerState.Jump)
                 _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Left;
         }
@@ -114,7 +114,7 @@ public class PlayerMover : MonoBehaviour
             {
                 _direction = PlayerInputDirection.Right;
             }
-            if (!_isJumping)
+            if (_player.playerState != PlayerState.Jump)
                 _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Right;
         }
@@ -136,7 +136,11 @@ public class PlayerMover : MonoBehaviour
                 _direction = PlayerInputDirection.None;
             }
             _movSpeed = 0;
-            _player.playerState = PlayerState.Idle;
+            if (_player.playerState != PlayerState.Jump)
+            {
+                _player.playerState = PlayerState.Idle;
+            }
+            
         }
 
 
@@ -155,7 +159,6 @@ public class PlayerMover : MonoBehaviour
     }
     private void PlayerJump()
     {
-
         if (Input.GetKeyDown(KeyCode.Space) && _canJump)
         {
             _isJumping = true;
@@ -194,16 +197,18 @@ public class PlayerMover : MonoBehaviour
     }
     private void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && _canDash)
         {
             Debug.Log("dash");
             StartCoroutine(Dash());
+            StartCoroutine(PlayerDashCoolDown());
         }
     }
     private IEnumerator Dash()
     {
         Debug.Log("대시 시작");
         _rigid.gravityScale = 0;
+        PlayerState beforeState = _player.playerState;
         _player.playerState = PlayerState.Dash;
         _isDashing = true;
 
@@ -263,10 +268,29 @@ public class PlayerMover : MonoBehaviour
             yield return null;
         }
         Debug.Log("대시 끝");
-        yield return null;
         _isDashing = false;
-        _player.playerState = PlayerState.Idle;
+        if (beforeState == PlayerState.Jump)
+        {
+            _player.playerState = PlayerState.Jump;
+        }
+        else
+        {
+            _player.playerState = PlayerState.Idle;
+        }
+        
+        _rigid.velocity = Vector2.zero;
         _rigid.gravityScale = 4;
+    }
+    private IEnumerator PlayerDashCoolDown()
+    {
+        _canDash = false;
+        _dashCooldownTimer = 0f;
+        while (_dashCooldownTimer <= _dashCoolDown)
+        {
+            _dashCooldownTimer += Time.deltaTime;
+            yield return null;
+        }
+        _canDash = true;
     }
     /// <summary>
     /// 점프 스프라이트 교체를 위해서 임시로 작성한 함수.
@@ -299,6 +323,7 @@ public class PlayerMover : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             _canJump = true;
+            _player.playerState = PlayerState.Idle;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -306,6 +331,7 @@ public class PlayerMover : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             _canJump = false;
+            _player.playerState = PlayerState.Jump;
         }
     }
 }

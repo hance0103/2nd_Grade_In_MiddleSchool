@@ -6,4 +6,8 @@ public class Player : MonoBehaviour
 {
     public PlayerState playerState = PlayerState.Idle;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.name);
+    }
 }
