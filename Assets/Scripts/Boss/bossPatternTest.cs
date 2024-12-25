@@ -126,23 +126,10 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격1 텔레포트");
         currentState = BossState.WeakPattern1;
 
-        // 텔레포트 전 이펙트나 애니메이션 재생 가능
-        //animator?.SetTrigger("StartTeleport");
-
         // 텔포할 위치 계산
         Vector3 teleportOffset = weakPattern1Data.TeleportOffset;
         Vector3 playerPos = player.transform.position;
 
-        ////// (Random.value는 0과 1 사이의 값을 반환하므로, 0.5f보다 큰 값이면 +x, 그렇지 않으면 -x으로 설정)
-        ////teleportOffset.x = (Random.value > 0.5f) ? teleportOffset.x : -teleportOffset.x;
-
-        // 플레이어 위치 + 텔포 오프셋
-        ////Vector3 playerPos = player.transform.position;
-        ////Vector3 targetPosition = new Vector3(
-        ////    playerPos.x + weakPattern1Data.TeleportOffset.x,
-        ////    transform.position.y, // 현재 enemy의 y값 유지
-        ////    playerPos.z + weakPattern1Data.TeleportOffset.z
-        ////);
         // 안전한 텔레포트 위치 계산
         Vector3 targetPosition = GetSafeTeleportPosition(playerPos, teleportOffset);
 
@@ -150,66 +137,95 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
         FacePlayer();
 
+        //animator?.SetTrigger("PreAttackStance"); // 공격 대기 모션 애니메이션
+
         yield return new WaitForSeconds(weakPattern1Data.BeforeAttackDelay);
-        StartCoroutine(WeakPattern1PreAttack()); // 다음 코루틴 실행
-        //yield return null;
+        StartCoroutine(WeakPattern1PreAttack(playerPos)); // 현재 플레이어 위치 전달
+        yield return null;
     }
 
-    public IEnumerator WeakPattern1PreAttack()
+    public IEnumerator WeakPattern1PreAttack(Vector3 targetPlayerPos)
     {
         Debug.Log("약공격1 Pre");
         currentState = BossState.WeakPattern1;
 
-        // 근접 공격을 위한 준비 단계 (필요한 애니메이션 또는 사운드 추가 가능)
+        // 수평 방향으로만 돌진
+        float directionX = (targetPlayerPos.x - transform.position.x);
+        float dashDistance = 5f; // 돌진 거리
 
+        // 수평 방향 결정 (왼쪽 또는 오른쪽)
+        float horizontalDirection = Mathf.Sign(directionX);
+        Vector3 dashEndPosition = transform.position + new Vector3(horizontalDirection * dashDistance, 0, 0);
 
-        yield return new WaitForSeconds(0.5f); // 준비 시간
-        StartCoroutine(WeakPattern1Attacking()); // 다음 코루틴 실행
-        //yield return null;
+        // 돌진 방향 표시 (디버그용)
+        Debug.DrawLine(transform.position, dashEndPosition, Color.red, 0.5f);
+
+        //yield return new WaitForSeconds(0.5f);
+        StartCoroutine(WeakPattern1Attacking(dashEndPosition));
+        yield return null;
     }
 
-    public IEnumerator WeakPattern1Attacking() //플레이어 주변으로 텔레포트 후 근접공격
+    public IEnumerator WeakPattern1Attacking(Vector3 targetPosition) //플레이어 주변으로 텔레포트 후 돌진공격
     {
         Debug.Log("약공격1 실행");
         currentState = BossState.WeakPattern1;
 
-        // 공격 애니메이션 시작
-        //animator?.SetTrigger("Attack");
-        //근접공격
+        //animator?.SetTrigger("DashAttack"); // 돌진 공격 애니메이션
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        float dashDuration = 0.3f; // 돌진하는데 걸리는 시간
+        float elapsedTime = 0f;
+        Vector3 startPosition = transform.position;
 
-        if (distanceToPlayer <= weakPattern1Data.AttackRange)
+        // 돌진 이동
+        while (elapsedTime < dashDuration)
         {
-            // 공격 판정
-            Debug.Log($"근접 공격 시작. 패턴: {weakPattern1Data.PatternName}, 공격력: {weakPattern1Data.Damage}");
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / dashDuration;
 
-            // 공격 이펙트 생성
-            //SpawnAttackEffect();
+            // Ease-in-out 보간으로 부드러운 이동
+            float smoothProgress = progress < 0.5f ?
+                2f * progress * progress :
+                1f - Mathf.Pow(-2f * progress + 2f, 2f) / 2f;
 
-            //player.TakeDamage(weakPattern1Data.Damage);
+            // Y 위치는 그대로 유지하면서 X 위치만 이동
+            float newX = Mathf.Lerp(startPosition.x, targetPosition.x, smoothProgress);
+            transform.position = new Vector3(newX, startPosition.y, startPosition.z);
 
-            // 근접 공격 애니메이션 또는 이펙트 추가 가능
+            // 돌진 중 플레이어 감지
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
+                transform.position,
+                weakPattern1Data.AttackRange,
+                LayerMask.GetMask("Player")
+            );
+
+            foreach (Collider2D hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Player"))
+                {
+                    Debug.Log($"돌진 공격 히트! 데미지: {weakPattern1Data.Damage}");
+                    //player.TakeDamage(weakPattern1Data.Damage);
+                    break;
+                }
+            }
+
+            yield return null;
         }
-        else
-        {
-            Debug.Log("플레이어가 공격 범위 밖에 있습니다.");
-        }
 
-        currentCoroutine = null;
-        //내용 기입
-        StartCoroutine(WeakPattern1PostAttack()); // 다음 코루틴 실행
+        // 최종 위치 보정 (Y 위치는 유지)
+        transform.position = new Vector3(targetPosition.x, startPosition.y, startPosition.z);
+
+        StartCoroutine(WeakPattern1PostAttack());
         yield return null;
     }
+
     public IEnumerator WeakPattern1PostAttack()
     {
         Debug.Log("약공격1 Post");
 
-        // 공격 후 원상태로 돌아가는 애니메이션
-        //animator?.SetTrigger("ReturnToIdle");
+        // 공격 모션 유지 (애니메이션 전환 없음)
+        yield return new WaitForSeconds(0.5f);
 
-        // 공격 후 마무리 동작 (예: 후속 애니메이션 또는 이동)
-        currentState = BossState.None; // 패턴이 종료되었으니 currentState를 None으로
+        currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
@@ -255,7 +271,6 @@ public class bossPatternTest : MonoBehaviour
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
-
     }
 
     public IEnumerator WeakPattern3()
