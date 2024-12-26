@@ -1138,6 +1138,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _dashBeforeDelay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: _dashGravityScale
       value: 2
       objectReference: {fileID: 0}

@@ -53,6 +53,8 @@ public class PlayerMover : MonoBehaviour
     private float _dashGravityScale;
     [SerializeField]
     private float _dashGravityScaleTime;
+    [SerializeField]
+    private float _dashBeforeDelay;
 
     // 쿨타임 계산 관련 변수
     [SerializeField]
@@ -73,7 +75,7 @@ public class PlayerMover : MonoBehaviour
     }
     private void Update()
     {
-        if (_player.playerState != PlayerState.Dash)
+        if (_player.playerState != PlayerState.Dash && _player.playerState != PlayerState.Attack)
         {
             PlayerMoveInput();
         }
@@ -207,16 +209,28 @@ public class PlayerMover : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) && _canDash)
         {
             Debug.Log("dash");
-            StartCoroutine(Dash());
-            StartCoroutine(PlayerDashCoolDown());
+            StartCoroutine(DashBeforDelay());
         }
+    }
+    private IEnumerator DashBeforDelay()
+    {
+        _player.playerState = PlayerState.Dash;
+        float dashBeforeDelayCounter = 0f;
+        while (dashBeforeDelayCounter <= _dashBeforeDelay)
+        {
+            _rigid.velocity = Vector2.zero;
+            dashBeforeDelayCounter += Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine(Dash());
+        StartCoroutine(PlayerDashCoolDown());
     }
     private IEnumerator Dash()
     {
         Debug.Log("대시 시작");
         _rigid.gravityScale = 0;
         PlayerState beforeState = _player.playerState;
-        _player.playerState = PlayerState.Dash;
+        
         _isDashing = true;
 
         Vector2 _dashDirection = Vector2.zero;
