@@ -53,6 +53,8 @@ public class PlayerMover : MonoBehaviour
     private float _dashGravityScale;
     [SerializeField]
     private float _dashGravityScaleTime;
+    [SerializeField]
+    private float _dashBeforeDelay;
 
     // 쿨타임 계산 관련 변수
     [SerializeField]
@@ -73,7 +75,7 @@ public class PlayerMover : MonoBehaviour
     }
     private void Update()
     {
-        if (_player.playerState != PlayerState.Dash)
+        if (_player.playerState != PlayerState.Dash && _player.playerState != PlayerState.Attack)
         {
             PlayerMoveInput();
         }
@@ -193,30 +195,42 @@ public class PlayerMover : MonoBehaviour
             _isJumping = false;
         }
 
-        //if (!_canJump && _rigid.velocity.y < 0)
-        //{
-        //    _rigid.gravityScale = fallingGravityScale;
-        //}
-        //else
-        //{
-        //    _rigid.gravityScale = normalGravityScale;
-        //}
+        if (!_canJump && _rigid.velocity.y < 0 && _player.playerState == PlayerState.Jump)
+        {
+            _rigid.gravityScale = fallingGravityScale;
+        }
+        else
+        {
+            _rigid.gravityScale = normalGravityScale;
+        }
     }
     private void PlayerDash()
     {
         if (Input.GetKeyDown(KeyCode.C) && _canDash)
         {
             Debug.Log("dash");
-            StartCoroutine(Dash());
-            StartCoroutine(PlayerDashCoolDown());
+            StartCoroutine(DashBeforDelay());
         }
+    }
+    private IEnumerator DashBeforDelay()
+    {
+        _player.playerState = PlayerState.Dash;
+        float dashBeforeDelayCounter = 0f;
+        while (dashBeforeDelayCounter <= _dashBeforeDelay)
+        {
+            _rigid.velocity = Vector2.zero;
+            dashBeforeDelayCounter += Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine(Dash());
+        StartCoroutine(PlayerDashCoolDown());
     }
     private IEnumerator Dash()
     {
         Debug.Log("대시 시작");
         _rigid.gravityScale = 0;
         PlayerState beforeState = _player.playerState;
-        _player.playerState = PlayerState.Dash;
+        
         _isDashing = true;
 
         Vector2 _dashDirection = Vector2.zero;
@@ -298,6 +312,7 @@ public class PlayerMover : MonoBehaviour
         float dashGravityTimeCounter = 0f;
         while(dashGravityTimeCounter <= _dashGravityScaleTime)
         {
+            _rigid.gravityScale = _dashGravityScale;
             dashGravityTimeCounter += Time.deltaTime;
             yield return null;
         }

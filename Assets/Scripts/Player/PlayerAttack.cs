@@ -36,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMover>();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         PlayerAttackInput();
     }
@@ -44,8 +44,13 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) && Time.time >= _nextFireTime)
         {
+            _player.playerState = PlayerState.Attack;
             Shoot();
             _nextFireTime = Time.time + _normalAttack_delay; // 다음 발사 시간 갱신
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            _player.playerState = PlayerState.Idle;
         }
     }
 
