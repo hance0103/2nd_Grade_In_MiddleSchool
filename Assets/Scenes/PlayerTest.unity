@@ -1129,6 +1129,22 @@ PrefabInstance:
       propertyPath: _dashDuration
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _diagonalDashX
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _diagonalDashY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _dashGravityScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _dashGravityScaleTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9012722472672713314, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_Name
       value: Player

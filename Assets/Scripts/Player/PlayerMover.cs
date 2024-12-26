@@ -193,14 +193,14 @@ public class PlayerMover : MonoBehaviour
             _isJumping = false;
         }
 
-        //if (!_canJump && _rigid.velocity.y < 0)
-        //{
-        //    _rigid.gravityScale = fallingGravityScale;
-        //}
-        //else
-        //{
-        //    _rigid.gravityScale = normalGravityScale;
-        //}
+        if (!_canJump && _rigid.velocity.y < 0 && _player.playerState == PlayerState.Jump)
+        {
+            _rigid.gravityScale = fallingGravityScale;
+        }
+        else
+        {
+            _rigid.gravityScale = normalGravityScale;
+        }
     }
     private void PlayerDash()
     {
@@ -298,6 +298,7 @@ public class PlayerMover : MonoBehaviour
         float dashGravityTimeCounter = 0f;
         while(dashGravityTimeCounter <= _dashGravityScaleTime)
         {
+            _rigid.gravityScale = _dashGravityScale;
             dashGravityTimeCounter += Time.deltaTime;
             yield return null;
         }
