@@ -16,7 +16,8 @@ public class Timer : MonoBehaviour
     public bool TimeActive = true;
     private void Awake()
     {
-        TimeActive = false; // 대화 중 타이머 정지
+        time = 0;
+        StartCoroutine(StartTimer());
     }
 
     IEnumerator StartTimer()
@@ -28,13 +29,16 @@ public class Timer : MonoBehaviour
             minute = (int)curTime / 60;
             second = (int)curTime % 60;
             text.text = minute.ToString("00") + ":" + second.ToString("00");
+            
             yield return null;
 
             if (!TimeActive)
             {
                 Debug.Log("시간 종료");
+                Debug.Log(curTime);
                 curTime = 0;
                 yield break;
+                
             }
         }
     }

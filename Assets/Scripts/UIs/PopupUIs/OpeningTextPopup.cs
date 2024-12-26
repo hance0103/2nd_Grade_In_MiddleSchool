@@ -11,6 +11,7 @@ public class OpeningTextPopup : MonoBehaviour
     public GameObject OpeningTextPanel;
     public GameObject TempPenal;
     public Button NextButton;
+    public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
@@ -28,6 +29,9 @@ public class OpeningTextPopup : MonoBehaviour
 
     void Start()
     {
+        var timer = FindObjectOfType<Timer>();
+
+        timer.TimeActive = false;
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(TextStage1());
         Timer.SetActive(false);
@@ -36,9 +40,14 @@ public class OpeningTextPopup : MonoBehaviour
     {
         isNextButtonClicked = true;
     }
-
+    
     void Update()
     {
+    }
+
+    public void OnSkipButtonClicked()
+    {
+        CloseOpeningText();
     }
 
     public float typingSpeed = 0.01f;
@@ -88,20 +97,15 @@ public class OpeningTextPopup : MonoBehaviour
     }
 
     void CloseOpeningText()
-    {
-        if (OpeningTextPanel != null)
-        {
-            
-            OpeningTextPanel.SetActive(false); // 패널 비활성화
-            TempPenal.SetActive(true);
-        }
+    { 
+        OpeningTextPanel.SetActive(false); // 패널 비활성화
+        TempPenal.SetActive(true);
         var timer = FindObjectOfType<Timer>();
-        if (timer != null)
-        {
-            // 타이머의 TimeActive 켜고, 코루틴 수동 실행
-            Timer.SetActive(true);
-            timer.TimeActive = true;
-            timer.StartCoroutine("StartTimer");
-        }
+        
+        // 타이머의 TimeActive 켜고, 코루틴 수동 실행
+        Timer.SetActive(true);
+        timer.TimeActive = true;
+        
+        
     }
 }
