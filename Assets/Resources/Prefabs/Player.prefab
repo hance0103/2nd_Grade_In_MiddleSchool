@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2514338841622194121}
   - component: {fileID: 7614066520182538303}
   - component: {fileID: 3459210336641653087}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -127,8 +127,8 @@ MonoBehaviour:
   normalGravityScale: 4
   fallingGravityScale: 5
   _dashDistance: 0
-  _dashCoolDown: 0
   _dashDuration: 0
+  _dashCoolDown: 0
   _direction: 8
   _looking: 0
 --- !u!114 &2514338841622194121
@@ -143,14 +143,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2f35587097b8745aed8cc504835f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _normalAttack_verRange: 0
-  _normalAttack_horRange: 0
-  _normalAttack_dmg: 0
+  _normalAttackDmg: 0
+  _normalAttackSpeed: 0
+  _normalAttackRange: 0
   _normalAttack_delay: 0
-  _airAttack_verRange: 0
-  _airAttack_horRange: 0
-  _airAttack_diveVelocity: 0
-  _airAttack_dmg: 0
+  _normalAttackPrefab: {fileID: 0}
+  _attackPoint: {fileID: 0}
+  _jumpAttack_verRange: 0
+  _jumpAttack_horRange: 0
+  _jumpAttack_diveVelocity: 0
+  _jumpAttack_dmg: 0
 --- !u!50 &7614066520182538303
 Rigidbody2D:
   serializedVersion: 4

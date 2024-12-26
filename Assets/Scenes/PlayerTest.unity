@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 1032694835}
   m_Layer: 6
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1093,6 +1093,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2514338841622194121, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _attackPoint
+      value: 
+      objectReference: {fileID: 5342785864567487672}
+    - target: {fileID: 2514338841622194121, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _normalAttackRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514338841622194121, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _normalAttackSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514338841622194121, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _normalAttackPrefab
+      value: 
+      objectReference: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
+    - target: {fileID: 2514338841622194121, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _normalAttack_delay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _airTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: _dashCoolDown
       value: 1
@@ -1122,6 +1146,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 865629849}
   m_SourcePrefab: {fileID: 100100000, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+--- !u!4 &5342785864567487672 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 254861628137691086, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+  m_PrefabInstance: {fileID: 5342785864567487671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

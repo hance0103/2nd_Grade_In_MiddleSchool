@@ -42,9 +42,17 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private float _dashDistance;        //대쉬 거리
     [SerializeField]
+    private float _diagonalDashX;
+    [SerializeField]
+    private float _diagonalDashY;
+    [SerializeField]
     private float _dashDuration;        //대쉬 지속시간
     private bool _isDashing = false;    //대쉬 하고있는지
     private float _dashTime = 0;        //대쉬를 얼마나 했는지 시간
+    [SerializeField]
+    private float _dashGravityScale;
+    [SerializeField]
+    private float _dashGravityScaleTime;
 
     // 쿨타임 계산 관련 변수
     [SerializeField]
@@ -54,8 +62,7 @@ public class PlayerMover : MonoBehaviour
 
     [SerializeField]
     private PlayerInputDirection _direction = PlayerInputDirection.None;
-    [SerializeField]
-    private PlayerLookingDirection _looking = PlayerLookingDirection.Right;
+    public PlayerLookingDirection _looking = PlayerLookingDirection.Right;
 
     void Start()
     {
@@ -186,14 +193,14 @@ public class PlayerMover : MonoBehaviour
             _isJumping = false;
         }
 
-        if (!_canJump && _rigid.velocity.y < 0)
-        {
-            _rigid.gravityScale = fallingGravityScale;
-        }
-        else
-        {
-            _rigid.gravityScale = normalGravityScale;
-        }
+        //if (!_canJump && _rigid.velocity.y < 0)
+        //{
+        //    _rigid.gravityScale = fallingGravityScale;
+        //}
+        //else
+        //{
+        //    _rigid.gravityScale = normalGravityScale;
+        //}
     }
     private void PlayerDash()
     {
@@ -223,21 +230,23 @@ public class PlayerMover : MonoBehaviour
                 break;
             case PlayerInputDirection.Right:
                 _dashDirection = new Vector2(_dashDistance, 0);
+                _rigid.gravityScale = 4;
                 break;
             case PlayerInputDirection.Left:
                 _dashDirection = new Vector2(-_dashDistance, 0);
+                _rigid.gravityScale = 4;
                 break;
             case PlayerInputDirection.UpRight:
-                _dashDirection = new Vector2(2*Mathf.Sqrt(_dashDistance), 2*Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(_diagonalDashX, _diagonalDashY);
                 break;
             case PlayerInputDirection.UpLeft:
-                _dashDirection = new Vector2(2*-Mathf.Sqrt(_dashDistance), 2*Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(-_diagonalDashX, _diagonalDashY);
                 break;
             case PlayerInputDirection.DownRight:
-                _dashDirection = new Vector2(2*Mathf.Sqrt(_dashDistance), 2* -Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(_diagonalDashX, -_diagonalDashY);
                 break;
             case PlayerInputDirection.DownLeft:
-                _dashDirection = new Vector2(2*-Mathf.Sqrt(_dashDistance), 2*-Mathf.Sqrt(_dashDistance));
+                _dashDirection = new Vector2(-_diagonalDashX, -_diagonalDashY);
                 break;
             case PlayerInputDirection.None:
                 switch (_looking)
@@ -261,6 +270,8 @@ public class PlayerMover : MonoBehaviour
         while (_dashTime < _dashDuration)
         {
             Debug.Log("대시 진행중");
+
+            // 이쪽 수정
             _dashTime += Time.deltaTime;
             float t = _dashTime / _dashDuration;
             Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
@@ -279,7 +290,18 @@ public class PlayerMover : MonoBehaviour
         }
         
         _rigid.velocity = Vector2.zero;
-        _rigid.gravityScale = 4;
+        StartCoroutine(DashGravity());
+    }
+    private IEnumerator DashGravity()
+    {
+        _rigid.gravityScale = _dashGravityScale;
+        float dashGravityTimeCounter = 0f;
+        while(dashGravityTimeCounter <= _dashGravityScaleTime)
+        {
+            dashGravityTimeCounter += Time.deltaTime;
+            yield return null;
+        }
+        _rigid.gravityScale = fallingGravityScale;
     }
     private IEnumerator PlayerDashCoolDown()
     {
