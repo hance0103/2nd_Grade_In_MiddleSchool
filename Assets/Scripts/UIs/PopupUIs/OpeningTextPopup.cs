@@ -23,7 +23,7 @@ public class OpeningTextPopup : MonoBehaviour
     public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
     public GameObject Boss;
 
-
+    private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
 
@@ -38,11 +38,20 @@ public class OpeningTextPopup : MonoBehaviour
     }
     void OnNextButtonClicked()
     {
-        isNextButtonClicked = true;
+        if (!isFullTextDisplayed)
+        {
+            isSkipping = true;
+        }
+        // 이미 대사가 다 나왔으면, 다음 대사로 넘어가는 신호
+        else
+        {
+            isNextButtonClicked = true;
+        }
     }
     
     void Update()
     {
+        
     }
 
     public void OnSkipButtonClicked()
@@ -50,10 +59,13 @@ public class OpeningTextPopup : MonoBehaviour
         CloseOpeningText();
     }
 
-    public float typingSpeed = 0.01f;
+    public float typingSpeed = 0.02f;
     public bool isSkipping = false;
     IEnumerator NormalChat(string narrator, string narration)
     {
+        isFullTextDisplayed = false;
+        isSkipping = false;
+
         int a = 0;
         CharacterName.text = narrator;
         ChatText.text = "";
@@ -62,11 +74,18 @@ public class OpeningTextPopup : MonoBehaviour
         // 텍스트 타이핑 효과
         for (a = 0; a < narration.Length; a++)
         {
+            if (isSkipping)
+            {
+                writerText = narration;
+                ChatText.text = writerText;
+                break;
+            }
             writerText += narration[a];
             ChatText.text = writerText;
             yield return new WaitForSecondsRealtime(typingSpeed);
         }
-
+        isFullTextDisplayed = true;
+        isSkipping = false;
         // 키를 다시 누를 때까지 무한정 대기
         isNextButtonClicked = false;
         yield return new WaitUntil(() => isNextButtonClicked);

@@ -4462,7 +4462,7 @@ MonoBehaviour:
   CharacterPose7: {fileID: 0}
   Boss: {fileID: 0}
   writerText: 
-  typingSpeed: 0.01
+  typingSpeed: 0.02
   isSkipping: 0
 --- !u!1 &1353256574
 GameObject:
