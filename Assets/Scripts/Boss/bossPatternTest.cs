@@ -49,6 +49,7 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private BossScriptableObject strongPattern2Data;
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
+    [SerializeField] private LaserScriptableObject EnrangedLaserData;
     [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
 
@@ -142,7 +143,10 @@ public class bossPatternTest : MonoBehaviour
 
         //animator?.SetTrigger("PreAttackStance"); // 공격 대기 모션 애니메이션
 
-        yield return new WaitForSeconds(weakPattern1Data.BeforeAttackDelay);
+        // 광폭화 시 준비 시간 감소
+        float delay = isEnraged ? weakPattern1Data.BeforeAttackDelay * 0.5f : weakPattern1Data.BeforeAttackDelay;
+        yield return new WaitForSeconds(delay);
+
         StartCoroutine(WeakPattern1PreAttack(playerPos)); // 현재 플레이어 위치 전달
         yield return null;
     }
@@ -163,7 +167,7 @@ public class bossPatternTest : MonoBehaviour
         // 돌진 방향 표시 (디버그용)
         Debug.DrawLine(transform.position, dashEndPosition, Color.red, 0.5f);
 
-        //yield return new WaitForSeconds(0.5f);
+        // 다음 단계 실행
         StartCoroutine(WeakPattern1Attacking(dashEndPosition));
         yield return null;
     }
@@ -175,7 +179,8 @@ public class bossPatternTest : MonoBehaviour
 
         //animator?.SetTrigger("DashAttack"); // 돌진 공격 애니메이션
 
-        float dashDuration = 0.3f; // 돌진하는데 걸리는 시간
+        // 광폭화 상태에 따라 돌진 시간 조정
+        float dashDuration = isEnraged ? 0.2f : 0.3f;
         float elapsedTime = 0f;
         Vector3 startPosition = transform.position;
 
@@ -185,16 +190,15 @@ public class bossPatternTest : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / dashDuration;
 
-            // Ease-in-out 보간으로 부드러운 이동
+            // 부드러운 Ease-in-out 이동
             float smoothProgress = progress < 0.5f ?
                 2f * progress * progress :
                 1f - Mathf.Pow(-2f * progress + 2f, 2f) / 2f;
 
-            // Y 위치는 그대로 유지하면서 X 위치만 이동
             float newX = Mathf.Lerp(startPosition.x, targetPosition.x, smoothProgress);
             transform.position = new Vector3(newX, startPosition.y, startPosition.z);
 
-            // 돌진 중 플레이어 감지
+            // 돌진 중 플레이어 감지 및 데미지
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
                 transform.position,
                 weakPattern1Data.AttackRange,
@@ -205,8 +209,10 @@ public class bossPatternTest : MonoBehaviour
             {
                 if (hitCollider.CompareTag("Player"))
                 {
-                    Debug.Log($"돌진 공격 히트! 데미지: {weakPattern1Data.Damage}");
-                    //player.TakeDamage(weakPattern1Data.Damage);
+                    // 광폭화 상태에서 데미지 배수 적용
+                    float damage = weakPattern1Data.Damage * (isEnraged ? 1.5f : 1.0f);
+                    Debug.Log($"돌진 공격 히트! 데미지: {damage}");
+                    // player.TakeDamage(damage);
                     break;
                 }
             }
@@ -214,9 +220,7 @@ public class bossPatternTest : MonoBehaviour
             yield return null;
         }
 
-        // 최종 위치 보정 (Y 위치는 유지)
         transform.position = new Vector3(targetPosition.x, startPosition.y, startPosition.z);
-
         StartCoroutine(WeakPattern1PostAttack());
         yield return null;
     }
@@ -226,7 +230,8 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격1 Post");
 
         // 공격 모션 유지 (애니메이션 전환 없음)
-        yield return new WaitForSeconds(0.5f);
+        float delay = isEnraged ? 0.25f : 0.5f;
+        yield return new WaitForSeconds(delay);
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -286,37 +291,34 @@ public class bossPatternTest : MonoBehaviour
         rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
 
-        // 플레이어 위로 첫 텔레포트
-        float targetX = player.transform.position.x;
-        Vector3 teleportPosition = new Vector3(targetX,
-            player.transform.position.y + weakPattern3Data.TeleportOffset.y,
-            transform.position.z);
-
-        transform.position = teleportPosition;
-        FacePlayer();
-
-        // 카운트다운
-        for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
-        {
-            Debug.Log("카운트다운: " + i);
-            yield return new WaitForSeconds(1f);
-        }
-
         // 공격 횟수 결정 (광폭화 상태에 따라)
         int attackCount = isEnraged ? 3 : 1;
 
         for (int strike = 0; strike < attackCount; strike++)
         {
-            // 각 공격 전에 플레이어 위치로 텔레포트
-            if (strike > 0)
-            {
-                targetX = player.transform.position.x;
-                teleportPosition = new Vector3(targetX,
-                    player.transform.position.y + weakPattern3Data.TeleportOffset.y,
-                    transform.position.z);
+            // 플레이어 위로 텔레포트
+            float targetX = player.transform.position.x;
+            Vector3 teleportPosition = new Vector3(targetX,
+                player.transform.position.y + weakPattern3Data.TeleportOffset.y,
+                transform.position.z);
 
-                transform.position = teleportPosition;
-                FacePlayer();
+            transform.position = teleportPosition;
+            FacePlayer();
+
+            if (strike == 0)
+            {
+                // 카운트다운
+                for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
+                {
+                    Debug.Log("카운트다운: " + i);
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+
+            // 광폭화 상태일 때 일정시간 대기
+            if (isEnraged)
+            {
+                yield return new WaitForSeconds(0.2f);
             }
 
             rb.gravityScale = 1f;
@@ -446,10 +448,8 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("강공격2");
         currentState = BossState.StrongPattern2;
 
-        // 랜덤한 위치 선택 (StrongPattern1과 같은 위치 배열 사용)
+        // 랜덤한 위치 선택
         Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
-
-        // 선택된 위치로 텔레포트
         Debug.Log("강공격2 텔레포트");
         transform.position = selectedPosition.position;
         FacePlayer();
@@ -461,6 +461,22 @@ public class bossPatternTest : MonoBehaviour
             bossPosition.y
         );
 
+        if (isEnraged)
+        {
+            yield return StartCoroutine(EnragedStrongPattern2(bossPosition));
+        }
+        else
+        {
+            yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
+        }
+
+        currentState = BossState.Idle;
+        currentCoroutine = null;
+        yield return null;
+    }
+
+    private IEnumerator NormalStrongPattern2(Vector2 bossPosition, Vector2 staticPlayerPosition)
+    {
         // 임시 레이저 컨트롤러로 방향과 끝점 계산
         LaserController tempLaser = LaserController.Create(strongLaserData, bossPosition, player.transform);
         Vector2 direction = tempLaser.GetHorizontalDirection(bossPosition, staticPlayerPosition);
@@ -481,16 +497,10 @@ public class bossPatternTest : MonoBehaviour
             Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f); // 1초씩 카운트다운
         }
-        
+
         // 깜빡임 코루틴 정지 후 위험지역 표시 제거
-        if (blinkCoroutine != null)
-        {
-            StopCoroutine(blinkCoroutine);
-        }
-        if (dangerZone != null)
-        {
-            Destroy(dangerZone.gameObject);
-        }
+        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+        if (dangerZone != null) Destroy(dangerZone.gameObject);
 
         //빨간불로
 
@@ -503,17 +513,146 @@ public class bossPatternTest : MonoBehaviour
         LaserController laser = LaserController.Create(strongLaserData, bossPosition, player.transform);
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
 
-        // 시간 재개
-        Debug.Log("시간 재개");
         Time.timeScale = 1;
-
-        currentState = BossState.Idle;
-        currentCoroutine = null;
-        yield return null;
     }
 
-    // 착지 효과 생성
-    private IEnumerator CreateStrikeEffect()
+    private IEnumerator EnragedStrongPattern2(Vector2 bossPosition)
+    {
+        int numberOfLasers = Random.Range(10,16);
+        List<LaserController> activeLasers = new List<LaserController>();
+        GameObject safeZone = null;
+
+
+        // 지면 위치 찾기
+        RaycastHit2D groundHit = Physics2D.Raycast(
+            new Vector2(0, Camera.main.orthographicSize),
+            Vector2.down,
+            Camera.main.orthographicSize * 2,
+            LayerMask.GetMask("Ground")
+        );
+
+        if (!groundHit.collider)
+        {
+            Debug.LogError("Ground not found!");
+            yield break;
+        }
+
+        // 안전 구역 생성 (지면보다 약간 위에 위치)
+        float groundY = groundHit.point.y;
+        float safeZoneX = Random.Range(-9f, 20f);
+        float safeZoneWidth = 3f;
+        float safeZoneHeight = 5f;
+        float heightAboveGround = 1f; // 지면으로부터의 거리
+
+        // 안전 구역의 중심점 Y 위치를 지면으로부터 높이의 절반 + heightAboveGround만큼 위로 설정
+        float safeZoneY = groundY + heightAboveGround + (safeZoneHeight / 2);
+
+        // 안전 구역 생성 시 높이를 고려한 위치 전달
+        safeZone = CreateSafeZoneVisual(new Vector2(safeZoneX, safeZoneY), safeZoneWidth, safeZoneHeight);
+
+        if (safeZone != null)
+        {
+            SpriteRenderer safeZoneRenderer = safeZone.GetComponent<SpriteRenderer>();
+            safeZoneRenderer.sortingOrder = 1;
+            safeZoneRenderer.color = new Color(1, 1, 1, 0.5f);
+        }
+
+        // 카운트다운
+        for (float i = strongPattern2Data.BeforeAttackDelay; i > 0; i--)
+        {
+            Debug.Log("광폭화 카운트다운: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // 레이저 생성
+        for (int i = 0; i < numberOfLasers; i++)
+        {
+            float randomX = Random.Range(-9f, 20f);
+            Vector2 startPos = new Vector2(randomX, Camera.main.orthographicSize * 2f);
+            float widthModifier = Random.Range(-0.5f, 0.5f);
+            bool isDiagonal = Random.value > 0.5f;
+            Vector2 endPos;
+
+            if (i == numberOfLasers - 1)
+            {
+                endPos = new Vector2(safeZoneX, groundY);
+            }
+            else if (isDiagonal)
+            {
+                // 대각선 각도를 다양하게 설정
+                float randomAngle = Random.Range(15f, 75f); // 15도에서 75도 사이의 각도
+                bool isLeft = Random.value > 0.5f; // 좌우 방향 결정
+
+                // Y축 이동량: 시작점에서 groundY까지
+                float deltaY = startPos.y - groundY;
+
+                // 각도를 이용한 X축 이동량 계산
+                float deltaX = deltaY / Mathf.Tan(randomAngle * Mathf.Deg2Rad);
+                if (isLeft) deltaX *= -1; // 좌우 방향에 따라 부호 반전
+
+                // 끝점 계산
+                endPos = new Vector2(startPos.x + deltaX, groundY-1f);
+            }
+            else
+            {
+                endPos = new Vector2(randomX, groundY);
+            }
+
+
+
+            LaserController laser = LaserController.Create(EnrangedLaserData, startPos, player.transform);
+            activeLasers.Add(laser);
+            StartCoroutine(laser.FireVerticalLaserWithoutFade(laser, startPos, endPos, EnrangedLaserData.LaserWidth + widthModifier));
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        // 모든 레이저가 발사된 후 지속 시간만큼 대기
+        yield return new WaitForSeconds(strongLaserData.LaserDuration);
+
+        // 모든 레이저 동시에 페이드아웃
+        float fadeOutDuration = 1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeOutDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeOutDuration);
+
+            foreach (var laser in activeLasers)
+            {
+                if (laser != null && laser.gameObject != null)
+                {
+                    var lineRenderer = laser.GetComponent<LineRenderer>();
+                    if (lineRenderer != null)
+                    {
+                        Color startColor = lineRenderer.startColor;
+                        Color endColor = lineRenderer.endColor;
+                        startColor.a = alpha;
+                        endColor.a = alpha;
+                        lineRenderer.startColor = startColor;
+                        lineRenderer.endColor = endColor;
+                    }
+                }
+            }
+            yield return null;
+        }
+
+        // 모든 레이저 제거
+        foreach (var laser in activeLasers)
+        {
+            if (laser != null && laser.gameObject != null)
+            {
+                Destroy(laser.gameObject);
+            }
+        }
+
+        if (safeZone != null)
+        {
+            Destroy(safeZone);
+        }
+    }
+
+    private IEnumerator CreateStrikeEffect() // 착지 효과 생성
     {
         // 카메라 흔들림 효과 (만약 구현되어 있다면)
         //CameraShake.Instance.ShakeCamera(0.5f, 0.5f);
@@ -558,6 +697,42 @@ public class bossPatternTest : MonoBehaviour
         return lineRenderer;
     }
 
+    private GameObject CreateSafeZoneVisual(Vector2 position, float width, float height)
+    {
+        GameObject safeZone = new GameObject("SafeZone");
+        SpriteRenderer spriteRenderer = safeZone.AddComponent<SpriteRenderer>();
+
+        // 100x100 픽셀 크기의 텍스처 생성 (Unity의 기본 Square와 동일)
+        Texture2D texture = new Texture2D(100, 100);
+        // 텍스처의 모든 픽셀을 흰색으로 설정
+        for (int y = 0; y < texture.height; y++)
+        {
+            for (int x = 0; x < texture.width; x++)
+            {
+                texture.SetPixel(x, y, Color.white);
+            }
+        }
+        texture.Apply();
+
+        // PPU를 100으로 설정하여 Unity의 기본 Square와 동일한 크기로 만듦
+        Sprite sprite = Sprite.Create(
+            texture,
+            new Rect(0, 0, texture.width, texture.height),
+            new Vector2(0.5f, 0.5f),
+            100f  // Pixels Per Unit = 100 (Unity 기본값)
+        );
+        spriteRenderer.sprite = sprite;
+
+        // 안전 구역의 위치 설정
+        safeZone.transform.position = position;
+        spriteRenderer.sprite = sprite;
+        safeZone.transform.position = position;
+        safeZone.transform.localScale = new Vector3(width, height, 1);
+        spriteRenderer.color = new Color(1, 1, 1, 0.7f);
+
+        return safeZone;
+    }
+
     private IEnumerator BlinkDangerZone(LineRenderer dangerZone)
     {
         float blinkSpeed = 0.5f; // 깜빡임 속도
@@ -588,6 +763,7 @@ public class bossPatternTest : MonoBehaviour
             }
         }
     }
+
 
     private Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
     {

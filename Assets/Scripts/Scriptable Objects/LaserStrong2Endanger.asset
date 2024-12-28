@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
-  m_Name: LaserStrong2
+  m_Name: LaserStrong2Endanger
   m_EditorClassIdentifier: 
-  laserType: LaserStrong2
-  damage: 100
-  laserSpeed: 90
+  laserType: LaserStrong2Erange
+  damage: 20
+  laserSpeed: 100
   laserDuration: 3
-  laserWidth: 7
-  laserColor: {r: 1, g: 0, b: 0, a: 1}
+  laserWidth: 1.5
+  laserColor: {r: 0.8501108, g: 0.6483624, b: 0.8867924, a: 0.5882353}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2

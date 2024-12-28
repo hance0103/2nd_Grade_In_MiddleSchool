@@ -134,4 +134,48 @@ public class LaserController : MonoBehaviour
         return new Vector2(to.x > from.x ? 1 : -1, 0).normalized;
     }
 
+    public IEnumerator FireVerticalLaserWithoutFade(LaserController laser, Vector2 startPosition, Vector2 endPosition, float width)
+    {
+        if (laser != null)
+        {
+            LineRenderer lineRenderer = laser.GetComponent<LineRenderer>();
+            if (lineRenderer != null)
+            {
+                // 레이저 초기 설정
+                lineRenderer.startWidth = width;
+                lineRenderer.endWidth = width;
+                lineRenderer.positionCount = 2;
+                lineRenderer.SetPosition(0, startPosition);
+                lineRenderer.SetPosition(1, startPosition); // 처음엔 시작점에서 멈춤
+
+                // 레이저가 점진적으로 나가는 시간
+                float laserMoveDuration = 0.5f; // 0.5초 동안 이동
+                float elapsedTime = 0f;
+
+                while (elapsedTime < laserMoveDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    float progress = elapsedTime / laserMoveDuration;
+
+                    // 끝점으로 점진적으로 이동
+                    Vector2 currentEndPosition = Vector2.Lerp(startPosition, endPosition, progress);
+                    lineRenderer.SetPosition(1, currentEndPosition);
+
+                    yield return null; // 다음 프레임까지 대기
+                }
+
+                // 이동 완료 후 최종 위치 설정
+                lineRenderer.SetPosition(1, endPosition);
+
+                // 초기 알파값 설정
+                Color startColor = lineRenderer.startColor;
+                Color endColor = lineRenderer.endColor;
+                startColor.a = 1f;
+                endColor.a = 1f;
+                lineRenderer.startColor = startColor;
+                lineRenderer.endColor = endColor;
+            }
+        }
+        yield return null;
+    }
 }
