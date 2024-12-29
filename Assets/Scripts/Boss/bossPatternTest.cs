@@ -764,24 +764,6 @@ public class bossPatternTest : MonoBehaviour
         }
     }
 
-
-    private Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
-    {
-        float vertExtent = Camera.main.orthographicSize;
-        float horizExtent = vertExtent * Screen.width / Screen.height;
-
-        Vector2 cameraPos = Camera.main.transform.position;
-        Rect mapBounds = new Rect(
-            cameraPos.x - horizExtent,
-            cameraPos.y - vertExtent,
-            horizExtent * 2,
-            vertExtent * 2
-        );
-
-        float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
-        return startPos + (direction * maxDistance);
-    }
-
     private Vector3 GetSafeTeleportPosition(Vector3 playerPos, Vector3 desiredOffset)
     {
         // 왼쪽과 오른쪽 위치 계산
@@ -861,24 +843,6 @@ public class bossPatternTest : MonoBehaviour
                 transform.position.y,
                 playerPos.z
             );
-        }
-    }
-
-    // 디버그용 원 그리기 함수
-    private void DrawDebugCircle(Vector3 center, float radius, Color color, float duration)
-    {
-        int segments = 36;
-        float angle = 360f / segments;
-
-        for (int i = 0; i < segments; i++)
-        {
-            float currentAngle = angle * i * Mathf.Deg2Rad;
-            float nextAngle = angle * (i + 1) * Mathf.Deg2Rad;
-
-            Vector3 currentPoint = center + new Vector3(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle)) * radius;
-            Vector3 nextPoint = center + new Vector3(Mathf.Cos(nextAngle), Mathf.Sin(nextAngle)) * radius;
-
-            Debug.DrawLine(currentPoint, nextPoint, color, duration);
         }
     }
 }
