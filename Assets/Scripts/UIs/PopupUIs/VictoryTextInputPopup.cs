@@ -36,7 +36,30 @@ public class VictoryTextInputPopup : MonoBehaviour
             Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
         }
     }
+    public void Stage2OpenInputPanel()
+    {
+        Time.timeScale = 0f; // 시간 정지
+        gameObject.SetActive(true);
+        // 패널이 열릴 때 입력란 초기화
+        inputField.text = "";
 
+        // 1. Timer 컴포넌트를 찾아서
+        Timer timer = FindObjectOfType<Timer>();
+
+        if (timer != null)
+        {
+            // 2. TimeActive를 false로 변경하여 타이머 정지
+            timer.TimeActive = false;
+            Debug.Log(timer.curTime);
+            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
+            PlayerPrefs.SetFloat("FinalTime2", timer.curTime);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
+        }
+    }
     /// <summary>
     /// 확인/저장 버튼 기능 , 스테이지 별로 피니쉬 대사를 따로 적용할 수 있도록 구분해주기
     /// </summary>
@@ -45,6 +68,14 @@ public class VictoryTextInputPopup : MonoBehaviour
         Time.timeScale = 1f; // 시간 재개
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
+        PlayerPrefs.Save();
+        gameObject.SetActive(false);
+    }
+    public void Stage2SaveAndClosePanel()
+    {
+        Time.timeScale = 1f; // 시간 재개
+        savedData = inputField.text;
+        PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
         gameObject.SetActive(false);
     }

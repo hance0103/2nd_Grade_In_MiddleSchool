@@ -1,19 +1,21 @@
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class OpeningTextPopup : MonoBehaviour
+public class Stage1OpeningTextPopup : MonoBehaviour
 {
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
-    public GameObject OpeningTextPanel;
+    public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
     public GameObject TempPenal;
     public Button NextButton;
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
+    // 오프닝 스크립트 스프라이트
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
     public GameObject CharacterPose2; // 머리에 손 포즈, 눈 감고 미소
     public GameObject CharacterPose3; // 손가락 포즈, 화난 표정(이글이글)
@@ -26,15 +28,18 @@ public class OpeningTextPopup : MonoBehaviour
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
-
     void Start()
     {
         var timer = FindObjectOfType<Timer>();
-
         timer.TimeActive = false;
         NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(TextStage1());
+        StartCoroutine(OpeningTextStage1());
         Timer.SetActive(false);
+    }
+   
+    void Update()
+    {
+        
     }
     void OnNextButtonClicked()
     {
@@ -47,11 +52,6 @@ public class OpeningTextPopup : MonoBehaviour
         {
             isNextButtonClicked = true;
         }
-    }
-    
-    void Update()
-    {
-        
     }
 
     public void OnSkipButtonClicked()
@@ -91,7 +91,7 @@ public class OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator TextStage1()
+    IEnumerator OpeningTextStage1()
     {
         yield return StartCoroutine(NormalChat("주인공", "오늘은 이 몸이 문화재에 공연을 하러 가는 초-스페셜한 날 !!"));
         yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭"));
