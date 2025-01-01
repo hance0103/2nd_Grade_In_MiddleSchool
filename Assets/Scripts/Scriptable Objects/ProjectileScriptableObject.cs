@@ -31,13 +31,13 @@ public class ProjectileScriptableObject : ScriptableObject
     [SerializeField] private float fireRate;
     public float FireRate { get { return fireRate; } }
 
-    // 지속시간
-    [SerializeField] private float patternDuration;
-    public float PatternDuration { get { return patternDuration; } }
+    //// 지속시간
+    //[SerializeField] private float patternDuration;
+    //public float PatternDuration { get { return patternDuration; } }
 
-    // 패턴 반복 간격
-    [SerializeField] private float patternRepeatDelay = 0.5f;
-    public float PatternRepeatDelay { get { return patternRepeatDelay; } }
+    //// 패턴 반복 간격
+    //[SerializeField] private float patternRepeatDelay = 0.5f;
+    //public float PatternRepeatDelay { get { return patternRepeatDelay; } }
 
     // 투사체가 화면을 완전히 벗어날 때까지의 예상 시간
     [SerializeField] private float afterFireDelay = 0.5f;

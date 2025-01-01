@@ -15,8 +15,8 @@ public class BossScriptableObject : ScriptableObject
     [SerializeField] private float damage;
     public float Damage { get { return damage; } }
     //공격전 딜레이
-    [SerializeField] private float beforeattackDelay;
-    public float BeforeAttackDelay { get { return beforeattackDelay; } }
+    [SerializeField] private float beforeAttackDelay;
+    public float BeforeAttackDelay { get { return beforeAttackDelay; } }
     //공격범위
     [SerializeField] private float attackRange;
     public float AttackRange { get { return attackRange; } }

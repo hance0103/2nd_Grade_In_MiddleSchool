@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
-  m_Name: 2WeakLaser
+  m_Name: 2WeakLaser3
   m_EditorClassIdentifier: 
-  laserType: Temp Laser
+  laserType: "\uC57D\uACF5 3"
   damage: 10
   laserSpeed: 0
-  laserDuration: 0
+  laserDuration: 0.2
   laserWidth: 0.2
-  laserColor: {r: 1, g: 0, b: 0, a: 1}
+  laserColor: {r: 1, g: 0.7688679, b: 0.9252723, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  laserFollowDuration: 5
+  laserLockDuration: 1

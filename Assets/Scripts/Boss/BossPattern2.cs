@@ -34,22 +34,19 @@ public class BossPattern2 : MonoBehaviour
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
 
-    [Header("레이저 타이밍 설정")]
-    [SerializeField] private float laserFollowDuration = 2f; // 레이저가 플레이어를 따라다니는 시간
-    [SerializeField] private float laserLockDuration = 1f;   // 레이저가 고정되는 시간
-
-
     [Header("ScriptableObject 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private BossScriptableObject weakPattern4Data;
     [SerializeField] private BossScriptableObject weakPattern5Data;
-    [SerializeField] private LaserScriptableObject weakLaserData;
-    [SerializeField] private LaserScriptableObject strongLaserData;
+    [SerializeField] private LaserScriptableObject weak1LaserData;
+    [SerializeField] private LaserScriptableObject weak3LaserData;
+    [SerializeField] private ProjectileScriptableObject projectileCapData;
     [SerializeField] private ProjectileScriptableObject projectileData;
+    [SerializeField] private ProjectileScriptableObject projectileRainData;
     [SerializeField] private GameObject captureProjectile; // 속박 투사체 프리팹
-    [SerializeField] private GameObject projectile; // 일반 투사체 프리팹
+    [SerializeField] private GameObject Projectile; // 일반 투사체 프리팹
     [SerializeField] private GameObject rainProjectile; // 하늘에서 떨어지는 투사체 프리팹
 
 
@@ -128,7 +125,7 @@ public class BossPattern2 : MonoBehaviour
         // 1. 속박 탄환 방사형 발사
         Debug.Log("속박 탄환 방사형 발사");
         ProjectileController projectileController = ProjectileController.Create(
-            projectileData,
+            projectileCapData,
             transform,
             player.transform,
             captureProjectile,
@@ -140,7 +137,7 @@ public class BossPattern2 : MonoBehaviour
 
         // 2. 레이저 경고선 표시 및 플레이어 추적
         Debug.Log("추적 경고선");
-        LineRenderer warningLine = CreateDangerZone();
+        LineRenderer warningLine = CreateDangerZone(weak1LaserData);
         StartCoroutine(BlinkDangerZone(warningLine)); // 깜빡임 효과 시작
 
         Vector2 fixedPlayerPos = Vector2.zero;
@@ -150,7 +147,7 @@ public class BossPattern2 : MonoBehaviour
         Vector2 bossStartPosition = transform.position;
 
         // 플레이어 추적 단계
-        while (elapsed < laserFollowDuration)
+        while (elapsed < weak1LaserData.LaserFollowDuration)
         {
             Vector2 currentPlayerPos = player.transform.position;
 
@@ -169,19 +166,20 @@ public class BossPattern2 : MonoBehaviour
         warningLine.SetPosition(0, bossStartPosition);
         warningLine.SetPosition(1, fixedPlayerPos);
 
-        yield return new WaitForSeconds(laserLockDuration);
+        yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
 
         Destroy(warningLine.gameObject);
 
         // 레이저 발사
+        Debug.Log("레이저발사!");
         LaserController laser = LaserController.Create(
-            weakLaserData, 
+            weak1LaserData, 
             bossStartPosition, // 보스의 시작 위치
             player.transform
         );
 
         // 레이저가 타겟 레이어에 충돌하도록 설정
-        laser.SetTargetLayer(weakLaserData.TargetLayer);
+        laser.SetTargetLayer(weak1LaserData.TargetLayer);
 
         yield return StartCoroutine(laser.FireLaser(bossStartPosition, fixedPlayerPos));
 
@@ -194,7 +192,29 @@ public class BossPattern2 : MonoBehaviour
     {
         Debug.Log("약공격2");
         currentState = BossState.WeakPattern2;
-        //
+
+        // 슬로우 플랫폼? 
+
+        // 카운트 다운
+        for (float i = weakPattern2Data.BeforeAttackDelay; i > 0; i--)
+        {
+            Debug.Log("카운트다운: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // 탄환 방사형 발사
+        Debug.Log("탄환 방사형 발사!");
+        ProjectileController projectileController = ProjectileController.Create(
+            projectileData,
+            transform,
+            player.transform,
+            Projectile,
+            isEnraged
+        );
+
+        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
+        yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
+
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -204,7 +224,107 @@ public class BossPattern2 : MonoBehaviour
     {
         Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
-        //
+        Vector2 bossStartPosition = transform.position;
+
+        // 3번의 레이저 공격 반복 (추적 경고선 + 레이저 공격 Ver.)
+        //for (int attackCount = 0; attackCount < 3; attackCount++)
+        //{
+        //    Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
+
+        //    // 1. 경고선 생성 및 플레이어 추적
+        //    LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+        //    StartCoroutine(BlinkDangerZone(warningLine));
+
+        //    // 플레이어 추적 단계
+        //    float trackingTime = 0f;
+        //    while (trackingTime < weak3LaserData.LaserFollowDuration)
+        //    {
+        //        Vector2 playerPosition = player.transform.position;
+        //        warningLine.SetPosition(0, bossStartPosition);
+        //        warningLine.SetPosition(1, playerPosition);
+        //        trackingTime += Time.deltaTime;
+        //        yield return null;
+        //    }
+
+        //    // 마지막 플레이어 위치 저장
+        //    Vector2 targetPosition = player.transform.position;
+
+        //    // 발사 전 잠깐의 대기 시간
+        //    yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+        //    Destroy(warningLine.gameObject);
+
+        //    // 2. 레이저 발사
+        //    Debug.Log("레이저 발사!");
+        //    LaserController laser = LaserController.Create(
+        //        weak3LaserData,
+        //        bossPosition,
+        //        player.transform
+        //    );
+        //    laser.SetTargetLayer(weak3LaserData.TargetLayer);
+
+        //    // 단일 레이저 발사
+        //    yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPosition));
+
+        //    // 다음 공격 전 대기
+        //    if (attackCount < 2) // 마지막 공격이 아닐 경우에만 대기
+        //    {
+        //        yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+        //    }
+        //}
+
+        // 3번의 레이저 공격 반복 (추적 경고선 1 + 레이저 공격 3 Ver.)
+        
+       
+
+        // 첫 번째 공격: 플레이어 추적 후 발사
+        LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+        StartCoroutine(BlinkDangerZone(warningLine));
+
+        Debug.Log("플레이어 추적 시작");
+        float trackingTime = 0f;
+
+        while (trackingTime < weak3LaserData.LaserFollowDuration)
+        {
+            Vector2 playerPosition = player.transform.position;
+            warningLine.SetPosition(0, bossStartPosition);
+            warningLine.SetPosition(1, playerPosition);
+            trackingTime += Time.deltaTime;
+            yield return null;
+        }
+        Vector2 playerPos = player.transform.position;
+
+        yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+        Destroy(warningLine.gameObject);
+
+        // 3회 연속 발사
+        for (int attack = 0; attack < 3; attack++)
+        {
+            Debug.Log($"레이저 {attack + 1}회 발사!");
+            LaserController laser = LaserController.Create(
+                  weak3LaserData,
+                  bossStartPosition,
+                  player.transform
+            );
+            laser.SetTargetLayer(weak3LaserData.TargetLayer);
+
+            if (attack ==0)
+            {
+                yield return StartCoroutine(laser.FireLaser(bossStartPosition, playerPos));
+            }
+            else
+            {
+                Vector2 targetPos = player.transform.position;
+                yield return new WaitForSeconds(0.3f);
+                yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPos));
+            }
+
+            // 마지막 발사가 아닐 경우에만 짧은 딜레이
+            if (attack < 2)
+            {
+                yield return new WaitForSeconds(0.5f); // 0.5초의 짧은 딜레이
+            }
+        }
+
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -243,19 +363,20 @@ public class BossPattern2 : MonoBehaviour
         }
     }
 
-    private LineRenderer CreateDangerZone()
+    private LineRenderer CreateDangerZone(LaserScriptableObject laserData)
     {
         GameObject dangerZoneObj = new GameObject("DangerZone");
         LineRenderer lineRenderer = dangerZoneObj.AddComponent<LineRenderer>();
 
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = weakLaserData.LaserWidth;  // LaserWidth 사용
-        lineRenderer.endWidth = weakLaserData.LaserWidth;    // LaserWidth 사용
+        lineRenderer.startWidth = laserData.LaserWidth;
+        lineRenderer.endWidth = laserData.LaserWidth;
 
+        Color warningColor = new Color(1f, 0f, 0f, 0.5f);
         // 빨간색 반투명 material 설정
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = new Color(1f, 0f, 0f, 0.5f); // 빨간색 반투명
-        lineRenderer.endColor = new Color(1f, 0f, 0f, 0.5f);
+        lineRenderer.startColor = warningColor;
+        lineRenderer.endColor = warningColor;
 
         return lineRenderer;
     }

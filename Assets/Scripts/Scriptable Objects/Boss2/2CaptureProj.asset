@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: 2CaptureProj
   m_EditorClassIdentifier: 
   damage: 5
-  projectileSpeed: 3
+  projectileSpeed: 6
   projectileCount: 9
   projectileScale: {x: 0.5, y: 0.5, z: 0.5}
   verticalSpacing: 0
   fireRate: 2
-  patternDuration: 10
-  patternRepeatDelay: 1
   afterFireDelay: 1

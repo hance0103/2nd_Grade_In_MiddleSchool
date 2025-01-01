@@ -33,4 +33,12 @@ public class LaserScriptableObject : ScriptableObject
     [SerializeField] private LayerMask targetLayer;
     public LayerMask TargetLayer { get { return targetLayer; } }
 
+
+    [Header("스테이지 2 전용 레이저 타이밍 설정")]
+    [SerializeField] private float laserFollowDuration = 2f; // 레이저가 플레이어를 따라다니는 시간
+    public float LaserFollowDuration { get { return laserFollowDuration; } }
+
+    [SerializeField] private float laserLockDuration = 1f;   // 레이저가 고정되는 시간
+    public float LaserLockDuration { get { return laserLockDuration; } }
+
 }
