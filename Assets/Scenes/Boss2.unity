@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 383717599}
   - component: {fileID: 383717601}
   - component: {fileID: 383717600}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Block (Temp) (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 759821993}
   - component: {fileID: 759821992}
   - component: {fileID: 759821991}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Block (Temp)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1301,7 +1301,7 @@ GameObject:
   - component: {fileID: 1849476003}
   - component: {fileID: 1849476005}
   - component: {fileID: 1849476004}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Block (Temp) (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1683,14 +1683,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1158700348}
   isEnraged: 0
+  laserFollowDuration: 3
+  laserLockDuration: 2
   weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
   weakPattern4Data: {fileID: 11400000, guid: 4360d457d25441e4eb8c5ae36eeb618d, type: 2}
   weakPattern5Data: {fileID: 11400000, guid: 46f5d4a4f57720f498310a8fa7a9ddf3, type: 2}
-  weakLaserData: {fileID: 0}
+  weakLaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
   strongLaserData: {fileID: 0}
-  projectileData: {fileID: 0}
+  projectileData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
   captureProjectile: {fileID: 5731918378402269697, guid: 688d5bf9c2bac6b48b7c8d1eaea1299c, type: 3}
   projectile: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
   rainProjectile: {fileID: 3316179567270816736, guid: 5882fd5fb3b6c7a40af6a9cd729b81bb, type: 3}

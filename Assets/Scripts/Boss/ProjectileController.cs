@@ -124,6 +124,38 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public IEnumerator ExecuteRadialPattern(Transform bossTransform)
+    {
+        // 발사 각도를 160도로 제한 (양쪽 끝 제외)
+        float angleStart = 200f; // 시작 각도
+        float angleEnd = 340f;   // 끝 각도
+        float angleRange = angleEnd - angleStart;
+        float angleStep = angleRange / (projectileData.ProjectileCount - 1);
+
+        // 모든 탄환을 한번에 발사
+        for (int i = 0; i < projectileData.ProjectileCount; i++)
+        {
+            Vector3 basePosition = bossTransform.position;
+            float angle = angleStart + (i * angleStep); // 200도에서 340도 사이로 발사
+            float radians = angle * Mathf.Deg2Rad;
+
+            Vector2 direction = new Vector2(
+                Mathf.Cos(radians),
+                Mathf.Sin(radians)
+            );
+
+            GameObject projectile = projectilePool.Get();
+            projectile.transform.position = basePosition;
+            projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+            projectile.transform.localScale = projectileData.ProjectileScale;
+
+            StartCoroutine(MoveProjectile(projectile, direction));
+        }
+
+        yield return StartCoroutine(WaitForProjectilesOffScreen());
+        yield return new WaitForSeconds(projectileData.AfterFireDelay);
+    }
+
     private void SpawnProjectile(Vector3 position, float angle)
     {
         GameObject projectile = projectilePool.Get();

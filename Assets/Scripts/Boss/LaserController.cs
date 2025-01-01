@@ -7,6 +7,7 @@ public class LaserController : MonoBehaviour
     private LaserScriptableObject laserData;
     private Camera mainCamera;
     private Transform playerTransform;
+    private LayerMask targetLayer;
 
     public static LaserController Create(LaserScriptableObject data, Vector2 startPosition, Transform player)
     {
@@ -35,12 +36,50 @@ public class LaserController : MonoBehaviour
     }
 
     // 일반 레이저 발사 (약공격용)
-    public IEnumerator FireLaser(Vector2 startPosition, Vector2 staticPlayerPosition)
+    //public IEnumerator FireLaser(Vector2 startPosition, Vector2 staticPlayerPosition)
+    //{
+    //    float fadeInTime = 0.1f;
+    //    float fadeOutTime = 0.1f;
+
+    //    Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
+    //    Vector2 endPosition = GetMapEndPoint(startPosition, direction);
+
+    //    lineRenderer.SetPosition(0, startPosition);
+    //    lineRenderer.SetPosition(1, endPosition);
+
+    //    // 페이드 인
+    //    float elapsed = 0f;
+    //    while (elapsed < fadeInTime)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float width = Mathf.Lerp(0, laserData.LaserWidth, elapsed / fadeInTime);
+    //        lineRenderer.startWidth = width;
+    //        lineRenderer.endWidth = width;
+    //        yield return null;
+    //    }
+
+    //    yield return new WaitForSeconds(laserData.LaserDuration);   // 레이저 지속
+
+    //    // 페이드 아웃
+    //    elapsed = 0f;
+    //    while (elapsed < fadeOutTime)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float width = Mathf.Lerp(laserData.LaserWidth, 0, elapsed / fadeOutTime);
+    //        lineRenderer.startWidth = width;
+    //        lineRenderer.endWidth = width;
+    //        yield return null;
+    //    }
+
+    //    Destroy(gameObject);
+    //}
+    public IEnumerator FireLaser(Vector2 startPosition, Vector2 playerPosition)
     {
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
-        Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
+        // 시작점에서 플레이어 방향으로의 벡터 계산
+        Vector2 direction = (playerPosition - startPosition).normalized;
         Vector2 endPosition = GetMapEndPoint(startPosition, direction);
 
         lineRenderer.SetPosition(0, startPosition);
@@ -57,7 +96,7 @@ public class LaserController : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(laserData.LaserDuration);   // 레이저 지속
+        yield return new WaitForSeconds(laserData.LaserDuration);
 
         // 페이드 아웃
         elapsed = 0f;
@@ -111,24 +150,39 @@ public class LaserController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    //public Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
+    //{
+    //    float vertExtent = mainCamera.orthographicSize;
+    //    float horizExtent = vertExtent * Screen.width / Screen.height;
+
+    //    Vector2 cameraPos = mainCamera.transform.position;
+    //    Rect mapBounds = new Rect(
+    //        cameraPos.x - horizExtent,
+    //        cameraPos.y - vertExtent,
+    //        horizExtent * 2,
+    //        vertExtent * 2
+    //    );
+
+    //    float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
+    //    return startPos + (direction * maxDistance);
+    //}
+
     public Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
     {
-        float vertExtent = mainCamera.orthographicSize;
-        float horizExtent = vertExtent * Screen.width / Screen.height;
+        float maxDistance = 100f; // 레이저의 최대 사정거리
+        RaycastHit2D hit = Physics2D.Raycast(startPos, direction, maxDistance, targetLayer);
 
-        Vector2 cameraPos = mainCamera.transform.position;
-        Rect mapBounds = new Rect(
-            cameraPos.x - horizExtent,
-            cameraPos.y - vertExtent,
-            horizExtent * 2,
-            vertExtent * 2
-        );
+        if (hit.collider != null)
+        {
+            // 벽에 부딪힌 지점을 레이저의 끝점으로 사용
+            return hit.point;
+        }
 
-        float maxDistance = Mathf.Max(mapBounds.width, mapBounds.height) * 2;
+        // 벽과 충돌하지 않았을 경우 최대 사정거리까지 발사
         return startPos + (direction * maxDistance);
     }
 
-    
+
     public Vector2 GetHorizontalDirection(Vector2 from, Vector2 to)  // 방향을 수평으로만 계산하는 새로운 메서드
     {
         return new Vector2(to.x > from.x ? 1 : -1, 0).normalized;
@@ -178,4 +232,9 @@ public class LaserController : MonoBehaviour
         }
         yield return null;
     }
+    public void SetTargetLayer(LayerMask targetLayer)
+    {
+        this.targetLayer = targetLayer;
+    }
+
 }

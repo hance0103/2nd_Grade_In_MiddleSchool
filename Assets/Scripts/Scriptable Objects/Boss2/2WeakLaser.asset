@@ -9,13 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5cb7d9d9378f64690301356bcff8ce, type: 3}
-  m_Name: 2Weak 1
+  m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
+  m_Name: 2WeakLaser
   m_EditorClassIdentifier: 
-  patternName: 2 weak1
+  laserType: Temp Laser
   damage: 10
-  beforeattackDelay: 3
-  attackRange: 0
-  afterAttackDelay: 0
-  teleportOffset: {x: 0, y: 0, z: 0}
-  teleportWaitTime: 0
+  laserSpeed: 0
+  laserDuration: 0
+  laserWidth: 0.2
+  laserColor: {r: 1, g: 0, b: 0, a: 1}
+  maxDistance: 100
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
