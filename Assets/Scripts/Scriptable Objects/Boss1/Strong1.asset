@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternName: Storng1
   damage: 0
-  beforeattackDelay: 2
+  beforeAttackDelay: 1
   attackRange: 0
-  afterAttackDelay: 0
+  afterAttackDelay: 1
   teleportOffset: {x: 10, y: 0, z: 0}
   teleportWaitTime: 0

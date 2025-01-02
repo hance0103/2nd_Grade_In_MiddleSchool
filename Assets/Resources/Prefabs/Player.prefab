@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3670440826778811566}
   - component: {fileID: 2514338841622194121}
   - component: {fileID: 7614066520182538303}
-  - component: {fileID: 3459210336641653087}
+  - component: {fileID: 7435664634746300632}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -126,9 +126,14 @@ MonoBehaviour:
   _isJumping: 0
   normalGravityScale: 4
   fallingGravityScale: 5
-  _dashDistance: 0
-  _dashDuration: 0
-  _dashCoolDown: 0
+  _dashDistance: 5
+  _diagonalDashX: 5
+  _diagonalDashY: 5
+  _dashDuration: 0.1
+  _dashGravityScale: 2
+  _dashGravityScaleTime: 0.5
+  _dashBeforeDelay: 0.06
+  _dashCoolDown: 1
   _direction: 8
   _looking: 0
 --- !u!114 &2514338841622194121
@@ -144,11 +149,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normalAttackDmg: 0
-  _normalAttackSpeed: 0
-  _normalAttackRange: 0
-  _normalAttack_delay: 0
-  _normalAttackPrefab: {fileID: 0}
-  _attackPoint: {fileID: 0}
+  _normalAttackSpeed: 10
+  _normalAttackRange: 3
+  _normalAttack_delay: 0.2
+  _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
+  _attackPoint: {fileID: 254861628137691086}
   _jumpAttack_verRange: 0
   _jumpAttack_horRange: 0
   _jumpAttack_diveVelocity: 0
@@ -180,7 +185,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &3459210336641653087
+--- !u!61 &7435664634746300632
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,7 +217,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.117506504, y: 0}
+  m_Offset: {x: 0.22740316, y: -0.0184381}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -223,5 +228,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3636751, y: 2.857143}
+  m_Size: {x: 1.418973, y: 2.8940191}
   m_EdgeRadius: 0

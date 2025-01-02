@@ -1138,7 +1138,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: fcb11de2eab832c43950b789c8eabce5, type: 2}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: weakPattern3AttackDuration
-      value: 0.5
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: strongPatternPositions.Array.size
