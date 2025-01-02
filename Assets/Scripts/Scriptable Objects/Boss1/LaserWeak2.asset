@@ -15,10 +15,12 @@ MonoBehaviour:
   laserType: LaserWeak2
   damage: 10
   laserSpeed: 75
-  laserDuration: 3
+  laserDuration: 5
   laserWidth: 5
   laserColor: {r: 0.49803925, g: 0.83921576, b: 0.98823535, a: 1}
   maxDistance: 20
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  laserFollowDuration: 2
+  laserLockDuration: 1

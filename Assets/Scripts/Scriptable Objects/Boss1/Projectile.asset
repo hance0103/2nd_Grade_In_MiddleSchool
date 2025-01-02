@@ -18,6 +18,4 @@ MonoBehaviour:
   projectileScale: {x: 0.5, y: 0.5, z: 0.5}
   verticalSpacing: 1
   fireRate: 3
-  patternDuration: 6
-  patternRepeatDelay: 1
-  afterFireDelay: 2
+  afterFireDelay: 3

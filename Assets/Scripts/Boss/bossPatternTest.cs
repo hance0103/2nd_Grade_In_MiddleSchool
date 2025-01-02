@@ -35,6 +35,9 @@ public class bossPatternTest : MonoBehaviour
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
 
+    [Header("시작 대기 시간")]
+    [SerializeField] private float countDownBeforeStart = 5f;
+
     [Header("약공3 내려찍는 시간")]
     [SerializeField] private float weakPattern3AttackDuration = 0.5f; //시간 길면 속도가 느려지고 짧으면 빨라짐
 
@@ -114,6 +117,8 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator Idle() // 패턴을 랜덤하게 선택해서 지정해주는 함수
     {
+        yield return StartCoroutine(BeforeIdle());
+
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
@@ -122,6 +127,20 @@ public class bossPatternTest : MonoBehaviour
             yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
             //currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
         }
+
+        yield return null;
+    }
+
+
+    public IEnumerator BeforeIdle()
+    {
+        // 카운트다운
+        for (float i = countDownBeforeStart; i > 0; i--)
+        {
+            //Debug.Log("카운트다운: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+
         yield return null;
     }
 
@@ -230,7 +249,8 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격1 Post");
 
         // 공격 모션 유지 (애니메이션 전환 없음)
-        float delay = isEnraged ? 0.25f : 0.5f;
+        // 광폭화 시 준비 시간 감소
+        float delay = isEnraged ? weakPattern1Data.AfterAttackDelay * 0.5f : weakPattern1Data.AfterAttackDelay;
         yield return new WaitForSeconds(delay);
 
         currentState = BossState.None;
@@ -436,10 +456,13 @@ public class bossPatternTest : MonoBehaviour
         // 투사체 패턴 시작
         Debug.Log("투사체 패턴 시작");
         ProjectileController projectileController = ProjectileController.Create(projectileData, transform, player.transform, projectilePrefab, isEnraged);
-        yield return StartCoroutine(projectileController.ExecutePattern(transform));
+        yield return StartCoroutine(projectileController.ExecutePattern(transform)); // 이 부분에서 종료 확인
+        Debug.Log("투사체 패턴 완료");
 
-        currentCoroutine = null;
+        yield return new WaitForSeconds(strongPattern1Data.AfterAttackDelay);
+
         currentState = BossState.Idle;
+        currentCoroutine = null;
         yield return null;
     }
 
