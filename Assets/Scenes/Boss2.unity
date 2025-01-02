@@ -1692,6 +1692,7 @@ MonoBehaviour:
   weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
   projectileCapData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
   projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
+  projectileWeak4Data: {fileID: 11400000, guid: 0181a8d76759c67499532e5f8244ba40, type: 2}
   projectileRainData: {fileID: 0}
   captureProjectile: {fileID: 5731918378402269697, guid: 688d5bf9c2bac6b48b7c8d1eaea1299c, type: 3}
   Projectile: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}

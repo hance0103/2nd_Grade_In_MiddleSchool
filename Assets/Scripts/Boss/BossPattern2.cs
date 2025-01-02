@@ -334,7 +334,25 @@ public class BossPattern2 : MonoBehaviour
     {
         Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
-        //
+
+        // 카운트 다운
+        for (float i = weakPattern4Data.BeforeAttackDelay; i > 0; i--)
+        {
+            Debug.Log("카운트다운: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // 첫 번째 방사형 발사 (내부 원)
+        ProjectileController Controller = ProjectileController.Create(
+            projectileData,
+            transform,
+            player.transform,
+            Projectile,
+            isEnraged
+        );
+        yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform));
+
+        yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
