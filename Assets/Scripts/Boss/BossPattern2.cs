@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BossPattern2 : MonoBehaviour
@@ -34,6 +35,9 @@ public class BossPattern2 : MonoBehaviour
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
 
+    [Header("Weak5 Safe Positions")]
+    [SerializeField] private Transform[] weak5SafePositions; // 약공격5 전용 안전 위치
+
     [Header("ScriptableObject 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
@@ -55,7 +59,7 @@ public class BossPattern2 : MonoBehaviour
     void Start()
     {
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern5 });
-        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
 
         StartCoroutine(Idle());
     }
@@ -353,6 +357,7 @@ public class BossPattern2 : MonoBehaviour
         yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform));
 
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
+
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -362,7 +367,22 @@ public class BossPattern2 : MonoBehaviour
     {
         Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
-        //
+
+        // 카운트 다운
+        for (float i = weakPattern5Data.BeforeAttackDelay; i > 0; i--)
+        {
+            Debug.Log("카운트다운: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // 플레이어 캐릭터의 너비 가져오기
+        float playerWidth = player.transform.localScale.x;
+        float spawnSpacing = playerWidth * 1.5f; // 캐릭터 너비의 1.5배로 간격 설정
+
+            
+
+        Debug.Log("약공격5 종료");
+        yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;

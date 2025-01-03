@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 242827194}
   - component: {fileID: 242827193}
   - component: {fileID: 242827192}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Ceiling
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 383717598}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.67, y: -0.80529, z: 0}
+  m_LocalPosition: {x: 15.59, y: -0.80529, z: 0}
   m_LocalScale: {x: 4.420786, y: 0.34636125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1046,7 +1046,7 @@ Transform:
   m_GameObject: {fileID: 1530457279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.9, y: -2.9, z: -1.3625748}
+  m_LocalPosition: {x: -9.73, y: 4.36, z: -1.3625748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1284,7 +1284,7 @@ Transform:
   m_GameObject: {fileID: 1842821042}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.57, y: -3.25, z: -1.3625748}
+  m_LocalPosition: {x: 20.25, y: 3.87, z: -1.3625748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1317,7 +1317,7 @@ Transform:
   m_GameObject: {fileID: 1849476002}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0799797, y: 0.80528986, z: 0}
+  m_LocalPosition: {x: 6.78, y: 0.80528986, z: 0}
   m_LocalScale: {x: 4.420786, y: 0.34636125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1683,6 +1683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1158700348}
   isEnraged: 0
+  weak5SafePositions: []
   weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
@@ -1692,8 +1693,7 @@ MonoBehaviour:
   weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
   projectileCapData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
   projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
-  projectileWeak4Data: {fileID: 11400000, guid: 0181a8d76759c67499532e5f8244ba40, type: 2}
-  projectileRainData: {fileID: 0}
+  projectileRainData: {fileID: 11400000, guid: e4fb23ec7a6a63442b331a7a18e1b2c2, type: 2}
   captureProjectile: {fileID: 5731918378402269697, guid: 688d5bf9c2bac6b48b7c8d1eaea1299c, type: 3}
   Projectile: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
   rainProjectile: {fileID: 3316179567270816736, guid: 5882fd5fb3b6c7a40af6a9cd729b81bb, type: 3}

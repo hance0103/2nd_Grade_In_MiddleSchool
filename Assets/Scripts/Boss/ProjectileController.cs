@@ -124,15 +124,15 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float angleOffset = 0f, float countOffset = 0f)
+    public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f)
     {
         // 발사 각도를 160도로 제한 (양쪽 끝 제외)
-        float angleStart = isSecondLayer ? 210f : 200f; ; // 시작 각도
-        float angleEnd = isSecondLayer ? 350f : 340f;   // 끝 각도
+        float angleStart = isSecondLayer ? 205f : 192f; ; // 시작 각도
+        float angleEnd = isSecondLayer ? 335f : 348f;   // 끝 각도
         float angleRange = angleEnd - angleStart;
         float angleStep = angleRange / (projectileData.ProjectileCount - 1);
 
-        float actualProjectileCount = projectileData.ProjectileCount + countOffset; // countOffset으로 발사 개수 조정
+        float actualProjectileCount = projectileData.ProjectileCount - countOffset; // countOffset으로 발사 개수 조정
         float radiusOffset = isSecondLayer ? 1.5f : 0f;
 
         // 모든 탄환을 한번에 발사
@@ -180,8 +180,8 @@ public class ProjectileController : MonoBehaviour
     public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
     {
         // 두 패턴을 병렬로 실행
-        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, 0f)); // 첫 번째 층
-        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 2f,2f)); // 두 번째 층
+        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f)); // 첫 번째 층
+        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f)); // 두 번째 층
 
         // 두 코루틴이 모두 끝날 때까지 대기
         yield return firstLayer;
