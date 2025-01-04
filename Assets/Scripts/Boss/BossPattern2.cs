@@ -374,14 +374,30 @@ public class BossPattern2 : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        // 플레이어 캐릭터의 너비 가져오기
-        float playerWidth = player.transform.localScale.x;
-        float spawnSpacing = playerWidth * 1.5f; // 캐릭터 너비의 1.5배로 간격 설정
+        // 비 패턴 실행을 위한 ProjectileController 생성
+        ProjectileController rainController = ProjectileController.Create(
+            projectileRainData,
+            transform,
+            player.transform,
+            rainProjectile,
+            isEnraged
+        );
 
-            
+        // 맵 설정값 (실제 맵 크기에 맞게 조정 필요)
+        float mapWidth = 30f; // 맵의 전체 너비
+        float safeZoneWidth = 2f; // 안전 구역의 너비
+
+        // 비 패턴 실행
+        yield return StartCoroutine(rainController.ExecuteRainPattern(
+            transform,
+            mapWidth,
+            safeZoneWidth,
+            weak5SafePositions
+        ));
 
         Debug.Log("약공격5 종료");
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
+
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;

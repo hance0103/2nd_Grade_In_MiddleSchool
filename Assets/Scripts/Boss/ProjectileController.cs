@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -191,6 +192,136 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public IEnumerator ExecuteRainPattern(Transform bossTransform, float mapWidth, float safeZoneWidth, Transform[] safePositions)
+    {
+        float playerWidth = safeZoneWidth / 1.5f;
+        float spawnSpacing = playerWidth * 1.5f;
+
+        float startX = -mapWidth / 2;
+        float endX = mapWidth / 2;
+        float centerX = 0f;
+
+        List<GameObject> activeProjectiles = new List<GameObject>();
+
+        // 5번 반복
+        for (int iteration = 0; iteration < 5; iteration++)
+        {
+            // 이전 프로젝타일 정리
+            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
+
+            // 왼쪽 또는 오른쪽 랜덤 선택
+            bool isLeftSide = Random.value > 0.5f;
+            float sideStartX = isLeftSide ? startX : centerX;
+            float sideEndX = isLeftSide ? centerX : endX;
+
+            // 선택된 방향에서 가능한 안전구역 위치들 수집
+            List<float> possibleSafeZones = new List<float>();
+            for (float x = sideStartX; x <= sideEndX; x += spawnSpacing)
+            {
+                possibleSafeZones.Add(x);
+            }
+
+            // 2개의 안전구역 랜덤 선택 (최소 간격 보장)
+            List<float> selectedSafeZones = new List<float>();
+            if (possibleSafeZones.Count >= 2)
+            {
+                // 첫 번째 안전구역 선택
+                int firstIndex = Random.Range(0, possibleSafeZones.Count);
+                selectedSafeZones.Add(possibleSafeZones[firstIndex]);
+                float firstZone = possibleSafeZones[firstIndex];
+
+                // 첫 번째 안전구역과 너무 가까운 위치 제거
+                possibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
+
+                // 남은 위치 중에서 두 번째 안전구역 선택
+                if (possibleSafeZones.Count > 0)
+                {
+                    int secondIndex = Random.Range(0, possibleSafeZones.Count);
+                    selectedSafeZones.Add(possibleSafeZones[secondIndex]);
+                }
+            }
+
+            Debug.Log($"Iteration {iteration + 1}: Safe zones on {(isLeftSide ? "Left" : "Right")} side at positions: {string.Join(", ", selectedSafeZones)}");
+
+            // 비 발사
+            for (float x = startX; x <= endX; x += spawnSpacing)
+            {
+                bool isInSafeZone = false;
+
+                // 현재 x가 선택된 방향의 안전구역에 있는지 확인
+                if (isLeftSide && x < centerX) // 왼쪽이 선택된 경우
+                {
+                    isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
+                }
+                else if (!isLeftSide && x > centerX) // 오른쪽이 선택된 경우
+                {
+                    isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
+                }
+
+                if (!isInSafeZone)
+                {
+                    try
+                    {
+                        GameObject projectile = projectilePool.Get();
+                        if (projectile != null)
+                        {
+                            projectile.SetActive(true);  // 명시적으로 활성화
+                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
+                            projectile.transform.position = spawnPosition;
+                            projectile.transform.rotation = Quaternion.identity;
+                            projectile.transform.localScale = projectileData.ProjectileScale;
+
+                            activeProjectiles.Add(projectile);
+                            StartCoroutine(MoveRainProjectile(projectile));
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(projectileData.FireRate);
+        }
+
+        // 모든 프로젝타일이 사라질 때까지 대기
+        while (activeProjectiles.Count > 0)
+        {
+            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(projectileData.AfterFireDelay);
+    }
+
+    private IEnumerator MoveRainProjectile(GameObject projectile)
+    {
+        if (projectile == null) yield break;
+
+        float destroyY = -10f;
+        Vector2 moveDirection = Vector2.down;
+        float moveSpeed = projectileData.ProjectileSpeed;
+
+        while (projectile != null && projectile.activeInHierarchy)
+        {
+            if (projectile == null) break;  // 추가 null 체크
+
+            projectile.transform.position += (Vector3)(moveDirection * moveSpeed * Time.deltaTime);
+
+            if (projectile.transform.position.y <= destroyY)
+            {
+                if (projectile != null && projectilePool != null)  // 추가 null 체크
+                {
+                    projectile.SetActive(false);  // 비활성화 후
+                    projectilePool.Release(projectile);  // 풀에 반환
+                }
+                break;
+            }
+
+            yield return null;
+        }
+    }
 
     private void SpawnProjectile(Vector3 position, float angle)
     {
