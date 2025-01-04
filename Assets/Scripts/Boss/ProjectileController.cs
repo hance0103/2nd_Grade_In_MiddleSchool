@@ -124,9 +124,9 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f)
+    public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f, bool isWeak4 = false)
     {
-        // 발사 각도를 160도로 제한 (양쪽 끝 제외)
+        // 발사 각도 제한 (양쪽 끝 제외)
         float angleStart = isSecondLayer ? 205f : 192f; ; // 시작 각도
         float angleEnd = isSecondLayer ? 335f : 348f;   // 끝 각도
         float angleRange = angleEnd - angleStart;
@@ -156,12 +156,6 @@ public class ProjectileController : MonoBehaviour
                 );
             }
 
-            Vector2 projectileDirection = new Vector2(
-                Mathf.Cos(radians),
-                Mathf.Sin(radians)
-            );
-
-
             GameObject projectile = projectilePool.Get();
             projectile.transform.position = basePosition;
             projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -175,13 +169,18 @@ public class ProjectileController : MonoBehaviour
         {
             yield return new WaitForSeconds(projectileData.AfterFireDelay);
         }
-        Destroy(gameObject);
+
+        if (isWeak4 == false)
+        {
+            Destroy(gameObject);
+        }
+      
     }
     public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
     {
         // 두 패턴을 병렬로 실행
-        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f)); // 첫 번째 층
-        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f)); // 두 번째 층
+        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, true)); // 첫 번째 층
+        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f, true)); // 두 번째 층
 
         // 두 코루틴이 모두 끝날 때까지 대기
         yield return firstLayer;
