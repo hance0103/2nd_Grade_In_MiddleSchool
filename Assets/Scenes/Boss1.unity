@@ -750,6 +750,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _diagonalDashX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670440826778811566, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _diagonalDashY
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9012722472672713314, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -980,8 +988,8 @@ Transform:
   m_GameObject: {fileID: 1640362625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9093, y: -4.65, z: 0}
-  m_LocalScale: {x: 34.12478, y: 1.4713, z: 1}
+  m_LocalPosition: {x: 5.9093, y: -4.8879, z: 0}
+  m_LocalScale: {x: 34.12478, y: 0.99548155, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

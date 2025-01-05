@@ -15,7 +15,7 @@ MonoBehaviour:
   patternName: Weak2
   damage: 15
   beforeAttackDelay: 2
-  attackRange: 0
+  attackRange: 1
   afterAttackDelay: 2
   teleportOffset: {x: 13, y: 0, z: 0}
   teleportWaitTime: 0
