@@ -44,17 +44,30 @@ public class bossPatternTest : MonoBehaviour
     [Header("Strong Pattern Positions")]
     [SerializeField] private Transform[] strongPatternPositions; // 강공격용 위치들
 
-    [Header("ScriptableObject 데이터")]
+    [Header("공격 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private BossScriptableObject strongPattern1Data;
     [SerializeField] private BossScriptableObject strongPattern2Data;
+
+    [Header("광폭화 데이터")]
+    [SerializeField] private BossScriptableObject weakEnraged1Data;
+    [SerializeField] private BossScriptableObject weakEnraged2Data;
+    [SerializeField] private BossScriptableObject weakEnraged3Data;
+    [SerializeField] private BossScriptableObject strongEnraged1Data;
+    [SerializeField] private BossScriptableObject strongEnraged2Data;
+
+    [Header("레이저 데이터")]
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
     [SerializeField] private LaserScriptableObject EnrangedLaserData;
+
+    [Header("투사체 데이터")]
     [SerializeField] private ProjectileScriptableObject projectileData;
-    [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
+    [SerializeField] private ProjectileScriptableObject projectileEData;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject projectileEPrefab; 
 
     //[SerializeField] private Animator animator; // 애니메이터 참조 추가
     //[SerializeField] private float rotationSpeed = 5f; // 보스가 플레이어를 바라보는 회전 속도
@@ -162,9 +175,8 @@ public class bossPatternTest : MonoBehaviour
 
         //animator?.SetTrigger("PreAttackStance"); // 공격 대기 모션 애니메이션
 
-        // 광폭화 시 준비 시간 감소
-        float delay = isEnraged ? weakPattern1Data.BeforeAttackDelay * 0.5f : weakPattern1Data.BeforeAttackDelay;
-        yield return new WaitForSeconds(delay);
+        float beforeDelay = isEnraged ? weakEnraged1Data.BeforeAttackDelay : weakPattern1Data.BeforeAttackDelay;
+        yield return new WaitForSeconds(beforeDelay);
 
         StartCoroutine(WeakPattern1PreAttack(playerPos)); // 현재 플레이어 위치 전달
         yield return null;
@@ -229,7 +241,7 @@ public class bossPatternTest : MonoBehaviour
                 if (hitCollider.CompareTag("Player"))
                 {
                     // 광폭화 상태에서 데미지 배수 적용
-                    float damage = weakPattern1Data.Damage * (isEnraged ? 1.5f : 1.0f);
+                    float damage = isEnraged ? weakEnraged1Data.Damage : weakPattern1Data.Damage;
                     Debug.Log($"돌진 공격 히트! 데미지: {damage}");
                     // player.TakeDamage(damage);
                     break;
@@ -249,9 +261,8 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격1 Post");
 
         // 공격 모션 유지 (애니메이션 전환 없음)
-        // 광폭화 시 준비 시간 감소
-        float delay = isEnraged ? weakPattern1Data.AfterAttackDelay * 0.5f : weakPattern1Data.AfterAttackDelay;
-        yield return new WaitForSeconds(delay);
+        float afterDelay = isEnraged ? weakEnraged1Data.AfterAttackDelay : weakPattern1Data.AfterAttackDelay;
+        yield return new WaitForSeconds(afterDelay);
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -450,13 +461,18 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("강공격1 텔레포트");
         transform.position = selectedPosition.position;
         FacePlayer();
-
-        yield return new WaitForSeconds(strongPattern1Data.BeforeAttackDelay);
+        float beforeDelay = isEnraged ? strongEnraged1Data.BeforeAttackDelay : strongPattern1Data.BeforeAttackDelay;
+        yield return new WaitForSeconds(beforeDelay);
 
         // 투사체 패턴 시작
         Debug.Log("투사체 패턴 시작");
-        ProjectileController projectileController = ProjectileController.Create(projectileData, transform, player.transform, projectilePrefab, isEnraged);
-        yield return StartCoroutine(projectileController.ExecutePattern(transform)); // 이 부분에서 종료 확인
+
+        // 광폭화 상태에 따라 다른 데이터와 프리팹 사용
+        ProjectileScriptableObject currentProjectileData = isEnraged ? projectileEData : projectileData;
+        GameObject currentPrefab = isEnraged ? projectileEPrefab : projectilePrefab;
+
+        ProjectileController projectileController = ProjectileController.Create(currentProjectileData, transform, player.transform, currentPrefab, isEnraged);
+        yield return StartCoroutine(projectileController.ExecutePattern(transform));
         Debug.Log("투사체 패턴 완료");
 
         yield return new WaitForSeconds(strongPattern1Data.AfterAttackDelay);
@@ -581,7 +597,7 @@ public class bossPatternTest : MonoBehaviour
         }
 
         // 카운트다운
-        for (float i = strongPattern2Data.BeforeAttackDelay; i > 0; i--)
+        for (float i = strongEnraged2Data.BeforeAttackDelay; i > 0; i--)
         {
             Debug.Log("광폭화 카운트다운: " + i);
             yield return new WaitForSeconds(1f);

@@ -38,14 +38,18 @@ public class BossPattern2 : MonoBehaviour
     [Header("Weak5 Safe Positions")]
     [SerializeField] private Transform[] weak5SafePositions; // 약공격5 전용 안전 위치
 
-    [Header("ScriptableObject 데이터")]
+    [Header("공격 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private BossScriptableObject weakPattern4Data;
     [SerializeField] private BossScriptableObject weakPattern5Data;
+
+    [Header("레이저 데이터")]
     [SerializeField] private LaserScriptableObject weak1LaserData;
     [SerializeField] private LaserScriptableObject weak3LaserData;
+    
+    [Header("투사체 데이터")]
     [SerializeField] private ProjectileScriptableObject projectileCapData;
     [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private ProjectileScriptableObject projectileRainData;

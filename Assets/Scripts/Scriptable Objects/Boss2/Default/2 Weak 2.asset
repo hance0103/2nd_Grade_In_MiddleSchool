@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a5cb7d9d9378f64690301356bcff8ce, type: 3}
-  m_Name: Weak3
+  m_Name: 2 Weak 2
   m_EditorClassIdentifier: 
-  patternName: Weak3
-  damage: 50
-  beforeAttackDelay: 0.7
+  patternName: 2 weak2
+  damage: 12
+  beforeAttackDelay: 3
   attackRange: 0
-  afterAttackDelay: 0.7
-  teleportOffset: {x: 0, y: 6, z: 0}
+  afterAttackDelay: 2
+  teleportOffset: {x: 0, y: 0, z: 0}
   teleportWaitTime: 0
