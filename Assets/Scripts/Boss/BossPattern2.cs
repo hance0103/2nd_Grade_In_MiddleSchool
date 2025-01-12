@@ -14,6 +14,7 @@ public class BossPattern2 : MonoBehaviour
         WeakPattern3,
         WeakPattern4,
         WeakPattern5,
+        WeakPattern6,
         Groggy,
     }
 
@@ -31,6 +32,7 @@ public class BossPattern2 : MonoBehaviour
     public Player player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController laserController; // LaserController 참조
     private ProjectileController projectileController; // ProjectileController 참조
+    private bool isPattern6Active = false;
 
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
@@ -38,17 +40,31 @@ public class BossPattern2 : MonoBehaviour
     [Header("Weak5 Safe Positions")]
     [SerializeField] private Transform[] weak5SafePositions; // 약공격5 전용 안전 위치
 
-    [Header("공격 데이터")]
+    [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
-    [SerializeField] private BossScriptableObject weakPattern2Data;
-    [SerializeField] private BossScriptableObject weakPattern3Data;
-    [SerializeField] private BossScriptableObject weakPattern4Data;
-    [SerializeField] private BossScriptableObject weakPattern5Data;
-
-    [Header("레이저 데이터")]
     [SerializeField] private LaserScriptableObject weak1LaserData;
-    [SerializeField] private LaserScriptableObject weak3LaserData;
+
+    [Header("약공격2 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern2Data;
     
+    [Header("약공격3 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern3Data;
+    [SerializeField] private LaserScriptableObject weak3LaserData;
+
+    [Header("약공격4 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern4Data;
+    
+    [Header("약공격5 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern5Data;
+    
+    [Header("약공격6 (체력패턴) 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern6Data;
+    [SerializeField] private LaserScriptableObject weak6LaserData;
+    [Tooltip("독비 지속 시간")]
+    [SerializeField] private float poisonRainDuration = 15f;
+    [Tooltip("독비 발사 간격")]
+    [SerializeField] private float poisonRainSpacing = 4f;
+
     [Header("투사체 데이터")]
     [SerializeField] private ProjectileScriptableObject projectileCapData;
     [SerializeField] private ProjectileScriptableObject projectileData;
@@ -62,8 +78,8 @@ public class BossPattern2 : MonoBehaviour
 
     void Start()
     {
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern5 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern5, BossState.WeakPattern6 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern6, BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
 
         StartCoroutine(Idle());
     }
@@ -94,6 +110,11 @@ public class BossPattern2 : MonoBehaviour
         if (currentState == BossState.WeakPattern5 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(WeakPattern5());
+        }
+
+        if (currentState == BossState.WeakPattern6 && currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(WeakPattern6());
         }
 
         if (currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
@@ -405,6 +426,118 @@ public class BossPattern2 : MonoBehaviour
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
+    }
+
+
+    public IEnumerator WeakPattern6()
+    {
+        Debug.Log("약공격6");
+        currentState = BossState.WeakPattern6;
+        Vector2 bossStartPosition = transform.position;
+        isPattern6Active = true;  // 패턴 시작
+
+        // 독비 컨트롤러 생성
+        ProjectileController poisonRainController = ProjectileController.Create(
+            projectileRainData,
+            transform,
+            player.transform,
+            rainProjectile,
+            isEnraged
+        );
+
+        // 독비와 레이저 공격 동시 실행
+        Coroutine poisonRainCoroutine = StartCoroutine(ExecutePoisonRain(poisonRainController));
+
+        // 독비 패턴 시작
+        Coroutine continuousRainCoroutine = StartCoroutine(poisonRainController.ExecuteContinuousRainPattern(
+            transform,
+            30f,  // mapWidth
+            poisonRainSpacing,
+            new System.Func<bool>(() => isPattern6Active)
+        ));
+
+        // 레이저 5회 공격
+        LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+        StartCoroutine(BlinkDangerZone(warningLine));
+
+        Debug.Log("플레이어 추적 시작");
+        float trackingTime = 0f;
+
+        while (trackingTime < weak3LaserData.LaserFollowDuration)
+        {
+            Vector2 playerPosition = player.transform.position;
+            warningLine.SetPosition(0, bossStartPosition);
+            warningLine.SetPosition(1, playerPosition);
+            trackingTime += Time.deltaTime;
+            yield return null;
+        }
+        Vector2 playerPos = player.transform.position;
+
+        yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+        Destroy(warningLine.gameObject);
+
+        // 5회 연속 발사
+        for (int attack = 0; attack < 5; attack++)
+        {
+            Debug.Log($"레이저 {attack + 1}회 발사!");
+            LaserController laser = LaserController.Create(
+                  weak6LaserData,
+                  bossStartPosition,
+                  player.transform
+            );
+            laser.SetTargetLayer(weak6LaserData.TargetLayer);
+
+            if (attack == 0)
+            {
+                yield return StartCoroutine(laser.FireLaser(bossStartPosition, playerPos));
+            }
+            else
+            {
+                Vector2 targetPos = player.transform.position;
+                yield return new WaitForSeconds(0.3f);
+                yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPos));
+            }
+
+            if (attack < 4)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        // 레이저 패턴 종료 후 독비 중단
+        isPattern6Active = false;  // 패턴 종료
+
+        // 마지막 독비가 모두 떨어질 때까지 대기
+        if (poisonRainController != null)
+        {
+            float remainingRainTime = projectileData.ProjectileSpeed > 0
+                ? 10f / projectileData.ProjectileSpeed  // 화면 높이를 투사체 속도로 나눔
+                : 2f;  // 기본 대기 시간
+
+            yield return new WaitForSeconds(remainingRainTime);
+            Destroy(poisonRainController.gameObject);
+        }
+
+        // 코루틴 정리
+        if (poisonRainCoroutine != null)
+            StopCoroutine(poisonRainCoroutine);
+        if (continuousRainCoroutine != null)
+            StopCoroutine(continuousRainCoroutine);
+
+        currentState = BossState.None;
+        currentCoroutine = null;
+        yield return null;
+    }
+
+    private IEnumerator ExecutePoisonRain(ProjectileController poisonRainController)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < poisonRainDuration && isPattern6Active)
+        {
+            yield return new WaitForSeconds(poisonRainSpacing);
+            elapsedTime += poisonRainSpacing;
+        }
     }
 
     private void FacePlayer() // 시선
