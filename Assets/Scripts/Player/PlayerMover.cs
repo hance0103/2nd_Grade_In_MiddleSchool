@@ -5,6 +5,9 @@ using UnityEngine.Rendering;
 
 public class PlayerMover : MonoBehaviour
 {
+    //TODO
+    // 하향점프 만들어야함
+
     private Player _player;
     private Rigidbody2D _rigid;
     private SpriteRenderer _spriteRenderer;
@@ -66,6 +69,8 @@ public class PlayerMover : MonoBehaviour
     private PlayerInputDirection _direction = PlayerInputDirection.None;
     public PlayerLookingDirection _looking = PlayerLookingDirection.Right;
 
+    public bool canChangeLookingDirection = false;
+
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,20 +80,52 @@ public class PlayerMover : MonoBehaviour
     }
     private void Update()
     {
-        if (_player.playerState != PlayerState.Dash && _player.playerState != PlayerState.Attack)
+        switch (_player.playerState)
         {
-            PlayerMoveInput();
-        }
-        PlayerJump();
+            case PlayerState.Idle:
+                {
+                    PlayerMoveInput();
+                    PlayerJump();
+                }
+                break;
+            case PlayerState.Move:
+                {
+                    PlayerMoveInput();
+                    PlayerJump();
+                }
+                break;
+            case PlayerState.Jump:
+                {
+                    //PlayerMoveInput 함수에서 State가 Jump일때는 Move로 바꾸지 않음
+                    PlayerMoveInput();
+                    PlayerJump();
+                }
+                break;
+            case PlayerState.Attack:
+                {
+                    PlayerJump();
+                }
+                break;
+        }   
         PlayerDash();
-        PlayerAni();
+
+        if (canChangeLookingDirection)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                _looking = PlayerLookingDirection.Left;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                _looking = PlayerLookingDirection.Right;
+            }
+        }
     }
     // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
     // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
     // 픽스드 업데이트에서 물리 연산이 일어나도록 유니티는 세팅이 되어 있다.
     private void PlayerMoveInput()
     {
-        // 왼쪽 이동 관리
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (Input.GetKey(KeyCode.UpArrow))  // 왼쪽 위 방향키 입력
@@ -103,12 +140,11 @@ public class PlayerMover : MonoBehaviour
             {
                 _direction = PlayerInputDirection.Left;
             }
-
+            // 점프중에는 state 변경 안함
             if (_player.playerState != PlayerState.Jump)
                 _player.playerState = PlayerState.Move;
             _looking = PlayerLookingDirection.Left;
         }
-        // 오른쪽 이동 관리
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             if (Input.GetKey(KeyCode.UpArrow)) // 오른쪽 위 방향키 입력
@@ -135,6 +171,8 @@ public class PlayerMover : MonoBehaviour
         {
             _direction = PlayerInputDirection.Down;
         }
+
+
         PlayerMoveVec();
         if (!Input.GetKey(KeyCode.RightArrow) &&
             !Input.GetKey(KeyCode.LeftArrow) &&
@@ -198,6 +236,7 @@ public class PlayerMover : MonoBehaviour
         if (!_canJump && _rigid.velocity.y < 0 && _player.playerState == PlayerState.Jump)
         {
             _rigid.gravityScale = fallingGravityScale;
+            _player.playerState = PlayerState.Jump;
         }
         else
         {
@@ -214,6 +253,7 @@ public class PlayerMover : MonoBehaviour
     }
     private IEnumerator DashBeforDelay()
     {
+        PlayerState beforeState = _player.playerState;
         _player.playerState = PlayerState.Dash;
         float dashBeforeDelayCounter = 0f;
         while (dashBeforeDelayCounter <= _dashBeforeDelay)
@@ -222,14 +262,14 @@ public class PlayerMover : MonoBehaviour
             dashBeforeDelayCounter += Time.deltaTime;
             yield return null;
         }
-        StartCoroutine(Dash());
+        StartCoroutine(Dash(beforeState));
         StartCoroutine(PlayerDashCoolDown());
     }
-    private IEnumerator Dash()
+    private IEnumerator Dash(PlayerState beforeState)
     {
         Debug.Log("대시 시작");
         _rigid.gravityScale = 0;
-        PlayerState beforeState = _player.playerState;
+        
         
         _isDashing = true;
 
@@ -244,11 +284,9 @@ public class PlayerMover : MonoBehaviour
                 break;
             case PlayerInputDirection.Right:
                 _dashDirection = new Vector2(_dashDistance, 0);
-                _rigid.gravityScale = 4;
                 break;
             case PlayerInputDirection.Left:
                 _dashDirection = new Vector2(-_dashDistance, 0);
-                _rigid.gravityScale = 4;
                 break;
             case PlayerInputDirection.UpRight:
                 _dashDirection = new Vector2(_diagonalDashX, _diagonalDashY);
@@ -361,6 +399,7 @@ public class PlayerMover : MonoBehaviour
         {
             _canJump = true;
             _player.playerState = PlayerState.Idle;
+            _rigid.gravityScale = normalGravityScale;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
