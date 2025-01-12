@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class PlayerJumpAttack : MonoBehaviour
 {
-    private PlayerAttack _player;
-    private float _jumpAttackDelayCount = 0;
+    [SerializeField]
+    private PlayerAttack _pAttack;
     public float _delay { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        _player = GetComponent<PlayerAttack>();
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Boss"))
         {
-            _player._enemy = collision.gameObject;
+            _pAttack._enemy = collision.gameObject;
+            StartCoroutine(_pAttack.PlayerJumpAttackDelay());
+        }
+        else if (collision.gameObject.CompareTag("Ground"))
+        {
+            gameObject.SetActive(false);
         }
     }
 
-    IEnumerator PlayerJumpAttackDelay()
-    {
-        _jumpAttackDelayCount = 0;
-        Time.timeScale = 0;
-        while (_jumpAttackDelayCount <= _jumpAttackDelayCount)
-        {
-            yield return null;
-        }
-        Time.timeScale = 1;
-    }
+
 }

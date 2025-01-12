@@ -50,7 +50,7 @@ public class PlayerMover : MonoBehaviour
     private float _diagonalDashY;
     [SerializeField]
     private float _dashDuration;        //대쉬 지속시간
-    private bool _isDashing = false;    //대쉬 하고있는지
+
     private float _dashTime = 0;        //대쉬를 얼마나 했는지 시간
     [SerializeField]
     private float _dashGravityScale;
@@ -71,12 +71,13 @@ public class PlayerMover : MonoBehaviour
 
     public bool canChangeLookingDirection = false;
 
+    private SpriteRenderer _sprite;
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _player = GetComponent<Player>();
         _rigid = GetComponent<Rigidbody2D>();
-
+        _sprite = GetComponent<SpriteRenderer>();
     }
     private void Update()
     {
@@ -120,6 +121,11 @@ public class PlayerMover : MonoBehaviour
                 _looking = PlayerLookingDirection.Right;
             }
         }
+
+        if (!_canJump && _rigid.velocity.y < 0)
+        {
+            _player.playerAni.SetBool("IsJumpDown", true);
+        }
     }
     // 업데이트에서 리지드바디를 사용하면 리지드바다는 60프레임마다 '강제'로 실행
     // 업데이트는 업데이트가 완료 될때마다 실행 0.15~0.17 될 수도 있다.
@@ -142,7 +148,11 @@ public class PlayerMover : MonoBehaviour
             }
             // 점프중에는 state 변경 안함
             if (_player.playerState != PlayerState.Jump)
+            {
                 _player.playerState = PlayerState.Move;
+                _player.playerAni.SetBool("IsMoving", true);
+            }
+            _sprite.flipX = true;
             _looking = PlayerLookingDirection.Left;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
@@ -160,7 +170,12 @@ public class PlayerMover : MonoBehaviour
                 _direction = PlayerInputDirection.Right;
             }
             if (_player.playerState != PlayerState.Jump)
+            {
                 _player.playerState = PlayerState.Move;
+                _player.playerAni.SetBool("IsMoving", true);
+
+            }
+            _sprite.flipX = false;
             _looking = PlayerLookingDirection.Right;
         }
         else if (Input.GetKey(KeyCode.UpArrow))
@@ -185,6 +200,7 @@ public class PlayerMover : MonoBehaviour
             _movSpeed = 0;
             if (_player.playerState != PlayerState.Jump)
             {
+                _player.playerAni.SetBool("IsMoving", false);
                 _player.playerState = PlayerState.Idle;
             }
             
@@ -208,6 +224,7 @@ public class PlayerMover : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && _canJump)
         {
+            _player.playerAni.SetBool("Jump", true);
             _isJumping = true;
             _jumpTimer = 0f;
         }
@@ -269,9 +286,6 @@ public class PlayerMover : MonoBehaviour
     {
         Debug.Log("대시 시작");
         _rigid.gravityScale = 0;
-        
-        
-        _isDashing = true;
 
         Vector2 _dashDirection = Vector2.zero;
         switch (_direction)
@@ -331,7 +345,6 @@ public class PlayerMover : MonoBehaviour
             yield return null;
         }
         Debug.Log("대시 끝");
-        _isDashing = false;
         if (beforeState == PlayerState.Jump)
         {
             _player.playerState = PlayerState.Jump;
@@ -367,29 +380,6 @@ public class PlayerMover : MonoBehaviour
         }
         _canDash = true;
     }
-    /// <summary>
-    /// 점프 스프라이트 교체를 위해서 임시로 작성한 함수.
-    /// 나중에 애니메이션 작업할때 지우고 새로 만들기
-    /// </summary>
-    private void PlayerAni()
-    {
-        if (!_canJump && _rigid.velocity.y > 0)
-        {
-            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_01");
-
-        }
-        else if (!_canJump && _rigid.velocity.y < -1)
-        {
-            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/jump_{left_or_right}_02");
-
-        }
-        if (_canJump)
-        {
-            _spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/Idle_01");
-
-        }
-    }
-
 
     //나중에 발 부분에 콜라이더 하나 더 만들어서
     //벽에 부딪혔을때 점프 초기화 안되도록 고쳐야함
@@ -397,6 +387,9 @@ public class PlayerMover : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
+            _player.playerAni.SetBool("Jump", false);
+            _player.playerAni.SetBool("IsJumpAttack", false);
+            _player.playerAni.SetBool("IsJumpDown", false);
             _canJump = true;
             _player.playerState = PlayerState.Idle;
             _rigid.gravityScale = normalGravityScale;

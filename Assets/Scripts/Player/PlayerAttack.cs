@@ -28,9 +28,12 @@ public class PlayerAttack : MonoBehaviour
     private float _jumpAttack_diveVelocity;
     [SerializeField]
     private float _jumpAttack_dmg;
+    public float _jumpAttackHitDelay;
     [SerializeField]
-    private float _jumpAttackHitDelay;
-    private float _jumpAttackDelayCount;
+    private GameObject _jumpAttackObject;
+
+    private float _jumpAttackObjX;
+    private float _jumpAttackObjY;
 
     private Player _player;
     private PlayerMover _playerMove;
@@ -38,11 +41,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private bool isKeyDown = false;
 
+
+
     public GameObject _enemy;
+
     private void Start()
     {
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMover>();
+        _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
+        _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
     }
     private void Update()
     {
@@ -72,6 +80,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) && Time.time >= _nextFireTime)
         {
+            _player.playerAni.SetBool("IsNormalAttack", true);
             _player.playerState = PlayerState.Attack;
             Shoot();
             _nextFireTime = Time.time + _normalAttack_delay; // 다음 발사 시간 갱신
@@ -86,6 +95,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A) && _player.playerState == PlayerState.Attack)
         {
+            _player.playerAni.SetBool("IsNormalAttack", false);
             _player.playerState = PlayerState.Idle;
             isKeyDown = false;
         }
@@ -113,13 +123,36 @@ public class PlayerAttack : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
+            _player.playerAni.SetBool("IsJumpAttack", true);
+            _jumpAttackObject.SetActive(true);
+            if (_playerMove._looking == PlayerLookingDirection.Right)
+            {
+                _jumpAttackObject.transform.localPosition = new Vector3(_jumpAttackObjX, _jumpAttackObjY, 0);
+                _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                _jumpAttackObject.transform.localPosition = new Vector3(-_jumpAttackObjX, _jumpAttackObjY, 0);
+                _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
             _player.playerState = PlayerState.JumpAttack;
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -_jumpAttack_diveVelocity);
-            gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-
+            //gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            
 
         }
     }
-
-
+    public IEnumerator PlayerJumpAttackDelay()
+    {
+        Debug.Log("시간 정지");
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
+        Time.timeScale = 1;
+        _jumpAttackObject.SetActive(false);
+        Debug.Log("시간 복구");
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 부딪힌 물체 데미지
+    }
 }
