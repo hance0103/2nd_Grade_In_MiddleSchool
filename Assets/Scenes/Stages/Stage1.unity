@@ -2199,7 +2199,7 @@ MonoBehaviour:
   BottomText: {fileID: 839648433}
   moveDuration1: 0.3
   moveDuration2: 0.3
-  TextmoveDuration: 4
+  TextmoveDuration: 2
   moveFastRight1: 1000
   moveFastLeft1: -1000
   moveSlowRight1: 300
@@ -2208,9 +2208,9 @@ MonoBehaviour:
   moveFastLeft2: -2000
   moveRight: 1000
   moveLeft: -1000
-  waitBeforeClose: 3.4
-  blinkDuration: 4
-  blinkSpeed: 4
+  waitBeforeClose: 1.4
+  blinkDuration: 2
+  blinkSpeed: 2
 --- !u!1 &438163093
 GameObject:
   m_ObjectHideFlags: 0
