@@ -293,6 +293,58 @@ public class ProjectileController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
+        yield return new WaitForSeconds(1f); // 모든 프로젝타일이 사라질 때까지 추가 대기
+        Destroy(gameObject); // 컨트롤러 제거
+    }
+
+    public IEnumerator ExecuteContinuousRainPattern(Transform bossTransform, float mapWidth, float safeZoneWidth, System.Func<bool> shouldContinue)
+    {
+        float startX = -mapWidth / 2;
+        float endX = mapWidth / 2;
+        float spawnSpacing = safeZoneWidth * 1.5f;
+        List<GameObject> activeProjectiles = new List<GameObject>();
+
+        while (shouldContinue())  // 함수를 호출하여 bool 값 확인
+        {
+            // 이전 프로젝타일 정리
+            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
+
+            // 독비 발사
+            for (float x = startX; x <= endX; x += spawnSpacing)
+            {
+                if (projectilePool != null)
+                {
+                    try
+                    {
+                        GameObject projectile = projectilePool.Get();
+                        if (projectile != null)
+                        {
+                            projectile.SetActive(true);
+                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
+                            projectile.transform.position = spawnPosition;
+                            projectile.transform.rotation = Quaternion.identity;
+                            projectile.transform.localScale = projectileData.ProjectileScale;
+
+                            activeProjectiles.Add(projectile);
+                            StartCoroutine(MoveRainProjectile(projectile));
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(projectileData.FireRate);
+        }
+
+        // 모든 프로젝타일이 사라질 때까지 대기
+        while (activeProjectiles.Count > 0)
+        {
+            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     private IEnumerator MoveRainProjectile(GameObject projectile)
@@ -343,16 +395,24 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
+    //private void OnDestroy()
+    //{
+    //    StopAllCoroutines();
+    //    projectilePool.Clear();
+    //    foreach (GameObject obj in FindObjectsOfType<GameObject>())
+    //    {
+    //        if (obj.name.Contains("(Clone)"))
+    //        {
+    //            Destroy(obj);
+    //        }
+    //    }
+    //}
     private void OnDestroy()
     {
         StopAllCoroutines();
-        projectilePool.Clear();
-        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        if (projectilePool != null)
         {
-            if (obj.name.Contains("(Clone)"))
-            {
-                Destroy(obj);
-            }
+            projectilePool.Clear();
         }
     }
 }

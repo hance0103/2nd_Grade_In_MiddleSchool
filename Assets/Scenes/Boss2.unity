@@ -1846,12 +1846,16 @@ MonoBehaviour:
   isEnraged: 0
   weak5SafePositions: []
   weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
+  weak1LaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
+  weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
   weakPattern4Data: {fileID: 11400000, guid: 4360d457d25441e4eb8c5ae36eeb618d, type: 2}
   weakPattern5Data: {fileID: 11400000, guid: 46f5d4a4f57720f498310a8fa7a9ddf3, type: 2}
-  weak1LaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
-  weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
+  weakPattern6Data: {fileID: 11400000, guid: 44db3164d7cdc564da6d51f6544b729c, type: 2}
+  weak6LaserData: {fileID: 11400000, guid: bfa65eb38beb278409dea0d97fb52b28, type: 2}
+  poisonRainDuration: 15
+  poisonRainSpacing: 4
   projectileCapData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
   projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
   projectileRainData: {fileID: 11400000, guid: e4fb23ec7a6a63442b331a7a18e1b2c2, type: 2}

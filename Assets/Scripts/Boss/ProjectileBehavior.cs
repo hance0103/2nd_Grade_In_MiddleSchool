@@ -51,16 +51,16 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void ReleaseProjectile()
     {
-        if (!isReleased && pool != null) // 반환되지 않은 경우만 실행
+        if (!isReleased && pool != null && gameObject != null) // 반환되지 않은 경우만 실행
         {
             Debug.Log($"프로젝트 반환: {gameObject.name}");
             isReleased = true; // 반환 상태 설정
             gameObject.SetActive(false); // 비활성화 추가
             pool.Release(gameObject); // Object Pool로 반환
-            if (!gameObject.activeInHierarchy)
-            {
-                Destroy(gameObject);
-            }
+            //if (!gameObject.activeInHierarchy)
+            //{
+            //    Destroy(gameObject);
+            //}
         }
     }
     private void OnDisable()
