@@ -7,6 +7,7 @@ using TMPro;
 
 public class Stage1OpeningTextPopup : MonoBehaviour
 {
+    [Header("참조 요소들")]
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
     public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
@@ -15,7 +16,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
-    // 오프닝 스크립트 스프라이트
+    [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
     public GameObject CharacterPose2; // 머리에 손 포즈, 눈 감고 미소
     public GameObject CharacterPose3; // 손가락 포즈, 화난 표정(이글이글)
@@ -91,7 +92,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage1()
+    IEnumerator OpeningTextStage1() //("등장인물", "대사")로 입력
     {
         yield return StartCoroutine(NormalChat("주인공", "오늘은 이 몸이 문화재에 공연을 하러 가는 초-스페셜한 날 !!"));
         yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭"));

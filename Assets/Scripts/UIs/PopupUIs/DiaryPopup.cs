@@ -22,17 +22,17 @@ public class DiaryPopup : MonoBehaviour
     public void OpenDiaryPage1()
     {
         gameObject.SetActive(true);
-        float savedTime = PlayerPrefs.GetFloat("FinalTime1", 0f);
+        float savedTime1 = PlayerPrefs.GetFloat("FinalTime1", 0f);
         curTime = time;
-        curTime = savedTime;
-        Debug.Log(savedTime);
+        curTime = savedTime1;
+        Debug.Log(savedTime1);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
         Stage1ClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
         
-        string loadedData = PlayerPrefs.GetString("FinalText1", "기본값");
-        Debug.Log("불러온 데이터: " + loadedData);
-        Stage1ClearText.text = "피니쉬 대사: " + loadedData;
+        string SavedText1 = PlayerPrefs.GetString("FinalText1", "아직 도륙내지 않았다!");
+        Debug.Log("불러온 데이터: " + SavedText1);
+        Stage1ClearText.text = "피니쉬 대사: " + SavedText1;
 
     }
     
@@ -40,27 +40,30 @@ public class DiaryPopup : MonoBehaviour
     {
         
         gameObject.SetActive(true);
-        /*
-        float savedTime = PlayerPrefs.GetFloat("FinalTime2", 0f);
-        curTime = time;
-        curTime = savedTime;
-        Debug.Log(savedTime);
-        minute = (int)curTime / 60;
-        second = (int)curTime % 60;
-
-        Stage2ClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
-
         
-
-        float savedTime = PlayerPrefs.GetFloat("FinalTime3", 0f);
+        float savedTime2 = PlayerPrefs.GetFloat("FinalTime2", 0f);
         curTime = time;
-        curTime = savedTime;
-        Debug.Log(savedTime);
+        curTime = savedTime2;
+        Debug.Log(savedTime2);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
+        Stage2ClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        string SavedText2 = PlayerPrefs.GetString("FinalText2","아직 도륙내지 않았다!");
+        Debug.Log("불러온 데이터: " + SavedText2);
+        Stage2ClearText.text = "피니쉬 대사: " + SavedText2;
 
+
+        float savedTime3 = PlayerPrefs.GetFloat("FinalTime3", 0f);
+        curTime = time;
+        curTime = savedTime3;
+        Debug.Log(savedTime3);
+        minute = (int)curTime / 60;
+        second = (int)curTime % 60;
         Stage3ClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
-        */
+        string SavedText3 = PlayerPrefs.GetString("FinalText3", "아직 도륙내지 않았다!");
+        Debug.Log("불러온 데이터: " + SavedText3);
+        Stage3ClearText.text = "피니쉬 대사: " + SavedText3;
+
     }
 
 

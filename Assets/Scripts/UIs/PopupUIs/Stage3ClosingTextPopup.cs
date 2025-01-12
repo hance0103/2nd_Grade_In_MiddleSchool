@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Stage1ClosingTextPopup : MonoBehaviour
+public class Stage3ClosingTextPopup : MonoBehaviour
 {
     [Header("참조 요소들")]
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
@@ -17,7 +17,7 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     public Button OpenClosingText; // 클로징 텍스트 패널 활성화 버튼
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
-
+    //변경 필요
     [Header("클로징 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 비웃는 표정
     public GameObject CharacterPose2; // 머리에 손 포즈, 진지한 표정
@@ -39,11 +39,11 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         VictoryPanel.SetActive(false);
         ClosingTextPanel.SetActive(true);
         NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(ClosingTextStage1());
+        StartCoroutine(ClosingTextStage3());
     }
     void Update()
     {
-        
+
     }
     void OnNextButtonClicked()
     {
@@ -95,24 +95,24 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator ClosingTextStage1() //("등장인물", "대사")로 입력
+    IEnumerator ClosingTextStage3() //("등장인물", "대사")로 입력 
     {
+        //변경 필요
         yield return StartCoroutine(NormalChat("주인공", "후훗, 네놈 따위가 [(별명)]에게 이길 수 있을 리가 없지"));
         yield return StartCoroutine(NormalChat("주인공", "당연하고 시시한 승리다."));
-        yield return StartCoroutine(NormalChat("주인공", "어리석은 자여..다시는 이 몸을 방해할 생각하지 마라. 그땐 숨통을 끊어주마"));
-        yield return StartCoroutine(NormalChat("신호등", "크윽..오늘은 여기까지만 하지.."));
-        yield return StartCoroutine(NormalChat("신호등", "하지만 널 막을 자는 나뿐만이 아니다.."));
+        yield return StartCoroutine(NormalChat("주인공", "드디어 끝인가"));
+        yield return StartCoroutine(NormalChat("최종보스", "크윽..오늘은 여기까지만 하지.."));
+        yield return StartCoroutine(NormalChat("최종보스", "하지만 너에게 도사리는 위험은 나뿐만이 아니다.."));
         yield return StartCoroutine(NormalChat("주인공", "크큭..그 꼴로 말은 잘 하는구나 !!"));
-        yield return StartCoroutine(NormalChat("주인공", "나는 이만 가보겠다"));
-        yield return StartCoroutine(NormalChat("주인공", "오늘은 특별한 날이거든☆"));
-        yield return StartCoroutine(NormalChat("", "2스테이지에 진입합니다"));
+        yield return StartCoroutine(NormalChat("주인공", "이만 아디오스"));
+        yield return StartCoroutine(NormalChat("", "모든 스테이지를 클리어하였습니다"));
         CloseClosingText();
     }
 
     void CloseClosingText()
     {
         ClosingTextPanel.SetActive(false);
-        SceneManager.LoadScene("Stage2");
+        SceneManager.LoadScene("Main");
 
     }
 }

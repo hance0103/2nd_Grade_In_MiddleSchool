@@ -24,7 +24,7 @@ public class DefeatPopup : MonoBehaviour
         }
     }
 
-    // 패배 시간을 출력하기 위한 참조 변수들
+    // 패배 시간을 출력하기 위한 텍스트 오브젝트들
     [SerializeField] private TMP_Text displayDefeatTime;
     [SerializeField] private float curTime;
     int minute;

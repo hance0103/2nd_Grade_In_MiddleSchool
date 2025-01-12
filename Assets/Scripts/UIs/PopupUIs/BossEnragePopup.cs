@@ -12,7 +12,7 @@ public class BossEnragePopup : MonoBehaviour
     [SerializeField] private Image BottomText;
 
     [Header("1차 이동 시간(초)")]
-    [SerializeField] private float moveDuration1 = 1.5f;
+    [SerializeField] private float moveDuration1 = 0.5f;
     [Header("2차 이동 시간(초)")]
     [SerializeField] private float moveDuration2 = 0.5f;
     [Header("텍스트 이동 시간(초)")]
@@ -34,7 +34,7 @@ public class BossEnragePopup : MonoBehaviour
     [SerializeField] private float moveLeft = -1000f;   
 
     [Header("닫히기까지 기다릴 시간(초)")]
-    [SerializeField] private float waitBeforeClose = 2f;
+    [SerializeField] private float waitBeforeClose = 3f;
 
     [Header("글씨 깜빡이는 시간 및 속도")]
     [SerializeField] private float blinkDuration = 4f;
@@ -127,8 +127,10 @@ public class BossEnragePopup : MonoBehaviour
         Vector2 middleBarStartPos = middleBarRect.anchoredPosition;
         Vector2 bottomBarStartPos = bottomBarRect.anchoredPosition;
         
+        Vector2 topBarMem = topBarRect.anchoredPosition;
+        Vector2 middleBarMem = middleBarRect.anchoredPosition;
+        Vector2 bottomBarMem = bottomBarRect.anchoredPosition;
 
-        
 
         // 2) moveDuration 동안 옆으로 부드럽게 이동
         float elapsed = 0f;
@@ -218,7 +220,6 @@ public class BossEnragePopup : MonoBehaviour
         topBarRect.anchoredPosition = topBarStartPos + new Vector2(moveFastRight2, 0f);
         middleBarRect.anchoredPosition = middleBarStartPos + new Vector2(moveFastLeft2, 0f);
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight2, 0f);
-
 
         // 패널(보스 광폭화 팝업) 비활성화
         gameObject.SetActive(false);

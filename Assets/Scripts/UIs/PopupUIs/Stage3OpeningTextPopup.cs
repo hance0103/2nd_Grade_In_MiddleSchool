@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Stage2OpeningTextPopup : MonoBehaviour
+public class Stage3OpeningTextPopup : MonoBehaviour
 {
     [Header("참조 요소들")]
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
@@ -32,7 +32,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     void Start()
     {
         NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(OpeningTextStage1());
+        StartCoroutine(OpeningTextStage3());
         Timer.SetActive(false);
     }
 
@@ -90,24 +90,18 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage1() //("등장인물", "대사")로 입력
+    IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
     {
-        yield return StartCoroutine(NormalChat("주인공", "쳇, 꽤나 시간을 허비했군.."));
-        yield return StartCoroutine(NormalChat("주인공", "더 빠른 템포로 걸어갈 수밖에"));
-        yield return StartCoroutine(NormalChat("주인공", "흐음 평화로워야 할 등굣길에 이 불길한 기운은 무엇이냐.."));
-        yield return StartCoroutine(NormalChat("주인공", "자꾸만 걸음이 느려지고 손에 땀이 나는구나.."));
-        yield return StartCoroutine(NormalChat("주인공", "손발이 어딘가에 속박되는 기분..."));
-        yield return StartCoroutine(NormalChat("주인공", "설마 [긴장]이란 것을 하고 있나??"));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸이 긴장 따위 할 리 없다"));
-        yield return StartCoroutine(NormalChat("주인공", "이런.."));
-        yield return StartCoroutine(NormalChat("주인공", "주변에 누군가 성가신 놈이 있는 것이 틀림없군"));
-        yield return StartCoroutine(NormalChat("주인공", "자, 어디냐 ! 숨어 있지 말고 나와라 !"));
-        yield return StartCoroutine(NormalChat("주인공", "비겁한 자식.."));
-        yield return StartCoroutine(NormalChat("거미", "앞뒤 없이 덤비는 건 한결같구나"));
-        yield return StartCoroutine(NormalChat("거미", "나의 그물로 너의 몸 뿐만이 아니라 정신까지 [속박]시켜주마.."));
-        yield return StartCoroutine(NormalChat("주인공", "벌레 주제에 쓸데없이 말이 길군.."));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸에게 걸맞는 [예의]를 갖출 수 있도록 무참히 교육시켜주마"));
-        yield return StartCoroutine(NormalChat("주인공", "덤벼라 !!"));
+        //변경 필요
+        yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 네게 허비할 시간이 없다"));
+        yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..꺼져라."));
+        yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
+        yield return StartCoroutine(NormalChat("최종보스", "연약한 [소녀]여"));
+        yield return StartCoroutine(NormalChat("최종보스", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
+        yield return StartCoroutine(NormalChat("최종보스", "안타깝지만 [패배]를 안겨 주마."));
+        yield return StartCoroutine(NormalChat("주인공", "뭐 그렇게 나온다면 할 수 없지.."));
+        yield return StartCoroutine(NormalChat("주인공", "정의를 위해"));
+        yield return StartCoroutine(NormalChat("주인공", "[처리한다.]"));
         yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
         CloseOpeningText();
     }
@@ -116,8 +110,11 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     {
         OpeningTextPanel.SetActive(false); // 패널 비활성화
         TempPenal.SetActive(true);
+        var timer = FindObjectOfType<Timer>();
+
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
+        
 
 
     }
