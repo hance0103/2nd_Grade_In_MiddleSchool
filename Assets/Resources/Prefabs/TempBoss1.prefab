@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 8359884391278669174}
   - component: {fileID: 422236692306437622}
   - component: {fileID: 1038555007071774752}
-  m_Layer: 0
+  - component: {fileID: 7613790433271933663}
+  m_Layer: 7
   m_Name: TempBoss1
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.66, y: -0.19, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,10 +118,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.9984274, y: -0.043911695}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +132,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.21, y: 13.61}
+  m_Size: {x: 9.213146, y: 12.652342}
   m_EdgeRadius: 0
 --- !u!114 &8359884391278669174
 MonoBehaviour:
@@ -147,18 +148,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   isEnraged: 0
-  weakPattern3AttackDuration: 0.5
-  strongPatternPositions: []
+  countDownBeforeStart: 3
+  weakPattern3AttackDuration: 0.15
+  strongPatternPositions:
+  - {fileID: 0}
+  - {fileID: 0}
   weakPattern1Data: {fileID: 11400000, guid: f7f01cfdd1add01499418824060f5405, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: 10b1f7f87fc61ca4993cd048b28fbd70, type: 2}
   strongPattern1Data: {fileID: 11400000, guid: 72277fea6b5ebd947a58989115a067f1, type: 2}
   strongPattern2Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
+  weakEnraged1Data: {fileID: 11400000, guid: b65456f427985c949adc50365a635879, type: 2}
+  weakEnraged2Data: {fileID: 11400000, guid: 8872624b8bd867d4aaaddf154da9b191, type: 2}
+  weakEnraged3Data: {fileID: 11400000, guid: 9ba3950982afcae44b79fd87c192e9fa, type: 2}
+  strongEnraged1Data: {fileID: 11400000, guid: 0745aaa6affc9c64c9547a8b63e3111a, type: 2}
+  strongEnraged2Data: {fileID: 11400000, guid: 952e16741444c8f4bba8dbff84e8ca3b, type: 2}
   weakLaserData: {fileID: 11400000, guid: 4ddf9da0949ad5c48b6e230a4f32bd59, type: 2}
   strongLaserData: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
   EnrangedLaserData: {fileID: 11400000, guid: fcb11de2eab832c43950b789c8eabce5, type: 2}
   projectileData: {fileID: 11400000, guid: 38460ea5dc4d5354a8b41b1b3e79446b, type: 2}
+  projectileEData: {fileID: 11400000, guid: 94de8260f25ec574e9e785c6a909dffe, type: 2}
   projectilePrefab: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
+  projectileEPrefab: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
 --- !u!114 &422236692306437622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,3 +194,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &7613790433271933663
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052225282729758635}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
