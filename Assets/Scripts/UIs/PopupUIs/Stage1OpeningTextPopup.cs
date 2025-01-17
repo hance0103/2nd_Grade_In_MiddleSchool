@@ -31,6 +31,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public string writerText = "";
     void Start()
     {
+        Time.timeScale = 0f;
         var timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
         NextButton.onClick.AddListener(OnNextButtonClicked);
@@ -120,12 +121,13 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     { 
         OpeningTextPanel.SetActive(false); // 패널 비활성화
         TempPenal.SetActive(true);
+        Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
         timer.TimeActive = true;
         
-        
+
     }
 }

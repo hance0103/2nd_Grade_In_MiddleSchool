@@ -52,7 +52,6 @@ public class PopupVictory : MonoBehaviour
 
         // PlayerPrefs의 시간 값 가져와서 클리어 타임 출력하기
         float savedTime1 = PlayerPrefs.GetFloat("FinalTime1", 0f);
-        curTime = time;
         curTime = savedTime1;
         Debug.Log(savedTime1);
         minute = (int)curTime / 60;

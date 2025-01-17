@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8359884391278669174}
   - component: {fileID: 422236692306437622}
   - component: {fileID: 1038555007071774752}
+  - component: {fileID: -4572463076565148710}
   - component: {fileID: 7613790433271933663}
   m_Layer: 7
   m_Name: TempBoss1
@@ -194,6 +195,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4572463076565148710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052225282729758635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f946e86f045ec8448959d33b6932f82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 1000
 --- !u!50 &7613790433271933663
 Rigidbody2D:
   serializedVersion: 4

@@ -41,6 +41,11 @@ public class PlayerNormalAttack : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            // 싱글톤으로 구현된 보스 HP 감소 함수 호출
+            BossHPManager.Instance.TakeDamage(10);
+        }
         Destroy(gameObject);
     }
 }

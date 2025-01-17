@@ -6,7 +6,7 @@ public class VictoryTextInputPopup : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TMP_InputField inputField; // TextMeshPro 버전
-
+    [SerializeField] private Timer timer;
     private string savedData;
 
     /// <summary>
@@ -15,12 +15,12 @@ public class VictoryTextInputPopup : MonoBehaviour
     public void Stage1OpenInputPanel()
     {
         Time.timeScale = 0f; // 시간 정지
-        gameObject.SetActive(true);
+        
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
 
         // 1. Timer 컴포넌트를 찾아서
-        Timer timer = FindObjectOfType<Timer>();
+        
 
         if (timer != null)
         {
@@ -63,6 +63,7 @@ public class VictoryTextInputPopup : MonoBehaviour
 
     public void Stage3OpenInputPanel()
     {
+        Debug.Log("Stage1OpenInputPanel() 호출됨");
         Time.timeScale = 0f; // 시간 정지
         gameObject.SetActive(true);
         // 패널이 열릴 때 입력란 초기화

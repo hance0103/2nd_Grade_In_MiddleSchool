@@ -34,6 +34,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(OpeningTextStage1());
         Timer.SetActive(false);
+        Time.timeScale = 0;
     }
 
     void Update()
@@ -118,7 +119,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         TempPenal.SetActive(true);
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
-
+        Time.timeScale = 1;
 
     }
 }

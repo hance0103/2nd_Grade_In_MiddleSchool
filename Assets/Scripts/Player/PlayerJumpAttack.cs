@@ -17,6 +17,7 @@ public class PlayerJumpAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Boss"))
         {
             _pAttack._enemy = collision.gameObject;
+            BossHPManager.Instance.TakeDamage(30);
             StartCoroutine(_pAttack.PlayerJumpAttackDelay());
         }
         else if (collision.gameObject.CompareTag("Ground"))
