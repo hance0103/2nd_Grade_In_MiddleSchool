@@ -35,13 +35,12 @@ public class BossPattern2 : MonoBehaviour
     private bool isPattern6Active = false;
     private Coroutine poisonRainCoroutine = null;
 
-    [Header("광폭화 T/F")]
+    [Header("보스 기본 설정")]
+    [Tooltip("광폭화 설정")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
-
-    [Header("그로기 시간 설정")]
+    [Tooltip("그로기 시간 설정")]
     [SerializeField] private float groggyTime = 5f;
-
-    [Header("맵 너비 계산")]
+    [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions; // 맵 너비 계산
 
     [Header("약공격1 데이터")]
