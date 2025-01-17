@@ -132,8 +132,13 @@ public class bossPatternTest : MonoBehaviour
         {
             StartCoroutine(Idle());
         }
+        
+        if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        {
+            isEnraged = true;
+            // 광폭화 효과
+        }
     }
-
     public IEnumerator Idle() // 패턴을 랜덤하게 선택해서 지정해주는 함수
     {
         yield return StartCoroutine(BeforeIdle());
