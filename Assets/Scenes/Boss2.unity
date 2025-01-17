@@ -1140,17 +1140,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
---- !u!114 &1158700348 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1549477253659120643, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1158700347}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef756eee8ffb23844aa30acfaf262efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1530457279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,6 +1539,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1958353429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3130791659085943985, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+  m_PrefabInstance: {fileID: 1158700347}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef756eee8ffb23844aa30acfaf262efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1978757171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,14 +1842,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af91216ea9f87548a5f0f23f83259b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1158700348}
+  player: {fileID: 1958353429}
   isEnraged: 0
-  weak5SafePositions: []
+  groggyTime: 5
+  mapWidthPositions:
+  - {fileID: 1530457280}
+  - {fileID: 1842821043}
   weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
   weak1LaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
   weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
+  weak3AttackCount: 4
   weakPattern4Data: {fileID: 11400000, guid: 4360d457d25441e4eb8c5ae36eeb618d, type: 2}
   weakPattern5Data: {fileID: 11400000, guid: 46f5d4a4f57720f498310a8fa7a9ddf3, type: 2}
   weakPattern6Data: {fileID: 11400000, guid: 44db3164d7cdc564da6d51f6544b729c, type: 2}

@@ -44,19 +44,25 @@ public class bossPatternTest : MonoBehaviour
     [Header("Strong Pattern Positions")]
     [SerializeField] private Transform[] strongPatternPositions; // 강공격용 위치들
 
-    [Header("공격 데이터")]
+    [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
-    [SerializeField] private BossScriptableObject weakPattern2Data;
-    [SerializeField] private BossScriptableObject weakPattern3Data;
-    [SerializeField] private BossScriptableObject strongPattern1Data;
-    [SerializeField] private BossScriptableObject strongPattern2Data;
-
-    [Header("광폭화 데이터")]
     [SerializeField] private BossScriptableObject weakEnraged1Data;
+   
+    [Header("약공격2 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakEnraged2Data;
+
+    [Header("약공격3 데이터")]
+    [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private BossScriptableObject weakEnraged3Data;
+    
+    [Header("강공격1 데이터")]
+    [SerializeField] private BossScriptableObject strongPattern1Data;
     [SerializeField] private BossScriptableObject strongEnraged1Data;
+
+    [Header("강공격2 데이터")]
     [SerializeField] private BossScriptableObject strongEnraged2Data;
+    [SerializeField] private BossScriptableObject strongPattern2Data;
 
     [Header("레이저 데이터")]
     [SerializeField] private LaserScriptableObject weakLaserData;
