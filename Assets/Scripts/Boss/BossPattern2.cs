@@ -264,7 +264,7 @@ public class BossPattern2 : MonoBehaviour
         currentState = BossState.WeakPattern3;
         Vector2 bossStartPosition = transform.position;
 
-        // 3번의 레이저 공격 반복 (추적 경고선 + 레이저 공격 Ver.)
+        // 레이저 공격 반복 (추적 경고선 + 레이저 공격 Ver.)
         for (int attackCount = 0; attackCount < weak3AttackCount; attackCount++)
         {
             Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
@@ -304,7 +304,7 @@ public class BossPattern2 : MonoBehaviour
             yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPosition));
 
             // 다음 공격 전 대기
-            if (attackCount < 2) // 마지막 공격이 아닐 경우에만 대기
+            if (attackCount < weak3AttackCount - 1) // 마지막 공격이 아닐 경우에만 대기
             {
                 yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
             }
