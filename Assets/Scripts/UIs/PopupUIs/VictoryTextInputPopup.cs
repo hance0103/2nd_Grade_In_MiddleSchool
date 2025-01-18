@@ -20,7 +20,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         inputField.text = "";
 
         // 1. Timer 컴포넌트를 찾아서
-        
+        Timer timer = FindObjectOfType<Timer>();
 
         if (timer != null)
         {

@@ -98,13 +98,12 @@ public class Stage2ClosingTextPopup : MonoBehaviour
     IEnumerator ClosingTextStage2() //("등장인물", "대사")로 입력 
     {
         //변경 필요
-        yield return StartCoroutine(NormalChat("주인공", "후훗, 네놈 따위가 [(별명)]에게 이길 수 있을 리가 없지"));
-        yield return StartCoroutine(NormalChat("주인공", "당연하고 시시한 승리다."));
-        yield return StartCoroutine(NormalChat("주인공", "거미여..다시는 이 몸을 방해할 생각하지 마라. 그땐 숨통을 끊어주마"));
-        yield return StartCoroutine(NormalChat("거미", "크윽..오늘은 여기까지만 하지.."));
-        yield return StartCoroutine(NormalChat("거미", "하지만 널 막을 자는 나뿐만이 아니다.."));
-        yield return StartCoroutine(NormalChat("주인공", "크큭..그 꼴로 말은 잘 하는구나 !!"));
-        yield return StartCoroutine(NormalChat("주인공", "나는 이만 가보겠다"));
+        yield return StartCoroutine(NormalChat("주인공", "이 몸을 가뒀던 더러운 기운이 이제야 사라졌군.."));
+        yield return StartCoroutine(NormalChat("주인공", "거미 주제에 날 성가시게 하다니.."));
+        yield return StartCoroutine(NormalChat("주인공", "다시 마주치는 날엔 잘근잘근 밟아 주마"));
+        yield return StartCoroutine(NormalChat("거미", "오만한 자여.."));
+        yield return StartCoroutine(NormalChat("거미", "승리도 너의 착각이다.."));
+        yield return StartCoroutine(NormalChat("거미", "내 저주는 널 따라다닐 것이다.."));
         yield return StartCoroutine(NormalChat("", "3스테이지에 진입합니다"));
         CloseClosingText();
     }

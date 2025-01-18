@@ -14,6 +14,9 @@ public class BossHPManager : MonoBehaviour
     [Header("승리 텍스트 입력 팝업")]
     [SerializeField] private GameObject VictoryInputPopup;
     [SerializeField] private VictoryTextInputPopup victoryTextPopupScript;
+    [Header("광폭화 팝업")]
+    [SerializeField] private GameObject BossEnragePopup;
+    [SerializeField] private BossEnragePopup BossEnragePopupScript;
     private float currentHP;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
@@ -34,11 +37,18 @@ public class BossHPManager : MonoBehaviour
         currentHP = maxHP;
     }
 
+    
+    private bool Enrageactive = true;
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
         Debug.Log($"보스가 {damage} 데미지를 받음. 남은 HP: {currentHP}");
 
+        if (Enrageactive && currentHP <= maxHP * 0.5f)
+        {
+            Enrageactive = false;
+            BossEnrage();
+        }
         if (currentHP <= 0)
         {
             currentHP = 0;
@@ -53,6 +63,12 @@ public class BossHPManager : MonoBehaviour
     public float GetMaxHP()
     {
         return maxHP;
+    }
+    private void BossEnrage()
+    {
+        
+        BossEnragePopup.SetActive(true);
+        BossEnragePopupScript.OnEnrage();
     }
     private void BossDie()
     {

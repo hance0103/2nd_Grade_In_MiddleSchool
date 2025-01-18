@@ -1551,6 +1551,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: BossEnragePopup
+      value: 
+      objectReference: {fileID: 360203573}
+    - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: VictoryTextPopup
       value: 
       objectReference: {fileID: 2077653109}
@@ -1558,6 +1562,10 @@ PrefabInstance:
       propertyPath: VictoryInputPopup
       value: 
       objectReference: {fileID: 2077653109}
+    - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: BossEnragePopupScript
+      value: 
+      objectReference: {fileID: 360203578}
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: victoryTextPopupScript
       value: 

@@ -44,7 +44,7 @@ public class BossEnragePopup : MonoBehaviour
         
     }
 
-    public void OnEnrageButtonClicked() //임시로 버튼으로 트리거
+    public void OnEnrage() //임시로 버튼으로 트리거
     {
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화
         gameObject.SetActive(true);
@@ -222,6 +222,7 @@ public class BossEnragePopup : MonoBehaviour
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight2, 0f);
 
         // 패널(보스 광폭화 팝업) 비활성화
+        Time.timeScale = 1f;
         gameObject.SetActive(false);
 
         // 코루틴 종료
