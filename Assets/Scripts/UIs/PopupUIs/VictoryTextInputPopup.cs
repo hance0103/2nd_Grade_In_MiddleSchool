@@ -91,7 +91,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     /// </summary>
     public void Stage1SaveAndClosePanel()
     {
-        Time.timeScale = 1f; // 시간 재개
+        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
@@ -99,7 +99,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage2SaveAndClosePanel()
     {
-        Time.timeScale = 1f; // 시간 재개
+        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
@@ -107,7 +107,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage3SaveAndClosePanel()
     {
-        Time.timeScale = 1f; // 시간 재개
+        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText3", savedData);
         PlayerPrefs.Save();

@@ -35,7 +35,6 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     public void OnClosingTextButtonClicked() // 다음 스테이지 버튼을 눌렀을 때 실행되는 패널
     {
         Timer.SetActive(false);
-        Time.timeScale = 1f;
         VictoryPanel.SetActive(false);
         ClosingTextPanel.SetActive(true);
         NextButton.onClick.AddListener(OnNextButtonClicked);
