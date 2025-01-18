@@ -91,7 +91,6 @@ public class VictoryTextInputPopup : MonoBehaviour
     /// </summary>
     public void Stage1SaveAndClosePanel()
     {
-        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
@@ -99,7 +98,6 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage2SaveAndClosePanel()
     {
-        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
@@ -107,7 +105,6 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage3SaveAndClosePanel()
     {
-        
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText3", savedData);
         PlayerPrefs.Save();
