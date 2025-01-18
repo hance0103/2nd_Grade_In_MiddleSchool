@@ -31,8 +31,6 @@ public class BossHPManager : MonoBehaviour
         Instance = this;
 
         // 씬 전환 시 파괴되지 않도록 설정 (필요 없다면 제거 가능)
-        DontDestroyOnLoad(gameObject);
-
         // 시작 시 HP 초기화
         currentHP = maxHP;
     }
