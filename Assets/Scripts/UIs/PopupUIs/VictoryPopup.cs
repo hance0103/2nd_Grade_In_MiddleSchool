@@ -26,7 +26,6 @@ public class PopupVictory : MonoBehaviour
         "이 몸은 무적이다 "
     };
     
-    int Stage = 0;
     
     public void ShowClearTime()
     {

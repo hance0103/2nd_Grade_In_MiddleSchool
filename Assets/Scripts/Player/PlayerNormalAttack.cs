@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerNormalAttack : MonoBehaviour
@@ -9,7 +10,8 @@ public class PlayerNormalAttack : MonoBehaviour
     private float _damage;
     //true면 오른쪽 false면 왼쪽
     private bool _attackDirection;
-    
+    [Header("일반 공격 데미지")]
+    [SerializeField] private float damamgevalue;
     public void AttackSetting(float damage, float speed, float lifeTime, bool direction)
     {
         _damage = damage;

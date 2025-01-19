@@ -16,6 +16,10 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
+    [Header("플레이어/보스 오브젝트")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Boss;
+
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
     public GameObject CharacterPose2; // 머리에 손 포즈, 눈 감고 미소
@@ -24,7 +28,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public GameObject CharacterPose5; // 젖히고 웃는 포즈
     public GameObject CharacterPose6; // 머리에 손 포즈, 진지한 표정
     public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
-    public GameObject Boss;
+    public GameObject BossPose1;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
@@ -127,7 +131,8 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
         timer.TimeActive = true;
-        
+        Player.SetActive(true);
+        Boss.SetActive(true);
 
     }
 }

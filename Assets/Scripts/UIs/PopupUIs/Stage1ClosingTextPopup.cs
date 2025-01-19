@@ -17,13 +17,16 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     public Button OpenClosingText; // 클로징 텍스트 패널 활성화 버튼
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
+    [Header("플레이어/보스 오브젝트")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Boss;
 
     [Header("클로징 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 비웃는 표정
     public GameObject CharacterPose2; // 머리에 손 포즈, 진지한 표정
     public GameObject CharacterPose3; // 자지러지게 웃는 표정
     public GameObject CharacterPose4; // 머리에 손 포즈, 신난 표정
-    public GameObject Boss;
+    public GameObject BossPose1;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
@@ -34,6 +37,8 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     }
     public void OnClosingTextButtonClicked() // 다음 스테이지 버튼을 눌렀을 때 실행되는 패널
     {
+        Player.SetActive(false);
+        Boss.SetActive(false);
         Timer.SetActive(false);
         VictoryPanel.SetActive(false);
         ClosingTextPanel.SetActive(true);

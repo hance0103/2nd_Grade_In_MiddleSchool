@@ -4,6 +4,10 @@ using System.Collections;
 
 public class BossEnragePopup : MonoBehaviour
 {
+    [Header("플레이어/보스 오브젝트")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Boss;
+    
     [Header("이동시킬 이미지 오브젝트")]
     [SerializeField] private GameObject TopBar;
     [SerializeField] private GameObject MiddleBar;
@@ -20,7 +24,7 @@ public class BossEnragePopup : MonoBehaviour
 
     [Header("1차 이동할 거리(양수면 오른쪽, 음수면 왼쪽)")]
     [SerializeField] private float moveFastRight1 = 1000f;  
-    [SerializeField] private float moveFastLeft1 = -1000f;  
+    //[SerializeField] private float moveFastLeft1 = -1000f;  
     [SerializeField] private float moveSlowRight1 = 300f;   
     [SerializeField] private float moveSlowLeft1 = -300f;   
 
@@ -67,7 +71,7 @@ public class BossEnragePopup : MonoBehaviour
         
         while (elapsed < TextmoveDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / TextmoveDuration;
 
             // TopText → SlowRight
@@ -97,7 +101,7 @@ public class BossEnragePopup : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < blinkDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float alpha = Mathf.PingPong(Time.time * blinkSpeed, 1.5f);
 
             Color c = targetImage.color;
@@ -136,7 +140,7 @@ public class BossEnragePopup : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < moveDuration1)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / moveDuration1;
 
             // TopBar → FastRight
@@ -171,7 +175,7 @@ public class BossEnragePopup : MonoBehaviour
         
 
         // 3) 이동 후 2초 기다렸다가 닫는 연출
-        yield return new WaitForSeconds(waitBeforeClose);
+        yield return new WaitForSecondsRealtime(waitBeforeClose);
         StartCoroutine(MoveSecond());
     }
     private IEnumerator MoveSecond()
@@ -189,7 +193,7 @@ public class BossEnragePopup : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < moveDuration2)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / moveDuration2;
 
             // TopBar → FastRight
@@ -222,7 +226,6 @@ public class BossEnragePopup : MonoBehaviour
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight2, 0f);
 
         // 패널(보스 광폭화 팝업) 비활성화
-        Time.timeScale = 1f;
         gameObject.SetActive(false);
 
         // 코루틴 종료

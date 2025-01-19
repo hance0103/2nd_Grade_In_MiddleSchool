@@ -1626,6 +1626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempBoss1
       objectReference: {fileID: 0}
+    - target: {fileID: 5052225282729758635, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: player
       value: 
@@ -1747,11 +1751,13 @@ MonoBehaviour:
   SkipButton: {fileID: 1255698524}
   OpenClosingText: {fileID: 0}
   Timer: {fileID: 1239949766}
+  Player: {fileID: 1579350640}
+  Boss: {fileID: 1793914935}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
   CharacterPose4: {fileID: 0}
-  Boss: {fileID: 0}
+  BossPose1: {fileID: 0}
   writerText: 
   typingSpeed: 0.02
   isSkipping: 0
@@ -2297,6 +2303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2307d3aeeb8b043bee7e35d0f51300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  Boss: {fileID: 0}
   TopBar: {fileID: 1627974906}
   MiddleBar: {fileID: 863223623}
   BottomBar: {fileID: 987841904}
@@ -2306,7 +2314,6 @@ MonoBehaviour:
   moveDuration2: 0.3
   TextmoveDuration: 2
   moveFastRight1: 1000
-  moveFastLeft1: -1000
   moveSlowRight1: 300
   moveSlowLeft1: -300
   moveFastRight2: 2000
@@ -5160,7 +5167,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3130791659085943985, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
   m_PrefabInstance: {fileID: 1953349571}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1579350640}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef756eee8ffb23844aa30acfaf262efe, type: 3}
@@ -6274,6 +6281,8 @@ MonoBehaviour:
   NextButton: {fileID: 1424814501}
   SkipButton: {fileID: 1431376965}
   Timer: {fileID: 1239949766}
+  Player: {fileID: 1579350640}
+  Boss: {fileID: 1793914935}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
@@ -6281,7 +6290,7 @@ MonoBehaviour:
   CharacterPose5: {fileID: 0}
   CharacterPose6: {fileID: 0}
   CharacterPose7: {fileID: 0}
-  Boss: {fileID: 0}
+  BossPose1: {fileID: 0}
   writerText: 
   typingSpeed: 0.02
   isSkipping: 0
@@ -6653,37 +6662,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371900860}
   m_CullTransparentMesh: 1
---- !u!1 &1374359053
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1374359054}
-  m_Layer: 0
-  m_Name: PhaseEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1374359054
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374359053}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 650.4246, y: 420.27167, z: 3.5932105}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388189420
 GameObject:
   m_ObjectHideFlags: 0
@@ -7919,8 +7897,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e11107d030f054a85ff4e6b7b616a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothing: 0.2
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
+  boss: {fileID: 1793914943}
+  zoomSize: 3
+  zoomDuration: 1
+  pauseDuration: 2
 --- !u!1 &1532798315
 GameObject:
   m_ObjectHideFlags: 0
@@ -7996,6 +7979,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532798315}
   m_CullTransparentMesh: 1
+--- !u!1 &1579350640 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2065551335920805261, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+  m_PrefabInstance: {fileID: 1953349571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1592993228
 GameObject:
   m_ObjectHideFlags: 0
@@ -9524,6 +9512,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSlider: {fileID: 1778117022}
+--- !u!1 &1793914935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5052225282729758635, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+  m_PrefabInstance: {fileID: 175173884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1793914943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+  m_PrefabInstance: {fileID: 175173884}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1798042391
 GameObject:
   m_ObjectHideFlags: 0
@@ -10085,6 +10083,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 798923667510014552, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _jumpAttack_dmg
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.5
@@ -10128,6 +10130,10 @@ PrefabInstance:
     - target: {fileID: 2065551335920805261, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065551335920805261, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10825,7 +10831,6 @@ SceneRoots:
   - {fileID: 128768947}
   - {fileID: 904183010}
   - {fileID: 2116096716}
-  - {fileID: 1374359054}
   - {fileID: 2061387921}
   - {fileID: 1304048933}
   - {fileID: 1046336146}

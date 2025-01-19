@@ -7,6 +7,7 @@ using TMPro;
 
 public class BossHPManager : MonoBehaviour
 {
+    //보스 hp를 참조하는 곳이 많으므로 접근하기 쉽게 싱글톤으로 구현, 씬 이동시 초기화
     public static BossHPManager Instance { get; private set; }
 
     [Header("보스 HP 설정")]
@@ -30,7 +31,7 @@ public class BossHPManager : MonoBehaviour
         }
         Instance = this;
 
-        // 씬 전환 시 파괴되지 않도록 설정 (필요 없다면 제거 가능)
+        // 씬 전환 시 파괴되도록 설정 
         // 시작 시 HP 초기화
         currentHP = maxHP;
     }
