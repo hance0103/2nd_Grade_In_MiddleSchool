@@ -32,7 +32,7 @@ public class ProjectileBehaviour : MonoBehaviour
             if (player != null)
             {
                 Debug.Log($"플레이어 피격! 데미지: {damage}");
-                // player.TakeDamage(damage); // 실제 데미지 적용 로직
+                PlayerHPManager.Instance.TakeDamage(damage); // 실제 데미지 적용 로직
             }
             ReleaseProjectile();
         }

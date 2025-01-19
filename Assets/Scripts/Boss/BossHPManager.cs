@@ -18,6 +18,8 @@ public class BossHPManager : MonoBehaviour
     [Header("±¤ÆøÈ­ ÆË¾÷")]
     [SerializeField] private GameObject BossEnragePopup;
     [SerializeField] private BossEnragePopup BossEnragePopupScript;
+    [Header("º¸½º ¿ÀºêÁ§Æ®")]
+    [SerializeField] private GameObject Boss;
     private float currentHP;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
@@ -72,6 +74,7 @@ public class BossHPManager : MonoBehaviour
     private void BossDie()
     {
         Debug.Log("º¸½º°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
         Time.timeScale = 0f;

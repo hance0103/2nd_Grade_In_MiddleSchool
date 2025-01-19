@@ -124,7 +124,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     { 
         OpeningTextPanel.SetActive(false); // 패널 비활성화
-        TempPenal.SetActive(true);
+        
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         

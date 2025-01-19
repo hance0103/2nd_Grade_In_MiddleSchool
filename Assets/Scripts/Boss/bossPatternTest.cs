@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.Pool;
+using static DG.Tweening.DOTweenModuleUtils;
 
 public class bossPatternTest : MonoBehaviour
 {
@@ -225,8 +226,10 @@ public class bossPatternTest : MonoBehaviour
         float dashDuration = isEnraged ? 0.2f : 0.3f;
         float elapsedTime = 0f;
         Vector3 startPosition = transform.position;
-
+        // 한 번만 데미지를 주었는지 체크하는 변수
+        bool hasDamaged = false;
         // 돌진 이동
+
         while (elapsedTime < dashDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -240,22 +243,28 @@ public class bossPatternTest : MonoBehaviour
             float newX = Mathf.Lerp(startPosition.x, targetPosition.x, smoothProgress);
             transform.position = new Vector3(newX, startPosition.y, startPosition.z);
 
-            // 돌진 중 플레이어 감지 및 데미지
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
-                transform.position,
-                weakPattern1Data.AttackRange,
-                LayerMask.GetMask("Player")
-            );
-
-            foreach (Collider2D hitCollider in hitColliders)
+            // 돌진 중 플레이어 감지 및 데미지(1번만 적용)
+            if (!hasDamaged)
             {
-                if (hitCollider.CompareTag("Player"))
+                Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
+                    transform.position,
+                    weakPattern1Data.AttackRange,
+                    LayerMask.GetMask("Player")
+                );
+
+                foreach (Collider2D hitCollider in hitColliders)
                 {
-                    // 광폭화 상태에서 데미지 배수 적용
-                    float damage = isEnraged ? weakEnraged1Data.Damage : weakPattern1Data.Damage;
-                    Debug.Log($"돌진 공격 히트! 데미지: {damage}");
-                    // player.TakeDamage(damage);
-                    break;
+                    if (hitCollider.CompareTag("Player"))
+                    {
+                        // 광폭화 상태에서 데미지 배수 적용
+                        float damage = isEnraged ? weakEnraged1Data.Damage : weakPattern1Data.Damage;
+                        Debug.Log($"돌진 공격 히트! 데미지: {damage}");
+                        PlayerHPManager.Instance.TakeDamage(damage);
+
+                        // 데미지를 한 번 준 뒤에는 중복으로 주지 않도록 처리
+                        hasDamaged = true;
+                        break;
+                    }
                 }
             }
 
@@ -408,7 +417,7 @@ public class bossPatternTest : MonoBehaviour
                         if (results[0].CompareTag("Player"))
                         {
                             Debug.Log($"내려찍기 공격 히트! 데미지: {weakPattern3Data.Damage}");
-                            //player.TakeDamage(weakPattern3Data.Damage);
+                            PlayerHPManager.Instance.TakeDamage(weakPattern3Data.Damage);
                             hasDealtDamage = true;
                         }
                     }
