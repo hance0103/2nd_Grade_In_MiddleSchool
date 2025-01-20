@@ -459,8 +459,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e11107d030f054a85ff4e6b7b616a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothing: 0.2
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
+  boss: {fileID: 0}
+  zoomSize: 3
+  zoomDuration: 1
+  pauseDuration: 2
 --- !u!1 &541393234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,11 +1317,13 @@ MonoBehaviour:
   weakPattern3Data: {fileID: 11400000, guid: a858ed0ef5ea4a645bfa635e31b23ce5, type: 2}
   weak3LaserData: {fileID: 11400000, guid: 81b5336ee614f9c4dae24bdf1e1014a7, type: 2}
   weakPattern4Data: {fileID: 11400000, guid: a48754b0df227ba4c8981eb45e7a1846, type: 2}
-  weak4LaserData: {fileID: 0}
   weakPattern5Data: {fileID: 11400000, guid: 4f6c09222f59eb34fa4ecb731efe231c, type: 2}
   weak5LaserData: {fileID: 0}
-  enragedPatternData: {fileID: 0}
-  enragedLaserData: {fileID: 0}
+  weak4ProjData: {fileID: 11400000, guid: 4b80a4f53c9249f4f8c30d9de6b8448d, type: 2}
+  MusicProjectile: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+  enragedPatternData: {fileID: 11400000, guid: f84858710504675489ae09a57169a0cd, type: 2}
+  enragedLaserData: {fileID: 11400000, guid: 035acb24a68133340999815dc8afc612, type: 2}
+  initialLasersFadeTime: 0.5
   desperatePattern1Data: {fileID: 0}
   desperate1LaserData: {fileID: 0}
   desperatePattern2Data: {fileID: 0}
@@ -1828,6 +1835,10 @@ PrefabInstance:
     - target: {fileID: 534670401125777719, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_Name
       value: TempBoss3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1058210780029493442, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
