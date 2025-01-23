@@ -32,6 +32,7 @@ public class Boss3 : MonoBehaviour
 
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
+    private bool isDesEnr = false;
     private BossState currentState;
     public Player player;
     private LaserController laserController;
@@ -98,7 +99,7 @@ public class Boss3 : MonoBehaviour
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
-            BossState.EnragedPattern,
+            //BossState.EnragedPattern,
             BossState.DesperatePattern1,
             BossState.DesperatePattern2,
             BossState.DesperatePattern3
@@ -165,68 +166,110 @@ public class Boss3 : MonoBehaviour
 
     public IEnumerator WeakPattern1()
     {
-        Debug.Log("약공격1");
+        Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
- 
-        transform.position = new Vector2 (mapWidthPositions[1].position.x, mapWidthPositions[0].position.y);
+
+        transform.position = new Vector2(mapWidthPositions[1].position.x, mapWidthPositions[0].position.y);
         FacePlayer();
 
         float bottomBound = mapWidthPositions[0].position.y;
         float topBound = mapWidthPositions[1].position.y;
         float mapHeight = topBound - bottomBound;
-
-        // Calculate the height of each layer (3등분)
         float layerHeight = mapHeight / 3f;
 
-        // Define the y-positions for each layer
         float[] layerPositions = new float[3];
         for (int i = 0; i < 3; i++)
         {
-            layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f)); // Center of each layer
+            layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
         }
 
         Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 1, 0);
         Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 1, 0);
 
-        // 레이저 공격 5회 반복
-        for (int attackCount = 0; attackCount < 5; attackCount++)
+        int attackCount = isEnraged ? 6 : 5;
+        if (isDesEnr == true)
         {
-            Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
+            attackCount = 7;
+        }
 
-            // 랜덤하게 층 선택 (1~3층)
-            int randomLayer = Random.Range(0, 3);
-            float targetY = layerPositions[randomLayer];
+        for (int i = 0; i < attackCount; i++)
+        {
+            if (isEnraged)
+            {
+                List<int> availableLayers = new List<int> { 0, 1, 2 };
+                int firstLayer = availableLayers[Random.Range(0, availableLayers.Count)];
+                availableLayers.Remove(firstLayer);
+                int secondLayer = availableLayers[Random.Range(0, availableLayers.Count)];
 
-            // 시작점과 목표점 설정
-            Vector2 startPosition = new Vector2(leftPosition.x, targetY);
-            Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
+                int[] selectedLayers = { firstLayer, secondLayer };
+                List<LineRenderer> warningLines = new List<LineRenderer>();
 
-            // 1. 경고선 생성
-            LineRenderer warningLine = CreateDangerZone(weak1LaserData);
-            StartCoroutine(BlinkDangerZone(warningLine));
+                foreach (int layer in selectedLayers)
+                {
+                    float targetY = layerPositions[layer];
+                    Vector2 startPosition = new Vector2(leftPosition.x, targetY);
+                    Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
-            // 경고선 위치 설정
-            warningLine.SetPosition(0, startPosition);
-            warningLine.SetPosition(1, targetPosition);
+                    LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLine.SetPosition(0, startPosition);
+                    warningLine.SetPosition(1, targetPosition);
+                    warningLines.Add(warningLine);
+                }
 
-            // 발사 전 대기 시간
-            yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
-            Destroy(warningLine.gameObject);
+                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
 
-            // 2. 레이저 발사
-            Debug.Log("레이저 발사!");
-            LaserController laser = LaserController.Create(
-                weak1LaserData,
-                startPosition,
-                null  // No target transform as we're using fixed positions
-            );
-            laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                foreach (var line in warningLines)
+                {
+                    Destroy(line.gameObject);
+                }
 
-            // 레이저 발사
-            yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
+                // 두 레이저 동시 발사
+                foreach (int layer in selectedLayers)
+                {
+                    float targetY = layerPositions[layer];
+                    Vector2 startPosition = new Vector2(leftPosition.x, targetY);
+                    Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
-            // 다음 공격 전 대기
-            if (attackCount < 4) // 마지막 공격이 아닐 경우에만 대기
+                    LaserController laser = LaserController.Create(
+                        weak1LaserData,
+                        startPosition,
+                        null
+                    );
+                    laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                    StartCoroutine(laser.FireLaser(startPosition, targetPosition));
+                }
+
+                // 발사 후 레이저 지속시간만큼 대기
+                yield return new WaitForSeconds(weak1LaserData.LaserDuration);
+            }
+            else
+            {
+                // 기본 상태: 1개 레이어 공격 (기존 코드와 동일)
+                int randomLayer = Random.Range(0, 3);
+                float targetY = layerPositions[randomLayer];
+
+                Vector2 startPosition = new Vector2(leftPosition.x, targetY);
+                Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
+
+                LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                StartCoroutine(BlinkDangerZone(warningLine));
+                warningLine.SetPosition(0, startPosition);
+                warningLine.SetPosition(1, targetPosition);
+
+                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
+                Destroy(warningLine.gameObject);
+
+                LaserController laser = LaserController.Create(
+                    weak1LaserData,
+                    startPosition,
+                    null
+                );
+                laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
+            }
+
+            if (i < attackCount - 1)
             {
                 yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
             }
@@ -239,7 +282,7 @@ public class Boss3 : MonoBehaviour
 
     public IEnumerator WeakPattern2()
     {
-        Debug.Log("약공격2");
+        Debug.Log(isEnraged ? "약공격2 - 광폭화" : "약공격2");
         currentState = BossState.WeakPattern2;
 
         float bottomBound = mapWidthPositions[0].position.y - 1;
@@ -247,90 +290,148 @@ public class Boss3 : MonoBehaviour
         float leftBound = mapWidthPositions[0].position.x;
         float rightBound = mapWidthPositions[1].position.x;
         float centerBound = (leftBound + rightBound) / 2;
-        float mapWidth = rightBound - leftBound;
 
         transform.position = new Vector2(centerBound, bottomBound + 1);
         FacePlayer();
 
-        // 7등분 위치 계산 (가로 위치)
-        float sectionWidth = mapWidth / 7f;
-        float[] sectionPositions = new float[7];
-        for (int i = 0; i < 7; i++)
+        if (isEnraged)
         {
-            sectionPositions[i] = leftBound + (sectionWidth * i) + (sectionWidth * 0.5f); // 왼쪽에서 오른쪽으로
+            float mapWidth = rightBound - leftBound;
+            float sectionWidth = mapWidth / 7f;
+            float[] sectionPositions = new float[7];
+            for (int i = 0; i < 7; i++)
+            {
+                sectionPositions[i] = leftBound + (sectionWidth * i) + (sectionWidth * 0.5f);
+            }
+
+            int[][] firePairs = new int[][] {
+                new int[] {0, 6},
+                new int[] {1, 5},
+                new int[] {2, 4},
+                new int[] {3}
+            };
+
+            // 먼저 모든 경고선 표시
+            List<LineRenderer> allWarnings = new List<LineRenderer>();
+            foreach (var pair in firePairs)
+            {
+                foreach (int pos in pair)
+                {
+                    LineRenderer warning = CreateDangerZone(weak2LaserData);
+                    StartCoroutine(BlinkDangerZone(warning));
+                    warning.SetPosition(0, new Vector2(sectionPositions[pos], topBound));
+                    warning.SetPosition(1, new Vector2(sectionPositions[pos], bottomBound));
+                    allWarnings.Add(warning);
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
+
+            foreach (var warning in allWarnings)
+            {
+                Destroy(warning.gameObject);
+            }
+
+            // 그 다음 레이저 발사
+            foreach (var pair in firePairs)
+            {
+                foreach (int pos in pair)
+                {
+                    LaserController laser = LaserController.Create(
+                        weak2LaserData,
+                        new Vector2(sectionPositions[pos], topBound),
+                        null
+                    );
+                    laser.SetTargetLayer(weak2LaserData.TargetLayer);
+                    StartCoroutine(laser.FireLaser(
+                        new Vector2(sectionPositions[pos], topBound),
+                        new Vector2(sectionPositions[pos], bottomBound)
+                    ));
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
         }
-
-        // 시작 위치 랜덤 선택 (왼쪽 or 오른쪽)
-        bool startFromLeft = Random.value > 0.5f;
-        float startX = startFromLeft ? leftBound : rightBound;
-
-        // 첫 번째 레이저 경고 및 발사
-        LineRenderer firstWarningLine = CreateDangerZone(weak2LaserData);
-        StartCoroutine(BlinkDangerZone(firstWarningLine));
-
-        firstWarningLine.SetPosition(0, new Vector2(startX, topBound));
-        firstWarningLine.SetPosition(1, new Vector2(startX, bottomBound));
-
-        yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
-
-        // 첫 번째 레이저 발사
-        LaserController firstLaser = LaserController.Create(
-            weak2LaserData,
-            new Vector2(startX, topBound),
-            null
-        );
-        firstLaser.SetTargetLayer(weak2LaserData.TargetLayer);
-        yield return StartCoroutine(firstLaser.FireLaser(
-            new Vector2(startX, topBound),
-            new Vector2(startX, bottomBound)
-        ));
-
-        Destroy(firstWarningLine.gameObject);
-
-        // 7개의 경고선 순차 생성
-        List<LineRenderer> warningLines = new List<LineRenderer>();
-        for (int i = 0; i < 7; i++)
+        else
         {
-            LineRenderer warningLine = CreateDangerZone(weak2LaserData);
-            StartCoroutine(BlinkDangerZone(warningLine));
+            float mapWidth = rightBound - leftBound;
+            float sectionWidth = mapWidth / 7f;
+            float[] sectionPositions = new float[7];
+            for (int i = 0; i < 7; i++)
+            {
+                sectionPositions[i] = leftBound + (sectionWidth * i) + (sectionWidth * 0.5f);
+            }
 
-            warningLine.SetPosition(0, new Vector2(sectionPositions[i], topBound));
-            warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
+            // 시작 위치 랜덤 선택 (왼쪽 or 오른쪽)
+            bool startFrom = Random.value > 0.5f;
+            float startX = startFrom ? rightBound : leftBound;
 
-            warningLines.Add(warningLine);
-            yield return new WaitForSeconds(0.2f); // 경고선 생성 간격
-        }
+            // 첫 번째 레이저 경고 및 발사
+            LineRenderer firstWarningLine = CreateDangerZone(weak2LaserData);
+            StartCoroutine(BlinkDangerZone(firstWarningLine));
 
-        // 잠깐의 대기 시간
-        yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
+            firstWarningLine.SetPosition(0, new Vector2(startX, topBound));
+            firstWarningLine.SetPosition(1, new Vector2(startX, bottomBound));
 
-        // 경고선 모두 제거
-        foreach (var line in warningLines)
-        {
-            Destroy(line.gameObject);
-        }
+            yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
 
-        // 7개 레이저 순차 발사 (모두 위에서 아래로)
-        for (int i = 0; i < 7; i++)
-        {
-            LaserController laser = LaserController.Create(
+            // 첫 번째 레이저 발사
+            LaserController firstLaser = LaserController.Create(
                 weak2LaserData,
-                new Vector2(sectionPositions[i], topBound),
+                new Vector2(startX, topBound),
                 null
             );
-            laser.SetTargetLayer(weak2LaserData.TargetLayer);
-
-            StartCoroutine(laser.FireLaser(
-                new Vector2(sectionPositions[i], topBound),
-                new Vector2(sectionPositions[i], bottomBound)
+            firstLaser.SetTargetLayer(weak2LaserData.TargetLayer);
+            yield return StartCoroutine(firstLaser.FireLaser(
+                new Vector2(startX, topBound),
+                new Vector2(startX, bottomBound)
             ));
 
-            yield return new WaitForSeconds(0.2f); // 레이저 발사 간격
+            Destroy(firstWarningLine.gameObject);
+
+            // 7개의 경고선 순차 생성
+            List<LineRenderer> warningLines = new List<LineRenderer>();
+            for (int i = 0; i < 7; i++)
+            {
+                LineRenderer warningLine = CreateDangerZone(weak2LaserData);
+                StartCoroutine(BlinkDangerZone(warningLine));
+
+                warningLine.SetPosition(0, new Vector2(sectionPositions[i], topBound));
+                warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
+
+                warningLines.Add(warningLine);
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
+
+            foreach (var line in warningLines)
+            {
+                Destroy(line.gameObject);
+            }
+
+            // 7개 레이저 순차 발사
+            for (int i = 0; i < 7; i++)
+            {
+                LaserController laser = LaserController.Create(
+                    weak2LaserData,
+                    new Vector2(sectionPositions[i], topBound),
+                    null
+                );
+                laser.SetTargetLayer(weak2LaserData.TargetLayer);
+
+                StartCoroutine(laser.FireLaser(
+                    new Vector2(sectionPositions[i], topBound),
+                    new Vector2(sectionPositions[i], bottomBound)
+                ));
+
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
         }
 
-        // 패턴 종료 대기
-        yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
-
+        yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -338,7 +439,7 @@ public class Boss3 : MonoBehaviour
 
     public IEnumerator WeakPattern3()
     {
-        Debug.Log("약공격3");
+        Debug.Log(isEnraged ? "약공격3 - 광폭화" : "약공격3");
         currentState = BossState.WeakPattern3;
 
         float topBound = mapWidthPositions[1].position.y + 1;
@@ -346,99 +447,173 @@ public class Boss3 : MonoBehaviour
         float rightBound = mapWidthPositions[1].position.x;
         float centerBound = (leftBound + rightBound) / 2;
 
-        transform.position = new Vector2(centerBound, topBound -4);
+        transform.position = new Vector2(centerBound, topBound - 4);
         FacePlayer();
 
         // 총 4번 반복
         for (int attackCount = 0; attackCount < 4; attackCount++)
         {
-            Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
 
-            // 랜덤 레이저
-            bool isPenetratingCross = Random.value > 0.5f;
-            List<LineRenderer> warningLines = new List<LineRenderer>();
-            for (int i = 0; i < 4; i++)
+            if (isEnraged)
             {
-                LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-                StartCoroutine(BlinkDangerZone(warningLine));
-                warningLines.Add(warningLine);
-            }
+                Debug.Log($"광폭화 레이저 {attackCount + 1}회 공격 시작");
 
-            float trackingTime = 0f;
-            float trackingDuration = weak3LaserData.LaserFollowDuration;
-            Vector2 fixedPosition = Vector2.zero;
-            bool isPositionFixed = false; // 위치 고정 상태를 추적하는 변수 추가
+                // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
+                List<LineRenderer> warningLines = new List<LineRenderer>();
+                float offset = 2f; // 오프셋 거리
 
-            while (trackingTime < trackingDuration)
-            {
-                // 추적 중일 때만 플레이어 위치 업데이트
-                Vector2 currentPosition = isPositionFixed ? fixedPosition : (Vector2)player.transform.position;
-                float offset = isPenetratingCross ? 0f : 2f;
-
-                // 수직 레이저 경고선 (위, 아래)
-                warningLines[0].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y + offset));
-                warningLines[0].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y + 10f));
-
-                warningLines[1].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y - offset));
-                warningLines[1].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y - 10f));
-
-                // 수평 레이저 경고선 (왼쪽, 오른쪽)
-                warningLines[2].SetPosition(0, new Vector2(currentPosition.x + offset, currentPosition.y));
-                warningLines[2].SetPosition(1, new Vector2(currentPosition.x + 10f, currentPosition.y));
-
-                warningLines[3].SetPosition(0, new Vector2(currentPosition.x - offset, currentPosition.y));
-                warningLines[3].SetPosition(1, new Vector2(currentPosition.x - 10f, currentPosition.y));
-
-                // 발사 0.45초 전에 위치 고정
-                if (trackingTime >= trackingDuration - 0.45f && !isPositionFixed)
+                // 경고선 생성
+                for (int i = 0; i < 4; i++)
                 {
-                    fixedPosition = (Vector2)player.transform.position;
-                    isPositionFixed = true;
+                    LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
                 }
 
-                trackingTime += Time.deltaTime;
-                yield return null;
-            }
+                float trackingTime = 0f;
+                float trackingDuration = weak3LaserData.LaserFollowDuration * 0.8f;
 
-            // 경고선 제거
-            foreach (var line in warningLines)
-            {
-                Destroy(line.gameObject);
-            }
-
-            // 레이저 4방향 발사
-            float laserOffset = isPenetratingCross ? 0f : 2f;
-            Vector2[] laserDirections = new Vector2[]
-            {
-            Vector2.up,
-            Vector2.down,
-            Vector2.right,
-            Vector2.left
-            };
-
-            foreach (Vector2 direction in laserDirections)
-            {
-                Vector2 startPos = fixedPosition;
-                if (!isPenetratingCross)
+                while (trackingTime < trackingDuration)
                 {
-                    startPos += direction * laserOffset;
+                    Vector2 playerPos = (Vector2)player.transform.position;
+
+                    // 세로 레이저 경고선 (왼쪽, 오른쪽)
+                    warningLines[0].SetPosition(0, new Vector2(playerPos.x + offset, topBound));
+                    warningLines[0].SetPosition(1, new Vector2(playerPos.x + offset, leftBound));
+
+                    warningLines[1].SetPosition(0, new Vector2(playerPos.x - offset, topBound));
+                    warningLines[1].SetPosition(1, new Vector2(playerPos.x - offset, leftBound));
+
+                    // 수평 레이저 경고선 (위, 아래)
+                    warningLines[2].SetPosition(0, new Vector2(leftBound, playerPos.y + offset));
+                    warningLines[2].SetPosition(1, new Vector2(rightBound, playerPos.y + offset));
+
+                    warningLines[3].SetPosition(0, new Vector2(leftBound, playerPos.y - offset));
+                    warningLines[3].SetPosition(1, new Vector2(rightBound, playerPos.y - offset));
+
+                    trackingTime += Time.deltaTime;
+                    yield return null;
                 }
 
-                LaserController laser = LaserController.Create(
-                    weak3LaserData,
-                    startPos,
-                    null
-                );
-                laser.SetTargetLayer(weak3LaserData.TargetLayer);
+                // 경고선 제거
+                foreach (var line in warningLines)
+                {
+                    Destroy(line.gameObject);
+                }
 
-                StartCoroutine(laser.FireLaser(
-                    startPos,
-                    startPos + direction * 20f
-                ));
+                // 우물 정자 패턴 레이저 발사
+                // 경고선 위치에 맞춰 레이저 발사
+                foreach (var warningLine in warningLines)
+                {
+                    Vector2 startPos = warningLine.GetPosition(0); // 경고선의 시작 위치를 가져옵니다.
+                    Vector2 endPos = warningLine.GetPosition(1); // 경고선의 끝 위치를 가져옵니다.
+
+                    LaserController laser = LaserController.Create(
+                        weak3LaserData,
+                        startPos,
+                        null
+                    );
+                    laser.SetTargetLayer(weak3LaserData.TargetLayer);
+
+                    StartCoroutine(laser.FireLaser(
+                        startPos,
+                        endPos // 경고선의 끝 위치로 발사
+                    ));
+                }
+
+                // 다음 공격 전 대기
+                yield return new WaitForSeconds(weak3LaserData.LaserLockDuration * 0.8f);
             }
+            else
+            {
+                Debug.Log($"일반레이저 {attackCount + 1}회 공격 시작");
 
-            // 다음 공격 전 대기
-            yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+                // 랜덤 레이저
+                bool isPenetratingCross = Random.value > 0.5f;
+                List<LineRenderer> warningLines = new List<LineRenderer>();
+                for (int i = 0; i < 4; i++)
+                {
+                    LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
+                }
+
+                float trackingTime = 0f;
+                float trackingDuration = weak3LaserData.LaserFollowDuration;
+                Vector2 fixedPosition = Vector2.zero;
+                bool isPositionFixed = false; // 위치 고정 상태를 추적하는 변수 추가
+
+                while (trackingTime < trackingDuration)
+                {
+                    // 추적 중일 때만 플레이어 위치 업데이트
+                    Vector2 currentPosition = isPositionFixed ? fixedPosition : (Vector2)player.transform.position;
+                    float offset = isPenetratingCross ? 0f : 2f;
+
+                    // 수직 레이저 경고선 (위, 아래)
+                    warningLines[0].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y + offset));
+                    warningLines[0].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y + 10f));
+
+                    warningLines[1].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y - offset));
+                    warningLines[1].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y - 10f));
+
+                    // 수평 레이저 경고선 (왼쪽, 오른쪽)
+                    warningLines[2].SetPosition(0, new Vector2(currentPosition.x + offset, currentPosition.y));
+                    warningLines[2].SetPosition(1, new Vector2(currentPosition.x + 10f, currentPosition.y));
+
+                    warningLines[3].SetPosition(0, new Vector2(currentPosition.x - offset, currentPosition.y));
+                    warningLines[3].SetPosition(1, new Vector2(currentPosition.x - 10f, currentPosition.y));
+
+                    // 발사 0.45초 전에 위치 고정
+                    if (trackingTime >= trackingDuration - 0.45f && !isPositionFixed)
+                    {
+                        fixedPosition = (Vector2)player.transform.position;
+                        isPositionFixed = true;
+                    }
+
+                    trackingTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 경고선 제거
+                foreach (var line in warningLines)
+                {
+                    Destroy(line.gameObject);
+                }
+
+                // 레이저 4방향 발사
+                float laserOffset = isPenetratingCross ? 0f : 2f;
+                Vector2[] laserDirections = new Vector2[]
+                {
+                    Vector2.up,
+                    Vector2.down,
+                    Vector2.right,
+                    Vector2.left
+                };
+
+                foreach (Vector2 direction in laserDirections)
+                {
+                    Vector2 startPos = fixedPosition;
+                    if (!isPenetratingCross)
+                    {
+                        startPos += direction * laserOffset;
+                    }
+
+                    LaserController laser = LaserController.Create(
+                        weak3LaserData,
+                        startPos,
+                        null
+                    );
+                    laser.SetTargetLayer(weak3LaserData.TargetLayer);
+
+                    StartCoroutine(laser.FireLaser(
+                        startPos,
+                        startPos + direction * 20f
+                    ));
+                }
+
+                // 다음 공격 전 대기
+                yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+            }
         }
 
         currentState = BossState.None;
@@ -460,8 +635,9 @@ public class Boss3 : MonoBehaviour
         transform.position = new Vector2(leftBound + 10, bottomBound + 4);
         FacePlayer();
 
-        // 6번 반복
-        for (int attackCount = 0; attackCount < 6; attackCount++)
+        // 공격 반복
+        int totalAttack = isEnraged ? 8 : 6;
+        for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
             Debug.Log($"폭발 {attackCount + 1}회 공격 시작");
 
@@ -499,7 +675,7 @@ public class Boss3 : MonoBehaviour
             warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
 
             // 경고 표시 깜빡임
-            float warningDuration = 1f;
+            float warningDuration = isEnraged ? 0.7f : 1f;
             float currentTime = 0f;
 
             while (currentTime < warningDuration)
@@ -510,7 +686,6 @@ public class Boss3 : MonoBehaviour
                 yield return null;
             }
 
-            // 나머지 코드는 동일...
             Destroy(warningObj);
 
             // 폭발 프로젝타일 생성
@@ -530,9 +705,9 @@ public class Boss3 : MonoBehaviour
             }
             behaviour.Initialize(weak4ProjData.Damage, null);
 
-            float explosionDuration = 0.5f;
+            float explosionDuration = isEnraged ? 0.25f : 0.5f;
             float startScale = 0.5f;
-            float endScale = 2f;
+            float endScale = isEnraged ? 3f: 2f;
             float elapsed = 0f;
 
             while (elapsed < explosionDuration)
@@ -551,9 +726,10 @@ public class Boss3 : MonoBehaviour
 
             Destroy(projectile);
 
-            if (attackCount < 5)
+            if (attackCount < totalAttack - 1)
             {
-                yield return new WaitForSeconds(1f);
+                float timeBetweenAttacks = isEnraged ? 0.5f : 1f;
+                yield return new WaitForSeconds(timeBetweenAttacks);
             }
         }
 
@@ -710,12 +886,113 @@ public class Boss3 : MonoBehaviour
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
 
-        // 패턴 구현
+        // 준비 상태
+        float bottomBound = mapWidthPositions[0].position.y;
+        float topBound = mapWidthPositions[1].position.y;
+        float leftBound = mapWidthPositions[0].position.x;
+        float rightBound = mapWidthPositions[1].position.x;
+        float centerBound = (leftBound + rightBound) / 2;
+
+        transform.position = new Vector2(centerBound, bottomBound + 4);
+        FacePlayer();
+
+        bool weakPattern1Complete = false;
+        bool weakPattern2Complete = false;
+
+        // WeakPattern1 (not enraged)
+        StartCoroutine(WeakPattern1Wrapper(() => {
+            weakPattern1Complete = true;
+        }));
+
+        // WeakPattern2 (enraged, 7 times)
+        StartCoroutine(WeakPattern2Wrapper(() => {
+            weakPattern2Complete = true;
+        }));
+
+        // Wait until both patterns complete
+        yield return new WaitUntil(() => weakPattern1Complete && weakPattern2Complete);
 
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
+
+    public IEnumerator WeakPattern1Des()
+    {
+
+        Debug.Log("약공격1 - 기본(발악1)");
+        currentState = BossState.WeakPattern1;
+
+        float bottomBound = mapWidthPositions[0].position.y;
+        float topBound = mapWidthPositions[1].position.y;
+        float mapHeight = topBound - bottomBound;
+        float layerHeight = mapHeight / 3f;
+
+        float[] layerPositions = new float[3];
+        for (int i = 0; i < 3; i++)
+        {
+            layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
+        }
+
+        Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 1, 0);
+        Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 1, 0);
+
+        
+        for (int i = 0; i < 7; i++)
+        {
+            
+                // 기본 상태: 1개 레이어 공격 
+                int randomLayer = Random.Range(0, 3);
+                float targetY = layerPositions[randomLayer];
+
+                Vector2 startPosition = new Vector2(leftPosition.x, targetY);
+                Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
+
+                LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                StartCoroutine(BlinkDangerZone(warningLine));
+                warningLine.SetPosition(0, startPosition);
+                warningLine.SetPosition(1, targetPosition);
+
+                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
+                Destroy(warningLine.gameObject);
+
+                LaserController laser = LaserController.Create(
+                    weak1LaserData,
+                    startPosition,
+                    null
+                );
+                laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
+            
+
+            if (i < 6)
+            {
+                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
+            }
+        }
+
+        currentState = BossState.None;
+        currentCoroutine = null;
+        yield return null;
+    }
+
+    private IEnumerator WeakPattern1Wrapper(System.Action onComplete)
+    {
+        yield return StartCoroutine(WeakPattern1Des());
+        onComplete?.Invoke();
+    }
+    private IEnumerator WeakPattern2Wrapper(System.Action onComplete)
+    {
+        isEnraged = true;
+        int repeatCount = 0;
+        while (repeatCount < 7)
+        {
+            yield return StartCoroutine(WeakPattern2());
+            repeatCount++;
+        }
+        onComplete?.Invoke();
+    }
+
 
     public IEnumerator DesperatePattern2()
     {
