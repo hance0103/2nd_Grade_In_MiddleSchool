@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
   m_Name: 3 DesWeakLaser2
   m_EditorClassIdentifier: 
-  laserType: "\uC57D\uACF5 1"
+  laserType: "\uBC1C\uC5452"
   damage: 10
   laserSpeed: 1
   laserDuration: 1

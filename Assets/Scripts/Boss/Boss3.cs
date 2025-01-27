@@ -47,7 +47,9 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private float groggyTime = 5f;
     [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions;
-  
+    [Tooltip("약공격 5 위치")]
+    [SerializeField] private Transform[] pattern5Positions;
+
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private LaserScriptableObject weak1LaserData;
@@ -83,7 +85,7 @@ public class Boss3 : MonoBehaviour
 
     [Header("발악패턴2 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern2Data;
-    [SerializeField] private LaserScriptableObject desperate2LaserData;
+    [SerializeField] private ProjectileScriptableObject desperate2ProjData;
 
     [Header("발악패턴3 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern3Data;
@@ -100,8 +102,8 @@ public class Boss3 : MonoBehaviour
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
-            BossState.DesperatePattern1,
-            BossState.DesperatePattern2,
+            //BossState.DesperatePattern1,
+            //BossState.DesperatePattern2,
             BossState.DesperatePattern3
         });
 
@@ -752,6 +754,154 @@ public class Boss3 : MonoBehaviour
         transform.position = new Vector2(rightBound - 10, bottomBound + 4);
         FacePlayer();
 
+        // 3번의 공격 패턴 실행
+        int totalPatternCount = 3;
+        for (int patternCount = 0; patternCount < totalPatternCount; patternCount++)
+        {
+            Debug.Log($"약공격5 - {patternCount + 1}번째 패턴");
+
+            // 10개의 랜덤 위치 선택
+            List<Transform> selectedPositions = new List<Transform>();
+            List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+
+            for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
+            {
+                int randomIndex = Random.Range(0, availablePositions.Count);
+                selectedPositions.Add(availablePositions[randomIndex]);
+                availablePositions.RemoveAt(randomIndex);
+            }
+
+            // 모든 위치에 대한 경고 표시 동시 생성
+            List<GameObject> warningObjects = new List<GameObject>();
+            foreach (Transform position in selectedPositions)
+            {
+                GameObject warningObj = new GameObject($"Warning_{patternCount}_{selectedPositions.IndexOf(position)}");
+                SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+                // 원형 스프라이트 생성
+                Texture2D circleTexture = new Texture2D(128, 128);
+                for (int y = 0; y < circleTexture.height; y++)
+                {
+                    for (int x = 0; x < circleTexture.width; x++)
+                    {
+                        float dx = x - circleTexture.width / 2;
+                        float dy = y - circleTexture.height / 2;
+                        float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                        float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                        circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+                    }
+                }
+                circleTexture.Apply();
+
+                Sprite circleSprite = Sprite.Create(circleTexture,
+                    new Rect(0, 0, circleTexture.width, circleTexture.height),
+                    new Vector2(0.5f, 0.5f));
+
+                // 경고 표시 설정
+                warningRenderer.sprite = circleSprite;
+                warningRenderer.color = new Color(1f, 0f, 0f, 0.7f);
+                warningRenderer.transform.position = position.position;
+                warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f);
+                warningRenderer.sortingOrder = 10;
+
+                warningObjects.Add(warningObj);
+            }
+
+            // 경고 표시 깜빡임
+            float warningDuration = isEnraged ? 0.7f : 1f;
+            float currentTime = 0f;
+
+            while (currentTime < warningDuration)
+            {
+                float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f;
+                foreach (GameObject warningObj in warningObjects)
+                {
+                    SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
+                    warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+                }
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // 경고 표시 제거
+            foreach (GameObject warningObj in warningObjects)
+            {
+                Destroy(warningObj);
+            }
+
+            // 모든 위치에 동시에 폭발 생성
+            List<GameObject> projectiles = new List<GameObject>();
+            List<ProjectileController> projectileControllers = new List<ProjectileController>();
+
+            foreach (Transform position in selectedPositions)
+            {
+                ProjectileController projectileController = ProjectileController.Create(
+                    weak4ProjData,
+                    transform,
+                    player.transform,
+                    MusicProjectile,
+                    false
+                );
+                projectileControllers.Add(projectileController);
+
+                GameObject projectile = Instantiate(MusicProjectile, position.position, Quaternion.identity);
+                ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+                if (behaviour == null)
+                {
+                    behaviour = projectile.AddComponent<ProjectileBehaviour>();
+                }
+                behaviour.Initialize(weak4ProjData.Damage, null);
+                projectiles.Add(projectile);
+            }
+
+            // 폭발 애니메이션
+            float explosionDuration = isEnraged ? 0.25f : 0.5f;
+            float startScale = 0.5f;
+            float endScale = isEnraged ? 3f : 2f;
+            float elapsed = 0f;
+
+            while (elapsed < explosionDuration)
+            {
+                float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+                float alpha = 1f - (elapsed / explosionDuration);
+
+                foreach (GameObject projectile in projectiles)
+                {
+                    projectile.transform.localScale = new Vector3(scale, scale, 1f);
+                    SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+                    if (projRenderer != null)
+                    {
+                        projRenderer.color = new Color(1f, 1f, 1f, alpha);
+                    }
+                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // 프로젝타일과 ProjectileController 정리
+            foreach (GameObject projectile in projectiles)
+            {
+                Destroy(projectile);
+            }
+
+            foreach (ProjectileController controller in projectileControllers)
+            {
+                if (controller != null && controller.gameObject != null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+
+            // 다음 패턴 전 대기
+            if (patternCount < totalPatternCount - 1)
+            {
+                float timeBetweenPatterns = isEnraged ? 1f : 1.5f;
+                yield return new WaitForSeconds(timeBetweenPatterns);
+            }
+        }
+
+        yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -999,11 +1149,518 @@ public class Boss3 : MonoBehaviour
         Debug.Log("발악패턴2");
         currentState = BossState.DesperatePattern2;
 
-        // 패턴 구현
+        float bottomBound = mapWidthPositions[0].position.y;
+        float topBound = mapWidthPositions[1].position.y;
+        float leftBound = mapWidthPositions[0].position.x;
+        float rightBound = mapWidthPositions[1].position.x;
+
+        // Initial position setup
+        transform.position = new Vector2(leftBound + 10, bottomBound + 4);
+        FacePlayer();
+
+        bool pattern4Complete = false;
+        bool pattern5Complete = false;
+
+        // Start both patterns simultaneously
+        StartCoroutine(DesperatePattern2_Pattern4(() => {
+            pattern4Complete = true;
+        }));
+
+        StartCoroutine(DesperatePattern2_Pattern5(() => {
+            pattern5Complete = true;
+        }));
+
+        // Wait until both patterns complete
+        yield return new WaitUntil(() => pattern4Complete && pattern5Complete);
 
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
+    }
+
+    private IEnumerator DesperatePattern2_Pattern4(System.Action onComplete)
+    {
+        Debug.Log("발악패턴2 - 약공격4 부분");
+
+        // 약공격 5를 병렬로 실행
+        StartCoroutine(ContinuousPattern5());
+
+        float bottomBound = mapWidthPositions[0].position.y;
+        float topBound = mapWidthPositions[1].position.y;
+        float leftBound = mapWidthPositions[0].position.x;
+        float rightBound = mapWidthPositions[1].position.x;
+
+        List<ProjectileController> activeProjectileControllers = new List<ProjectileController>();
+
+        try
+        {
+            // 3번의 패턴 실행
+            for (int patternCount = 0; patternCount < 3; patternCount++)
+            {
+                Debug.Log($"약공격4 - {patternCount + 1}번째 실행");
+
+                // 각 패턴당 6번의 폭발
+                for (int attackCount = 0; attackCount < 6; attackCount++)
+                {
+                    Vector2 targetPosition = player.transform.position;
+
+                    // 경고 표시 생성
+                    GameObject warningObj = new GameObject($"Warning_Pattern4_{patternCount}_{attackCount}");
+                    SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+                    // 원형 스프라이트 생성
+                    Texture2D circleTexture = new Texture2D(128, 128);
+                    for (int y = 0; y < circleTexture.height; y++)
+                    {
+                        for (int x = 0; x < circleTexture.width; x++)
+                        {
+                            float dx = x - circleTexture.width / 2;
+                            float dy = y - circleTexture.height / 2;
+                            float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                            float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                            circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+                        }
+                    }
+                    circleTexture.Apply();
+
+                    Sprite circleSprite = Sprite.Create(circleTexture,
+                        new Rect(0, 0, circleTexture.width, circleTexture.height),
+                        new Vector2(0.5f, 0.5f));
+
+                    warningRenderer.sprite = circleSprite;
+                    warningRenderer.color = new Color(1f, 0f, 0f, 0.7f);
+                    warningRenderer.transform.position = targetPosition;
+                    warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f);
+                    warningRenderer.sortingOrder = 10;
+
+                    // 경고 표시 깜빡임
+                    float warningDuration = 1f;
+                    float currentTime = 0f;
+
+                    while (currentTime < warningDuration)
+                    {
+                        float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f;
+                        warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+                        currentTime += Time.deltaTime;
+                        yield return null;
+                    }
+
+                    Destroy(warningObj);
+
+                    // 폭발 프로젝타일 생성
+                    ProjectileController projectileController = ProjectileController.Create(
+                        weak4ProjData,
+                        transform,
+                        player.transform,
+                        MusicProjectile,
+                        false
+                    );
+                    activeProjectileControllers.Add(projectileController);
+
+                    GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
+                    ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+                    if (behaviour == null)
+                    {
+                        behaviour = projectile.AddComponent<ProjectileBehaviour>();
+                    }
+                    behaviour.Initialize(weak4ProjData.Damage, null);
+
+                    // 폭발 애니메이션
+                    float explosionDuration = 0.5f;
+                    float startScale = 0.5f;
+                    float endScale = 2f;
+                    float elapsed = 0f;
+
+                    while (elapsed < explosionDuration)
+                    {
+                        float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+                        projectile.transform.localScale = new Vector3(scale, scale, 1f);
+                        float alpha = 1f - (elapsed / explosionDuration);
+                        SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+                        if (projRenderer != null)
+                        {
+                            projRenderer.color = new Color(1f, 1f, 1f, alpha);
+                        }
+                        elapsed += Time.deltaTime;
+                        yield return null;
+                    }
+
+                    Destroy(projectile);
+
+                    if (attackCount < 5)
+                    {
+                        yield return new WaitForSeconds(1f);
+                    }
+                }
+
+                if (patternCount < 2)
+                {
+                    yield return new WaitForSeconds(1.5f);
+                }
+            }
+        }
+        finally
+        {
+            // 모든 ProjectileController 정리
+            foreach (var controller in activeProjectileControllers)
+            {
+                if (controller != null && controller.gameObject != null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+            activeProjectileControllers.Clear();
+
+            // Pattern5 정지 플래그 설정
+            isPattern5Running = false;
+        }
+
+        onComplete?.Invoke();
+    }
+
+    private bool isPattern5Running = false;
+
+    private IEnumerator ContinuousPattern5()
+    {
+        isPattern5Running = true;
+        List<ProjectileController> activeProjectileControllers = new List<ProjectileController>();
+
+        try
+        {
+            while (isPattern5Running)
+            {
+                // 10개의 랜덤 위치 선택
+                List<Transform> selectedPositions = new List<Transform>();
+                List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+
+                for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
+                {
+                    int randomIndex = Random.Range(0, availablePositions.Count);
+                    selectedPositions.Add(availablePositions[randomIndex]);
+                    availablePositions.RemoveAt(randomIndex);
+                }
+
+                // 경고 표시 생성
+                List<GameObject> warningObjects = new List<GameObject>();
+                foreach (Transform position in selectedPositions)
+                {
+                    GameObject warningObj = new GameObject($"Warning_Pattern5_Continuous");
+                    SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+                    // 원형 스프라이트 생성
+                    Texture2D circleTexture = new Texture2D(128, 128);
+                    for (int y = 0; y < circleTexture.height; y++)
+                    {
+                        for (int x = 0; x < circleTexture.width; x++)
+                        {
+                            float dx = x - circleTexture.width / 2;
+                            float dy = y - circleTexture.height / 2;
+                            float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                            float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                            circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+                        }
+                    }
+                    circleTexture.Apply();
+
+                    Sprite circleSprite = Sprite.Create(circleTexture,
+                        new Rect(0, 0, circleTexture.width, circleTexture.height),
+                        new Vector2(0.5f, 0.5f));
+
+                    warningRenderer.sprite = circleSprite;
+                    warningRenderer.color = new Color(1f, 0f, 0f, 0.7f);
+                    warningRenderer.transform.position = position.position;
+                    warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f);
+                    warningRenderer.sortingOrder = 10;
+
+                    warningObjects.Add(warningObj);
+                }
+
+                // 경고 표시 깜빡임
+                float warningDuration = 1f;
+                float currentTime = 0f;
+
+                while (currentTime < warningDuration && isPattern5Running)
+                {
+                    float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f;
+                    foreach (GameObject warningObj in warningObjects)
+                    {
+                        if (warningObj != null)
+                        {
+                            SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
+                            warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+                        }
+                    }
+                    currentTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 경고 표시 제거
+                foreach (GameObject warningObj in warningObjects)
+                {
+                    if (warningObj != null)
+                    {
+                        Destroy(warningObj);
+                    }
+                }
+
+                if (!isPattern5Running) break;
+
+                // 폭발 생성
+                List<GameObject> projectiles = new List<GameObject>();
+
+                foreach (Transform position in selectedPositions)
+                {
+                    ProjectileController projectileController = ProjectileController.Create(
+                        weak4ProjData,
+                        transform,
+                        player.transform,
+                        MusicProjectile,
+                        false
+                    );
+                    activeProjectileControllers.Add(projectileController);
+
+                    GameObject projectile = Instantiate(MusicProjectile, position.position, Quaternion.identity);
+                    ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+                    if (behaviour == null)
+                    {
+                        behaviour = projectile.AddComponent<ProjectileBehaviour>();
+                    }
+                    behaviour.Initialize(weak4ProjData.Damage, null);
+                    projectiles.Add(projectile);
+                }
+
+                // 폭발 애니메이션
+                float explosionDuration = 0.5f;
+                float startScale = 0.5f;
+                float endScale = 2f;
+                float elapsed = 0f;
+
+                while (elapsed < explosionDuration && isPattern5Running)
+                {
+                    float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+                    float alpha = 1f - (elapsed / explosionDuration);
+
+                    foreach (GameObject projectile in projectiles)
+                    {
+                        if (projectile != null)
+                        {
+                            projectile.transform.localScale = new Vector3(scale, scale, 1f);
+                            SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+                            if (projRenderer != null)
+                            {
+                                projRenderer.color = new Color(1f, 1f, 1f, alpha);
+                            }
+                        }
+                    }
+
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 프로젝타일 제거
+                foreach (GameObject projectile in projectiles)
+                {
+                    if (projectile != null)
+                    {
+                        Destroy(projectile);
+                    }
+                }
+
+                // 다음 반복 전 대기
+                yield return new WaitForSeconds(1.5f);
+            }
+        }
+        finally
+        {
+            // 모든 ProjectileController 정리
+            foreach (var controller in activeProjectileControllers)
+            {
+                if (controller != null && controller.gameObject != null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+            activeProjectileControllers.Clear();
+        }
+    }
+
+    private IEnumerator DesperatePattern2_Pattern5(System.Action onComplete)
+    {
+        Debug.Log("발악패턴2 - 약공격5 부분");
+
+        // 패턴 시작 시간 기록
+        float patternStartTime = Time.time;
+        float patternTotalDuration = 10.5f; // 3 * (1f + 0.5f + 1.5f) = 10.5f
+
+
+        List<ProjectileController> activeProjectileControllers = new List<ProjectileController>();
+
+        try
+        {
+            // 3번의 패턴 실행
+            for (int patternCount = 0; patternCount < 3; patternCount++)
+            {
+                Debug.Log($"약공격5 - {patternCount + 1}번째 패턴");
+
+                // 10개의 랜덤 위치 선택
+                List<Transform> selectedPositions = new List<Transform>();
+                List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+
+                for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
+                {
+                    int randomIndex = Random.Range(0, availablePositions.Count);
+                    selectedPositions.Add(availablePositions[randomIndex]);
+                    availablePositions.RemoveAt(randomIndex);
+                }
+
+                // 모든 위치에 대한 경고 표시 동시 생성
+                List<GameObject> warningObjects = new List<GameObject>();
+                foreach (Transform position in selectedPositions)
+                {
+                    GameObject warningObj = new GameObject($"Warning_Pattern5_{patternCount}_{selectedPositions.IndexOf(position)}");
+                    SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+                    // 원형 스프라이트 생성
+                    Texture2D circleTexture = new Texture2D(128, 128);
+                    for (int y = 0; y < circleTexture.height; y++)
+                    {
+                        for (int x = 0; x < circleTexture.width; x++)
+                        {
+                            float dx = x - circleTexture.width / 2;
+                            float dy = y - circleTexture.height / 2;
+                            float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                            float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                            circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+                        }
+                    }
+                    circleTexture.Apply();
+
+                    Sprite circleSprite = Sprite.Create(circleTexture,
+                        new Rect(0, 0, circleTexture.width, circleTexture.height),
+                        new Vector2(0.5f, 0.5f));
+
+                    warningRenderer.sprite = circleSprite;
+                    warningRenderer.color = new Color(1f, 0f, 0f, 0.7f);
+                    warningRenderer.transform.position = position.position;
+                    warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f);
+                    warningRenderer.sortingOrder = 10;
+
+                    warningObjects.Add(warningObj);
+                }
+
+                // 경고 표시 깜빡임
+                float warningDuration = 1f;
+                float currentTime = 0f;
+
+                while (currentTime < warningDuration)
+                {
+                    float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f;
+                    foreach (GameObject warningObj in warningObjects)
+                    {
+                        SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
+                        warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+                    }
+                    currentTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 경고 표시 제거
+                foreach (GameObject warningObj in warningObjects)
+                {
+                    Destroy(warningObj);
+                }
+
+                // 모든 위치에 동시에 폭발 생성
+                List<GameObject> projectiles = new List<GameObject>();
+                List<ProjectileController> projectileControllers = new List<ProjectileController>();
+
+                foreach (Transform position in selectedPositions)
+                {
+                    ProjectileController projectileController = ProjectileController.Create(
+                        weak4ProjData,
+                        transform,
+                        player.transform,
+                        MusicProjectile,
+                        false
+                    );
+                    activeProjectileControllers.Add(projectileController);
+
+                    GameObject projectile = Instantiate(MusicProjectile, position.position, Quaternion.identity);
+                    ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+                    if (behaviour == null)
+                    {
+                        behaviour = projectile.AddComponent<ProjectileBehaviour>();
+                    }
+                    behaviour.Initialize(weak4ProjData.Damage, null);
+                    projectiles.Add(projectile);
+                }
+
+                // 폭발 애니메이션
+                float explosionDuration = 0.5f;
+                float startScale = 0.5f;
+                float endScale = 2f;
+                float elapsed = 0f;
+
+                while (elapsed < explosionDuration)
+                {
+                    float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+                    float alpha = 1f - (elapsed / explosionDuration);
+
+                    foreach (GameObject projectile in projectiles)
+                    {
+                        projectile.transform.localScale = new Vector3(scale, scale, 1f);
+                        SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+                        if (projRenderer != null)
+                        {
+                            projRenderer.color = new Color(1f, 1f, 1f, alpha);
+                        }
+                    }
+
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 프로젝타일과 ProjectileController 정리
+                foreach (GameObject projectile in projectiles)
+                {
+                    Destroy(projectile);
+                }
+
+                foreach (ProjectileController controller in projectileControllers)
+                {
+                    if (controller != null && controller.gameObject != null)
+                    {
+                        Destroy(controller.gameObject);
+                    }
+                }
+
+                if (patternCount < 2)
+                {
+                    yield return new WaitForSeconds(1.5f);
+                }
+            }
+        }
+        finally
+        {
+            // 모든 ProjectileController 정리
+            foreach (var controller in activeProjectileControllers)
+            {
+                if (controller != null && controller.gameObject != null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+            activeProjectileControllers.Clear();
+        }
+
+        // 패턴의 정확한 지속 시간 보장
+        float remainingTime = patternTotalDuration - (Time.time - patternStartTime);
+        if (remainingTime > 0)
+        {
+            yield return new WaitForSeconds(remainingTime);
+        }
+
+        onComplete?.Invoke();
     }
 
     public IEnumerator DesperatePattern3()
@@ -1011,12 +1668,97 @@ public class Boss3 : MonoBehaviour
         Debug.Log("발악패턴3");
         currentState = BossState.DesperatePattern3;
 
-        // 패턴 구현
+        float bottomBound = mapWidthPositions[0].position.y - 1;
+        float topBound = mapWidthPositions[1].position.y + 1;
+        float leftBound = mapWidthPositions[0].position.x;
+        float rightBound = mapWidthPositions[1].position.x;
+        float centerBound = (leftBound + rightBound) / 2;
+        float centerYBound = (topBound + bottomBound) / 2;
+
+        List<List<(Vector2, Vector2)>> selectedSets = new List<List<(Vector2, Vector2)>>();
+
+        // 첫 번째 세트 정의
+        List<(Vector2, Vector2)> firstSet = new List<(Vector2, Vector2)>
+    {
+        (new Vector2(leftBound, topBound), new Vector2(rightBound, bottomBound)),
+        (new Vector2(rightBound, topBound), new Vector2(leftBound, bottomBound)),
+        (new Vector2(centerBound - 6, topBound), new Vector2(centerBound + 6, bottomBound)),
+        (new Vector2(centerBound + 6, topBound), new Vector2(centerBound - 6, bottomBound))
+    };
+
+        // 두 번째 세트 정의
+        List<(Vector2, Vector2)> secondSet = new List<(Vector2, Vector2)>
+    {
+        (new Vector2(centerBound + 14, topBound), new Vector2(centerBound - 14, bottomBound)),
+        (new Vector2(centerBound - 14, topBound), new Vector2(centerBound + 14, bottomBound)),
+        (new Vector2(leftBound, centerYBound), new Vector2(rightBound, centerYBound)),
+        (new Vector2(centerBound, topBound), new Vector2(centerBound, bottomBound))
+    };
+
+        // 첫 번째와 두 번째 세트에서 랜덤으로 8개의 세트를 선택
+        for (int i = 0; i < 8; i++)
+        {
+            if (Random.value < 0.5f)
+            {
+                selectedSets.Add(new List<(Vector2, Vector2)>(firstSet));
+            }
+            else
+            {
+                selectedSets.Add(new List<(Vector2, Vector2)>(secondSet));
+            }
+        }
+
+        // 선택된 세트에 대해 경고선 표시
+        foreach (var set in selectedSets)
+        {
+            List<LineRenderer> warningLines = new List<LineRenderer>();
+
+            foreach (var (startPos, endPos) in set)
+            {
+                LineRenderer warningLine = CreateDangerZone(desperate3LaserData);
+                warningLine.SetPosition(0, startPos);
+                warningLine.SetPosition(1, endPos);
+                StartCoroutine(BlinkDangerZone(warningLine));
+                warningLines.Add(warningLine);
+            }
+
+            yield return new WaitForSeconds(0.5f); // 세트 전체가 표시된 후 잠시 대기
+
+            // 경고선 제거
+            foreach (var warningLine in warningLines)
+            {
+                Destroy(warningLine.gameObject);
+            }
+        }
+
+        // 경고선 표시 후 2초 대기
+        yield return new WaitForSeconds(2f);
+
+        // 레이저 발사
+        foreach (var set in selectedSets)
+        {
+            foreach (var (startPos, endPos) in set)
+            {
+                LaserController laser = LaserController.Create(
+                    desperate3LaserData,
+                    startPos,
+                    null
+                );
+                laser.SetTargetLayer(desperate3LaserData.TargetLayer);
+                StartCoroutine(laser.FireLaser(startPos, endPos));
+            }
+
+            yield return new WaitForSeconds(0.5f); // 세트 간 딜레이
+        }
+
+        // 패턴 종료
+        yield return new WaitForSeconds(0.5f);
 
         currentState = BossState.None;
         currentCoroutine = null;
-        yield return null;
     }
+
+
 
     public IEnumerator GroggyState()
     {

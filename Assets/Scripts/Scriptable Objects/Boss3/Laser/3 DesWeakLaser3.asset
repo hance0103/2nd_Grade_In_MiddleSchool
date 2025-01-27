@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8abe2e0ad93d144fa84fca7715e6c7b, type: 3}
-  m_Name: 3 DesWeakLaser1
+  m_Name: 3 DesWeakLaser3
   m_EditorClassIdentifier: 
-  laserType: "\uBC1C\uC5451"
+  laserType: "\uBC1C\uC5453"
   damage: 10
   laserSpeed: 1
-  laserDuration: 1
+  laserDuration: 0
   laserWidth: 2
-  laserColor: {r: 1, g: 0.7028302, b: 0.7245743, a: 1}
+  laserColor: {r: 0.2271074, g: 1, b: 0, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  laserFollowDuration: 3
-  laserLockDuration: 2
+  laserFollowDuration: 0
+  laserLockDuration: 0
