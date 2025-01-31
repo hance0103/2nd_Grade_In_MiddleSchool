@@ -1502,6 +1502,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7613790433271933663, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: player
       value: 
@@ -3350,7 +3354,7 @@ Transform:
   m_GameObject: {fileID: 819199304}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.03, y: -0.11, z: 0}
+  m_LocalPosition: {x: 6.03, y: 0, z: 0}
   m_LocalScale: {x: 0.974, y: 0.9393, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10214,7 +10218,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10668,6 +10672,7 @@ SceneRoots:
   - {fileID: 128768947}
   - {fileID: 904183010}
   - {fileID: 2116096716}
+  - {fileID: 819199306}
   - {fileID: 2061387921}
   - {fileID: 1304048933}
   - {fileID: 1046336146}
@@ -10675,4 +10680,3 @@ SceneRoots:
   - {fileID: 1810874512}
   - {fileID: 1953349571}
   - {fileID: 175173884}
-  - {fileID: 819199306}
