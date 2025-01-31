@@ -470,8 +470,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e11107d030f054a85ff4e6b7b616a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothing: 0.2
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
+  boss: {fileID: 0}
+  zoomSize: 3
+  zoomDuration: 1
+  pauseDuration: 2
 --- !u!1 &541393234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,7 +1166,7 @@ Transform:
   m_GameObject: {fileID: 1842821042}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.57, y: -3.25, z: -1.3625748}
+  m_LocalPosition: {x: 21.57, y: -2.9, z: -1.3625748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

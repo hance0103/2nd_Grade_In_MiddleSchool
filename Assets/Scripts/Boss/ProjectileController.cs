@@ -378,7 +378,7 @@ public class ProjectileController : MonoBehaviour
     {
         GameObject projectile = projectilePool.Get();
         projectile.transform.position = position;
-        projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        //projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
         projectile.transform.localScale = projectileData.ProjectileScale;
 
         // 수평 방향으로만 발사
