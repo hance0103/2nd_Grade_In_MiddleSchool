@@ -79,7 +79,7 @@ public class ProjectileController : MonoBehaviour
         {
             if (Time.time >= nextFireTime)
             {
-                Vector3 basePosition = bossTransform.position;
+                Vector3 basePosition = bossTransform.position + new Vector3(0, 1.5f, 0);
 
                 if (isEnraged)
                 {

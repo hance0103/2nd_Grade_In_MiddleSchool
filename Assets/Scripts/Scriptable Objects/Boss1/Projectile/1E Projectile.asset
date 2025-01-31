@@ -15,7 +15,7 @@ MonoBehaviour:
   damage: 10
   projectileSpeed: 7
   projectileCount: 18
-  projectileScale: {x: 1, y: 1, z: 1}
-  verticalSpacing: 1
-  fireRate: 3
+  projectileScale: {x: 1.8, y: 1.8, z: 1.8}
+  verticalSpacing: 3
+  fireRate: 1
   afterFireDelay: 3
