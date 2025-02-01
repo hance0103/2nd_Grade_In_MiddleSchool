@@ -38,7 +38,12 @@ public class BossHPManager : MonoBehaviour
         currentHP = maxHP;
     }
 
-    
+    public void RestartHP()
+    {
+        currentHP = maxHP;
+        Enrageactive = true;
+    }
+
     private bool Enrageactive = true;
     public void TakeDamage(float damage)
     {

@@ -36,8 +36,12 @@ public class PlayerHPManager : MonoBehaviour
         currentHP = maxHP;
     }
 
+    public void RestartHP()
+    {
+        currentHP = maxHP;
+    }
 
-    
+
     public void TakeDamage(float damage)
     {
         currentHP -= damage;

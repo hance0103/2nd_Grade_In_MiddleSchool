@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class PopupVictory : MonoBehaviour
 {
-    
+    [SerializeField] private GameObject OpeningTextPanel;
     
     private string[] Victorytexts1 = {
         "후훗, 시시하구나",
@@ -105,5 +105,6 @@ public class PopupVictory : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1f; // 시간 재개
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        
     }
 }

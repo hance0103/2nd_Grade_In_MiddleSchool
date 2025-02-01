@@ -43,13 +43,27 @@ public class BossEnragePopup : MonoBehaviour
     [Header("글씨 깜빡이는 시간 및 속도")]
     [SerializeField] private float blinkDuration = 4f;
     [SerializeField] private float blinkSpeed = 4f;
+
+    // 원본 위치 저장용 변수
+    private Vector2 initTopBarPos;
+    private Vector2 initMiddleBarPos;
+    private Vector2 initBottomBarPos;
+    private Vector2 initTopTextPos;
+    private Vector2 initBottomTextPos;
+
     private void Start()
     {
-        
+        // 시작 시, RectTransform들의 원본 위치를 기억
+        initTopBarPos = TopBar.GetComponent<RectTransform>().anchoredPosition;
+        initMiddleBarPos = MiddleBar.GetComponent<RectTransform>().anchoredPosition;
+        initBottomBarPos = BottomBar.GetComponent<RectTransform>().anchoredPosition;
+        initTopTextPos = TopText.GetComponent<RectTransform>().anchoredPosition;
+        initBottomTextPos = BottomText.GetComponent<RectTransform>().anchoredPosition;
     }
 
     public void OnEnrage() //임시로 버튼으로 트리거
     {
+        
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화
         gameObject.SetActive(true);
         // 트리거(또는 처음부터) 발동 시 코루틴 실행
@@ -227,7 +241,12 @@ public class BossEnragePopup : MonoBehaviour
 
         // 패널(보스 광폭화 팝업) 비활성화
         gameObject.SetActive(false);
-
+        // 다시 켰을 때도 동일하게 연출되도록, 원본 위치로 복원
+        TopBar.GetComponent<RectTransform>().anchoredPosition = initTopBarPos;
+        MiddleBar.GetComponent<RectTransform>().anchoredPosition = initMiddleBarPos;
+        BottomBar.GetComponent<RectTransform>().anchoredPosition = initBottomBarPos;
+        TopText.GetComponent<RectTransform>().anchoredPosition = initTopTextPos;
+        BottomText.GetComponent<RectTransform>().anchoredPosition = initBottomTextPos;
         // 코루틴 종료
     }
 }

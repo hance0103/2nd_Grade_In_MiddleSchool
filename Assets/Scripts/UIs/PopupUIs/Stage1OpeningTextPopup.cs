@@ -35,19 +35,30 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
+    private static bool isFirstTime = true;
     void Start()
+    {
+        if (!isFirstTime)
+        {
+            OnSkipButtonClicked();
+        }
+
+        Open();
+     }
+   
+    void Update()
+    {
+        
+    }
+
+    void Open()
     {
         Time.timeScale = 0f;
         var timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
         NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(OpeningTextStage1());
+        if (isFirstTime) { StartCoroutine(OpeningTextStage1()); }
         Timer.SetActive(false);
-    }
-   
-    void Update()
-    {
-        
     }
     void OnNextButtonClicked()
     {
@@ -126,7 +137,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     { 
         OpeningTextPanel.SetActive(false); // 패널 비활성화
-        
+        isFirstTime = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         
