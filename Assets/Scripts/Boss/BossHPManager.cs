@@ -11,7 +11,7 @@ public class BossHPManager : MonoBehaviour
     public static BossHPManager Instance { get; private set; }
 
     [Header("보스 HP 설정")]
-    [SerializeField] private float maxHP = 100f;
+    [SerializeField] public float maxHP = 100f;
     [Header("승리 텍스트 입력 팝업")]
     [SerializeField] private GameObject VictoryInputPopup;
     [SerializeField] private VictoryTextInputPopup victoryTextPopupScript;
@@ -20,7 +20,7 @@ public class BossHPManager : MonoBehaviour
     [SerializeField] private BossEnragePopup BossEnragePopupScript;
     [Header("보스 오브젝트")]
     [SerializeField] private GameObject Boss;
-    private float currentHP;
+    public float currentHP;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
     private void Awake()

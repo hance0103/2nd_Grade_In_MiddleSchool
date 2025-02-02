@@ -123,7 +123,7 @@ public class CameraMove : MonoBehaviour
 
         // 5) 시간 복원
         Time.timeScale = originalTimeScale;
-
+        Time.timeScale = 1f;
         // 줌 이벤트 종료
         isZooming = false;
     }

@@ -61,7 +61,7 @@ public class BossEnragePopup : MonoBehaviour
         initBottomTextPos = BottomText.GetComponent<RectTransform>().anchoredPosition;
     }
 
-    public void OnEnrage() //임시로 버튼으로 트리거
+    public void OnEnrage() 
     {
         
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화

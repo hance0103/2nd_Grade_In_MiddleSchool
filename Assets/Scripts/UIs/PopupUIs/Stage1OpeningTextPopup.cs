@@ -35,15 +35,19 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
-    private static bool isFirstTime = true;
+    public static bool isFirstTime = true;
     void Start()
     {
         if (!isFirstTime)
         {
             OnSkipButtonClicked();
+            Debug.Log("!isFristtime");
         }
-
-        Open();
+        else
+        {
+            Open();
+            isFirstTime = false;
+        }
      }
    
     void Update()
@@ -53,11 +57,12 @@ public class Stage1OpeningTextPopup : MonoBehaviour
 
     void Open()
     {
+        
         Time.timeScale = 0f;
         var timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
         NextButton.onClick.AddListener(OnNextButtonClicked);
-        if (isFirstTime) { StartCoroutine(OpeningTextStage1()); }
+        StartCoroutine(OpeningTextStage1());
         Timer.SetActive(false);
     }
     void OnNextButtonClicked()
@@ -76,6 +81,10 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public void OnSkipButtonClicked()
     {
         CloseOpeningText();
+    }
+    public void ExitStage1()
+    {
+        isFirstTime = true;
     }
 
     public float typingSpeed = 0.02f;
@@ -133,9 +142,10 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
         CloseOpeningText();
     }
-
+    
     void CloseOpeningText()
-    { 
+    {
+        
         OpeningTextPanel.SetActive(false); // 패널 비활성화
         isFirstTime = false;
         Time.timeScale = 1f;
