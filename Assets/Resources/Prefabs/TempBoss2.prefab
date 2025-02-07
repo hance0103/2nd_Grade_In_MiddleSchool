@@ -11,9 +11,13 @@ GameObject:
   - component: {fileID: 7195187473222272353}
   - component: {fileID: 6134767581251065260}
   - component: {fileID: -903806034222056499}
-  m_Layer: 0
+  - component: {fileID: 7231450267254571419}
+  - component: {fileID: 5693349340036058249}
+  - component: {fileID: 6756898872086610307}
+  - component: {fileID: 7165545684217176000}
+  m_Layer: 7
   m_Name: TempBoss2
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.016389966, y: 0.049169958}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,5 +132,84 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.12, y: 6.12}
+  m_Size: {x: 3.9893072, y: 2.678112}
   m_EdgeRadius: 0
+--- !u!114 &7231450267254571419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484509623436859966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6af91216ea9f87548a5f0f23f83259b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  isEnraged: 0
+  groggyTime: 5
+  mapWidthPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
+  weak1LaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
+  weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
+  weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
+  weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
+  weak3AttackCount: 4
+  weakPattern4Data: {fileID: 11400000, guid: 4360d457d25441e4eb8c5ae36eeb618d, type: 2}
+  weakPattern5Data: {fileID: 11400000, guid: 46f5d4a4f57720f498310a8fa7a9ddf3, type: 2}
+  weakPattern6Data: {fileID: 11400000, guid: 44db3164d7cdc564da6d51f6544b729c, type: 2}
+  weak6LaserData: {fileID: 11400000, guid: bfa65eb38beb278409dea0d97fb52b28, type: 2}
+  poisonRainDuration: 15
+  poisonRainSpacing: 4
+  projectileCapData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
+  projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
+  projectileRainData: {fileID: 11400000, guid: e4fb23ec7a6a63442b331a7a18e1b2c2, type: 2}
+  captureProjectile: {fileID: 5731918378402269697, guid: 688d5bf9c2bac6b48b7c8d1eaea1299c, type: 3}
+  Projectile: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
+  rainProjectile: {fileID: 3316179567270816736, guid: 5882fd5fb3b6c7a40af6a9cd729b81bb, type: 3}
+--- !u!114 &5693349340036058249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484509623436859966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6756898872086610307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484509623436859966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f920fa3c82e8e53439437b8ce1d0582d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7165545684217176000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484509623436859966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f946e86f045ec8448959d33b6932f82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 1000
+  VictoryInputPopup: {fileID: 0}
+  victoryTextPopupScript: {fileID: 0}
+  BossEnragePopup: {fileID: 0}
+  BossEnragePopupScript: {fileID: 0}
+  Boss: {fileID: 484509623436859966}
+  currentHP: 0

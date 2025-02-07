@@ -16,9 +16,11 @@ MonoBehaviour:
   damage: 100
   laserSpeed: 90
   laserDuration: 3
-  laserWidth: 7
+  laserWidth: 6
   laserColor: {r: 1, g: 0, b: 0, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  laserFollowDuration: 2
+  laserLockDuration: 1

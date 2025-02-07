@@ -95,7 +95,7 @@ public class bossPatternTest : MonoBehaviour
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3 });
 
         StartCoroutine(Idle());
     }
@@ -202,7 +202,7 @@ public class bossPatternTest : MonoBehaviour
 
         // 수평 방향으로만 돌진
         float directionX = (targetPlayerPos.x - transform.position.x);
-        float dashDistance = 5f; // 돌진 거리
+        float dashDistance = isEnraged ? 7f : 6f; // 돌진 거리
 
         // 수평 방향 결정 (왼쪽 또는 오른쪽)
         float horizontalDirection = Mathf.Sign(directionX);
@@ -224,7 +224,7 @@ public class bossPatternTest : MonoBehaviour
         //animator?.SetTrigger("DashAttack"); // 돌진 공격 애니메이션
 
         // 광폭화 상태에 따라 돌진 시간 조정
-        float dashDuration = isEnraged ? 0.2f : 0.3f;
+        float dashDuration = isEnraged ? 0.15f : 0.2f;
         float elapsedTime = 0f;
         Vector3 startPosition = transform.position;
         // 한 번만 데미지를 주었는지 체크하는 변수

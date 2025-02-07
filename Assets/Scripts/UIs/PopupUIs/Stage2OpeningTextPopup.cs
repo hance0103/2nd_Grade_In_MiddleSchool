@@ -24,11 +24,17 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public GameObject CharacterPose5; // 젖히고 웃는 포즈
     public GameObject CharacterPose6; // 머리에 손 포즈, 진지한 표정
     public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
-    public GameObject Boss;
+
+    [Header("플레이어/보스 오브젝트")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject PlayerHP;
+    [SerializeField] private GameObject Boss;
+    [SerializeField] private GameObject BossHP;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
+    public static bool isFirstTime = true;
     void Start()
     {
         NextButton.onClick.AddListener(OnNextButtonClicked);
@@ -116,10 +122,17 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     {
         OpeningTextPanel.SetActive(false); // 패널 비활성화
-        TempPenal.SetActive(true);
+        isFirstTime = false;
+        Time.timeScale = 1f;
+        var timer = FindObjectOfType<Timer>();
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
         Time.timeScale = 1;
-
+        Timer.SetActive(true);
+        timer.TimeActive = true;
+        Player.SetActive(true);
+        Boss.SetActive(true);
+        PlayerHP.SetActive(true);
+        BossHP.SetActive(true);
     }
 }
