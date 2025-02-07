@@ -12,6 +12,8 @@ public class BossHPManager : MonoBehaviour
 
     [Header("보스 HP 설정")]
     [SerializeField] public float maxHP = 100f;
+    [Header("보스 현재 HP")]
+    public float currentHP;
     [Header("승리 텍스트 입력 팝업")]
     [SerializeField] private GameObject VictoryInputPopup;
     [SerializeField] private VictoryTextInputPopup victoryTextPopupScript;
@@ -20,7 +22,11 @@ public class BossHPManager : MonoBehaviour
     [SerializeField] private BossEnragePopup BossEnragePopupScript;
     [Header("보스 오브젝트")]
     [SerializeField] private GameObject Boss;
-    public float currentHP;
+    [Header("스테이지")]
+    [SerializeField] private int Stage;
+    [Header("타이머")]
+    [SerializeField] private GameObject Timer;
+    
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
     private void Awake()
@@ -55,10 +61,20 @@ public class BossHPManager : MonoBehaviour
             Enrageactive = false;
             BossEnrage();
         }
-        if (currentHP <= 0)
+        if (currentHP <= 0&& Stage ==1)
         {
             currentHP = 0;
-            BossDie();
+            BossDie1();
+        }
+        if (currentHP <= 0 && Stage == 2)
+        {
+            currentHP = 0;
+            BossDie2();
+        }
+        if (currentHP <= 0 && Stage == 3)
+        {
+            currentHP = 0;
+            BossDie3();
         }
     }
     public float GetCurrentHP()
@@ -76,12 +92,35 @@ public class BossHPManager : MonoBehaviour
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
     }
-    private void BossDie()
+    private void BossDie1()
     {
-        Debug.Log("보스가 사망했습니다.");
+        Debug.Log("스테이지 1 보스가 사망했습니다.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
+        Timer.SetActive(false);
+        Time.timeScale = 0f;
+        // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
+        // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
+    }
+    private void BossDie2()
+    {
+        Debug.Log("스테이지 2 보스가 사망했습니다.");
+        Boss.SetActive(false);
+        VictoryInputPopup.SetActive(true);
+        victoryTextPopupScript.Stage2OpenInputPanel();
+        Timer.SetActive(false);
+        Time.timeScale = 0f;
+        // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
+        // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
+    }
+    private void BossDie3()
+    {
+        Debug.Log("스테이지 3 보스가 사망했습니다.");
+        Boss.SetActive(false);
+        VictoryInputPopup.SetActive(true);
+        victoryTextPopupScript.Stage3OpenInputPanel();
+        Timer.SetActive(false);
         Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등

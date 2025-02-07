@@ -1423,6 +1423,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1793914935}
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: Stage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: Timer
+      value: 
+      objectReference: {fileID: 1239949766}
+    - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 360203573}
@@ -8478,6 +8486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossSlider: {fileID: 1727800776}
+  Boss: {fileID: 0}
 --- !u!114 &1727800776
 MonoBehaviour:
   m_ObjectHideFlags: 0
