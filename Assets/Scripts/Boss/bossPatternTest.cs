@@ -76,7 +76,7 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileEPrefab; 
 
-    //[SerializeField] private Animator animator; // 애니메이터 참조 추가
+    private Animator animator; // 애니메이터 참조 추가
     //[SerializeField] private float rotationSpeed = 5f; // 보스가 플레이어를 바라보는 회전 속도
 
     //// 보스의 몸박 데미지 관련 설정
@@ -92,10 +92,10 @@ public class bossPatternTest : MonoBehaviour
         {
             Debug.LogError("Strong pattern positions are not assigned!");
         }
-
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern3 });
+        animator = gameObject.GetComponent<Animator>();
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1 });
 
         StartCoroutine(Idle());
     }
@@ -182,11 +182,13 @@ public class bossPatternTest : MonoBehaviour
         // 안전한 텔레포트 위치 계산
         Vector3 targetPosition = GetSafeTeleportPosition(playerPos, teleportOffset);
 
+        //애니메이션 설정
+        animator.SetBool("isWP1", true);
+        animator.SetBool("isPre", true);
+
         // 적을 텔포시킬 위치로 이동
         transform.position = targetPosition;
         FacePlayer();
-
-        //animator?.SetTrigger("PreAttackStance"); // 공격 대기 모션 애니메이션
 
         float beforeDelay = isEnraged ? weakEnraged1Data.BeforeAttackDelay : weakPattern1Data.BeforeAttackDelay;
         yield return new WaitForSeconds(beforeDelay);
@@ -221,7 +223,8 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("약공격1 실행");
         currentState = BossState.WeakPattern1;
 
-        //animator?.SetTrigger("DashAttack"); // 돌진 공격 애니메이션
+        //애니메이션 설정
+        animator.SetBool("isPre", false);
 
         // 광폭화 상태에 따라 돌진 시간 조정
         float dashDuration = isEnraged ? 0.15f : 0.2f;
@@ -280,6 +283,8 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator WeakPattern1PostAttack()
     {
         Debug.Log("약공격1 Post");
+
+        
 
         // 공격 모션 유지 (애니메이션 전환 없음)
         float afterDelay = isEnraged ? weakEnraged1Data.AfterAttackDelay : weakPattern1Data.AfterAttackDelay;
