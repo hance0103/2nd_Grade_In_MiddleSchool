@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 839340e35dc8bdc4ab1d9037afb6953f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4461dc38ad957f4c9a3e7223dd7222e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,7 +126,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11.21, y: 13.61}
+    oldSize: {x: 13, y: 15}
     newSize: {x: 11.21, y: 13.61}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -155,15 +155,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   weakPattern1Data: {fileID: 11400000, guid: f7f01cfdd1add01499418824060f5405, type: 2}
-  weakPattern2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
-  weakPattern3Data: {fileID: 11400000, guid: 10b1f7f87fc61ca4993cd048b28fbd70, type: 2}
-  strongPattern1Data: {fileID: 11400000, guid: 72277fea6b5ebd947a58989115a067f1, type: 2}
-  strongPattern2Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
   weakEnraged1Data: {fileID: 11400000, guid: b65456f427985c949adc50365a635879, type: 2}
+  weakPattern2Data: {fileID: 11400000, guid: a92ba0a548698e044a1343bac8873ef8, type: 2}
   weakEnraged2Data: {fileID: 11400000, guid: 8872624b8bd867d4aaaddf154da9b191, type: 2}
+  weakPattern3Data: {fileID: 11400000, guid: 10b1f7f87fc61ca4993cd048b28fbd70, type: 2}
   weakEnraged3Data: {fileID: 11400000, guid: 9ba3950982afcae44b79fd87c192e9fa, type: 2}
+  strongPattern1Data: {fileID: 11400000, guid: 72277fea6b5ebd947a58989115a067f1, type: 2}
   strongEnraged1Data: {fileID: 11400000, guid: 0745aaa6affc9c64c9547a8b63e3111a, type: 2}
   strongEnraged2Data: {fileID: 11400000, guid: 952e16741444c8f4bba8dbff84e8ca3b, type: 2}
+  strongPattern2Data: {fileID: 11400000, guid: ade98c4214e0501478f25f0a6988e23e, type: 2}
   weakLaserData: {fileID: 11400000, guid: 4ddf9da0949ad5c48b6e230a4f32bd59, type: 2}
   strongLaserData: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
   EnrangedLaserData: {fileID: 11400000, guid: fcb11de2eab832c43950b789c8eabce5, type: 2}
@@ -208,6 +208,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 1000
+  currentHP: 0
+  VictoryInputPopup: {fileID: 0}
+  victoryTextPopupScript: {fileID: 0}
+  BossEnragePopup: {fileID: 0}
+  BossEnragePopupScript: {fileID: 0}
+  Boss: {fileID: 0}
+  Stage: 0
+  Timer: {fileID: 0}
 --- !u!50 &7613790433271933663
 Rigidbody2D:
   serializedVersion: 4
