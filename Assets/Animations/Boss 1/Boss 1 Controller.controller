@@ -90,10 +90,10 @@ AnimatorStateMachine:
     m_Position: {x: 590, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5974989712852369647}
-    m_Position: {x: 510, y: 260, z: 0}
+    m_Position: {x: 600, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4474542009907070236}
-    m_Position: {x: 846.5563, y: 320.25565, z: 0}
+    m_Position: {x: 820, y: 240, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -161,7 +161,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New State
+  m_Name: MeleeAttack 2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -174,7 +174,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 9b4a705402bed4d4ab7fca0ab0f54631, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
