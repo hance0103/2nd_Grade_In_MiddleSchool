@@ -95,7 +95,7 @@ public class bossPatternTest : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2 });
 
         StartCoroutine(Idle());
     }
@@ -306,6 +306,10 @@ public class bossPatternTest : MonoBehaviour
         transform.position = targetPosition;
         FacePlayer();
 
+        //애니메이션 설정
+        animator.SetBool("isWP2", true);
+        animator.SetBool("isPre", true);
+
         // 텔레포트 직후 보스와 플레이어의 위치를 저장 (모든 레이저가 이 위치를 사용)
         Vector2 bossPosition = transform.position;
         Vector2 savedPlayerPosition = new Vector2(
@@ -317,7 +321,8 @@ public class bossPatternTest : MonoBehaviour
 
         // 첫 번째 레이저 발사
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
-        LaserController laser = LaserController.Create(weakLaserData, bossPosition, player.transform);
+        LaserController2 laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
+        animator.SetBool("isPre", false);
         yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
 
         // 광폭화 상태일 때 두 번째 레이저 공격
@@ -327,7 +332,7 @@ public class bossPatternTest : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
 
             // 저장된 동일한 위치로 두 번째 레이저 발사
-            laser = LaserController.Create(weakLaserData, bossPosition, player.transform);
+            laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
             yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
         }
 

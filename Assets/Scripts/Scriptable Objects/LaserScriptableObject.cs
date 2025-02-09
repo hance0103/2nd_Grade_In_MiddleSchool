@@ -19,6 +19,9 @@ public class LaserScriptableObject : ScriptableObject
     // 레이저 지속시간
     [SerializeField] private float laserDuration;
     public float LaserDuration { get { return laserDuration; } }
+    // 레이저 스프라이트 지정
+    [SerializeField] private string laserSprite;
+    public string LaserSprite { get { return laserSprite; } }
 
     [Header("추가 설정을 위한 변수들")]
     [SerializeField] private float laserWidth = 0.2f;
