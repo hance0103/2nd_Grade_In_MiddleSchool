@@ -1108,6 +1108,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5757117832083197418, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7613790433271933663, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -9412,6 +9416,10 @@ PrefabInstance:
       propertyPath: DefeatPopupScript
       value: 
       objectReference: {fileID: 1439323143}
+    - target: {fileID: 4522402780352805337, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _canJump
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -96,7 +96,7 @@ public class bossPatternTest : MonoBehaviour
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
         patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2 });
-
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3 });
         StartCoroutine(Idle());
     }
 
@@ -316,14 +316,32 @@ public class bossPatternTest : MonoBehaviour
             player.transform.position.x,
             bossPosition.y  // 보스의 y값을 사용하여 수평 유지
         );
-
-        yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay);
+        Vector2 direction = (bossPosition - savedPlayerPosition).normalized;
+        Vector3 positionMover = new Vector3(1.5f, 0, 0);
+        GameObject laserStart;
+        if (direction == Vector2.right)
+        {
+            laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - positionMover, Quaternion.identity);
+            Debug.Log(direction);
+        }
+        else
+        {
+            laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position + positionMover, Quaternion.identity);
+            Debug.Log(direction);
+        }
+        
+        for (int i = 0; i < 4; i++)
+        {
+            laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart{i}");
+            yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
+        }
 
         // 첫 번째 레이저 발사
         Debug.Log($"레이저 공격 시작. 패턴: {weakPattern2Data.PatternName}, 공격력: {weakPattern2Data.Damage}");
         LaserController2 laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
         animator.SetBool("isPre", false);
         yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+        Destroy(laserStart);
 
         // 광폭화 상태일 때 두 번째 레이저 공격
         if (isEnraged)
