@@ -93,10 +93,10 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
         animator = gameObject.GetComponent<Animator>();
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
-        StartCoroutine(Idle());
+        //patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
+        StartCoroutine(BeforeIdle());
     }
 
     // Update is called once per frame
@@ -150,7 +150,8 @@ public class bossPatternTest : MonoBehaviour
         {
             currentState = currentPattern[i];
             yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
-            //currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
+            currentState = BossState.Idle;
+            currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
         }
 
         yield return null;
@@ -164,6 +165,15 @@ public class bossPatternTest : MonoBehaviour
         {
             //Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
+        }
+        int patternNum = Random.Range(0, patternDic.Count);
+        BossState[] currentPattern = patternDic[patternNum];
+        for (int i = 0; i < currentPattern.Length; i++)
+        {
+            currentState = currentPattern[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
+            currentState = BossState.Idle;
+            currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
         }
 
         yield return null;
@@ -533,7 +543,7 @@ public class bossPatternTest : MonoBehaviour
 
         yield return new WaitForSeconds(strongPattern1Data.AfterAttackDelay);
 
-        currentState = BossState.Idle;
+        currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
@@ -565,7 +575,7 @@ public class bossPatternTest : MonoBehaviour
             yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
         }
 
-        currentState = BossState.Idle;
+        currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
