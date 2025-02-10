@@ -95,8 +95,7 @@ public class bossPatternTest : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2 });
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
         StartCoroutine(Idle());
     }
 
@@ -284,7 +283,8 @@ public class bossPatternTest : MonoBehaviour
     {
         Debug.Log("약공격1 Post");
 
-        
+        //애니메이션 설정
+        animator.SetBool("isWP1", false);
 
         // 공격 모션 유지 (애니메이션 전환 없음)
         float afterDelay = isEnraged ? weakEnraged1Data.AfterAttackDelay : weakPattern1Data.AfterAttackDelay;
@@ -356,6 +356,9 @@ public class bossPatternTest : MonoBehaviour
 
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
+        //애니메이션 설정
+        animator.SetBool("isWP2", false);
+
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
@@ -384,6 +387,8 @@ public class bossPatternTest : MonoBehaviour
 
             transform.position = teleportPosition;
             FacePlayer();
+            //애니메이션 설정
+            animator.SetBool("isWP3", true);
 
             if (strike == 0)
             {
@@ -451,7 +456,7 @@ public class bossPatternTest : MonoBehaviour
                         }
                     }
                 }
-
+                
                 transform.position = newPosition;
                 yield return null;
             }
@@ -491,6 +496,8 @@ public class bossPatternTest : MonoBehaviour
 
         // 패턴 종료
         yield return new WaitForSeconds(weakPattern3Data.AfterAttackDelay);
+        //애니메이션 설정
+        animator.SetBool("isWP3", false);
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
