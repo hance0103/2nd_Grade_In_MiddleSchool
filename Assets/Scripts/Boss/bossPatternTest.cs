@@ -93,7 +93,7 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
         animator = gameObject.GetComponent<Animator>();
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
         StartCoroutine(BeforeIdle());
@@ -137,6 +137,7 @@ public class bossPatternTest : MonoBehaviour
         if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             isEnraged = true;
+            animator.SetBool("isEnraged", true);
             // ±¤ÆøÈ­ È¿°ú
         }
     }
