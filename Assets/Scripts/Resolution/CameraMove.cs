@@ -10,15 +10,22 @@ public class CameraMove : MonoBehaviour
 
     [Header("Boss Zoom Event")]
     [SerializeField] private Transform boss;         // 보스 오브젝트의 Transform
-    [SerializeField] private float zoomSize = 3f;    // 보스에게 줌인할 때의 Orthographic Size
-    [SerializeField] private float zoomDuration = 1f;// 줌인/아웃에 걸리는 시간(초)
-    [SerializeField] private float pauseDuration = 2f;// 줌인 상태로 멈춰있는 시간(초)
+    [SerializeField] private float zoomSizeBoss = 3f;    // 보스에게 줌인할 때의 Orthographic Size
+    [SerializeField] private float zoomDurationBoss = 1f;// 줌인/아웃에 걸리는 시간(초)
+    [SerializeField] private float pauseDurationBoss = 2f;// 줌인 상태로 멈춰있는 시간(초)
+
+    [Header("Player Zoom Event")]
+    [SerializeField] private Transform Player;         // 플레이어 오브젝트의 Transform
+    [SerializeField] private float zoomSizePlayer = 3f;    // 플레이어에게 줌인할 때의 Orthographic Size
+    [SerializeField] private float zoomDurationPlayer = 1f;// 줌인/아웃에 걸리는 시간(초) 
+    
 
     private Camera cam;                // 메인 카메라
     private GameObject player;         // 플레이어
     private float originalTimeScale;   // 시간 복원용
     private bool isZooming = false;    // 줌 연출 중인지 여부
-    private bool isEventTriggered = false; // HP 50% 이하 이벤트가 이미 실행됐는지
+    private bool isEnrageEventTriggered = false; // HP 50% 이하 이벤트가 이미 실행됐는지
+    private bool isDieEventTriggered = false; // 사망 이벤트가 이미 실행됐는지
     private float originalSize;        // 카메라 원래 Orthographic Size
     private Vector3 originalPos;       // 카메라 원래 위치
 
@@ -53,13 +60,19 @@ public class CameraMove : MonoBehaviour
         }
 
         // ============ 보스 HP 50% 이하 체크 → 한 번만 이벤트 실행 ============
-        if (!isEventTriggered &&
+        if (!isEnrageEventTriggered &&
             BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
-            isEventTriggered = true;
+            isEnrageEventTriggered = true;
             StartCoroutine(ZoomToBossCoroutine());
         }
-
+        // ============ 보스 사망 체크 → 한 번만 이벤트 실행 ============
+        if (!isDieEventTriggered &&
+            BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0f)
+        {
+            isDieEventTriggered = true;
+            StartCoroutine(ZoomToPlayerCoroutine());
+        }
         // 이벤트 중이면(줌 연출 코루틴 진행중) 평소의 카메라 따라가기 로직 중단
         if (isZooming)
         {
@@ -87,7 +100,7 @@ public class CameraMove : MonoBehaviour
         isZooming = true;  // 줌 이벤트 시작
 
         // 1) 게임 시간을 멈춤
-        originalTimeScale = Time.timeScale;
+        
         Time.timeScale = 0f;
 
         // 카메라 현 상태 저장
@@ -102,29 +115,80 @@ public class CameraMove : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / zoomDuration;
-            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSize, t);
+            t += Time.unscaledDeltaTime / zoomDurationBoss;
+            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizeBoss, t);
             transform.position = Vector3.Lerp(originalPos, bossPos, t);
             yield return null;
         }
 
         // 3) 줌된 상태로 잠시 대기(pauseDuration 초)
-        yield return new WaitForSecondsRealtime(pauseDuration);
+        yield return new WaitForSecondsRealtime(pauseDurationBoss);
 
         // 4) 카메라 원상 복귀 (줌 아웃)
         t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / zoomDuration;
-            cam.orthographicSize = Mathf.Lerp(zoomSize, originalSize, t);
+            t += Time.unscaledDeltaTime / zoomDurationBoss;
+            cam.orthographicSize = Mathf.Lerp(zoomSizeBoss, originalSize, t);
             transform.position = Vector3.Lerp(bossPos, originalPos, t);
             yield return null;
         }
 
         // 5) 시간 복원
-        Time.timeScale = originalTimeScale;
+        
         Time.timeScale = 1f;
         // 줌 이벤트 종료
         isZooming = false;
+    }
+
+    private IEnumerator ZoomToPlayerCoroutine()
+    {
+        isZooming = true;
+
+        // 1) 게임 시간을 멈춤
+        Time.timeScale = 0f;
+
+        // 카메라 현 상태 저장
+        originalSize = cam.orthographicSize;
+        originalPos = transform.position;
+
+        // 플레이어 위치 (z값은 카메라의 z 유지)
+        Vector3 playerPos = Player.position;
+        playerPos.z = transform.position.z;
+
+        // 2) 카메라 줌인
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / zoomDurationPlayer;
+            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizePlayer, t);
+            transform.position = Vector3.Lerp(originalPos, playerPos, t);
+            yield return null;
+        }
+
+        
+        // 정적 변수가 true가 될 때까지 대기
+        while (!GameManager.isPlayerZoomOutAllowed)
+        {
+            // 정적 변수가 false인 동안 계속 대기
+            yield return null;
+        }
+
+        // 3) 카메라 원상 복귀 (줌 아웃)
+        t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / zoomDurationPlayer;
+            cam.orthographicSize = Mathf.Lerp(zoomSizePlayer, originalSize, t);
+            transform.position = Vector3.Lerp(playerPos, originalPos, t);
+            yield return null;
+        }
+
+        // 4) 시간 복원
+        Time.timeScale = 1f;
+        isZooming = false;
+
+        // 줌 아웃이 끝나면 다시 false로 바꿔서 재사용할 수도 있음
+        // GameManager.isPlayerZoomOutAllowed = false;
     }
 }

@@ -41,8 +41,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private bool isKeyDown = false;
 
-
-
+    private List<GameObject> _spawnedProjectiles = new List<GameObject>(); // 투사체 저장용 리스트
+    private bool isEnraged = false;
     public GameObject _enemy;
 
     private void Start()
@@ -73,7 +73,11 @@ public class PlayerAttack : MonoBehaviour
             }
             PlayerJumpAttack();
         }
-
+        if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        {
+            DestroyAllProjectiles();
+            isEnraged = true;
+        }
         PlayerAttackCancel();
     }
     private void PlayerAttackInput()
@@ -116,8 +120,21 @@ public class PlayerAttack : MonoBehaviour
             GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
+            _spawnedProjectiles.Add(instance); // 투사체 리스트에 저장
             Debug.Log("투사체 발사");
         }
+    }
+    public void DestroyAllProjectiles() //투사체 삭제
+    {
+        foreach (GameObject projectile in _spawnedProjectiles)
+        {
+            if (projectile != null)
+            {
+                Destroy(projectile);
+            }
+        }
+        // 리스트 초기화
+        _spawnedProjectiles.Clear();
     }
     private void PlayerJumpAttack()
     {
