@@ -89,6 +89,9 @@ public class bossPatternTest : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
+        if (isEnraged == true)
+            animator.SetBool("isEnraged", true);
+        
         // ���� �� ��ġ ����Ʈ���� �Ҵ�Ǿ����� Ȯ��
         if (strongPatternPositions == null || strongPatternPositions.Length == 0)
         {
@@ -96,7 +99,7 @@ public class bossPatternTest : MonoBehaviour
         }
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern2 });
+        patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
 
         StartCoroutine(Idle());
@@ -596,14 +599,16 @@ public class bossPatternTest : MonoBehaviour
             bossPosition.y
         );
 
-        if (isEnraged)
-        {
-            yield return StartCoroutine(EnragedStrongPattern2(bossPosition));
-        }
-        else
-        {
-            yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
-        }
+        yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
+
+        //if (isEnraged)
+        //{
+        //    yield return StartCoroutine(EnragedStrongPattern2(bossPosition));
+        //}
+        //else
+        //{
+        //    yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
+        //}
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -613,7 +618,7 @@ public class bossPatternTest : MonoBehaviour
     private IEnumerator NormalStrongPattern2(Vector2 bossPosition, Vector2 staticPlayerPosition)
     {
         // �ӽ� ������ ��Ʈ�ѷ��� ����� ���� ���
-        LaserController tempLaser = LaserController.Create(strongLaserData, bossPosition, player.transform);
+        LaserController2 tempLaser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         Vector2 direction = tempLaser.GetHorizontalDirection(bossPosition, staticPlayerPosition);
         Vector2 endPosition = tempLaser.GetMapEndPoint(bossPosition, direction);
         Destroy(tempLaser.gameObject); // �ӽ� ��Ʈ�ѷ� ����
@@ -627,9 +632,10 @@ public class bossPatternTest : MonoBehaviour
 
         // ī��Ʈ�ٿ�
         Debug.Log("ī��Ʈ�ٿ� ����");
-        for (float i = strongPattern2Data.BeforeAttackDelay; i > 0; i--)
+        animator.SetBool("isSP2", true);
+        animator.SetBool("isPre", true);
+        for (int i = 1; i <= strongPattern2Data.BeforeAttackDelay; i++)
         {
-            Debug.Log("ī��Ʈ�ٿ�: " + i);
             yield return new WaitForSeconds(1f); // 1�ʾ� ī��Ʈ�ٿ�
         }
 
@@ -642,12 +648,13 @@ public class bossPatternTest : MonoBehaviour
         // �ð� ����
         Debug.Log("�ð� ����!");
         Time.timeScale = 0;
+        animator.SetBool("isPre", false);
         yield return new WaitForSecondsRealtime(2f);
-
+        
         // ����� ��ġ�� ����Ͽ� ������ �߻�
-        LaserController laser = LaserController.Create(strongLaserData, bossPosition, player.transform);
+        LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
-
+        animator.SetBool("isSP2", false);
         Time.timeScale = 1;
     }
 
@@ -821,8 +828,8 @@ public class bossPatternTest : MonoBehaviour
         LineRenderer lineRenderer = dangerZoneObj.AddComponent<LineRenderer>();
 
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = strongLaserData.LaserWidth;  // LaserWidth ���
-        lineRenderer.endWidth = strongLaserData.LaserWidth;    // LaserWidth ���
+        lineRenderer.startWidth = strongLaserData.LaserWidth+3;  // LaserWidth ���
+        lineRenderer.endWidth = strongLaserData.LaserWidth+3;    // LaserWidth ���
 
         // ������ ������ material ����
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));

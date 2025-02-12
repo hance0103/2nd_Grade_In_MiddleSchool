@@ -129,6 +129,20 @@ public class LaserController2 : MonoBehaviour
             laserTransform.localScale = new Vector3(distance, width, 1);
         }
     }
+    public Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
+    {
+        float maxDistance = 100f; // 레이저의 최대 사정거리
+        RaycastHit2D hit = Physics2D.Raycast(startPos, direction, maxDistance, targetLayer);
+
+        if (hit.collider != null)
+        {
+            // 벽에 부딪힌 지점을 레이저의 끝점으로 사용
+            return hit.point;
+        }
+
+        // 벽과 충돌하지 않았을 경우 최대 사정거리까지 발사
+        return startPos + (direction * maxDistance);
+    }
 
     public void SetTargetLayer(LayerMask targetLayer)
     {

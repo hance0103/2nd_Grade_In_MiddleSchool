@@ -1118,8 +1118,12 @@ PrefabInstance:
       objectReference: {fileID: 1078561829}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: isEnraged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: EnrangedLaserData
+      value: 
+      objectReference: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: EnragedWeakLaserData
       value: 
@@ -8665,7 +8669,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 80e2856e57abaa145b1ec076f78677b7, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
