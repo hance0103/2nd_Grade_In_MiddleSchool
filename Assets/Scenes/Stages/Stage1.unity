@@ -1121,6 +1121,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: EnragedWeakLaserData
+      value: 
+      objectReference: {fileID: 11400000, guid: d6fab277396a4cd4ca676253a9e894a7, type: 2}
+    - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: countDownBeforeStart
       value: 2
       objectReference: {fileID: 0}
