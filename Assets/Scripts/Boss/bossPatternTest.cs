@@ -98,8 +98,8 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1, BossState.StrongPattern2 });
+        //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
 
         StartCoroutine(Idle());
