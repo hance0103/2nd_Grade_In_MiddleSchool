@@ -100,7 +100,7 @@ public class bossPatternTest : MonoBehaviour
 
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
-        //patternDic.Add(0, new BossState[] { BossState.StrongPattern1 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern3 });
 
         StartCoroutine(Idle());
     }
@@ -203,6 +203,7 @@ public class bossPatternTest : MonoBehaviour
         animator.SetBool("isPre", true);
 
         // ���� ������ų ��ġ�� �̵�
+        SoundManager.Instance.EffectSoundOn("18");
         transform.position = targetPosition;
         FacePlayer();
 
@@ -241,6 +242,7 @@ public class bossPatternTest : MonoBehaviour
 
         //�ִϸ��̼� ����
         animator.SetBool("isPre", false);
+        SoundManager.Instance.EffectSoundOn("14");
 
         // ����ȭ ���¿� ���� ���� �ð� ����
         float dashDuration = isEnraged ? 0.15f : 0.2f;
@@ -320,6 +322,7 @@ public class bossPatternTest : MonoBehaviour
         // �ڷ���Ʈ
         Vector3 playerPos = player.transform.position;
         Vector3 targetPosition = GetSafeTeleportPosition(playerPos, weakPattern2Data.TeleportOffset);
+        SoundManager.Instance.EffectSoundOn("18");
         transform.position = targetPosition;
         FacePlayer();
 
@@ -340,6 +343,7 @@ public class bossPatternTest : MonoBehaviour
 
         if (!isEnraged)
         {
+            //SoundManager.Instance.EffectSoundOn("16-1");
             if (direction == Vector2.right)
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - positionMover, Quaternion.identity);
@@ -358,11 +362,15 @@ public class bossPatternTest : MonoBehaviour
             Debug.Log($"������ ���� ����. ����: {weakPattern2Data.PatternName}, ���ݷ�: {weakPattern2Data.Damage}");
             laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
             animator.SetBool("isPre", false);
+            SoundManager.Instance.EffectSoundOn("16-2");
+
             yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+            
             Destroy(laserStart);
         }
         else 
         {
+            //SoundManager.Instance.EffectSoundOn("16-1");
             if (direction == Vector2.right)
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - positionMover, Quaternion.identity);
@@ -381,7 +389,9 @@ public class bossPatternTest : MonoBehaviour
             Debug.Log($"������ ���� ����. ����: {weakPattern2Data.PatternName}, ���ݷ�: {weakPattern2Data.Damage}");
             laser = LaserController2.Create(EnragedWeakLaserData, bossPosition, player.transform);
             animator.SetBool("isPre", false);
+            SoundManager.Instance.EffectSoundOn("16-2");
             yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+            
             animator.SetBool("isSecond", true);
             animator.SetBool("isPre", true);
 
@@ -391,7 +401,9 @@ public class bossPatternTest : MonoBehaviour
 
             // ����� ������ ��ġ�� �� ��° ������ �߻�
             laser = LaserController2.Create(EnragedWeakLaserData, bossPosition, player.transform);
+            SoundManager.Instance.EffectSoundOn("16-2");
             yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+            
             animator.SetBool("isSecond", false);
             Destroy(laserStart);
 
@@ -428,6 +440,7 @@ public class bossPatternTest : MonoBehaviour
                 player.transform.position.y + weakPattern3Data.TeleportOffset.y,
                 transform.position.z);
 
+            SoundManager.Instance.EffectSoundOn("15");
             transform.position = teleportPosition;
             FacePlayer();
             //�ִϸ��̼� ����
@@ -468,6 +481,7 @@ public class bossPatternTest : MonoBehaviour
 
             // ������� ��� ����
             float elapsedTime = 0f;
+            SoundManager.Instance.EffectSoundOn("15-3");
 
             while (elapsedTime < weakPattern3AttackDuration)
             {
@@ -558,6 +572,7 @@ public class bossPatternTest : MonoBehaviour
 
         // ���õ� ��ġ�� �ڷ���Ʈ
         Debug.Log("������1 �ڷ���Ʈ");
+        SoundManager.Instance.EffectSoundOn("18");
         transform.position = selectedPosition.position;
         FacePlayer();
         float beforeDelay = isEnraged ? strongEnraged1Data.BeforeAttackDelay : strongPattern1Data.BeforeAttackDelay;
@@ -589,6 +604,7 @@ public class bossPatternTest : MonoBehaviour
         // ������ ��ġ ����
         Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
         Debug.Log("������2 �ڷ���Ʈ");
+        SoundManager.Instance.EffectSoundOn("18");
         transform.position = selectedPosition.position;
         FacePlayer();
 
@@ -634,6 +650,7 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("ī��Ʈ�ٿ� ����");
         animator.SetBool("isSP2", true);
         animator.SetBool("isPre", true);
+        SoundManager.Instance.EffectSoundOn("16-1");
         for (int i = 1; i <= strongPattern2Data.BeforeAttackDelay; i++)
         {
             yield return new WaitForSeconds(1f); // 1�ʾ� ī��Ʈ�ٿ�
@@ -653,6 +670,7 @@ public class bossPatternTest : MonoBehaviour
         
         // ����� ��ġ�� ����Ͽ� ������ �߻�
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
+        SoundManager.Instance.EffectSoundOn("16-2");
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
         animator.SetBool("isSP2", false);
         Time.timeScale = 1;

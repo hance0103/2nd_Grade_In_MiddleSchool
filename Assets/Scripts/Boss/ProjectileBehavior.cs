@@ -31,6 +31,7 @@ public class ProjectileBehaviour : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null)
             {
+                SoundManager.Instance.EffectSoundOn("21");
                 Debug.Log($"플레이어 피격! 데미지: {damage}");
                 PlayerHPManager.Instance.TakeDamage(damage); // 실제 데미지 적용 로직
             }
