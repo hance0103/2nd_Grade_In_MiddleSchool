@@ -4,114 +4,118 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [Header("Camera Follow")]
-    [SerializeField] private float smoothing = 0.2f; // ºÎµå·´°Ô µû¶ó°¡´Â º¸°£ »ó¼ö
+    [SerializeField] private float smoothing = 0.2f; // ë¶€ë“œëŸ½ê²Œ ë”°ë¼ê°€ëŠ” ë³´ê°„ ìƒìˆ˜
     [SerializeField] private Vector2 minCameraBoundary;
     [SerializeField] private Vector2 maxCameraBoundary;
 
     [Header("Boss Zoom Event")]
-    [SerializeField] private Transform boss;         // º¸½º ¿ÀºêÁ§Æ®ÀÇ Transform
-    [SerializeField] private float zoomSizeBoss = 3f;    // º¸½º¿¡°Ô ÁÜÀÎÇÒ ¶§ÀÇ Orthographic Size
-    [SerializeField] private float zoomDurationBoss = 1f;// ÁÜÀÎ/¾Æ¿ô¿¡ °É¸®´Â ½Ã°£(ÃÊ)
-    [SerializeField] private float pauseDurationBoss = 2f;// ÁÜÀÎ »óÅÂ·Î ¸ØÃçÀÖ´Â ½Ã°£(ÃÊ)
+    [SerializeField] private Transform boss;         // ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸ì˜ Transform
+    [SerializeField] private Transform Finishboss;
+    [SerializeField] private float zoomSizeBoss = 3f;    // ë³´ìŠ¤ì—ê²Œ ì¤Œì¸í•  ë•Œì˜ Orthographic Size
+    [SerializeField] private float zoomDurationBoss = 1f;// ì¤Œì¸/ì•„ì›ƒì— ê±¸ë¦¬ëŠ” ì‹œê°„(ì´ˆ)
+    [SerializeField] private float pauseDurationBoss = 2f;// ì¤Œì¸ ìƒíƒœë¡œ ë©ˆì¶°ìˆëŠ” ì‹œê°„(ì´ˆ)
 
     [Header("Player Zoom Event")]
-    [SerializeField] private Transform Player;         // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®ÀÇ Transform
-    [SerializeField] private float zoomSizePlayer = 3f;    // ÇÃ·¹ÀÌ¾î¿¡°Ô ÁÜÀÎÇÒ ¶§ÀÇ Orthographic Size
-    [SerializeField] private float zoomDurationPlayer = 1f;// ÁÜÀÎ/¾Æ¿ô¿¡ °É¸®´Â ½Ã°£(ÃÊ) 
+    [SerializeField] private Transform Player;         // í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸ì˜ Transform
+    [SerializeField] private float zoomSizePlayer = 3f;    // í”Œë ˆì´ì–´ì—ê²Œ ì¤Œì¸í•  ë•Œì˜ Orthographic Size
+    [SerializeField] private float zoomDurationPlayer = 1f;// ì¤Œì¸/ì•„ì›ƒì— ê±¸ë¦¬ëŠ” ì‹œê°„(ì´ˆ) 
     
 
-    private Camera cam;                // ¸ŞÀÎ Ä«¸Ş¶ó
-    private GameObject player;         // ÇÃ·¹ÀÌ¾î
-    private float originalTimeScale;   // ½Ã°£ º¹¿ø¿ë
-    private bool isZooming = false;    // ÁÜ ¿¬Ãâ ÁßÀÎÁö ¿©ºÎ
-    private bool isEnrageEventTriggered = false; // HP 50% ÀÌÇÏ ÀÌº¥Æ®°¡ ÀÌ¹Ì ½ÇÇàµÆ´ÂÁö
-    private bool isDieEventTriggered = false; // »ç¸Á ÀÌº¥Æ®°¡ ÀÌ¹Ì ½ÇÇàµÆ´ÂÁö
-    private float originalSize;        // Ä«¸Ş¶ó ¿ø·¡ Orthographic Size
-    private Vector3 originalPos;       // Ä«¸Ş¶ó ¿ø·¡ À§Ä¡
+    private Camera cam;                // ë©”ì¸ ì¹´ë©”ë¼
+    private GameObject player;         // í”Œë ˆì´ì–´
+    private float originalTimeScale;   // ì‹œê°„ ë³µì›ìš©
+    private bool isZooming = false;    // ì¤Œ ì—°ì¶œ ì¤‘ì¸ì§€ ì—¬ë¶€
+    private bool isEnrageEventTriggered = false; // HP 50% ì´í•˜ ì´ë²¤íŠ¸ê°€ ì´ë¯¸ ì‹¤í–‰ëëŠ”ì§€
+    private bool isDieEventTriggered = false; // ì‚¬ë§ ì´ë²¤íŠ¸ê°€ ì´ë¯¸ ì‹¤í–‰ëëŠ”ì§€
+    private float originalSize;        // ì¹´ë©”ë¼ ì›ë˜ Orthographic Size
+    private Vector3 originalPos;       // ì¹´ë©”ë¼ ì›ë˜ ìœ„ì¹˜
 
     private void Awake()
     {
         cam = GetComponent<Camera>();
-        // È¤½Ã ½ºÅ©¸³Æ®°¡ Ä«¸Ş¶ó¿Í º°°³ ¿ÀºêÁ§Æ®¿¡ ºÙ¾îÀÖ´Ù¸é ¹Ø¿¡Ã³·³ ´ëÃ¼ÇÒ ¼ö ÀÖÀ½
+        // í˜¹ì‹œ ìŠ¤í¬ë¦½íŠ¸ê°€ ì¹´ë©”ë¼ì™€ ë³„ê°œ ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ìˆë‹¤ë©´ ë°‘ì—ì²˜ëŸ¼ ëŒ€ì²´í•  ìˆ˜ ìˆìŒ
         if (cam == null)
         {
             cam = Camera.main;
         }
 
-        // ÃÖÃÊ¿¡ ÇÃ·¹ÀÌ¾î¸¦ Ã£´Â´Ù(¸¸¾à Player°¡ ÀÌ¹Ì ºñÈ°¼ºÈ­µÇ¾îÀÖÀ¸¸é Ã£Áö ¸øÇÒ ¼öµµ ÀÖÀ¸¹Ç·Î ÀÌÈÄ LateUpdate¿¡¼­ ´Ù½Ã Àç½Ãµµ)
-        // º¸ÅëÀº ¾À ½ÃÀÛÇÒ¶§ ºñÈ°¼ºÈ­ µÇ¾îÀÖ¾î¼­ Áö±İ ´çÀåÀº Ã£Áö ¸øÇÔ
+        // ìµœì´ˆì— í”Œë ˆì´ì–´ë¥¼ ì°¾ëŠ”ë‹¤(ë§Œì•½ Playerê°€ ì´ë¯¸ ë¹„í™œì„±í™”ë˜ì–´ìˆìœ¼ë©´ ì°¾ì§€ ëª»í•  ìˆ˜ë„ ìˆìœ¼ë¯€ë¡œ ì´í›„ LateUpdateì—ì„œ ë‹¤ì‹œ ì¬ì‹œë„)
+        // ë³´í†µì€ ì”¬ ì‹œì‘í• ë•Œ ë¹„í™œì„±í™” ë˜ì–´ìˆì–´ì„œ ì§€ê¸ˆ ë‹¹ì¥ì€ ì°¾ì§€ ëª»í•¨
         player = GameObject.Find("Player");
     }
 
     private void LateUpdate()
     {
-        // ============ ÇÃ·¹ÀÌ¾î È°¼ºÈ­ ¿©ºÎ ÀçÈ®ÀÎ ·ÎÁ÷ ============
-        // player°¡ nullÀÌ¸é(¾À¿¡ ¾ø°Å³ª ¾ÆÁ÷ ¸øÃ£¾ÒÀ¸¸é) ´Ù½Ã Ã£±â ½Ãµµ
-        //Ã£°Ô µÈ´Ù¸é Ä«¸Ş¶ó°¡ ÇÃ·¹ÀÌ¾î¸¦ ¦i¾Æ°¡´Â ·ÎÁ÷ ½ÇÇà
+        // ============ í”Œë ˆì´ì–´ í™œì„±í™” ì—¬ë¶€ ì¬í™•ì¸ ë¡œì§ ============
+        // playerê°€ nullì´ë©´(ì”¬ì— ì—†ê±°ë‚˜ ì•„ì§ ëª»ì°¾ì•˜ìœ¼ë©´) ë‹¤ì‹œ ì°¾ê¸° ì‹œë„
+        //ì°¾ê²Œ ëœë‹¤ë©´ ì¹´ë©”ë¼ê°€ í”Œë ˆì´ì–´ë¥¼ ì«’ì•„ê°€ëŠ” ë¡œì§ ì‹¤í–‰
         if (player == null)
         {
             player = GameObject.Find("Player");
         }
-        // ±×·¡µµ ¾ø´Ù¸é(¶Ç´Â ¾ÆÁ÷ ºñÈ°¼ºÈ­»óÅÂ¶ó¸é) Ä«¸Ş¶ó ÀÌµ¿ ·ÎÁ÷Àº »ı·«
+        // ê·¸ë˜ë„ ì—†ë‹¤ë©´(ë˜ëŠ” ì•„ì§ ë¹„í™œì„±í™”ìƒíƒœë¼ë©´) ì¹´ë©”ë¼ ì´ë™ ë¡œì§ì€ ìƒëµ
         if (player == null || !player.activeInHierarchy)
         {
-            // ¿©±â¼­ returnÇÏ¸é ¾Æ·¡ Ä«¸Ş¶ó ÀÌµ¿/ÁÜ ·ÎÁ÷ÀÌ ½ÇÇà ¾È µÊ
+            // ì—¬ê¸°ì„œ returní•˜ë©´ ì•„ë˜ ì¹´ë©”ë¼ ì´ë™/ì¤Œ ë¡œì§ì´ ì‹¤í–‰ ì•ˆ ë¨
             return;
         }
 
-        // ============ º¸½º HP 50% ÀÌÇÏ Ã¼Å© ¡æ ÇÑ ¹ø¸¸ ÀÌº¥Æ® ½ÇÇà ============
+        // ============ ë³´ìŠ¤ HP 50% ì´í•˜ ì²´í¬ â†’ í•œ ë²ˆë§Œ ì´ë²¤íŠ¸ ì‹¤í–‰ ============
         if (!isEnrageEventTriggered &&
             BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             isEnrageEventTriggered = true;
             StartCoroutine(ZoomToBossCoroutine());
         }
-        // ============ º¸½º »ç¸Á Ã¼Å© ¡æ ÇÑ ¹ø¸¸ ÀÌº¥Æ® ½ÇÇà ============
+        // ============ ë³´ìŠ¤ ì‚¬ë§ ì²´í¬ â†’ í•œ ë²ˆë§Œ ì´ë²¤íŠ¸ ì‹¤í–‰ ============
         if (!isDieEventTriggered &&
             BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0f)
         {
             isDieEventTriggered = true;
             StartCoroutine(ZoomToPlayerCoroutine());
         }
-        // ÀÌº¥Æ® ÁßÀÌ¸é(ÁÜ ¿¬Ãâ ÄÚ·çÆ¾ ÁøÇàÁß) Æò¼ÒÀÇ Ä«¸Ş¶ó µû¶ó°¡±â ·ÎÁ÷ Áß´Ü
+        // ì´ë²¤íŠ¸ ì¤‘ì´ë©´(ì¤Œ ì—°ì¶œ ì½”ë£¨í‹´ ì§„í–‰ì¤‘) í‰ì†Œì˜ ì¹´ë©”ë¼ ë”°ë¼ê°€ê¸° ë¡œì§ ì¤‘ë‹¨
         if (isZooming)
         {
             return;
         }
-
-        // ============ Æò»ó½Ã Ä«¸Ş¶ó ÀÌµ¿(ÇÃ·¹ÀÌ¾î ÃßÀû) ============
-        //±¤ÆøÈ­ ¿¬Ãâ·Î ÁÜ ÀÌº¥Æ®°¡ ³¡³ª¸é ´Ù½Ã ¿©±â·Î µ¹¾Æ¿À°Ô µÊ
+        if (GameManager.isFinishBossZoominAllowed)
+        {
+            StartCoroutine(ZoomToFinishBossCoroutine());
+        }
+        // ============ í‰ìƒì‹œ ì¹´ë©”ë¼ ì´ë™(í”Œë ˆì´ì–´ ì¶”ì ) ============
+        //ê´‘í­í™” ì—°ì¶œë¡œ ì¤Œ ì´ë²¤íŠ¸ê°€ ëë‚˜ë©´ ë‹¤ì‹œ ì—¬ê¸°ë¡œ ëŒì•„ì˜¤ê²Œ ë¨
         Vector3 targetPos = new Vector3(
             player.transform.position.x,
             player.transform.position.y,
             transform.position.z
         );
 
-        // È­¸é °æ°è Á¦ÇÑ
+        // í™”ë©´ ê²½ê³„ ì œí•œ
         targetPos.x = Mathf.Clamp(targetPos.x, minCameraBoundary.x, maxCameraBoundary.x);
         targetPos.y = Mathf.Clamp(targetPos.y, minCameraBoundary.y, maxCameraBoundary.y);
 
-        // ºÎµå·´°Ô ÀÌµ¿ (º¸°£)
+        // ë¶€ë“œëŸ½ê²Œ ì´ë™ (ë³´ê°„)
         transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
     }
 
     private IEnumerator ZoomToBossCoroutine()
     {
-        isZooming = true;  // ÁÜ ÀÌº¥Æ® ½ÃÀÛ
+        isZooming = true;  // ì¤Œ ì´ë²¤íŠ¸ ì‹œì‘
 
-        // 1) °ÔÀÓ ½Ã°£À» ¸ØÃã
+        // 1) ê²Œì„ ì‹œê°„ì„ ë©ˆì¶¤
         
         Time.timeScale = 0f;
 
-        // Ä«¸Ş¶ó Çö »óÅÂ ÀúÀå
+        // ì¹´ë©”ë¼ í˜„ ìƒíƒœ ì €ì¥
         originalSize = cam.orthographicSize;
         originalPos = transform.position;
 
-        // º¸½º À§Ä¡ (z´Â ±×´ë·Î À¯Áö)
+        // ë³´ìŠ¤ ìœ„ì¹˜ (zëŠ” ê·¸ëŒ€ë¡œ ìœ ì§€)
         Vector3 bossPos = boss.position;
         bossPos.z = transform.position.z;
 
-        // 2) Ä«¸Ş¶ó ÁÜÀÎ
+        // 2) ì¹´ë©”ë¼ ì¤Œì¸
         float t = 0f;
         while (t < 1f)
         {
@@ -121,10 +125,10 @@ public class CameraMove : MonoBehaviour
             yield return null;
         }
 
-        // 3) ÁÜµÈ »óÅÂ·Î Àá½Ã ´ë±â(pauseDuration ÃÊ)
+        // 3) ì¤Œëœ ìƒíƒœë¡œ ì ì‹œ ëŒ€ê¸°(pauseDuration ì´ˆ)
         yield return new WaitForSecondsRealtime(pauseDurationBoss);
 
-        // 4) Ä«¸Ş¶ó ¿ø»ó º¹±Í (ÁÜ ¾Æ¿ô)
+        // 4) ì¹´ë©”ë¼ ì›ìƒ ë³µê·€ (ì¤Œ ì•„ì›ƒ)
         t = 0f;
         while (t < 1f)
         {
@@ -134,10 +138,10 @@ public class CameraMove : MonoBehaviour
             yield return null;
         }
 
-        // 5) ½Ã°£ º¹¿ø
+        // 5) ì‹œê°„ ë³µì›
         
         Time.timeScale = 1f;
-        // ÁÜ ÀÌº¥Æ® Á¾·á
+        // ì¤Œ ì´ë²¤íŠ¸ ì¢…ë£Œ
         isZooming = false;
     }
 
@@ -145,18 +149,18 @@ public class CameraMove : MonoBehaviour
     {
         isZooming = true;
 
-        // 1) °ÔÀÓ ½Ã°£À» ¸ØÃã
+        // 1) ê²Œì„ ì‹œê°„ì„ ë©ˆì¶¤
         Time.timeScale = 0f;
 
-        // Ä«¸Ş¶ó Çö »óÅÂ ÀúÀå
+        // ì¹´ë©”ë¼ í˜„ ìƒíƒœ ì €ì¥
         originalSize = cam.orthographicSize;
         originalPos = transform.position;
 
-        // ÇÃ·¹ÀÌ¾î À§Ä¡ (z°ªÀº Ä«¸Ş¶óÀÇ z À¯Áö)
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ (zê°’ì€ ì¹´ë©”ë¼ì˜ z ìœ ì§€)
         Vector3 playerPos = Player.position;
         playerPos.z = transform.position.z;
 
-        // 2) Ä«¸Ş¶ó ÁÜÀÎ
+        // 2) ì¹´ë©”ë¼ ì¤Œì¸
         float t = 0f;
         while (t < 1f)
         {
@@ -167,14 +171,14 @@ public class CameraMove : MonoBehaviour
         }
 
         
-        // Á¤Àû º¯¼ö°¡ true°¡ µÉ ¶§±îÁö ´ë±â
+        // ì •ì  ë³€ìˆ˜ê°€ trueê°€ ë  ë•Œê¹Œì§€ ëŒ€ê¸°
         while (!GameManager.isPlayerZoomOutAllowed)
         {
-            // Á¤Àû º¯¼ö°¡ falseÀÎ µ¿¾È °è¼Ó ´ë±â
+            // ì •ì  ë³€ìˆ˜ê°€ falseì¸ ë™ì•ˆ ê³„ì† ëŒ€ê¸°
             yield return null;
         }
 
-        // 3) Ä«¸Ş¶ó ¿ø»ó º¹±Í (ÁÜ ¾Æ¿ô)
+        // 3) ì¹´ë©”ë¼ ì›ìƒ ë³µê·€ (ì¤Œ ì•„ì›ƒ)
         t = 0f;
         while (t < 1f)
         {
@@ -184,11 +188,54 @@ public class CameraMove : MonoBehaviour
             yield return null;
         }
 
-        // 4) ½Ã°£ º¹¿ø
+        // 4) ì‹œê°„ ë³µì›
         Time.timeScale = 1f;
         isZooming = false;
 
-        // ÁÜ ¾Æ¿ôÀÌ ³¡³ª¸é ´Ù½Ã false·Î ¹Ù²ã¼­ Àç»ç¿ëÇÒ ¼öµµ ÀÖÀ½
+        // ì¤Œ ì•„ì›ƒì´ ëë‚˜ë©´ ë‹¤ì‹œ falseë¡œ ë°”ê¿”ì„œ ì¬ì‚¬ìš©í•  ìˆ˜ë„ ìˆìŒ
         // GameManager.isPlayerZoomOutAllowed = false;
+    }
+    private IEnumerator ZoomToFinishBossCoroutine()
+    {
+        isZooming = true;  // ì¤Œ ì´ë²¤íŠ¸ ì‹œì‘
+
+        // 1) ê²Œì„ ì‹œê°„ì„ ë©ˆì¶¤
+
+        
+
+        // ì¹´ë©”ë¼ í˜„ ìƒíƒœ ì €ì¥
+        originalSize = cam.orthographicSize;
+        originalPos = transform.position;
+
+        // ë³´ìŠ¤ ìœ„ì¹˜ (zëŠ” ê·¸ëŒ€ë¡œ ìœ ì§€)
+        Vector3 bossPos = Finishboss.position;
+        bossPos.z = transform.position.z;
+
+        // 2) ì¹´ë©”ë¼ ì¤Œì¸
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / zoomDurationBoss;
+            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizeBoss, t);
+            transform.position = Vector3.Lerp(originalPos, bossPos, t);
+            yield return null;
+        }
+
+        // 3) ì¤Œëœ ìƒíƒœë¡œ ì ì‹œ ëŒ€ê¸°(pauseDuration ì´ˆ)
+        yield return new WaitForSecondsRealtime(pauseDurationBoss);
+
+        // 4) ì¹´ë©”ë¼ ì›ìƒ ë³µê·€ (ì¤Œ ì•„ì›ƒ)
+        t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / zoomDurationBoss;
+            cam.orthographicSize = Mathf.Lerp(zoomSizeBoss, originalSize, t);
+            transform.position = Vector3.Lerp(bossPos, originalPos, t);
+            yield return null;
+        }
+
+        
+        // ì¤Œ ì´ë²¤íŠ¸ ì¢…ë£Œ
+        isZooming = false;
     }
 }

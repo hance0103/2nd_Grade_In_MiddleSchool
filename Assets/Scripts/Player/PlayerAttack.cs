@@ -73,10 +73,16 @@ public class PlayerAttack : MonoBehaviour
             }
             PlayerJumpAttack();
         }
+        //  보스가 광폭화할 시 모든 발사체 오브젝트 삭제
         if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             DestroyAllProjectiles();
             isEnraged = true;
+        }
+        //  보스 사망시 모든 발사체 오브젝트 삭제
+        if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0f)
+        {
+            DestroyAllProjectiles();
         }
         PlayerAttackCancel();
     }

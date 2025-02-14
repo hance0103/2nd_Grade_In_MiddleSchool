@@ -33,39 +33,39 @@ public class bossPatternTest : MonoBehaviour
     private LaserController laserController; // LaserController ����
     private ProjectileController projectileController; // ProjectileController ����
 
-    [Header("����ȭ T/F")]
+    [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector���� ���� ����
 
     [Header("���� ��� �ð�")]
     [SerializeField] private float countDownBeforeStart = 5f;
 
-    [Header("���3 ������� �ð�")]
+    [Header("약공격3 공격 딜레이")]
     [SerializeField] private float weakPattern3AttackDuration = 0.5f; //�ð� ��� �ӵ��� �������� ª���� ������
 
     [Header("Strong Pattern Positions")]
     [SerializeField] private Transform[] strongPatternPositions; // �����ݿ� ��ġ��
 
-    [Header("�����1 ������")]
+    [Header("약공/광폭약공 패턴1")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private BossScriptableObject weakEnraged1Data;
    
-    [Header("�����2 ������")]
+    [Header("약공/광폭약공 패턴2")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private BossScriptableObject weakEnraged2Data;
 
-    [Header("�����3 ������")]
+    [Header("약공/광폭약공 패턴3")]
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private BossScriptableObject weakEnraged3Data;
     
-    [Header("������1 ������")]
+    [Header("강공/광폭강공 패턴1")]
     [SerializeField] private BossScriptableObject strongPattern1Data;
     [SerializeField] private BossScriptableObject strongEnraged1Data;
 
-    [Header("������2 ������")]
+    [Header("강공/광폭강공 패턴2")]
     [SerializeField] private BossScriptableObject strongEnraged2Data;
     [SerializeField] private BossScriptableObject strongPattern2Data;
 
-    [Header("������ ������")]
+    [Header("공격 스프라이트")]
     [SerializeField] private LaserScriptableObject weakLaserData;
     [SerializeField] private LaserScriptableObject EnragedWeakLaserData;
     [SerializeField] private LaserScriptableObject strongLaserData;
@@ -188,7 +188,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1Teleport()
     {
-        Debug.Log("�����1 �ڷ���Ʈ");
+        Debug.Log("약공격1 텔레포트");
         currentState = BossState.WeakPattern1;
 
         // ������ ��ġ ���
@@ -216,7 +216,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1PreAttack(Vector3 targetPlayerPos)
     {
-        Debug.Log("�����1 Pre");
+        Debug.Log("약공격1 Pre");
         currentState = BossState.WeakPattern1;
 
         // ���� �������θ� ����
@@ -237,7 +237,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1Attacking(Vector3 targetPosition) //�÷��̾� �ֺ����� �ڷ���Ʈ �� ��������
     {
-        Debug.Log("�����1 ����");
+        Debug.Log("약공격1 실행");
         currentState = BossState.WeakPattern1;
 
         //�ִϸ��̼� ����
@@ -300,7 +300,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1PostAttack()
     {
-        Debug.Log("�����1 Post");
+        Debug.Log("약공격1 Post");
 
         //�ִϸ��̼� ����
         animator.SetBool("isWP1", false);
@@ -316,7 +316,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern2() //�÷��̾�� �̰ݵ� �κ����� �ڷ���Ʈ �� ������ ����
     {
-        Debug.Log("�����2");
+        Debug.Log("약공격2");
         currentState = BossState.WeakPattern2;
 
         // �ڷ���Ʈ
@@ -359,7 +359,7 @@ public class bossPatternTest : MonoBehaviour
                 laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart{i}");
                 yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
             }
-            Debug.Log($"������ ���� ����. ����: {weakPattern2Data.PatternName}, ���ݷ�: {weakPattern2Data.Damage}");
+            Debug.Log($"약공격 2 실행: {weakPattern2Data.PatternName}, 약공격2데미지: {weakPattern2Data.Damage}");
             laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
             animator.SetBool("isPre", false);
             SoundManager.Instance.EffectSoundOn("16-2");
