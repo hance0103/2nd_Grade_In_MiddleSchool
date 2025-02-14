@@ -6621,7 +6621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00289917}
+  m_AnchoredPosition: {x: 0, y: 0.0029296875}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390690975
@@ -7223,9 +7223,13 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1582770704}
-  zoomSize: 3
-  zoomDuration: 1
-  pauseDuration: 2
+  Finishboss: {fileID: 0}
+  zoomSizeBoss: 3
+  zoomDurationBoss: 1
+  pauseDurationBoss: 2
+  Player: {fileID: 0}
+  zoomSizePlayer: 3
+  zoomDurationPlayer: 1
 --- !u!1 &1576957033
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,6 +7392,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempBoss2
       objectReference: {fileID: 0}
+    - target: {fileID: 6134767581251065260, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1d3ab62e71810db49aa402cea8a370d1, type: 3}
     - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: Stage
       value: 2
@@ -7459,7 +7467,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1582770705}
   m_SourcePrefab: {fileID: 100100000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
 --- !u!1 &1582770697 stripped
 GameObject:
@@ -7471,6 +7482,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
   m_PrefabInstance: {fileID: 1582770696}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1582770705
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582770697}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a3b183376dd8f247a3c58508351d301, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1622402590
 GameObject:
   m_ObjectHideFlags: 0
@@ -7527,6 +7559,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 2024177062}
   timer: {fileID: 337292676}
+  FinishPanel: {fileID: 0}
+  fadeImage: {fileID: 0}
+  fadeDuration: 2
+  player: {fileID: 0}
+  boss: {fileID: 0}
 --- !u!114 &1622402593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9388,7 +9425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da329456074341046b460fc88ba26b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OpeningTextPanel: {fileID: 0}
+  Stage: 0
   displayClearTime: {fileID: 1816357180}
   displayText: {fileID: 619769388}
 --- !u!114 &2021582450
@@ -9622,6 +9659,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 2024177062}
   timer: {fileID: 0}
+  FinishPanel: {fileID: 0}
+  fadeImage: {fileID: 0}
+  fadeDuration: 2
+  player: {fileID: 0}
+  boss: {fileID: 0}
 --- !u!114 &2024177065
 MonoBehaviour:
   m_ObjectHideFlags: 0

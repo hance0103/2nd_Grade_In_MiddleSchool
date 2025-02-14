@@ -15,7 +15,7 @@ MonoBehaviour:
   laserType: LaserWeak2
   damage: 10
   laserSpeed: 75
-  laserDuration: 0.5
+  laserDuration: 0.2
   laserSprite: Sprites/Laser/WP2_laser_E
   laserWidth: 0.8
   laserColor: {r: 1, g: 1, b: 1, a: 1}

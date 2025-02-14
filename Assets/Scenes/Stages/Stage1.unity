@@ -1277,7 +1277,7 @@ PrefabInstance:
       objectReference: {fileID: 1078561829}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: isEnraged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: EnrangedLaserData
