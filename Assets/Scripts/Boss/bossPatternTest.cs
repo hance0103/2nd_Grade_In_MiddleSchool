@@ -36,7 +36,7 @@ public class bossPatternTest : MonoBehaviour
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector���� ���� ����
 
-    [Header("���� ��� �ð�")]
+    [Header("시작 전 카운트다운")]
     [SerializeField] private float countDownBeforeStart = 5f;
 
     [Header("약공격3 공격 딜레이")]

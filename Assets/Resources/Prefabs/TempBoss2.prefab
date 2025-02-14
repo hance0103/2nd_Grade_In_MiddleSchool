@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: -903806034222056499}
   - component: {fileID: 7231450267254571419}
   - component: {fileID: 5693349340036058249}
-  - component: {fileID: 6756898872086610307}
   - component: {fileID: 7165545684217176000}
   m_Layer: 7
   m_Name: TempBoss2
@@ -182,18 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6756898872086610307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484509623436859966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f920fa3c82e8e53439437b8ce1d0582d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7165545684217176000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,9 +194,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 1000
+  currentHP: 0
   VictoryInputPopup: {fileID: 0}
   victoryTextPopupScript: {fileID: 0}
   BossEnragePopup: {fileID: 0}
   BossEnragePopupScript: {fileID: 0}
   Boss: {fileID: 484509623436859966}
-  currentHP: 0
+  Stage: 0
+  Timer: {fileID: 0}

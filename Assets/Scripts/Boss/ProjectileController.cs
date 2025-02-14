@@ -24,7 +24,7 @@ public class ProjectileController : MonoBehaviour
         );
     }
 
-    // ÇÁ·ÎÁ§Å¸ÀÏ »ı¼º ÇÔ¼ö
+    // í”„ë¡œì íƒ€ì¼ ìƒì„± í•¨ìˆ˜
     private GameObject CreateProjectile()
     {
         GameObject proj = Instantiate(projectilePrefab);
@@ -66,11 +66,11 @@ public class ProjectileController : MonoBehaviour
     {
         float nextFireTime = 0f;
         float verticalSpacing = projectileData.VerticalSpacing;
-        int currentRow = 0;  // ½ÃÀÛ À§Ä¡: »ó´Ü
-        int direction = 1;   // 1: ÇÏ°­, -1: »ó½Â
+        int currentRow = 0;  // ì‹œì‘ ìœ„ì¹˜: ìƒë‹¨
+        int direction = 1;   // 1: í•˜ê°•, -1: ìƒìŠ¹
         int projectilesFired = 0;
 
-        // ÇÃ·¹ÀÌ¾î ¹æÇâ °è»ê
+        // í”Œë ˆì´ì–´ ë°©í–¥ ê³„ì‚°
         float targetX = playerTransform.position.x;
         float directionX = (targetX > bossTransform.position.x) ? 1f : -1f;
         float angleToPlayer = (directionX > 0) ? 0f : 180f;
@@ -83,7 +83,7 @@ public class ProjectileController : MonoBehaviour
 
                 if (isEnraged)
                 {
-                    //±¤ÆøÈ­ ÆĞÅÏ: 02 1 02 1 ...
+                    //ê´‘í­í™” íŒ¨í„´: 02 1 02 1 ...
                     if (currentRow == 1)
                     {
                         // Middle row - fire single projectile
@@ -101,7 +101,7 @@ public class ProjectileController : MonoBehaviour
                 }
                 else
                 {
-                    // ±âº»ÆĞÅÏ: 0 1 2 1 0 ...
+                    // ê¸°ë³¸íŒ¨í„´: 0 1 2 1 0 ...
                     float yOffset = currentRow == 0 ? verticalSpacing :
                                   currentRow == 1 ? 0f : -verticalSpacing;
 
@@ -127,20 +127,20 @@ public class ProjectileController : MonoBehaviour
 
     public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f, bool isWeak4 = false)
     {
-        // ¹ß»ç °¢µµ Á¦ÇÑ (¾çÂÊ ³¡ Á¦¿Ü)
-        float angleStart = isSecondLayer ? 205f : 192f; ; // ½ÃÀÛ °¢µµ
-        float angleEnd = isSecondLayer ? 335f : 348f;   // ³¡ °¢µµ
+        // ë°œì‚¬ ê°ë„ ì œí•œ (ì–‘ìª½ ë ì œì™¸)
+        float angleStart = isSecondLayer ? 205f : 192f; ; // ì‹œì‘ ê°ë„
+        float angleEnd = isSecondLayer ? 335f : 348f;   // ë ê°ë„
         float angleRange = angleEnd - angleStart;
         float angleStep = angleRange / (projectileData.ProjectileCount - 1);
 
-        float actualProjectileCount = projectileData.ProjectileCount - countOffset; // countOffsetÀ¸·Î ¹ß»ç °³¼ö Á¶Á¤
+        float actualProjectileCount = projectileData.ProjectileCount - countOffset; // countOffsetìœ¼ë¡œ ë°œì‚¬ ê°œìˆ˜ ì¡°ì •
         float radiusOffset = isSecondLayer ? 1.5f : 0f;
 
-        // ¸ğµç ÅºÈ¯À» ÇÑ¹ø¿¡ ¹ß»ç
+        // ëª¨ë“  íƒ„í™˜ì„ í•œë²ˆì— ë°œì‚¬
         for (int i = 0; i < actualProjectileCount; i++)
         {
             Vector3 basePosition = bossTransform.position;
-            float angle = angleStart + (i * angleStep); // 200µµ¿¡¼­ 340µµ »çÀÌ·Î ¹ß»ç
+            float angle = angleStart + (i * angleStep); // 200ë„ì—ì„œ 340ë„ ì‚¬ì´ë¡œ ë°œì‚¬
             float radians = angle * Mathf.Deg2Rad;
 
             Vector2 direction = new Vector2(
@@ -179,15 +179,17 @@ public class ProjectileController : MonoBehaviour
     }
     public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
     {
-        // µÎ ÆĞÅÏÀ» º´·Ä·Î ½ÇÇà
-        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, true)); // Ã¹ ¹øÂ° Ãş
-        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f, true)); // µÎ ¹øÂ° Ãş
+        // ë‘ íŒ¨í„´ì„ ë³‘ë ¬ë¡œ ì‹¤í–‰
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, true)); // ì²« ë²ˆì§¸ ì¸µ
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f, true)); // ë‘ ë²ˆì§¸ ì¸µ
 
-        // µÎ ÄÚ·çÆ¾ÀÌ ¸ğµÎ ³¡³¯ ¶§±îÁö ´ë±â
+        // ë‘ ì½”ë£¨í‹´ì´ ëª¨ë‘ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
         yield return firstLayer;
         yield return secondLayer;
 
-        // ÀÌÈÄ ÆĞÅÏÀÇ Á¾·á Áö¿¬ Ã³¸®
+        // ì´í›„ íŒ¨í„´ì˜ ì¢…ë£Œ ì§€ì—° ì²˜ë¦¬
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
         Destroy(gameObject);
     }
@@ -195,23 +197,23 @@ public class ProjectileController : MonoBehaviour
 
     public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
     {
-        // ¸ÊÀ» 14µîºĞ
+        // ë§µì„ 14ë“±ë¶„
         int divisions = 14;
         float sectionWidth = mapWidth / divisions;
         List<GameObject> activeProjectiles = new List<GameObject>();
 
-        // 5È¸ ¹İº¹
+        // 5íšŒ ë°˜ë³µ
         for (int iteration = 0; iteration < 5; iteration++)
         {
-            // ÀÌÀü ÇÁ·ÎÁ§Å¸ÀÏ Á¤¸®
+            // ì´ì „ í”„ë¡œì íƒ€ì¼ ì •ë¦¬
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
 
-            // ¿ŞÂÊ/¿À¸¥ÂÊ ·£´ı ¼±ÅÃ
+            // ì™¼ìª½/ì˜¤ë¥¸ìª½ ëœë¤ ì„ íƒ
             bool isLeftSide = Random.value > 0.5f;
             float sideStart = isLeftSide ? leftBound : mapCenter;
             float sideEnd = isLeftSide ? mapCenter : rightBound;
 
-            // ¼±ÅÃµÈ ¹æÇâ¿¡¼­ °¡´ÉÇÑ ¾ÈÀü±¸¿ª À§Ä¡µé °è»ê
+            // ì„ íƒëœ ë°©í–¥ì—ì„œ ê°€ëŠ¥í•œ ì•ˆì „êµ¬ì—­ ìœ„ì¹˜ë“¤ ê³„ì‚°
             List<float> possibleSafeZones = new List<float>();
             int sideSections = divisions / 2;
 
@@ -223,19 +225,19 @@ public class ProjectileController : MonoBehaviour
                 possibleSafeZones.Add(xPos);
             }
 
-            // 2°³ÀÇ ¾ÈÀü±¸¿ª ·£´ı ¼±ÅÃ (ÃÖ¼Ò °£°İ º¸Àå)
+            // 2ê°œì˜ ì•ˆì „êµ¬ì—­ ëœë¤ ì„ íƒ (ìµœì†Œ ê°„ê²© ë³´ì¥)
             List<float> selectedSafeZones = new List<float>();
             if (possibleSafeZones.Count >= 2)
             {
-                // Ã¹ ¹øÂ° ¾ÈÀü±¸¿ª ¼±ÅÃ
+                // ì²« ë²ˆì§¸ ì•ˆì „êµ¬ì—­ ì„ íƒ
                 int firstIndex = Random.Range(0, possibleSafeZones.Count);
                 selectedSafeZones.Add(possibleSafeZones[firstIndex]);
                 float firstZone = possibleSafeZones[firstIndex];
 
-                // Ã¹ ¹øÂ° ¾ÈÀü±¸¿ª°ú ÀÎÁ¢ÇÑ À§Ä¡ Á¦°Å
+                // ì²« ë²ˆì§¸ ì•ˆì „êµ¬ì—­ê³¼ ì¸ì ‘í•œ ìœ„ì¹˜ ì œê±°
                 possibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
 
-                // µÎ ¹øÂ° ¾ÈÀü±¸¿ª ¼±ÅÃ
+                // ë‘ ë²ˆì§¸ ì•ˆì „êµ¬ì—­ ì„ íƒ
                 if (possibleSafeZones.Count > 0)
                 {
                     int secondIndex = Random.Range(0, possibleSafeZones.Count);
@@ -243,10 +245,10 @@ public class ProjectileController : MonoBehaviour
                 }
             }
 
-            // ºñ ¹ß»ç
+            // ë¹„ ë°œì‚¬
             for (float x = leftBound; x <= rightBound; x += safeZoneWidth)
             {
-                // ¼±ÅÃµÈ ¹æÇâÀÇ ¾ÈÀü±¸¿ªÀÌ ¾Æ´Ñ °÷¿¡¸¸ ¹ß»ç
+                // ì„ íƒëœ ë°©í–¥ì˜ ì•ˆì „êµ¬ì—­ì´ ì•„ë‹Œ ê³³ì—ë§Œ ë°œì‚¬
                 bool isInSafeZone = false;
                 if (isLeftSide && x < mapCenter)
                 {
@@ -284,7 +286,7 @@ public class ProjectileController : MonoBehaviour
             yield return new WaitForSeconds(projectileData.FireRate);
         }
 
-        // ¸ğµç ÇÁ·ÎÁ§Å¸ÀÏÀÌ »ç¶óÁú ¶§±îÁö ´ë±â
+        // ëª¨ë“  í”„ë¡œì íƒ€ì¼ì´ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ëŒ€ê¸°
         while (activeProjectiles.Count > 0)
         {
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
@@ -292,8 +294,8 @@ public class ProjectileController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
-        yield return new WaitForSeconds(1f); // ¸ğµç ÇÁ·ÎÁ§Å¸ÀÏÀÌ »ç¶óÁú ¶§±îÁö Ãß°¡ ´ë±â
-        Destroy(gameObject); // ÄÁÆ®·Ñ·¯ Á¦°Å
+        yield return new WaitForSeconds(1f); // ëª¨ë“  í”„ë¡œì íƒ€ì¼ì´ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ì¶”ê°€ ëŒ€ê¸°
+        Destroy(gameObject); // ì»¨íŠ¸ë¡¤ëŸ¬ ì œê±°
     }
 
     public IEnumerator ExecuteContinuousRainPattern(Transform bossTransform, float mapWidth, float safeZoneWidth, System.Func<bool> shouldContinue)
@@ -303,12 +305,12 @@ public class ProjectileController : MonoBehaviour
         float spawnSpacing = safeZoneWidth * 1.5f;
         List<GameObject> activeProjectiles = new List<GameObject>();
 
-        while (shouldContinue())  // ÇÔ¼ö¸¦ È£ÃâÇÏ¿© bool °ª È®ÀÎ
+        while (shouldContinue())  // í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ bool ê°’ í™•ì¸
         {
-            // ÀÌÀü ÇÁ·ÎÁ§Å¸ÀÏ Á¤¸®
+            // ì´ì „ í”„ë¡œì íƒ€ì¼ ì •ë¦¬
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
 
-            // µ¶ºñ ¹ß»ç
+            // ë…ë¹„ ë°œì‚¬
             for (float x = startX; x <= endX; x += spawnSpacing)
             {
                 if (projectilePool != null)
@@ -338,7 +340,7 @@ public class ProjectileController : MonoBehaviour
             yield return new WaitForSeconds(projectileData.FireRate);
         }
 
-        // ¸ğµç ÇÁ·ÎÁ§Å¸ÀÏÀÌ »ç¶óÁú ¶§±îÁö ´ë±â
+        // ëª¨ë“  í”„ë¡œì íƒ€ì¼ì´ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ëŒ€ê¸°
         while (activeProjectiles.Count > 0)
         {
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
@@ -356,16 +358,16 @@ public class ProjectileController : MonoBehaviour
 
         while (projectile != null && projectile.activeInHierarchy)
         {
-            if (projectile == null) break;  // Ãß°¡ null Ã¼Å©
+            if (projectile == null) break;  // ì¶”ê°€ null ì²´í¬
 
             projectile.transform.position += (Vector3)(moveDirection * moveSpeed * Time.deltaTime);
 
             if (projectile.transform.position.y <= destroyY)
             {
-                if (projectile != null && projectilePool != null)  // Ãß°¡ null Ã¼Å©
+                if (projectile != null && projectilePool != null)  // ì¶”ê°€ null ì²´í¬
                 {
-                    projectile.SetActive(false);  // ºñÈ°¼ºÈ­ ÈÄ
-                    projectilePool.Release(projectile);  // Ç®¿¡ ¹İÈ¯
+                    projectile.SetActive(false);  // ë¹„í™œì„±í™” í›„
+                    projectilePool.Release(projectile);  // í’€ì— ë°˜í™˜
                 }
                 break;
             }
@@ -381,7 +383,7 @@ public class ProjectileController : MonoBehaviour
         //projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
         projectile.transform.localScale = projectileData.ProjectileScale;
 
-        // ¼öÆò ¹æÇâÀ¸·Î¸¸ ¹ß»ç
+        // ìˆ˜í‰ ë°©í–¥ìœ¼ë¡œë§Œ ë°œì‚¬
         Vector2 direction = new Vector2((angle == 0f) ? 1f : -1f, 0f);
         StartCoroutine(MoveProjectile(projectile, direction));
     }
@@ -425,37 +427,37 @@ public class ProjectileController : MonoBehaviour
 
     //    List<GameObject> activeProjectiles = new List<GameObject>();
 
-    //    // 5¹ø ¹İº¹
+    //    // 5ë²ˆ ë°˜ë³µ
     //    for (int iteration = 0; iteration < 5; iteration++)
     //    {
-    //        // ÀÌÀü ÇÁ·ÎÁ§Å¸ÀÏ Á¤¸®
+    //        // ì´ì „ í”„ë¡œì íƒ€ì¼ ì •ë¦¬
     //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
 
-    //        // ¿ŞÂÊ ¶Ç´Â ¿À¸¥ÂÊ ·£´ı ¼±ÅÃ
+    //        // ì™¼ìª½ ë˜ëŠ” ì˜¤ë¥¸ìª½ ëœë¤ ì„ íƒ
     //        bool isLeftSide = Random.value > 0.5f;
     //        float sideStartX = isLeftSide ? startX : centerX;
     //        float sideEndX = isLeftSide ? centerX : endX;
 
-    //        // ¼±ÅÃµÈ ¹æÇâ¿¡¼­ °¡´ÉÇÑ ¾ÈÀü±¸¿ª À§Ä¡µé ¼öÁı
+    //        // ì„ íƒëœ ë°©í–¥ì—ì„œ ê°€ëŠ¥í•œ ì•ˆì „êµ¬ì—­ ìœ„ì¹˜ë“¤ ìˆ˜ì§‘
     //        List<float> possibleSafeZones = new List<float>();
     //        for (float x = sideStartX; x <= sideEndX; x += spawnSpacing)
     //        {
     //            possibleSafeZones.Add(x);
     //        }
 
-    //        // 2°³ÀÇ ¾ÈÀü±¸¿ª ·£´ı ¼±ÅÃ (ÃÖ¼Ò °£°İ º¸Àå)
+    //        // 2ê°œì˜ ì•ˆì „êµ¬ì—­ ëœë¤ ì„ íƒ (ìµœì†Œ ê°„ê²© ë³´ì¥)
     //        List<float> selectedSafeZones = new List<float>();
     //        if (possibleSafeZones.Count >= 2)
     //        {
-    //            // Ã¹ ¹øÂ° ¾ÈÀü±¸¿ª ¼±ÅÃ
+    //            // ì²« ë²ˆì§¸ ì•ˆì „êµ¬ì—­ ì„ íƒ
     //            int firstIndex = Random.Range(0, possibleSafeZones.Count);
     //            selectedSafeZones.Add(possibleSafeZones[firstIndex]);
     //            float firstZone = possibleSafeZones[firstIndex];
 
-    //            // Ã¹ ¹øÂ° ¾ÈÀü±¸¿ª°ú ³Ê¹« °¡±î¿î À§Ä¡ Á¦°Å
+    //            // ì²« ë²ˆì§¸ ì•ˆì „êµ¬ì—­ê³¼ ë„ˆë¬´ ê°€ê¹Œìš´ ìœ„ì¹˜ ì œê±°
     //            possibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
 
-    //            // ³²Àº À§Ä¡ Áß¿¡¼­ µÎ ¹øÂ° ¾ÈÀü±¸¿ª ¼±ÅÃ
+    //            // ë‚¨ì€ ìœ„ì¹˜ ì¤‘ì—ì„œ ë‘ ë²ˆì§¸ ì•ˆì „êµ¬ì—­ ì„ íƒ
     //            if (possibleSafeZones.Count > 0)
     //            {
     //                int secondIndex = Random.Range(0, possibleSafeZones.Count);
@@ -465,17 +467,17 @@ public class ProjectileController : MonoBehaviour
 
     //        Debug.Log($"Iteration {iteration + 1}: Safe zones on {(isLeftSide ? "Left" : "Right")} side at positions: {string.Join(", ", selectedSafeZones)}");
 
-    //        // ºñ ¹ß»ç
+    //        // ë¹„ ë°œì‚¬
     //        for (float x = startX; x <= endX; x += spawnSpacing)
     //        {
     //            bool isInSafeZone = false;
 
-    //            // ÇöÀç x°¡ ¼±ÅÃµÈ ¹æÇâÀÇ ¾ÈÀü±¸¿ª¿¡ ÀÖ´ÂÁö È®ÀÎ
-    //            if (isLeftSide && x < centerX) // ¿ŞÂÊÀÌ ¼±ÅÃµÈ °æ¿ì
+    //            // í˜„ì¬ xê°€ ì„ íƒëœ ë°©í–¥ì˜ ì•ˆì „êµ¬ì—­ì— ìˆëŠ”ì§€ í™•ì¸
+    //            if (isLeftSide && x < centerX) // ì™¼ìª½ì´ ì„ íƒëœ ê²½ìš°
     //            {
     //                isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
     //            }
-    //            else if (!isLeftSide && x > centerX) // ¿À¸¥ÂÊÀÌ ¼±ÅÃµÈ °æ¿ì
+    //            else if (!isLeftSide && x > centerX) // ì˜¤ë¥¸ìª½ì´ ì„ íƒëœ ê²½ìš°
     //            {
     //                isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
     //            }
@@ -487,7 +489,7 @@ public class ProjectileController : MonoBehaviour
     //                    GameObject projectile = projectilePool.Get();
     //                    if (projectile != null)
     //                    {
-    //                        projectile.SetActive(true);  // ¸í½ÃÀûÀ¸·Î È°¼ºÈ­
+    //                        projectile.SetActive(true);  // ëª…ì‹œì ìœ¼ë¡œ í™œì„±í™”
     //                        Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
     //                        projectile.transform.position = spawnPosition;
     //                        projectile.transform.rotation = Quaternion.identity;
@@ -507,7 +509,7 @@ public class ProjectileController : MonoBehaviour
     //        yield return new WaitForSeconds(projectileData.FireRate);
     //    }
 
-    //    // ¸ğµç ÇÁ·ÎÁ§Å¸ÀÏÀÌ »ç¶óÁú ¶§±îÁö ´ë±â
+    //    // ëª¨ë“  í”„ë¡œì íƒ€ì¼ì´ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ëŒ€ê¸°
     //    while (activeProjectiles.Count > 0)
     //    {
     //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
@@ -515,7 +517,7 @@ public class ProjectileController : MonoBehaviour
     //    }
 
     //    yield return new WaitForSeconds(projectileData.AfterFireDelay);
-    //    yield return new WaitForSeconds(1f); // ¸ğµç ÇÁ·ÎÁ§Å¸ÀÏÀÌ »ç¶óÁú ¶§±îÁö Ãß°¡ ´ë±â
-    //    Destroy(gameObject); // ÄÁÆ®·Ñ·¯ Á¦°Å
+    //    yield return new WaitForSeconds(1f); // ëª¨ë“  í”„ë¡œì íƒ€ì¼ì´ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ì¶”ê°€ ëŒ€ê¸°
+    //    Destroy(gameObject); // ì»¨íŠ¸ë¡¤ëŸ¬ ì œê±°
     //}
 }

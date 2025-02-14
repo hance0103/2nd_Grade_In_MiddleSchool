@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-public class ProjectileBehaviour : MonoBehaviour
+
+public class RainBehavior : MonoBehaviour
 {
     private float damage; // 투사체 데미지
     private ObjectPool<GameObject> pool; // Object Pool 참조
@@ -41,6 +42,10 @@ public class ProjectileBehaviour : MonoBehaviour
                  collision.gameObject.layer == delProjWallLayer) // Ground 또는 DelProjWall과 충돌
         {
             ReleaseProjectile();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("RainGround")) // 보스 2 비 투사체
+        {
+            SoundManager.Instance.EffectSoundOn("25-2");
         }
     }
 
