@@ -100,7 +100,7 @@ public class BossPattern2 : MonoBehaviour
             StartContinuousPoisonRain();
         }
 
-        StartCoroutine(Idle());
+        StartCoroutine(BeforeIdle());
     }
 
    
@@ -141,8 +141,7 @@ public class BossPattern2 : MonoBehaviour
             StartCoroutine(Idle());
         }
     }
-
-    public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
+    public IEnumerator Idle() 
     {
         yield return StartCoroutine(BeforeIdle());
 
@@ -151,21 +150,19 @@ public class BossPattern2 : MonoBehaviour
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
-            currentState = BossState.Idle;
-            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+            yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
+            currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
+            currentCoroutine = null; // Idle 실행 조건
         }
 
         yield return null;
     }
 
 
-    public IEnumerator BeforeIdle()
+    public IEnumerator BeforeIdle() 
     {
-        // ī��Ʈ�ٿ�
         for (float i = countDownBeforeStart; i > 0; i--)
         {
-            //Debug.Log("ī��Ʈ�ٿ�: " + i);
             yield return new WaitForSeconds(1f);
         }
         int patternNum = Random.Range(0, patternDic.Count);
@@ -173,9 +170,9 @@ public class BossPattern2 : MonoBehaviour
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
-            currentState = BossState.Idle;
-            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+            yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
+            currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
+            currentCoroutine = null; // Idle 실행 조건
         }
 
         yield return null;

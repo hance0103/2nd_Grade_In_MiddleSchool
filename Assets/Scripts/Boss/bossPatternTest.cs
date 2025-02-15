@@ -106,7 +106,7 @@ public class bossPatternTest : MonoBehaviour
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern3 });
 
-        StartCoroutine(Idle());
+        StartCoroutine(BeforeIdle());
     }
 
     // Update is called once per frame
