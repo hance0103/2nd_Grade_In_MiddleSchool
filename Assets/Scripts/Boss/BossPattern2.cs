@@ -42,6 +42,9 @@ public class BossPattern2 : MonoBehaviour
     [SerializeField] private float groggyTime = 5f;
     [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions; // 맵 너비 계산
+    [Header("시작 전 카운트다운")]
+    [SerializeField]
+    private float countDownBeforeStart;
 
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
@@ -77,13 +80,17 @@ public class BossPattern2 : MonoBehaviour
     [SerializeField] private GameObject Projectile; // 일반 투사체 프리팹
     [SerializeField] private GameObject rainProjectile; // 하늘에서 떨어지는 투사체 프리팹
 
-
+    private Animator animator;
 
 
     void Start()
     {
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern5, BossState.WeakPattern6 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern6, BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
+        animator = gameObject.GetComponent<Animator>();
+        if (isEnraged == true)
+            animator.SetBool("isEnraged", true);
+
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern2 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1 });
 
         if (isEnraged)
         {
@@ -132,16 +139,42 @@ public class BossPattern2 : MonoBehaviour
         }
     }
 
-    public IEnumerator Idle() // 패턴을 랜덤하게 선택해서 지정해주는 함수
+    public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
     {
+        yield return StartCoroutine(BeforeIdle());
+
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState가 None이 되기 전까지 멈춤
-            //currentCoroutine = null; // 이거 적절히 삽입해서 update문에서 제대로 동작하도록
+            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
+            currentState = BossState.Idle;
+            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
         }
+
+        yield return null;
+    }
+
+
+    public IEnumerator BeforeIdle()
+    {
+        // ī��Ʈ�ٿ�
+        for (float i = countDownBeforeStart; i > 0; i--)
+        {
+            //Debug.Log("ī��Ʈ�ٿ�: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+        int patternNum = Random.Range(0, patternDic.Count);
+        BossState[] currentPattern = patternDic[patternNum];
+        for (int i = 0; i < currentPattern.Length; i++)
+        {
+            currentState = currentPattern[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
+            currentState = BossState.Idle;
+            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+        }
+
         yield return null;
     }
 
@@ -171,8 +204,9 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
+        // 애니메이션 관련
+        animator.SetTrigger("isSpike");
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
-        yield return new WaitForSeconds(1.5f);
 
         // 2. 레이저 경고선 표시 및 플레이어 추적
         Debug.Log("추적 경고선");
@@ -183,7 +217,7 @@ public class BossPattern2 : MonoBehaviour
         float elapsed = 0f;
 
         // 보스의 위치 가져오기
-        Vector2 bossStartPosition = transform.position;
+        Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
 
         // 플레이어 추적 단계
         while (elapsed < weak1LaserData.LaserFollowDuration)
@@ -222,6 +256,8 @@ public class BossPattern2 : MonoBehaviour
 
         // 레이저가 타겟 레이어에 충돌하도록 설정
         laser.SetTargetLayer(weak1LaserData.TargetLayer);
+
+        animator.SetTrigger("isLaser");
 
         yield return StartCoroutine(laser.FireLaser(bossStartPosition, fixedPlayerPos));
 

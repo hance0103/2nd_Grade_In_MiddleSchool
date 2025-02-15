@@ -412,6 +412,7 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
         //�ִϸ��̼� ����
+        Debug.Log("isWP2");
         animator.SetBool("isWP2", false);
 
         currentState = BossState.None;

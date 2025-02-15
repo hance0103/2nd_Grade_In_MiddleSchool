@@ -7416,6 +7416,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempBoss2
       objectReference: {fileID: 0}
+    - target: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6134767581251065260, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7488,6 +7492,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1579350647}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: countDownBeforeStart
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
