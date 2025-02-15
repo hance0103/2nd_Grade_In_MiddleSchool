@@ -7,6 +7,7 @@ using static DG.Tweening.DOTweenModuleUtils;
 
 public class bossPatternTest : MonoBehaviour
 {
+    #region enum 선언
     enum BossState
     {
         None,
@@ -25,7 +26,9 @@ public class bossPatternTest : MonoBehaviour
         Attacking,
         PostAttack,
     }
+    #endregion
 
+    #region 변수 영역
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
@@ -78,13 +81,14 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private GameObject projectileEPrefab; 
 
     private Animator animator; // �ִϸ����� ���� �߰�
-    //[SerializeField] private float rotationSpeed = 5f; // ������ �÷��̾ �ٶ󺸴� ȸ�� �ӵ�
+                               //[SerializeField] private float rotationSpeed = 5f; // ������ �÷��̾ �ٶ󺸴� ȸ�� �ӵ�
 
     //// ������ ���� ������ ���� ����
     //[SerializeField] private float contactDamage = 10f;
     //[SerializeField] private float damageRange = 1.5f;
     //[SerializeField] private float damageCooldown = 1f;
     //[SerializeField] private float lastDamageTime = 0f;
+    #endregion
 
     void Start()
     {
@@ -186,6 +190,7 @@ public class bossPatternTest : MonoBehaviour
         yield return null;
     }
 
+    #region 약패턴 1
     public IEnumerator WeakPattern1Teleport()
     {
         Debug.Log("약공격1 텔레포트");
@@ -313,7 +318,9 @@ public class bossPatternTest : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region 약패턴 2
     public IEnumerator WeakPattern2() //�÷��̾�� �̰ݵ� �κ����� �ڷ���Ʈ �� ������ ����
     {
         Debug.Log("약공격2");
@@ -419,7 +426,9 @@ public class bossPatternTest : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region 약패턴 3
     public IEnumerator WeakPattern3()
     {
         Debug.Log("�����3");
@@ -560,9 +569,9 @@ public class bossPatternTest : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
-
-
+    #region 강패턴 1
     public IEnumerator StrongPattern1() //�� ���̵�� �ڷ���Ʈ �� ����ü ����
     {
         Debug.Log("������1");
@@ -596,7 +605,9 @@ public class bossPatternTest : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region 강패턴 2
     public IEnumerator StrongPattern2() //ī��Ʈ �ٿ��� ������ �ð��� ���� �Ŀ� ������ ����
     {
         Debug.Log("������2");
@@ -812,6 +823,7 @@ public class bossPatternTest : MonoBehaviour
             Destroy(safeZone);
         }
     }
+    #endregion
 
     private IEnumerator CreateStrikeEffect() // ���� ȿ�� ����
     {
