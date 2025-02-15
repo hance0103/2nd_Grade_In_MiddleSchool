@@ -165,26 +165,25 @@ public class ProjectileController : MonoBehaviour
             StartCoroutine(MoveProjectile(projectile, direction));
         }
 
-        yield return StartCoroutine(WaitForProjectilesOffScreen());
+        //yield return StartCoroutine(WaitForProjectilesOffScreen());
+        yield return new WaitForSeconds(projectileData.AfterFireDelay);
         if (isSecondLayer)
         {
             yield return new WaitForSeconds(projectileData.AfterFireDelay);
         }
 
-        if (isWeak4 == false)
+        /*if (isWeak4 == false)
         {
             Destroy(gameObject);
-        }
+        }*/ 
       
     }
+
     public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
     {
         // 두 패턴을 병렬로 실행
         SoundManager.Instance.EffectSoundOn("23-1");
         Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, true)); // 첫 번째 층
-
-        yield return new WaitForSeconds(1.5f);
-
         SoundManager.Instance.EffectSoundOn("23-1");
         Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f, true)); // 두 번째 층
 
@@ -398,7 +397,7 @@ public class ProjectileController : MonoBehaviour
             yield return null;
         }
     }
-
+    #region 안쓰는 OnDestroy
     //private void OnDestroy()
     //{
     //    StopAllCoroutines();
@@ -411,6 +410,7 @@ public class ProjectileController : MonoBehaviour
     //        }
     //    }
     //}
+    #endregion
     private void OnDestroy()
     {
         StopAllCoroutines();

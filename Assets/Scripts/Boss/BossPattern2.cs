@@ -76,6 +76,7 @@ public class BossPattern2 : MonoBehaviour
     [SerializeField] private float poisonRainSpacing = 4f;
 
     [Header("투사체 데이터")]
+    [Tooltip("약공1 투사체 데이터")]
     [SerializeField] private ProjectileScriptableObject projectileCapData;
     [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private ProjectileScriptableObject projectileRainData;
@@ -205,7 +206,7 @@ public class BossPattern2 : MonoBehaviour
         );
 
         // 애니메이션 관련
-        animator.SetTrigger("isSpike");
+        //animator.SetTrigger("isSpike");
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
 
         // 2. 레이저 경고선 표시 및 플레이어 추적
@@ -390,7 +391,7 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
-        animator.SetTrigger("isSpike");
+        //animator.SetTrigger("isSpike");
 
         yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform));
 
