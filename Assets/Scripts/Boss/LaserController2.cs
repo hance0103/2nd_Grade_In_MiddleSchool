@@ -25,13 +25,13 @@ public class LaserController2 : MonoBehaviour
         playerTransform = target;
         laserData = data;
 
-        // SpriteRenderer Ãß°¡ ¹× ¼³Á¤
+        // SpriteRenderer ì¶”ê°€ ë° ì„¤ì •
         gameObject.transform.SetParent(transform);
         spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = Resources.Load<Sprite>(laserData.LaserSprite);
         spriteRenderer.color = laserData.LaserColor;
 
-        // Å©±â Á¶ÀıÀ» À§ÇÑ Transform ÀúÀå
+        // í¬ê¸° ì¡°ì ˆì„ ìœ„í•œ Transform ì €ì¥
         laserTransform = gameObject.transform;
         laserTransform.localScale = new Vector3(0, laserData.LaserWidth, 1);
 
@@ -47,13 +47,13 @@ public class LaserController2 : MonoBehaviour
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
-        // ¹æÇâ ¹× °Å¸® ¼³Á¤
+        // ë°©í–¥ ë° ê±°ë¦¬ ì„¤ì •
         Vector2 direction = (playerPosition - startPosition).normalized;
         float distance = Vector2.Distance(startPosition, playerPosition);
         transform.position = startPosition;
-        transform.right = direction; // È¸Àü
+        transform.right = direction; // íšŒì „
 
-        // ÆäÀÌµå ÀÎ
+        // í˜ì´ë“œ ì¸
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
@@ -65,7 +65,7 @@ public class LaserController2 : MonoBehaviour
 
         yield return new WaitForSeconds(laserData.LaserDuration);
 
-        // ÆäÀÌµå ¾Æ¿ô
+        // í˜ì´ë“œ ì•„ì›ƒ
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
@@ -84,12 +84,12 @@ public class LaserController2 : MonoBehaviour
         float fadeOutTime = 0.1f;
 
         Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
-        float distance = 15f; // ¸Ê ³¡±îÁö ±æÀÌ ¼³Á¤
+        float distance = 15f; // ë§µ ëê¹Œì§€ ê¸¸ì´ ì„¤ì •
 
         transform.position = startPosition;
         transform.right = direction;
 
-        // ÆäÀÌµå ÀÎ
+        // í˜ì´ë“œ ì¸
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
@@ -101,7 +101,7 @@ public class LaserController2 : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(laserData.LaserDuration);
 
-        // ÆäÀÌµå ¾Æ¿ô
+        // í˜ì´ë“œ ì•„ì›ƒ
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
@@ -131,16 +131,16 @@ public class LaserController2 : MonoBehaviour
     }
     public Vector2 GetMapEndPoint(Vector2 startPos, Vector2 direction)
     {
-        float maxDistance = 100f; // ·¹ÀÌÀúÀÇ ÃÖ´ë »çÁ¤°Å¸®
+        float maxDistance = 100f; // ë ˆì´ì €ì˜ ìµœëŒ€ ì‚¬ì •ê±°ë¦¬
         RaycastHit2D hit = Physics2D.Raycast(startPos, direction, maxDistance, targetLayer);
 
         if (hit.collider != null)
         {
-            // º®¿¡ ºÎµúÈù ÁöÁ¡À» ·¹ÀÌÀúÀÇ ³¡Á¡À¸·Î »ç¿ë
+            // ë²½ì— ë¶€ë”ªíŒ ì§€ì ì„ ë ˆì´ì €ì˜ ëì ìœ¼ë¡œ ì‚¬ìš©
             return hit.point;
         }
 
-        // º®°ú Ãæµ¹ÇÏÁö ¾Ê¾ÒÀ» °æ¿ì ÃÖ´ë »çÁ¤°Å¸®±îÁö ¹ß»ç
+        // ë²½ê³¼ ì¶©ëŒí•˜ì§€ ì•Šì•˜ì„ ê²½ìš° ìµœëŒ€ ì‚¬ì •ê±°ë¦¬ê¹Œì§€ ë°œì‚¬
         return startPos + (direction * maxDistance);
     }
 
@@ -153,7 +153,8 @@ public class LaserController2 : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-
+            PlayerHPManager hpManager= collision.gameObject.GetComponent<PlayerHPManager>();
+            hpManager.TakeDamage(laserData.Damage);
         }
     }
 }
