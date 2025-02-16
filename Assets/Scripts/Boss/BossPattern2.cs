@@ -66,6 +66,8 @@ public class BossPattern2 : MonoBehaviour
     
     [Header("약공격5 데이터")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
+    [Tooltip("독비 간격")]
+    [SerializeField] private float rainSpaceWeak5 = 1.5f;
     
     [Header("약공격6 (체력패턴) 데이터")]
     [SerializeField] private BossScriptableObject weakPattern6Data;
@@ -93,7 +95,8 @@ public class BossPattern2 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern4, BossState.WeakPattern5 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern4, BossState.WeakPattern5 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern5 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1 });
 
         if (isEnraged)
@@ -432,7 +435,8 @@ public class BossPattern2 : MonoBehaviour
         );
 
         // Player의 너비를 컴포넌트에서 직접 가져오기
-        float playerWidth = 1f;  // 기본값
+
+        /*float playerWidth = 1f;  // 기본값
         if (player.TryGetComponent<Collider2D>(out Collider2D collider))
         {
             playerWidth = collider.bounds.size.x;
@@ -441,7 +445,9 @@ public class BossPattern2 : MonoBehaviour
         {
             playerWidth = renderer.bounds.size.x;
         }
-        float safeZoneWidth = playerWidth * 1.5f;
+        float safeZoneWidth = playerWidth * 1.5f;*/
+
+        float safeZoneWidth = rainSpaceWeak5;
 
 
         yield return StartCoroutine(rainController.ExecuteWeakPattern5Rain(
