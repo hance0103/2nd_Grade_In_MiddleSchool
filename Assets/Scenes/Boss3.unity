@@ -2421,6 +2421,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1158700348}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperatePattern3Data
+      value: 
+      objectReference: {fileID: 11400000, guid: cd2d6f8f3471b6d4ba6863af0ae1a3f7, type: 2}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: mapWidthPositions.Array.data[0]
       value: 
       objectReference: {fileID: 1530457280}

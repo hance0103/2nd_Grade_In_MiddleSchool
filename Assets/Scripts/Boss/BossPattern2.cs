@@ -46,8 +46,8 @@ public class BossPattern2 : MonoBehaviour
     [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions; // 맵 너비 계산
     [Header("시작 전 카운트다운")]
-    [SerializeField]
-    private float countDownBeforeStart;
+    [SerializeField] private float countDownBeforeStart;
+
 
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
