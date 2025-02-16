@@ -11,6 +11,10 @@ GameObject:
   - component: {fileID: 58188418078762215}
   - component: {fileID: 1058210780029493442}
   - component: {fileID: -6204490465964807498}
+  - component: {fileID: 6060334556971368982}
+  - component: {fileID: 799909185546336657}
+  - component: {fileID: 577966401618978629}
+  - component: {fileID: 651182969775359220}
   m_Layer: 0
   m_Name: TempBoss3
   m_TagString: Untagged
@@ -100,7 +104,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -130,3 +134,114 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.857143, y: 2.857143}
   m_EdgeRadius: 0
+--- !u!114 &6060334556971368982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0355939f0e76e2642ae48e60859dae14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  isEnraged: 0
+  isDesperate: 0
+  groggyTime: 5
+  mapWidthPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  pattern5Positions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  weakPattern1Data: {fileID: 11400000, guid: 525f5c01fd881f540b084046de185588, type: 2}
+  weak1LaserData: {fileID: 11400000, guid: 1e9810ae3c647d04096bb5b8e81881ee, type: 2}
+  weakPattern2Data: {fileID: 11400000, guid: 8dc2ad6ad358fd741913c27f3e35ad5f, type: 2}
+  weak2LaserData: {fileID: 11400000, guid: 57b2a597189e5554d8dd03b3c83ff78f, type: 2}
+  weakPattern3Data: {fileID: 11400000, guid: a858ed0ef5ea4a645bfa635e31b23ce5, type: 2}
+  weak3LaserData: {fileID: 11400000, guid: 81b5336ee614f9c4dae24bdf1e1014a7, type: 2}
+  weakPattern4Data: {fileID: 11400000, guid: a48754b0df227ba4c8981eb45e7a1846, type: 2}
+  weakPattern5Data: {fileID: 11400000, guid: 4f6c09222f59eb34fa4ecb731efe231c, type: 2}
+  weak5LaserData: {fileID: 0}
+  weak4ProjData: {fileID: 11400000, guid: 4b80a4f53c9249f4f8c30d9de6b8448d, type: 2}
+  MusicProjectile: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+  enragedPatternData: {fileID: 11400000, guid: f84858710504675489ae09a57169a0cd, type: 2}
+  enragedLaserData: {fileID: 11400000, guid: 035acb24a68133340999815dc8afc612, type: 2}
+  initialLasersFadeTime: 0.5
+  desperatePattern1Data: {fileID: 0}
+  desperate1LaserData: {fileID: 0}
+  desperatePattern2Data: {fileID: 0}
+  desperate2ProjData: {fileID: 11400000, guid: a61e901d0d43c194d82521f143cd33e1, type: 2}
+  desperatePattern3Data: {fileID: 0}
+  desperate3LaserData: {fileID: 11400000, guid: 52a31558a1152e74490ef4738a76df3f, type: 2}
+--- !u!114 &799909185546336657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f920fa3c82e8e53439437b8ce1d0582d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &577966401618978629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8667b2d5fb8c4f449b3d1930cdcbafe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &651182969775359220
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

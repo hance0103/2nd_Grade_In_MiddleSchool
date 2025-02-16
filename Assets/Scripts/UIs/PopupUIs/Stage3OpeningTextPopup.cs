@@ -7,38 +7,59 @@ using TMPro;
 
 public class Stage3OpeningTextPopup : MonoBehaviour
 {
-    [Header("ÂüÁ¶ ¿ä¼Òµé")]
-    public TMP_Text ChatText;      // ½ÇÁ¦ Ã¤ÆÃÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public TMP_Text CharacterName; // Ä³¸¯ÅÍ ÀÌ¸§ÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public GameObject OpeningTextPanel;  // ¿ÀÇÁ´× ½ºÅ©¸³Æ® ÆĞ³Î
+    [Header("ì°¸ì¡° ìš”ì†Œë“¤")]
+    public TMP_Text ChatText;      // ì‹¤ì œ ì±„íŒ…ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public TMP_Text CharacterName; // ìºë¦­í„° ì´ë¦„ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public GameObject OpeningTextPanel;  // ì˜¤í”„ë‹ ìŠ¤í¬ë¦½íŠ¸ íŒ¨ë„
     public GameObject TempPenal;
     public Button NextButton;
     public Button SkipButton;
-    [SerializeField] private GameObject Timer; // Å¸ÀÌ¸Ó È°¼ºÈ­/ºñÈ°¼ºÈ­ ¿ëµµ
+    [SerializeField] private GameObject Timer; // íƒ€ì´ë¨¸ í™œì„±í™”/ë¹„í™œì„±í™” ìš©ë„
 
-    [Header("¿ÀÇÁ´× ½ºÅ©¸³Æ® Ä³¸¯ÅÍ/º¸½º ½ºÇÁ¶óÀÌÆ®")]
-    public GameObject CharacterPose1; // ¼Õ°¡¶ô Æ÷Áî, ½Å³­ Ç¥Á¤
-    public GameObject CharacterPose2; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ´« °¨°í ¹Ì¼Ò
-    public GameObject CharacterPose3; // ¼Õ°¡¶ô Æ÷Áî, È­³­ Ç¥Á¤(ÀÌ±ÛÀÌ±Û)
-    public GameObject CharacterPose4; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ¾îµÓ°í Â°·Áº¸´Â Ç¥Á¤(ºĞ³ë¸¦ ¾ï´©¸£´Â µíÇÑ)
-    public GameObject CharacterPose5; // Á¥È÷°í ¿ô´Â Æ÷Áî
-    public GameObject CharacterPose6; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ÁøÁöÇÑ Ç¥Á¤
-    public GameObject CharacterPose7; // ´«¿¡ ºÓÀº±â¿îÀÌ µ·´Ù
-    public GameObject Boss;
+    [Header("ì˜¤í”„ë‹ ìŠ¤í¬ë¦½íŠ¸ ìºë¦­í„°/ë³´ìŠ¤ ìŠ¤í”„ë¼ì´íŠ¸")]
+    public GameObject CharacterPose1; // ì†ê°€ë½ í¬ì¦ˆ, ì‹ ë‚œ í‘œì •
+    public GameObject CharacterPose2; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ëˆˆ ê°ê³  ë¯¸ì†Œ
+    public GameObject CharacterPose3; // ì†ê°€ë½ í¬ì¦ˆ, í™”ë‚œ í‘œì •(ì´ê¸€ì´ê¸€)
+    public GameObject CharacterPose4; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì–´ë‘¡ê³  ì§¸ë ¤ë³´ëŠ” í‘œì •(ë¶„ë…¸ë¥¼ ì–µëˆ„ë¥´ëŠ” ë“¯í•œ)
+    public GameObject CharacterPose5; // ì –íˆê³  ì›ƒëŠ” í¬ì¦ˆ
+    public GameObject CharacterPose6; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì§„ì§€í•œ í‘œì •
+    public GameObject CharacterPose7; // ëˆˆì— ë¶‰ì€ê¸°ìš´ì´ ëˆë‹¤
+
+    [Header("í”Œë ˆì´ì–´/ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject PlayerHP;
+    [SerializeField] private GameObject Boss;
+    [SerializeField] private GameObject BossHP;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
+    public static bool isFirstTime2 = true;
     void Start()
     {
-        NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(OpeningTextStage3());
-        Timer.SetActive(false);
+        if (!isFirstTime2)
+        {
+            OnSkipButtonClicked();
+            Debug.Log("!isFristtime");
+        }
+        else
+        {
+            Open();
+            isFirstTime2 = false;
+        }
     }
 
     void Update()
     {
 
+    }
+    void Open()
+    {
+        NextButton.onClick.AddListener(OnNextButtonClicked);
+        var timer = FindObjectOfType<Timer>();
+        StartCoroutine(OpeningTextStage3());
+        Timer.SetActive(false);
+        Time.timeScale = 0;
     }
     void OnNextButtonClicked()
     {
@@ -46,7 +67,7 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         {
             isSkipping = true;
         }
-        // ÀÌ¹Ì ´ë»ç°¡ ´Ù ³ª¿ÔÀ¸¸é, ´ÙÀ½ ´ë»ç·Î ³Ñ¾î°¡´Â ½ÅÈ£
+        // ì´ë¯¸ ëŒ€ì‚¬ê°€ ë‹¤ ë‚˜ì™”ìœ¼ë©´, ë‹¤ìŒ ëŒ€ì‚¬ë¡œ ë„˜ì–´ê°€ëŠ” ì‹ í˜¸
         else
         {
             isNextButtonClicked = true;
@@ -70,7 +91,7 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         ChatText.text = "";
         writerText = "";
 
-        // ÅØ½ºÆ® Å¸ÀÌÇÎ È¿°ú
+        // í…ìŠ¤íŠ¸ íƒ€ì´í•‘ íš¨ê³¼
         for (a = 0; a < narration.Length; a++)
         {
             if (isSkipping)
@@ -85,37 +106,41 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         }
         isFullTextDisplayed = true;
         isSkipping = false;
-        // Å°¸¦ ´Ù½Ã ´©¸¦ ¶§±îÁö ¹«ÇÑÁ¤ ´ë±â
+        // í‚¤ë¥¼ ë‹¤ì‹œ ëˆ„ë¥¼ ë•Œê¹Œì§€ ë¬´í•œì • ëŒ€ê¸°
         isNextButtonClicked = false;
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage3() //("µîÀåÀÎ¹°", "´ë»ç")·Î ÀÔ·Â
+    IEnumerator OpeningTextStage3() //("ë“±ì¥ì¸ë¬¼", "ëŒ€ì‚¬")ë¡œ ì…ë ¥
     {
-        //º¯°æ ÇÊ¿ä
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¿À´Ã¸¸Å­Àº ³×°Ô ÇãºñÇÒ ½Ã°£ÀÌ ¾ø´Ù"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÇÑ ÁÜÀÇ Àç°¡ µÇ°í ½ÍÁö ¾Ê´Ù¸é..²¨Á®¶ó."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "³» ¾È¿¡ ²ŞÆ²°Å¸®´Â [¶ôÀÇ ¿µÈ¥]ÀÌ [»ìÀÇ]¸¦ ³»ºñÄ¡°í ÀÖ´Ù."));
-        yield return StartCoroutine(NormalChat("ÃÖÁ¾º¸½º", "¿¬¾àÇÑ [¼Ò³à]¿©"));
-        yield return StartCoroutine(NormalChat("ÃÖÁ¾º¸½º", "³Ê µûÀ§°¡ °¨È÷ ³ª¸¦ Áö³ªÄ¥ ¼ö ÀÖ´Ù »ı°¢ÇÏ´À³Ä?"));
-        yield return StartCoroutine(NormalChat("ÃÖÁ¾º¸½º", "¾ÈÅ¸±õÁö¸¸ [ÆĞ¹è]¸¦ ¾È°Ü ÁÖ¸¶."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¹¹ ±×·¸°Ô ³ª¿Â´Ù¸é ÇÒ ¼ö ¾øÁö.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "Á¤ÀÇ¸¦ À§ÇØ"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "[Ã³¸®ÇÑ´Ù.]"));
-        yield return StartCoroutine(NormalChat("", "ÀüÅõ¿¡ ÁøÀÔÇÕ´Ï´Ù"));
+        //ë³€ê²½ í•„ìš”
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì˜¤ëŠ˜ë§Œí¼ì€ ë„¤ê²Œ í—ˆë¹„í•  ì‹œê°„ì´ ì—†ë‹¤"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "í•œ ì¤Œì˜ ì¬ê°€ ë˜ê³  ì‹¶ì§€ ì•Šë‹¤ë©´..êº¼ì ¸ë¼."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë‚´ ì•ˆì— ê¿ˆí‹€ê±°ë¦¬ëŠ” [ë½ì˜ ì˜í˜¼]ì´ [ì‚´ì˜]ë¥¼ ë‚´ë¹„ì¹˜ê³  ìˆë‹¤."));
+        yield return StartCoroutine(NormalChat("ìµœì¢…ë³´ìŠ¤", "ì—°ì•½í•œ [ì†Œë…€]ì—¬"));
+        yield return StartCoroutine(NormalChat("ìµœì¢…ë³´ìŠ¤", "ë„ˆ ë”°ìœ„ê°€ ê°íˆ ë‚˜ë¥¼ ì§€ë‚˜ì¹  ìˆ˜ ìˆë‹¤ ìƒê°í•˜ëŠëƒ?"));
+        yield return StartCoroutine(NormalChat("ìµœì¢…ë³´ìŠ¤", "ì•ˆíƒ€ê¹ì§€ë§Œ [íŒ¨ë°°]ë¥¼ ì•ˆê²¨ ì£¼ë§ˆ."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë­ ê·¸ë ‡ê²Œ ë‚˜ì˜¨ë‹¤ë©´ í•  ìˆ˜ ì—†ì§€.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì •ì˜ë¥¼ ìœ„í•´"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "[ì²˜ë¦¬í•œë‹¤.]"));
+        yield return StartCoroutine(NormalChat("", "ì „íˆ¬ì— ì§„ì…í•©ë‹ˆë‹¤"));
         CloseOpeningText();
     }
 
     void CloseOpeningText()
     {
-        OpeningTextPanel.SetActive(false); // ÆĞ³Î ºñÈ°¼ºÈ­
-        TempPenal.SetActive(true);
+        OpeningTextPanel.SetActive(false); // íŒ¨ë„ ë¹„í™œì„±í™”
+        isFirstTime2 = false;
+        Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
-
-        // Å¸ÀÌ¸ÓÀÇ TimeActive ÄÑ°í, ÄÚ·çÆ¾ ¼öµ¿ ½ÇÇà
+        // íƒ€ì´ë¨¸ì˜ TimeActive ì¼œê³ , ì½”ë£¨í‹´ ìˆ˜ë™ ì‹¤í–‰
         Timer.SetActive(true);
-        
-
-
+        Time.timeScale = 1;
+        Timer.SetActive(true);
+        timer.TimeActive = true;
+        Player.SetActive(true);
+        Boss.SetActive(true);
+        PlayerHP.SetActive(true);
+        BossHP.SetActive(true);
     }
 }

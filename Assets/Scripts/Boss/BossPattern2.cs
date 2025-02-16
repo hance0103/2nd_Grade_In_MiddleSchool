@@ -93,7 +93,7 @@ public class BossPattern2 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern4 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern4, BossState.WeakPattern5 });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern1 });
 
         if (isEnraged)
@@ -206,7 +206,7 @@ public class BossPattern2 : MonoBehaviour
         );
 
         // 애니메이션 관련
-        //animator.SetTrigger("isSpike");
+        animator.SetTrigger("isSpike");
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
 
         // 2. 레이저 경고선 표시 및 플레이어 추적
