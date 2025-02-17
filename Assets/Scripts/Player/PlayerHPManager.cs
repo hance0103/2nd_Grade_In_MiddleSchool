@@ -17,7 +17,8 @@ public class PlayerHPManager : MonoBehaviour
     [Header("패배 팝업")]
     [SerializeField] private GameObject DefeatPopup;
     [SerializeField] private DefeatPopup DefeatPopupScript;
-    
+    [Header("스테이지")]
+    [SerializeField] private int Stage;
     private float currentHP;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
@@ -48,10 +49,20 @@ public class PlayerHPManager : MonoBehaviour
         Debug.Log($"플레이어가 {damage} 데미지를 받음. 남은 HP: {currentHP}");
 
         
-        if (currentHP <= 0)
+        if (currentHP <= 0 && Stage == 1)
         {
             currentHP = 0;
-            PlayerDie();
+            PlayerDie1();
+        }
+        if (currentHP <= 0 && Stage == 2)
+        {
+            currentHP = 0;
+            PlayerDie2();
+        }
+        if (currentHP <= 0 && Stage == 3)
+        {
+            currentHP = 0;
+            PlayerDie3();
         }
     }
     public float GetCurrentHP()
@@ -64,12 +75,32 @@ public class PlayerHPManager : MonoBehaviour
         return maxHP;
     }
     
-    private void PlayerDie()
+    private void PlayerDie1()
     {
         Debug.Log("플레이어가 사망했습니다.");
         DefeatPopup.SetActive(true);
         Player.SetActive(false);
-        DefeatPopupScript.OpenDefeat();
+        DefeatPopupScript.OpenDefeat1();
+        Time.timeScale = 0f;
+        // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
+        // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
+    }
+    private void PlayerDie2()
+    {
+        Debug.Log("플레이어가 사망했습니다.");
+        DefeatPopup.SetActive(true);
+        Player.SetActive(false);
+        DefeatPopupScript.OpenDefeat2();
+        Time.timeScale = 0f;
+        // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
+        // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
+    }
+    private void PlayerDie3()
+    {
+        Debug.Log("플레이어가 사망했습니다.");
+        DefeatPopup.SetActive(true);
+        Player.SetActive(false);
+        DefeatPopupScript.OpenDefeat3();
         Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등

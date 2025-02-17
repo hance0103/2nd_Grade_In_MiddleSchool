@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternName: Strong2
   damage: 100
-  beforeattackDelay: 6
+  beforeAttackDelay: 3
   attackRange: 0
-  afterAttackDelay: 0
+  afterAttackDelay: 2
   teleportOffset: {x: 13, y: 13, z: 0}
   teleportWaitTime: 0

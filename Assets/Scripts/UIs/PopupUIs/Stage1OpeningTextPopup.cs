@@ -35,10 +35,10 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
-    public static bool isFirstTime = true;
+    public static bool isFirstTime1 = true;
     void Start()
     {
-        if (!isFirstTime)
+        if (!isFirstTime1)
         {
             OnSkipButtonClicked();
             Debug.Log("!isFristtime");
@@ -46,7 +46,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         else
         {
             Open();
-            isFirstTime = false;
+            isFirstTime1 = false;
         }
      }
    
@@ -84,7 +84,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     }
     public void ExitStage1()
     {
-        isFirstTime = true;
+        isFirstTime1 = true;
     }
 
     public float typingSpeed = 0.02f;
@@ -129,7 +129,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("주인공", "지각이라는 치욕스러운 경험을 하게 했던..."));
         yield return StartCoroutine(NormalChat("주인공", "신호등 !!!"));
         yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 네게 허비할 시간이 없다"));
-        yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..꺼져라."));
+        yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..사라져라."));
         yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
         yield return StartCoroutine(NormalChat("신호등", "연약한 [소녀]여"));
         yield return StartCoroutine(NormalChat("신호등", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
@@ -147,7 +147,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     {
         
         OpeningTextPanel.SetActive(false); // 패널 비활성화
-        isFirstTime = false;
+        isFirstTime1 = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         

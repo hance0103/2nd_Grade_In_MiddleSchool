@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 2 Proj
   m_EditorClassIdentifier: 
   damage: 6
-  projectileSpeed: 3
+  projectileSpeed: 6
   projectileCount: 7
   projectileScale: {x: 0.5, y: 0.5, z: 0.5}
   verticalSpacing: 0
   fireRate: 2
-  afterFireDelay: 1
+  afterFireDelay: 3

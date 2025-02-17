@@ -24,22 +24,42 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public GameObject CharacterPose5; // 젖히고 웃는 포즈
     public GameObject CharacterPose6; // 머리에 손 포즈, 진지한 표정
     public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
-    public GameObject Boss;
+
+    [Header("플레이어/보스 오브젝트")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject PlayerHP;
+    [SerializeField] private GameObject Boss;
+    [SerializeField] private GameObject BossHP;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
+    public static bool isFirstTime2 = true;
     void Start()
     {
-        NextButton.onClick.AddListener(OnNextButtonClicked);
-        StartCoroutine(OpeningTextStage1());
-        Timer.SetActive(false);
-        Time.timeScale = 0;
+        if (!isFirstTime2)
+        {
+            OnSkipButtonClicked();
+            Debug.Log("!isFristtime");
+        }
+        else
+        {
+            Open();
+            isFirstTime2 = false;
+        }
     }
 
     void Update()
     {
 
+    }
+    void Open()
+    {
+        NextButton.onClick.AddListener(OnNextButtonClicked);
+        var timer = FindObjectOfType<Timer>();
+        StartCoroutine(OpeningTextStage2());
+        Timer.SetActive(false);
+        Time.timeScale = 0;
     }
     void OnNextButtonClicked()
     {
@@ -91,7 +111,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage1() //("등장인물", "대사")로 입력
+    IEnumerator OpeningTextStage2() //("등장인물", "대사")로 입력
     {
         yield return StartCoroutine(NormalChat("주인공", "쳇, 꽤나 시간을 허비했군.."));
         yield return StartCoroutine(NormalChat("주인공", "더 빠른 템포로 걸어갈 수밖에"));
@@ -116,10 +136,17 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     {
         OpeningTextPanel.SetActive(false); // 패널 비활성화
-        TempPenal.SetActive(true);
+        isFirstTime2 = false;
+        Time.timeScale = 1f;
+        var timer = FindObjectOfType<Timer>();
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
         Time.timeScale = 1;
-
+        Timer.SetActive(true);
+        timer.TimeActive = true;
+        Player.SetActive(true);
+        Boss.SetActive(true);
+        PlayerHP.SetActive(true);
+        BossHP.SetActive(true);
     }
 }

@@ -14,47 +14,47 @@ public class StageSelect : MonoBehaviour
     public void LoadStage1()
     {
         SceneManager.LoadScene("Stage1");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage1BgmOn();
         Time.timeScale = 1.0f;
     }
 
     public void LoadStage2()
     {
         SceneManager.LoadScene("Stage2");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage2BgmOn();
         Time.timeScale = 1.0f;
     }
 
     public void LoadStage3()
     {
         SceneManager.LoadScene("Stage3");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage3BgmOn();
         Time.timeScale = 1.0f;
     }
 
-    public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷
+    public GameObject settingsPopup; // ì„¤ì • íŒì—…
    
-    public GameObject creditsPopup; // Å©·¹µ÷ ÆË¾÷
+    public GameObject creditsPopup; // í¬ë ˆë”§ íŒì—…
 
-    // ¼³Á¤ ÆË¾÷ ¿­±â
+    // ì„¤ì • íŒì—… ì—´ê¸°
     public void OpenSettings()
     {
         settingsPopup.SetActive(true);
     }
 
-    // ¼³Á¤ ÆË¾÷ ´İ±â
+    // ì„¤ì • íŒì—… ë‹«ê¸°
     public void CloseSettings()
     {
         settingsPopup.SetActive(false);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ¿­±â
+    // í¬ë ˆë”§ íŒì—… ì—´ê¸°
     public void OpenCredits()
     {
         creditsPopup.SetActive(true);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ´İ±â
+    // í¬ë ˆë”§ íŒì—… ë‹«ê¸°
     public void CloseCredits()
     {
         creditsPopup.SetActive(false);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1E Weak3
   m_EditorClassIdentifier: 
   patternName: Weak3
-  damage: 50
+  damage: 10
   beforeAttackDelay: 0.7
   attackRange: 0
   afterAttackDelay: 0.7

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BossPattern2 : MonoBehaviour
 {
+    #region enum ì„ ì–¸
     enum BossState
     {
         None,
@@ -25,72 +26,85 @@ public class BossPattern2 : MonoBehaviour
         Attacking,
         PostAttack,
     }
+    #endregion
 
+    #region ë³€ìˆ˜ ì˜ì—­
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
-    public Player player; // Player Å¸ÀÔÀÇ º¯¼ö¸¦ ¼±¾ğÇØ ÂüÁ¶ °¡Á®¿À±â
-    private LaserController laserController; // LaserController ÂüÁ¶
-    private ProjectileController projectileController; // ProjectileController ÂüÁ¶
+    public Player player; // Player íƒ€ì…ì˜ ë³€ìˆ˜ë¥¼ ì„ ì–¸í•´ ì°¸ì¡° ê°€ì ¸ì˜¤ê¸°
+    private LaserController2 laserController; // LaserController ì°¸ì¡°
+    private ProjectileController projectileController; // ProjectileController ì°¸ì¡°
     private bool isPattern6Active = false;
     private Coroutine poisonRainCoroutine = null;
 
-    [Header("º¸½º ±âº» ¼³Á¤")]
-    [Tooltip("±¤ÆøÈ­ ¼³Á¤")]
-    [SerializeField] private bool isEnraged = false; // Inspector¿¡¼­ ¼³Á¤ °¡´É
-    [Tooltip("±×·Î±â ½Ã°£ ¼³Á¤")]
+    [Header("ë³´ìŠ¤ ê¸°ë³¸ ì„¤ì •")]
+    [Tooltip("ê´‘í­í™” ì„¤ì •")]
+    [SerializeField] private bool isEnraged = false; // Inspectorì—ì„œ ì„¤ì • ê°€ëŠ¥
+    [Tooltip("ê·¸ë¡œê¸° ì‹œê°„ ì„¤ì •")]
     [SerializeField] private float groggyTime = 5f;
-    [Tooltip("¸Ê ³Êºñ °è»ê")]
-    [SerializeField] private Transform[] mapWidthPositions; // ¸Ê ³Êºñ °è»ê
+    [Tooltip("ë§µ ë„ˆë¹„ ê³„ì‚°")]
+    [SerializeField] private Transform[] mapWidthPositions; // ë§µ ë„ˆë¹„ ê³„ì‚°
+    [Header("ì‹œì‘ ì „ ì¹´ìš´íŠ¸ë‹¤ìš´")]
+    [SerializeField] private float countDownBeforeStart;
 
-    [Header("¾à°ø°İ1 µ¥ÀÌÅÍ")]
+
+    [Header("ì•½ê³µê²©1 ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private LaserScriptableObject weak1LaserData;
 
-    [Header("¾à°ø°İ2 µ¥ÀÌÅÍ")]
+    [Header("ì•½ê³µê²©2 ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
     
-    [Header("¾à°ø°İ3 µ¥ÀÌÅÍ")]
+    [Header("ì•½ê³µê²©3 ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private LaserScriptableObject weak3LaserData;
     [SerializeField] private float weak3AttackCount = 3f;
 
-    [Header("¾à°ø°İ4 µ¥ÀÌÅÍ")]
+    [Header("ì•½ê³µê²©4 ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern4Data;
     
-    [Header("¾à°ø°İ5 µ¥ÀÌÅÍ")]
+    [Header("ì•½ê³µê²©5 ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
+    [Tooltip("ë…ë¹„ ê°„ê²©")]
+    [SerializeField] private float rainSpaceWeak5 = 1.5f;
     
-    [Header("¾à°ø°İ6 (Ã¼·ÂÆĞÅÏ) µ¥ÀÌÅÍ")]
+    [Header("ì•½ê³µê²©6 (ì²´ë ¥íŒ¨í„´) ë°ì´í„°")]
     [SerializeField] private BossScriptableObject weakPattern6Data;
     [SerializeField] private LaserScriptableObject weak6LaserData;
-    [Tooltip("µ¶ºñ Áö¼Ó ½Ã°£")]
+    [Tooltip("ë…ë¹„ ì§€ì† ì‹œê°„")]
     [SerializeField] private float poisonRainDuration = 15f;
-    [Tooltip("µ¶ºñ °£°İ")]
+    [Tooltip("ë…ë¹„ ê°„ê²©")]
     [SerializeField] private float poisonRainSpacing = 4f;
 
-    [Header("Åõ»çÃ¼ µ¥ÀÌÅÍ")]
+    [Header("íˆ¬ì‚¬ì²´ ë°ì´í„°")]
+    [Tooltip("ì•½ê³µ1 íˆ¬ì‚¬ì²´ ë°ì´í„°")]
     [SerializeField] private ProjectileScriptableObject projectileCapData;
     [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private ProjectileScriptableObject projectileRainData;
-    [SerializeField] private GameObject captureProjectile; // ¼Ó¹Ú Åõ»çÃ¼ ÇÁ¸®ÆÕ
-    [SerializeField] private GameObject Projectile; // ÀÏ¹İ Åõ»çÃ¼ ÇÁ¸®ÆÕ
-    [SerializeField] private GameObject rainProjectile; // ÇÏ´Ã¿¡¼­ ¶³¾îÁö´Â Åõ»çÃ¼ ÇÁ¸®ÆÕ
+    [SerializeField] private GameObject captureProjectile; // ì†ë°• íˆ¬ì‚¬ì²´ í”„ë¦¬íŒ¹
+    [SerializeField] private GameObject Projectile; // ì¼ë°˜ íˆ¬ì‚¬ì²´ í”„ë¦¬íŒ¹
+    [SerializeField] private GameObject rainProjectile; // í•˜ëŠ˜ì—ì„œ ë–¨ì–´ì§€ëŠ” íˆ¬ì‚¬ì²´ í”„ë¦¬íŒ¹
 
-
-
+    private Animator animator;
+    #endregion
 
     void Start()
     {
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern5, BossState.WeakPattern6 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern6, BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1 });
+        animator = gameObject.GetComponent<Animator>();
+        if (isEnraged == true)
+            animator.SetBool("isEnraged", true);
+
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern4, BossState.WeakPattern5 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern5 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1 });
 
         if (isEnraged)
         {
             StartContinuousPoisonRain();
         }
 
-        StartCoroutine(Idle());
+        StartCoroutine(BeforeIdle());
     }
 
    
@@ -126,42 +140,66 @@ public class BossPattern2 : MonoBehaviour
             currentCoroutine = StartCoroutine(WeakPattern6());
         }
 
-        if (currentState == BossState.Idle && currentCoroutine == null) // ÆĞÅÏÀÇ Á¶ÇÕÀÌ ³¡³ª¸é ´Ù½Ã Idle()µ¹·Á¼­ ÆĞÅÏ ½ÇÇàÇÏ°Ô ÇØÁÖ±â
+        if (currentState == BossState.Idle && currentCoroutine == null) // íŒ¨í„´ì˜ ì¡°í•©ì´ ëë‚˜ë©´ ë‹¤ì‹œ Idle()ëŒë ¤ì„œ íŒ¨í„´ ì‹¤í–‰í•˜ê²Œ í•´ì£¼ê¸°
         {
             StartCoroutine(Idle());
         }
     }
-
-    public IEnumerator Idle() // ÆĞÅÏÀ» ·£´ıÇÏ°Ô ¼±ÅÃÇØ¼­ ÁöÁ¤ÇØÁÖ´Â ÇÔ¼ö
+    public IEnumerator Idle() 
     {
+        yield return StartCoroutine(BeforeIdle());
+
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState°¡ NoneÀÌ µÇ±â Àü±îÁö ¸ØÃã
-            //currentCoroutine = null; // ÀÌ°Å ÀûÀıÈ÷ »ğÀÔÇØ¼­ update¹®¿¡¼­ Á¦´ë·Î µ¿ÀÛÇÏµµ·Ï
+            yield return new WaitUntil(() => currentState == BossState.None); // íŒ¨í„´ì´ ëª¨ë‘ ì‹¤í–‰ë˜ê¸¸ ê¸°ë‹¤ë¦¼
+            currentState = BossState.Idle; // Idleì—ì„œ ë‹¤ì‹œ ìƒˆë¡œìš´ íŒ¨í„´ ë°›ì•„ì˜¤ê¸°
+            currentCoroutine = null; // Idle ì‹¤í–‰ ì¡°ê±´
         }
+
         yield return null;
     }
 
+
+    public IEnumerator BeforeIdle() 
+    {
+        for (float i = countDownBeforeStart; i > 0; i--)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        int patternNum = Random.Range(0, patternDic.Count);
+        BossState[] currentPattern = patternDic[patternNum];
+        for (int i = 0; i < currentPattern.Length; i++)
+        {
+            currentState = currentPattern[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // íŒ¨í„´ì´ ëª¨ë‘ ì‹¤í–‰ë˜ê¸¸ ê¸°ë‹¤ë¦¼
+            currentState = BossState.Idle; // Idleì—ì„œ ë‹¤ì‹œ ìƒˆë¡œìš´ íŒ¨í„´ ë°›ì•„ì˜¤ê¸°
+            currentCoroutine = null; // Idle ì‹¤í–‰ ì¡°ê±´
+        }
+
+        yield return null;
+    }
+    #region íŒ¨í„´ 1
     public IEnumerator WeakPattern1()
     {
-        Debug.Log("¾à°ø°İ1");
+        Debug.Log("ì•½ê³µê²©1");
         currentState = BossState.WeakPattern1;
 
-        // º¸½º°¡ ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸µµ·Ï ¼³Á¤
+        // ë³´ìŠ¤ê°€ í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ë„ë¡ ì„¤ì •
         //FacePlayer();
 
-        // Ä«¿îÆ® ´Ù¿î
+        // ì¹´ìš´íŠ¸ ë‹¤ìš´
         for (float i = weakPattern1Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("Ä«¿îÆ®´Ù¿î: " + i);
+            Debug.Log("ì¹´ìš´íŠ¸ë‹¤ìš´: " + i);
             yield return new WaitForSeconds(1f);
         }
 
-        // 1. ¼Ó¹Ú ÅºÈ¯ ¹æ»çÇü ¹ß»ç
-        Debug.Log("¼Ó¹Ú ÅºÈ¯ ¹æ»çÇü ¹ß»ç");
+        // 1. ì†ë°• íƒ„í™˜ ë°©ì‚¬í˜• ë°œì‚¬
+        Debug.Log("ì†ë°• íƒ„í™˜ ë°©ì‚¬í˜• ë°œì‚¬");
+        SoundManager.Instance.EffectSoundOn("23-1");
         ProjectileController projectileController = ProjectileController.Create(
             projectileCapData,
             transform,
@@ -170,26 +208,27 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
+        // ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨
+        animator.SetTrigger("isSpike");
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
-        yield return new WaitForSeconds(1.5f);
 
-        // 2. ·¹ÀÌÀú °æ°í¼± Ç¥½Ã ¹× ÇÃ·¹ÀÌ¾î ÃßÀû
-        Debug.Log("ÃßÀû °æ°í¼±");
+        // 2. ë ˆì´ì € ê²½ê³ ì„  í‘œì‹œ ë° í”Œë ˆì´ì–´ ì¶”ì 
+        Debug.Log("ì¶”ì  ê²½ê³ ì„ ");
         LineRenderer warningLine = CreateDangerZone(weak1LaserData);
-        StartCoroutine(BlinkDangerZone(warningLine)); // ±ôºıÀÓ È¿°ú ½ÃÀÛ
+        StartCoroutine(BlinkDangerZone(warningLine)); // ê¹œë¹¡ì„ íš¨ê³¼ ì‹œì‘
 
         Vector2 fixedPlayerPos = Vector2.zero;
         float elapsed = 0f;
 
-        // º¸½ºÀÇ À§Ä¡ °¡Á®¿À±â
-        Vector2 bossStartPosition = transform.position;
+        // ë³´ìŠ¤ì˜ ìœ„ì¹˜ ê°€ì ¸ì˜¤ê¸°
+        Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
 
-        // ÇÃ·¹ÀÌ¾î ÃßÀû ´Ü°è
+        // í”Œë ˆì´ì–´ ì¶”ì  ë‹¨ê³„
         while (elapsed < weak1LaserData.LaserFollowDuration)
         {
             Vector2 currentPlayerPos = player.transform.position;
 
-            // °æ°í¼± À§Ä¡ ¾÷µ¥ÀÌÆ® (º¸½º¿¡¼­ ÇÃ·¹ÀÌ¾î·Î)
+            // ê²½ê³ ì„  ìœ„ì¹˜ ì—…ë°ì´íŠ¸ (ë³´ìŠ¤ì—ì„œ í”Œë ˆì´ì–´ë¡œ)
             warningLine.SetPosition(0, bossStartPosition);
             warningLine.SetPosition(1, currentPlayerPos);
 
@@ -197,10 +236,10 @@ public class BossPattern2 : MonoBehaviour
             yield return null;
         }
 
-        // À§Ä¡ °íÁ¤ ¹× ¹ß»ç ÁØºñ
+        // ìœ„ì¹˜ ê³ ì • ë° ë°œì‚¬ ì¤€ë¹„
         fixedPlayerPos = player.transform.position;
 
-        // °æ°í¼± ÃÖÁ¾ À§Ä¡ °íÁ¤
+        // ê²½ê³ ì„  ìµœì¢… ìœ„ì¹˜ ê³ ì •
         warningLine.SetPosition(0, bossStartPosition);
         warningLine.SetPosition(1, fixedPlayerPos);
 
@@ -208,16 +247,21 @@ public class BossPattern2 : MonoBehaviour
 
         Destroy(warningLine.gameObject);
 
-        // ·¹ÀÌÀú ¹ß»ç
-        Debug.Log("·¹ÀÌÀú¹ß»ç!");
-        LaserController laser = LaserController.Create(
+        // ë ˆì´ì € ë°œì‚¬
+        Debug.Log("ë ˆì´ì €ë°œì‚¬!");
+
+        SoundManager.Instance.EffectSoundOn("24");
+
+        LaserController2 laser = LaserController2.Create(
             weak1LaserData, 
-            bossStartPosition, // º¸½ºÀÇ ½ÃÀÛ À§Ä¡
+            bossStartPosition, // ë³´ìŠ¤ì˜ ì‹œì‘ ìœ„ì¹˜
             player.transform
         );
 
-        // ·¹ÀÌÀú°¡ Å¸°Ù ·¹ÀÌ¾î¿¡ Ãæµ¹ÇÏµµ·Ï ¼³Á¤
+        // ë ˆì´ì €ê°€ íƒ€ê²Ÿ ë ˆì´ì–´ì— ì¶©ëŒí•˜ë„ë¡ ì„¤ì •
         laser.SetTargetLayer(weak1LaserData.TargetLayer);
+
+        animator.SetTrigger("isLaser");
 
         yield return StartCoroutine(laser.FireLaser(bossStartPosition, fixedPlayerPos));
 
@@ -225,23 +269,28 @@ public class BossPattern2 : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion 
 
+    #region íŒ¨í„´ 2
     public IEnumerator WeakPattern2() 
     {
-        Debug.Log("¾à°ø°İ2");
+        Debug.Log("ì•½ê³µê²©2");
         currentState = BossState.WeakPattern2;
 
-        // ½½·Î¿ì ÇÃ·§Æû? 
+        // ìŠ¬ë¡œìš° í”Œë«í¼? 
 
-        // Ä«¿îÆ® ´Ù¿î
+        // ì¹´ìš´íŠ¸ ë‹¤ìš´
         for (float i = weakPattern2Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("Ä«¿îÆ®´Ù¿î: " + i);
+            Debug.Log("ì¹´ìš´íŠ¸ë‹¤ìš´: " + i);
             yield return new WaitForSeconds(1f);
         }
 
-        // ÅºÈ¯ ¹æ»çÇü ¹ß»ç
-        Debug.Log("ÅºÈ¯ ¹æ»çÇü ¹ß»ç!");
+        // íƒ„í™˜ ë°©ì‚¬í˜• ë°œì‚¬
+        Debug.Log("íƒ„í™˜ ë°©ì‚¬í˜• ë°œì‚¬!");
+
+        SoundManager.Instance.EffectSoundOn("23-2");
+
         ProjectileController projectileController = ProjectileController.Create(
             projectileData,
             transform,
@@ -250,6 +299,8 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
+        animator.SetTrigger("isSpike");
+
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
@@ -257,23 +308,25 @@ public class BossPattern2 : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region íŒ¨í„´ 3
     public IEnumerator WeakPattern3()
     {
-        Debug.Log("¾à°ø°İ3");
+        Debug.Log("ì•½ê³µê²©3");
         currentState = BossState.WeakPattern3;
-        Vector2 bossStartPosition = transform.position;
+        Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
 
-        // ·¹ÀÌÀú °ø°İ ¹İº¹ (ÃßÀû °æ°í¼± + ·¹ÀÌÀú °ø°İ Ver.)
+        // ë ˆì´ì € ê³µê²© ë°˜ë³µ (ì¶”ì  ê²½ê³ ì„  + ë ˆì´ì € ê³µê²© Ver.)
         for (int attackCount = 0; attackCount < weak3AttackCount; attackCount++)
         {
-            Debug.Log($"·¹ÀÌÀú {attackCount + 1}È¸ °ø°İ ½ÃÀÛ");
+            Debug.Log($"ë ˆì´ì € {attackCount + 1}íšŒ ê³µê²© ì‹œì‘");
 
-            // 1. °æ°í¼± »ı¼º ¹× ÇÃ·¹ÀÌ¾î ÃßÀû
+            // 1. ê²½ê³ ì„  ìƒì„± ë° í”Œë ˆì´ì–´ ì¶”ì 
             LineRenderer warningLine = CreateDangerZone(weak3LaserData);
             StartCoroutine(BlinkDangerZone(warningLine));
 
-            // ÇÃ·¹ÀÌ¾î ÃßÀû ´Ü°è
+            // í”Œë ˆì´ì–´ ì¶”ì  ë‹¨ê³„
             float trackingTime = 0f;
             while (trackingTime < weak3LaserData.LaserFollowDuration)
             {
@@ -284,99 +337,52 @@ public class BossPattern2 : MonoBehaviour
                 yield return null;
             }
 
-            // ¸¶Áö¸· ÇÃ·¹ÀÌ¾î À§Ä¡ ÀúÀå
+            // ë§ˆì§€ë§‰ í”Œë ˆì´ì–´ ìœ„ì¹˜ ì €ì¥
             Vector2 targetPosition = player.transform.position;
 
-            // ¹ß»ç Àü Àá±ñÀÇ ´ë±â ½Ã°£
+            // ë°œì‚¬ ì „ ì ê¹ì˜ ëŒ€ê¸° ì‹œê°„
             yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
             Destroy(warningLine.gameObject);
 
-            // 2. ·¹ÀÌÀú ¹ß»ç
-            Debug.Log("·¹ÀÌÀú ¹ß»ç!");
-            LaserController laser = LaserController.Create(
+            // 2. ë ˆì´ì € ë°œì‚¬
+            Debug.Log("ë ˆì´ì € ë°œì‚¬!");
+
+
+            LaserController2 laser = LaserController2.Create(
                 weak3LaserData,
                 bossStartPosition,
                 player.transform
             );
             laser.SetTargetLayer(weak3LaserData.TargetLayer);
 
-            // ´ÜÀÏ ·¹ÀÌÀú ¹ß»ç
+            // ë‹¨ì¼ ë ˆì´ì € ë°œì‚¬
+            SoundManager.Instance.EffectSoundOn("24");
+            animator.SetTrigger("isLaser");
             yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPosition));
 
-            // ´ÙÀ½ °ø°İ Àü ´ë±â
-            if (attackCount < weak3AttackCount - 1) // ¸¶Áö¸· °ø°İÀÌ ¾Æ´Ò °æ¿ì¿¡¸¸ ´ë±â
+            // ë‹¤ìŒ ê³µê²© ì „ ëŒ€ê¸°
+            if (attackCount < weak3AttackCount - 1) // ë§ˆì§€ë§‰ ê³µê²©ì´ ì•„ë‹ ê²½ìš°ì—ë§Œ ëŒ€ê¸°
             {
                 yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
             }
         }
 
-        // 3¹øÀÇ ·¹ÀÌÀú °ø°İ ¹İº¹ (ÃßÀû °æ°í¼± 1 + ·¹ÀÌÀú °ø°İ 3 Ver.)
-
-
-
-        // Ã¹ ¹øÂ° °ø°İ: ÇÃ·¹ÀÌ¾î ÃßÀû ÈÄ ¹ß»ç
-        //LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-        //StartCoroutine(BlinkDangerZone(warningLine));
-
-        //Debug.Log("ÇÃ·¹ÀÌ¾î ÃßÀû ½ÃÀÛ");
-        //float trackingTime = 0f;
-
-        //while (trackingTime < weak3LaserData.LaserFollowDuration)
-        //{
-        //    Vector2 playerPosition = player.transform.position;
-        //    warningLine.SetPosition(0, bossStartPosition);
-        //    warningLine.SetPosition(1, playerPosition);
-        //    trackingTime += Time.deltaTime;
-        //    yield return null;
-        //}
-        //Vector2 playerPos = player.transform.position;
-
-        //yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
-        //Destroy(warningLine.gameObject);
-
-        //// 3È¸ ¿¬¼Ó ¹ß»ç
-        //for (int attack = 0; attack < 3; attack++)
-        //{
-        //    Debug.Log($"·¹ÀÌÀú {attack + 1}È¸ ¹ß»ç!");
-        //    LaserController laser = LaserController.Create(
-        //          weak3LaserData,
-        //          bossStartPosition,
-        //          player.transform
-        //    );
-        //    laser.SetTargetLayer(weak3LaserData.TargetLayer);
-
-        //    if (attack ==0)
-        //    {
-        //        yield return StartCoroutine(laser.FireLaser(bossStartPosition, playerPos));
-        //    }
-        //    else
-        //    {
-        //        Vector2 targetPos = player.transform.position;
-        //        yield return new WaitForSeconds(0.3f);
-        //        yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPos));
-        //    }
-
-        //    // ¸¶Áö¸· ¹ß»ç°¡ ¾Æ´Ò °æ¿ì¿¡¸¸ ÂªÀº µô·¹ÀÌ
-        //    if (attack < 2)
-        //    {
-        //        yield return new WaitForSeconds(0.5f); // 0.5ÃÊÀÇ ÂªÀº µô·¹ÀÌ
-        //    }
-        //}
-
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region íŒ¨í„´ 4
     public IEnumerator WeakPattern4()
     {
-        Debug.Log("¾à°ø°İ4");
+        Debug.Log("ì•½ê³µê²©4");
         currentState = BossState.WeakPattern4;
 
-        // Ä«¿îÆ® ´Ù¿î
+        // ì¹´ìš´íŠ¸ ë‹¤ìš´
         for (float i = weakPattern4Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("Ä«¿îÆ®´Ù¿î: " + i);
+            Debug.Log("ì¹´ìš´íŠ¸ë‹¤ìš´: " + i);
             yield return new WaitForSeconds(1f);
         }
 
@@ -387,6 +393,9 @@ public class BossPattern2 : MonoBehaviour
             Projectile,
             isEnraged
         );
+
+        //animator.SetTrigger("isSpike");
+
         yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform));
 
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
@@ -395,26 +404,28 @@ public class BossPattern2 : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
+    #region íŒ¨í„´ 5
     public IEnumerator WeakPattern5()
     {
-        Debug.Log("¾à°ø°İ5");
+        Debug.Log("ì•½ê³µê²©5");
         currentState = BossState.WeakPattern5;
 
-        // ¸Ê ³Êºñ °è»ê
+        // ë§µ ë„ˆë¹„ ê³„ì‚°
         float leftBound = mapWidthPositions[0].position.x;
         float rightBound = mapWidthPositions[1].position.x;
         float mapWidth = rightBound - leftBound;
         float mapCenter = (leftBound + rightBound) / 2f;
         
-        // Ä«¿îÆ® ´Ù¿î
+        // ì¹´ìš´íŠ¸ ë‹¤ìš´
         for (float i = weakPattern5Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("Ä«¿îÆ®´Ù¿î: " + i);
+            Debug.Log("ì¹´ìš´íŠ¸ë‹¤ìš´: " + i);
             yield return new WaitForSeconds(1f);
         }
 
-        // ºñ ÆĞÅÏ ½ÇÇàÀ» À§ÇÑ ProjectileController »ı¼º
+        // ë¹„ íŒ¨í„´ ì‹¤í–‰ì„ ìœ„í•œ ProjectileController ìƒì„±
         ProjectileController rainController = ProjectileController.Create(
             projectileRainData,
             transform,
@@ -423,8 +434,9 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
-        // PlayerÀÇ ³Êºñ¸¦ ÄÄÆ÷³ÍÆ®¿¡¼­ Á÷Á¢ °¡Á®¿À±â
-        float playerWidth = 1f;  // ±âº»°ª
+        // Playerì˜ ë„ˆë¹„ë¥¼ ì»´í¬ë„ŒíŠ¸ì—ì„œ ì§ì ‘ ê°€ì ¸ì˜¤ê¸°
+
+        /*float playerWidth = 1f;  // ê¸°ë³¸ê°’
         if (player.TryGetComponent<Collider2D>(out Collider2D collider))
         {
             playerWidth = collider.bounds.size.x;
@@ -433,7 +445,9 @@ public class BossPattern2 : MonoBehaviour
         {
             playerWidth = renderer.bounds.size.x;
         }
-        float safeZoneWidth = playerWidth * 1.5f;
+        float safeZoneWidth = playerWidth * 1.5f;*/
+
+        float safeZoneWidth = rainSpaceWeak5;
 
 
         yield return StartCoroutine(rainController.ExecuteWeakPattern5Rain(
@@ -445,23 +459,24 @@ public class BossPattern2 : MonoBehaviour
             rightBound
         ));
 
-        Debug.Log("¾à°ø°İ5 Á¾·á");
+        Debug.Log("ì•½ê³µê²©5 ì¢…ë£Œ");
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
 
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
-
+    #region íŒ¨í„´ 6
     public IEnumerator WeakPattern6()
     {
-        Debug.Log("¾à°ø°İ6");
+        Debug.Log("ì•½ê³µê²©6");
         currentState = BossState.WeakPattern6;
-        Vector2 bossStartPosition = transform.position;
-        isPattern6Active = true;  // ÆĞÅÏ ½ÃÀÛ
+        Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
+        isPattern6Active = true;  // íŒ¨í„´ ì‹œì‘
 
-        // µ¶ºñ ÄÁÆ®·Ñ·¯ »ı¼º
+        // ë…ë¹„ ì»¨íŠ¸ë¡¤ëŸ¬ ìƒì„±
         ProjectileController poisonRainController = ProjectileController.Create(
             projectileRainData,
             transform,
@@ -470,10 +485,10 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
-        // µ¶ºñ¿Í ·¹ÀÌÀú °ø°İ µ¿½Ã ½ÇÇà
+        // ë…ë¹„ì™€ ë ˆì´ì € ê³µê²© ë™ì‹œ ì‹¤í–‰
         Coroutine poisonRainCoroutine = StartCoroutine(ExecutePoisonRain(poisonRainController));
 
-        // µ¶ºñ ÆĞÅÏ ½ÃÀÛ
+        // ë…ë¹„ íŒ¨í„´ ì‹œì‘
         Coroutine continuousRainCoroutine = StartCoroutine(poisonRainController.ExecuteContinuousRainPattern(
             transform,
             30f,  // mapWidth
@@ -481,11 +496,11 @@ public class BossPattern2 : MonoBehaviour
             new System.Func<bool>(() => isPattern6Active)
         ));
 
-        // ·¹ÀÌÀú 5È¸ °ø°İ
+        // ë ˆì´ì € 5íšŒ ê³µê²©
         LineRenderer warningLine = CreateDangerZone(weak3LaserData);
         StartCoroutine(BlinkDangerZone(warningLine));
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î ÃßÀû ½ÃÀÛ");
+        Debug.Log("í”Œë ˆì´ì–´ ì¶”ì  ì‹œì‘");
         float trackingTime = 0f;
 
         while (trackingTime < weak3LaserData.LaserFollowDuration)
@@ -501,11 +516,11 @@ public class BossPattern2 : MonoBehaviour
         yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
         Destroy(warningLine.gameObject);
 
-        // 5È¸ ¿¬¼Ó ¹ß»ç
+        // 5íšŒ ì—°ì† ë°œì‚¬
         for (int attack = 0; attack < 5; attack++)
         {
-            Debug.Log($"·¹ÀÌÀú {attack + 1}È¸ ¹ß»ç!");
-            LaserController laser = LaserController.Create(
+            Debug.Log($"ë ˆì´ì € {attack + 1}íšŒ ë°œì‚¬!");
+            LaserController2 laser = LaserController2.Create(
                   weak6LaserData,
                   bossStartPosition,
                   player.transform
@@ -514,12 +529,14 @@ public class BossPattern2 : MonoBehaviour
 
             if (attack == 0)
             {
+                SoundManager.Instance.EffectSoundOn("24");
                 yield return StartCoroutine(laser.FireLaser(bossStartPosition, playerPos));
             }
             else
             {
                 Vector2 targetPos = player.transform.position;
                 yield return new WaitForSeconds(0.3f);
+                SoundManager.Instance.EffectSoundOn("24");
                 yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPos));
             }
 
@@ -529,21 +546,21 @@ public class BossPattern2 : MonoBehaviour
             }
         }
 
-        // ·¹ÀÌÀú ÆĞÅÏ Á¾·á ÈÄ µ¶ºñ Áß´Ü
-        isPattern6Active = false;  // ÆĞÅÏ Á¾·á
+        // ë ˆì´ì € íŒ¨í„´ ì¢…ë£Œ í›„ ë…ë¹„ ì¤‘ë‹¨
+        isPattern6Active = false;  // íŒ¨í„´ ì¢…ë£Œ
 
-        // ¸¶Áö¸· µ¶ºñ°¡ ¸ğµÎ ¶³¾îÁú ¶§±îÁö ´ë±â
+        // ë§ˆì§€ë§‰ ë…ë¹„ê°€ ëª¨ë‘ ë–¨ì–´ì§ˆ ë•Œê¹Œì§€ ëŒ€ê¸°
         if (poisonRainController != null)
         {
             float remainingRainTime = projectileData.ProjectileSpeed > 0
-                ? 10f / projectileData.ProjectileSpeed  // È­¸é ³ôÀÌ¸¦ Åõ»çÃ¼ ¼Óµµ·Î ³ª´®
-                : 2f;  // ±âº» ´ë±â ½Ã°£
+                ? 10f / projectileData.ProjectileSpeed  // í™”ë©´ ë†’ì´ë¥¼ íˆ¬ì‚¬ì²´ ì†ë„ë¡œ ë‚˜ëˆ”
+                : 2f;  // ê¸°ë³¸ ëŒ€ê¸° ì‹œê°„
 
             yield return new WaitForSeconds(remainingRainTime);
             Destroy(poisonRainController.gameObject);
         }
 
-        // ÄÚ·çÆ¾ Á¤¸®
+        // ì½”ë£¨í‹´ ì •ë¦¬
         if (poisonRainCoroutine != null)
             StopCoroutine(poisonRainCoroutine);
         if (continuousRainCoroutine != null)
@@ -553,6 +570,7 @@ public class BossPattern2 : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
     private IEnumerator ExecutePoisonRain(ProjectileController poisonRainController)
     {
@@ -567,12 +585,12 @@ public class BossPattern2 : MonoBehaviour
 
     public IEnumerator GroggyState()
     {
-        Debug.Log("±×·Î±â »óÅÂ");
+        Debug.Log("ê·¸ë¡œê¸° ìƒíƒœ");
         currentState = BossState.Groggy;
 
         for (float i = groggyTime; i > 0; i--)
         {
-            Debug.Log("Ä«¿îÆ®´Ù¿î: " + i);
+            Debug.Log("ì¹´ìš´íŠ¸ë‹¤ìš´: " + i);
             yield return new WaitForSeconds(1f);
         }
 
@@ -581,7 +599,7 @@ public class BossPattern2 : MonoBehaviour
         yield return null;
     }
 
-    private void FacePlayer() // ½Ã¼±
+    private void FacePlayer() // ì‹œì„ 
     {
         if (player != null)
         {
@@ -604,7 +622,7 @@ public class BossPattern2 : MonoBehaviour
         lineRenderer.endWidth = laserData.LaserWidth;
 
         Color warningColor = new Color(1f, 0f, 0f, 0.5f);
-        // »¡°£»ö ¹İÅõ¸í material ¼³Á¤
+        // ë¹¨ê°„ìƒ‰ ë°˜íˆ¬ëª… material ì„¤ì •
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = warningColor;
         lineRenderer.endColor = warningColor;
@@ -614,17 +632,17 @@ public class BossPattern2 : MonoBehaviour
 
     private IEnumerator BlinkDangerZone(LineRenderer dangerZone)
     {
-        float blinkSpeed = 0.5f; // ±ôºıÀÓ ¼Óµµ
+        float blinkSpeed = 0.5f; // ê¹œë¹¡ì„ ì†ë„
 
-        while (dangerZone != null && dangerZone.gameObject != null) // null Ã¼Å© Ãß°¡
+        while (dangerZone != null && dangerZone.gameObject != null) // null ì²´í¬ ì¶”ê°€
         {
-            // ¾ËÆÄ°ª Á¶Àı·Î ±ôºıÀÓ È¿°ú
-            if (dangerZone == null) yield break; // ¾ÈÀü ÀåÄ¡ Ãß°¡
+            // ì•ŒíŒŒê°’ ì¡°ì ˆë¡œ ê¹œë¹¡ì„ íš¨ê³¼
+            if (dangerZone == null) yield break; // ì•ˆì „ ì¥ì¹˜ ì¶”ê°€
 
             // Fade out
             for (float t = 0; t < blinkSpeed; t += Time.deltaTime)
             {
-                if (dangerZone == null) yield break; // ¾ÈÀü ÀåÄ¡ Ãß°¡
+                if (dangerZone == null) yield break; // ì•ˆì „ ì¥ì¹˜ ì¶”ê°€
                 float alpha = Mathf.Lerp(0.5f, 0.1f, t / blinkSpeed);
                 dangerZone.startColor = new Color(1f, 0f, 0f, alpha);
                 dangerZone.endColor = new Color(1f, 0f, 0f, alpha);
@@ -634,7 +652,7 @@ public class BossPattern2 : MonoBehaviour
             // Fade in
             for (float t = 0; t < blinkSpeed; t += Time.deltaTime)
             {
-                if (dangerZone == null) yield break; // ¾ÈÀü ÀåÄ¡ Ãß°¡
+                if (dangerZone == null) yield break; // ì•ˆì „ ì¥ì¹˜ ì¶”ê°€
                 float alpha = Mathf.Lerp(0.1f, 0.5f, t / blinkSpeed);
                 dangerZone.startColor = new Color(1f, 0f, 0f, alpha);
                 dangerZone.endColor = new Color(1f, 0f, 0f, alpha);

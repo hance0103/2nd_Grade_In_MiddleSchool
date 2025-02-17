@@ -6,7 +6,7 @@ public class BossHPSlider : MonoBehaviour
     [Header("보스 HP 슬라이더")]
     [SerializeField] private Slider bossSlider;
 
-    GameObject Boss;
+    [SerializeField] GameObject Boss;
     private void Start()
     {
         // 슬라이더의 MinValue, MaxValue를 0~1로 맞추는 경우
@@ -16,18 +16,9 @@ public class BossHPSlider : MonoBehaviour
         // 시작 시 풀피 상태
         bossSlider.value = 1f;
     }
-    private void Awake()
-    {
-        Boss = GameObject.Find("TempBoss1");
-    }
+
     private void Update()
     {
-        if (Boss == null)
-        {
-            Boss = GameObject.Find("TempBoss1");
-            // 찾지 못했다면 더 이상 진행할 수 없으니 return
-            if (Boss == null) return;
-        }
         // BossHPManager 싱글톤에서 HP 정보 가져오기
         float currentHP = BossHPManager.Instance.GetCurrentHP();
         float maxHP = BossHPManager.Instance.GetMaxHP();

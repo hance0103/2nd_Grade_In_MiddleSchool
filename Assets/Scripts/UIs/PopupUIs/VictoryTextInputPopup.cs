@@ -1,113 +1,223 @@
 using UnityEngine;
-using UnityEngine.UI; // ÀÏ¹İ UI¸¦ ¾´´Ù¸é
+using UnityEngine.UI; // ì¼ë°˜ UIë¥¼ ì“´ë‹¤ë©´
 using TMPro;
 
 public class VictoryTextInputPopup : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private TMP_InputField inputField; // TextMeshPro ¹öÀü
+    [SerializeField] private TMP_InputField inputField; // TextMeshPro ë²„ì „
     [SerializeField] private Timer timer;
+    public GameObject FinishPanel;
     private string savedData;
 
+    [Header("Fade Image (í™”ë©´ ì „ì²´ ë®ëŠ” Image)")]
+    [SerializeField] private Image fadeImage; // ê²€ì€ìƒ‰ ì´ë¯¸ì§€
+
+    [Header("Fade Settings")]
+    [SerializeField] private float fadeDuration = 2f; // í˜ì´ë“œì— ê±¸ë¦´ ì‹œê°„
+
+    [Header("Player & Boss")]
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject boss;
     /// <summary>
-    /// ¿ÜºÎ ¹öÆ°(¸ŞÀÎ ¹öÆ°)¿¡¼­ ÀÌ ÇÔ¼ö¸¦ ¿¬°áÇÏ¿© ÆĞ³ÎÀ» ¿­µµ·Ï ÇÔ
+    /// ì™¸ë¶€ ë²„íŠ¼(ë©”ì¸ ë²„íŠ¼)ì—ì„œ ì´ í•¨ìˆ˜ë¥¼ ì—°ê²°í•˜ì—¬ íŒ¨ë„ì„ ì—´ë„ë¡ í•¨
     /// </summary>
     public void Stage1OpenInputPanel()
     {
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         
-        // ÆĞ³ÎÀÌ ¿­¸± ¶§ ÀÔ·Â¶õ ÃÊ±âÈ­
+        // íŒ¨ë„ì´ ì—´ë¦´ ë•Œ ì…ë ¥ë€ ì´ˆê¸°í™”
         inputField.text = "";
 
-        // 1. Timer ÄÄÆ÷³ÍÆ®¸¦ Ã£¾Æ¼­
+        // 1. Timer ì»´í¬ë„ŒíŠ¸ë¥¼ ì°¾ì•„ì„œ
         Timer timer = FindObjectOfType<Timer>();
 
         if (timer != null)
         {
-            // 2. TimeActive¸¦ false·Î º¯°æÇÏ¿© Å¸ÀÌ¸Ó Á¤Áö
+            // 2. TimeActiveë¥¼ falseë¡œ ë³€ê²½í•˜ì—¬ íƒ€ì´ë¨¸ ì •ì§€
             timer.TimeActive = false;
             Debug.Log(timer.curTime);
-            // 3. ÃøÁ¤µÈ ½Ã°£( curTime or CurrentTime )À» PlayerPrefs·Î ÀúÀå
+            // 3. ì¸¡ì •ëœ ì‹œê°„( curTime or CurrentTime )ì„ PlayerPrefsë¡œ ì €ì¥
             PlayerPrefs.SetFloat("FinalTime1", timer.curTime);
             PlayerPrefs.Save();
         }
         else
         {
-            Debug.LogWarning("Timer ½ºÅ©¸³Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+            Debug.LogWarning("Timer ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     public void Stage2OpenInputPanel()
     {
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         gameObject.SetActive(true);
-        // ÆĞ³ÎÀÌ ¿­¸± ¶§ ÀÔ·Â¶õ ÃÊ±âÈ­
+        // íŒ¨ë„ì´ ì—´ë¦´ ë•Œ ì…ë ¥ë€ ì´ˆê¸°í™”
         inputField.text = "";
 
-        // 1. Timer ÄÄÆ÷³ÍÆ®¸¦ Ã£¾Æ¼­
+        // 1. Timer ì»´í¬ë„ŒíŠ¸ë¥¼ ì°¾ì•„ì„œ
         Timer timer = FindObjectOfType<Timer>();
 
         if (timer != null)
         {
-            // 2. TimeActive¸¦ false·Î º¯°æÇÏ¿© Å¸ÀÌ¸Ó Á¤Áö
+            // 2. TimeActiveë¥¼ falseë¡œ ë³€ê²½í•˜ì—¬ íƒ€ì´ë¨¸ ì •ì§€
             timer.TimeActive = false;
             Debug.Log(timer.curTime);
-            // 3. ÃøÁ¤µÈ ½Ã°£( curTime or CurrentTime )À» PlayerPrefs·Î ÀúÀå
+            // 3. ì¸¡ì •ëœ ì‹œê°„( curTime or CurrentTime )ì„ PlayerPrefsë¡œ ì €ì¥
             PlayerPrefs.SetFloat("FinalTime2", timer.curTime);
             PlayerPrefs.Save();
         }
         else
         {
-            Debug.LogWarning("Timer ½ºÅ©¸³Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+            Debug.LogWarning("Timer ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
 
     public void Stage3OpenInputPanel()
     {
-        Debug.Log("Stage1OpenInputPanel() È£ÃâµÊ");
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Debug.Log("Stage1OpenInputPanel() í˜¸ì¶œë¨");
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         gameObject.SetActive(true);
-        // ÆĞ³ÎÀÌ ¿­¸± ¶§ ÀÔ·Â¶õ ÃÊ±âÈ­
+        // íŒ¨ë„ì´ ì—´ë¦´ ë•Œ ì…ë ¥ë€ ì´ˆê¸°í™”
         inputField.text = "";
 
-        // 1. Timer ÄÄÆ÷³ÍÆ®¸¦ Ã£¾Æ¼­
+        // 1. Timer ì»´í¬ë„ŒíŠ¸ë¥¼ ì°¾ì•„ì„œ
         Timer timer = FindObjectOfType<Timer>();
 
         if (timer != null)
         {
-            // 2. TimeActive¸¦ false·Î º¯°æÇÏ¿© Å¸ÀÌ¸Ó Á¤Áö
+            // 2. TimeActiveë¥¼ falseë¡œ ë³€ê²½í•˜ì—¬ íƒ€ì´ë¨¸ ì •ì§€
             timer.TimeActive = false;
             Debug.Log(timer.curTime);
-            // 3. ÃøÁ¤µÈ ½Ã°£( curTime or CurrentTime )À» PlayerPrefs·Î ÀúÀå
+            // 3. ì¸¡ì •ëœ ì‹œê°„( curTime or CurrentTime )ì„ PlayerPrefsë¡œ ì €ì¥
             PlayerPrefs.SetFloat("FinalTime3", timer.curTime);
             PlayerPrefs.Save();
         }
         else
         {
-            Debug.LogWarning("Timer ½ºÅ©¸³Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+            Debug.LogWarning("Timer ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     /// <summary>
-    /// È®ÀÎ/ÀúÀå ¹öÆ° ±â´É , ½ºÅ×ÀÌÁö º°·Î ÇÇ´Ï½¬ ´ë»ç¸¦ µû·Î Àû¿ëÇÒ ¼ö ÀÖµµ·Ï ±¸ºĞÇØÁÖ±â
+    /// í™•ì¸/ì €ì¥ ë²„íŠ¼ ê¸°ëŠ¥ , ìŠ¤í…Œì´ì§€ ë³„ë¡œ í”¼ë‹ˆì‰¬ ëŒ€ì‚¬ë¥¼ ë”°ë¡œ ì ìš©í•  ìˆ˜ ìˆë„ë¡ êµ¬ë¶„í•´ì£¼ê¸°
     /// </summary>
-    public void Stage1SaveAndClosePanel()
+    public void Stage1SavePanel()
     {
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
-        gameObject.SetActive(false);
+        boss.SetActive(true);
+        GameManager.isPlayerZoomOutAllowed = true;
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
     }
-    public void Stage2SaveAndClosePanel()
+    public void Stage2SavePanel()
     {
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
-        gameObject.SetActive(false);
+        boss.SetActive(true);
+        GameManager.isPlayerZoomOutAllowed = true;
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
     }
-    public void Stage3SaveAndClosePanel()
+    public void Stage3SavePanel()
     {
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText3", savedData);
+        
         PlayerPrefs.Save();
+        boss.SetActive(true);
+        GameManager.isPlayerZoomOutAllowed = true;
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+    }
+    /// <summary>
+    /// í˜ì´ë“œ ì•„ì›ƒ â†’ Player/Boss ì¬ë°°ì¹˜Â·í™œì„±í™” â†’ í˜ì´ë“œ ì¸ â†’ ê²Œì„ ì¬ì‹œì‘
+    /// </summary>
+    private System.Collections.IEnumerator DoFadeSequenceAndRespawn(
+        float playerX, float playerY,
+        float bossX, float bossY)
+    {
+        //  í…ìŠ¤íŠ¸ ì…ë ¥ì°½ ë‹«ê¸°
+        inputField.gameObject.SetActive(false);
+
+        //  í˜ì´ë“œ ì•„ì›ƒ
+        yield return StartCoroutine(FadeOutCoroutine());
+
+        //  Player ì¬ë°°ì¹˜ ë° í™œì„±í™”
+        if (player != null)
+        {
+            player.transform.position = new Vector3(playerX, playerY, 0f);
+            player.SetActive(true);
+        }
+        
+        
+
+        // 4) í˜ì´ë“œ ì¸
+        yield return StartCoroutine(FadeInCoroutine());
+
+        // 5) ê²Œì„ ì¬ì‹œì‘
+        Time.timeScale = 1f;
+
+        // ë§Œì•½ ZoomOutAllowed ë“±ì˜ ê²Œì„ ì´ë²¤íŠ¸ê°€ í•„ìš”í•˜ë‹¤ë©´
+        GameManager.isPlayerZoomOutAllowed = true;
+    }
+
+    /// <summary>
+    /// (ì½”ë£¨í‹´) í™”ë©´ì„ ì ì  ê²€ê²Œ(Alpha 0â†’1) ë§Œë“œëŠ” í˜ì´ë“œ ì•„ì›ƒ
+    /// </summary>
+    private System.Collections.IEnumerator FadeOutCoroutine()
+    {
+        float startAlpha = fadeImage.color.a; // í˜„ì¬ ì•ŒíŒŒ (ë³´í†µ 0ìœ¼ë¡œ ê°€ì •)
+        float endAlpha = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.unscaledDeltaTime; // Time.timeScale=0ì´ì–´ë„ í˜ì´ë“œ ë™ì‘í•˜ë„ë¡
+            float newAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / fadeDuration);
+
+            Color c = fadeImage.color;
+            c.a = newAlpha;
+            fadeImage.color = c;
+
+            yield return null;
+        }
+
+        // ìµœì¢… ë³´ì •
+        Color finalColor = fadeImage.color;
+        finalColor.a = 1f;
+        fadeImage.color = finalColor;
+    }
+
+    /// <summary>
+    /// (ì½”ë£¨í‹´) í™”ë©´ì„ ì ì  ë°ê²Œ(Alpha 1â†’0) ë§Œë“œëŠ” í˜ì´ë“œ ì¸
+    /// </summary>
+    private System.Collections.IEnumerator FadeInCoroutine()
+    {
+        float startAlpha = fadeImage.color.a; // ë³´í†µ 1(ì™„ì „ ê²€ì •)
+        float endAlpha = 0f;
+        float elapsed = 0f;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / fadeDuration);
+
+            Color c = fadeImage.color;
+            c.a = newAlpha;
+            fadeImage.color = c;
+
+            yield return null;
+        }
+
+        // ìµœì¢… ë³´ì •
+        Color finalColor = fadeImage.color;
+        finalColor.a = 0f;
+        fadeImage.color = finalColor;
+        ClosePanel();
+    }
+
+   
+    void ClosePanel()
+    {
         gameObject.SetActive(false);
+        FinishPanel.SetActive(true);
     }
 }

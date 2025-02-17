@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.Pool;
 public class ProjectileBehaviour : MonoBehaviour
 {
-    private float damage; // Åõ»çÃ¼ µ¥¹ÌÁö
-    private ObjectPool<GameObject> pool; // Object Pool ÂüÁ¶
-    private bool isReleased = false; // ¹İÈ¯ ¿©ºÎ È®ÀÎ¿ë ÇÃ·¡±×
-    private int delProjWallLayer; // DelProjWall ·¹ÀÌ¾î Ä³½Ì
+    private float damage; // íˆ¬ì‚¬ì²´ ë°ë¯¸ì§€
+    private ObjectPool<GameObject> pool; // Object Pool ì°¸ì¡°
+    private bool isReleased = false; // ë°˜í™˜ ì—¬ë¶€ í™•ì¸ìš© í”Œë˜ê·¸
+    private int delProjWallLayer; // DelProjWall ë ˆì´ì–´ ìºì‹±
 
 
     public void Initialize(float damage, ObjectPool<GameObject> pool)
     {
         this.damage = damage;
         this.pool = pool;
-        isReleased = false; // ¹İÈ¯ »óÅÂ ÃÊ±âÈ­
+        isReleased = false; // ë°˜í™˜ ìƒíƒœ ì´ˆê¸°í™”
     }
 
     private void Awake()
@@ -24,26 +24,27 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isReleased) return; // ÀÌ¹Ì ¹İÈ¯µÈ °æ¿ì ¹«½Ã
+        if (isReleased) return; // ì´ë¯¸ ë°˜í™˜ëœ ê²½ìš° ë¬´ì‹œ
 
-        if (collision.CompareTag("Player")) // ÇÃ·¹ÀÌ¾î¿Í Ãæµ¹
+        if (collision.CompareTag("Player")) // í”Œë ˆì´ì–´ì™€ ì¶©ëŒ
         {
             Player player = collision.GetComponent<Player>();
             if (player != null)
             {
-                Debug.Log($"ÇÃ·¹ÀÌ¾î ÇÇ°İ! µ¥¹ÌÁö: {damage}");
-                PlayerHPManager.Instance.TakeDamage(damage); // ½ÇÁ¦ µ¥¹ÌÁö Àû¿ë ·ÎÁ÷
+                SoundManager.Instance.EffectSoundOn("21");
+                Debug.Log($"í”Œë ˆì´ì–´ í”¼ê²©! ë°ë¯¸ì§€: {damage}");
+                PlayerHPManager.Instance.TakeDamage(damage); // ì‹¤ì œ ë°ë¯¸ì§€ ì ìš© ë¡œì§
             }
             ReleaseProjectile();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                 collision.gameObject.layer == delProjWallLayer) // Ground ¶Ç´Â DelProjWall°ú Ãæµ¹
+                 collision.gameObject.layer == delProjWallLayer) // Ground ë˜ëŠ” DelProjWallê³¼ ì¶©ëŒ
         {
             ReleaseProjectile();
         }
     }
 
-    // È­¸é ¹ÛÀ¸·Î ³ª°¬À» ¶§ ¹İÈ¯
+    // í™”ë©´ ë°–ìœ¼ë¡œ ë‚˜ê°”ì„ ë•Œ ë°˜í™˜
     private void OnBecameInvisible()
     {
         ReleaseProjectile();
@@ -51,12 +52,12 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void ReleaseProjectile()
     {
-        if (!isReleased && pool != null && gameObject != null) // ¹İÈ¯µÇÁö ¾ÊÀº °æ¿ì¸¸ ½ÇÇà
+        if (!isReleased && pool != null && gameObject != null) // ë°˜í™˜ë˜ì§€ ì•Šì€ ê²½ìš°ë§Œ ì‹¤í–‰
         {
-            Debug.Log($"ÇÁ·ÎÁ§Æ® ¹İÈ¯: {gameObject.name}");
-            isReleased = true; // ¹İÈ¯ »óÅÂ ¼³Á¤
-            gameObject.SetActive(false); // ºñÈ°¼ºÈ­ Ãß°¡
-            pool.Release(gameObject); // Object Pool·Î ¹İÈ¯
+            Debug.Log($"í”„ë¡œì íŠ¸ ë°˜í™˜: {gameObject.name}");
+            isReleased = true; // ë°˜í™˜ ìƒíƒœ ì„¤ì •
+            gameObject.SetActive(false); // ë¹„í™œì„±í™” ì¶”ê°€
+            pool.Release(gameObject); // Object Poolë¡œ ë°˜í™˜
             //if (!gameObject.activeInHierarchy)
             //{
             //    Destroy(gameObject);
@@ -65,6 +66,6 @@ public class ProjectileBehaviour : MonoBehaviour
     }
     private void OnDisable()
     {
-        isReleased = false; // ÇÃ·¡±× ¸®¼Â
+        isReleased = false; // í”Œë˜ê·¸ ë¦¬ì…‹
     }
 }

@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class LaserController : MonoBehaviour
 {
     private LineRenderer lineRenderer;
     private LaserScriptableObject laserData;
-    private Camera mainCamera;
     private Transform playerTransform;
     private LayerMask targetLayer;
-
+    private Animator BossAnimator;
+    //[SerializeField] private Animator LaserAnimator;
     public static LaserController Create(LaserScriptableObject data, Vector2 startPosition, Transform player)
     {
         GameObject laserObj = new GameObject("Laser");
@@ -20,7 +21,6 @@ public class LaserController : MonoBehaviour
 
     private void Initialize(LaserScriptableObject data, Transform target)
     {
-        mainCamera = Camera.main;
         playerTransform = target;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -30,7 +30,7 @@ public class LaserController : MonoBehaviour
         lineRenderer.endWidth = 0f;
 
         laserData = data;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.material = new Material(Shader.Find(laserData.LaserSprite));
         lineRenderer.startColor = laserData.LaserColor;
         lineRenderer.endColor = laserData.LaserColor;
     }

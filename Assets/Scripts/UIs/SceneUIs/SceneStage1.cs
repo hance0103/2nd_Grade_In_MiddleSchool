@@ -7,26 +7,22 @@ public class SceneStage1 : MonoBehaviour
 {
     public void LoadMain()
     {
-        Stage1OpeningTextPopup.isFirstTime = true;
-        bool check = Stage1OpeningTextPopup.isFirstTime;
+        Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Main");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
     }
     public void LoadStageSelect()
     {
-        Stage1OpeningTextPopup.isFirstTime = true;
-        bool check = Stage1OpeningTextPopup.isFirstTime;
+        Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("StageSelect");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
     }
     public void LoadStage2()
     {
-        Stage1OpeningTextPopup.isFirstTime = true;
-        bool check = Stage1OpeningTextPopup.isFirstTime;
+        Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Stage2");
-        
         Time.timeScale = 1.0f;
     }
     public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷

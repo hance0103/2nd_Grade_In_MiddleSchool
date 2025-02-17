@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6301505606709168659}
   - component: {fileID: 5689314477906160340}
   - component: {fileID: -6433463209014557246}
-  - component: {fileID: 4025432281677732255}
+  - component: {fileID: 9107652673414817149}
   m_Layer: 0
   m_Name: RainProj
   m_TagString: Untagged
@@ -159,7 +159,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &4025432281677732255
+--- !u!114 &9107652673414817149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,6 +168,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3316179567270816736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d42f8a16509bcb24c9c83358168878c4, type: 3}
+  m_Script: {fileID: 11500000, guid: f47e076d17cfb564f95b48a2ca6e924b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

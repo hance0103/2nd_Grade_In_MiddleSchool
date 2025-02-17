@@ -7,18 +7,21 @@ public class SceneStage2 : MonoBehaviour
 {
     public void LoadMain()
     {
+        Stage2OpeningTextPopup.isFirstTime2 = true;
         SceneManager.LoadScene("Main");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
     }
     public void LoadStageSelect()
     {
+        Stage2OpeningTextPopup.isFirstTime2 = true;
         SceneManager.LoadScene("StageSelect");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
     }
     public void LoadStage3()
     {
+        Stage2OpeningTextPopup.isFirstTime2 = true;
         SceneManager.LoadScene("Stage3");
 
         Time.timeScale = 1.0f;

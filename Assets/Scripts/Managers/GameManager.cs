@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
     public static UIManager UI { get { return Inst._ui_manager; } }
     public static SoundManager Sound { get { return Inst._sound; } }
     public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
-
-
+    public static bool isPlayerZoomOutAllowed = false;
+    public static bool isFinishBossZoominAllowed = false;
     private void Awake()
     {
         Init();

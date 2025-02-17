@@ -3,107 +3,125 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class PopupVictory : MonoBehaviour
 {
-    [SerializeField] private GameObject OpeningTextPanel;
+    
     
     private string[] Victorytexts1 = {
-        "ÈÄÈÊ, ½Ã½ÃÇÏ±¸³ª",
-        "¿À´Ãµµ ÀÌ ¸öÀÇ ½Â¸®±º !",
-        "»ó´ë°¡ µÇÁö ¾Ê´Â±¸³ª",
-        "ÀÌ ¸öÀº ¹«ÀûÀÌ´Ù "
+        "í›„í›—, ì‹œì‹œí•˜êµ¬ë‚˜",
+        "ì˜¤ëŠ˜ë„ ì´ ëª¸ì˜ ìŠ¹ë¦¬êµ° !",
+        "ìƒëŒ€ê°€ ë˜ì§€ ì•ŠëŠ”êµ¬ë‚˜",
+        "ì´ ëª¸ì€ ë¬´ì ì´ë‹¤ "
     };
     
     private string[] Victorytexts2 = {
-        "¿ª°Ü¿î ¹ú·¹ ³à¼®",
-        "½Â¸®´Ù",
-        "»ó´ë°¡ µÇÁö ¾Ê´Â±º",
-        "ÀÌ ¸öÀº ¹«Àû "
+        "ì—­ê²¨ìš´ ë²Œë ˆ ë…€ì„",
+        "ìŠ¹ë¦¬ë‹¤",
+        "ìƒëŒ€ê°€ ë˜ì§€ ì•ŠëŠ”êµ°",
+        "ì´ ëª¸ì€ ë¬´ì  "
     };
     
     private string[] Victorytexts3 = {
-        "ÈÄÈÊ, ½Ã½ÃÇÏ±¸³ª",
-        "¿À´Ãµµ ÀÌ ¸öÀÇ ½Â¸®±º !",
-        "»ó´ë°¡ µÇÁö ¾Ê´Â±¸³ª",
-        "ÀÌ ¸öÀº ¹«ÀûÀÌ´Ù "
+        "í›„í›—, ì‹œì‹œí•˜êµ¬ë‚˜",
+        "ì˜¤ëŠ˜ë„ ì´ ëª¸ì˜ ìŠ¹ë¦¬êµ° !",
+        "ìƒëŒ€ê°€ ë˜ì§€ ì•ŠëŠ”êµ¬ë‚˜",
+        "ì´ ëª¸ì€ ë¬´ì ì´ë‹¤ "
     };
     
     
     public void ShowClearTime()
     {
         Timer timer = FindObjectOfType<Timer>();
-        displayClearTime.text = "Å¬¸®¾î Å¸ÀÓ :" + timer.curTime;
+        displayClearTime.text = "í´ë¦¬ì–´ íƒ€ì„ :" + timer.curTime;
     }
-
-    [Header("½Ã°£ Ãâ·ÂÀ» À§ÇÑ ÂüÁ¶ ¿ä¼Òµé")]
+    [Header("ìŠ¤í…Œì´ì§€")]
+    public int Stage;
+    [Header("ì‹œê°„ ì¶œë ¥ì„ ìœ„í•œ ì°¸ì¡° ìš”ì†Œë“¤")]
     [SerializeField] private TMP_Text displayClearTime;
     [SerializeField] private TMP_Text displayText;
     private int minute;
     private int second;
     private float time;
     private float curTime;
-    // ½Â¸® ÆË¾÷ ¿­±â (°ÔÀÓ ÀÏ½ÃÁ¤Áö)
-    public void OpenVictory1() //½ºÅ×ÀÌÁö ºĞ·ù·Î ½Ã°£ ÀúÀå ¿µ¿ª ´Ù¸£°Ô
+
+    void Start()
     {
-        int randomIndex = Random.Range(0, Victorytexts1.Length); // ¹è¿­ ¹üÀ§ ³»¿¡¼­ ¹«ÀÛÀ§ ÀÎµ¦½º ¼±ÅÃ
-        displayText.text = Victorytexts1[randomIndex]; // ÇØ´ç ¹«ÀÛÀ§ ÀÎµ¦½º Ãâ·Â
+        if (Stage == 1) { OpenVictory1(); }
+        if (Stage == 2) { OpenVictory2(); }
+        if (Stage == 3) { OpenVictory3(); }
+    }
+    // ìŠ¹ë¦¬ íŒì—… ì—´ê¸° (ê²Œì„ ì¼ì‹œì •ì§€)
+    public void OpenVictory1() //ìŠ¤í…Œì´ì§€ ë¶„ë¥˜ë¡œ ì‹œê°„ ì €ì¥ ì˜ì—­ ë‹¤ë¥´ê²Œ
+    {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
+        int randomIndex = Random.Range(0, Victorytexts1.Length); // ë°°ì—´ ë²”ìœ„ ë‚´ì—ì„œ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì„ íƒ
+        displayText.text = Victorytexts1[randomIndex]; // í•´ë‹¹ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì¶œë ¥
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         //manager.Action(scanObject);
 
-        // PlayerPrefsÀÇ ½Ã°£ °ª °¡Á®¿Í¼­ Å¬¸®¾î Å¸ÀÓ Ãâ·ÂÇÏ±â
+        // PlayerPrefsì˜ ì‹œê°„ ê°’ ê°€ì ¸ì™€ì„œ í´ë¦¬ì–´ íƒ€ì„ ì¶œë ¥í•˜ê¸°
+
         float savedTime1 = PlayerPrefs.GetFloat("FinalTime1", 0f);
         curTime = savedTime1;
         Debug.Log(savedTime1);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
-    public void OpenVictory2() //½ºÅ×ÀÌÁö 2
+    public void OpenVictory2() //ìŠ¤í…Œì´ì§€ 2
     {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts2.Length);
         displayText.text = Victorytexts2[randomIndex];
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         //manager.Action(scanObject);
 
-        // PlayerPrefsÀÇ ½Ã°£ °ª °¡Á®¿Í¼­ Å¬¸®¾î Å¸ÀÓ Ãâ·ÂÇÏ±â
+        // PlayerPrefsì˜ ì‹œê°„ ê°’ ê°€ì ¸ì™€ì„œ í´ë¦¬ì–´ íƒ€ì„ ì¶œë ¥í•˜ê¸°
         float savedTime2 = PlayerPrefs.GetFloat("FinalTime2", 0f);
         curTime = time;
         curTime = savedTime2;
         Debug.Log(savedTime2);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
-    public void OpenVictory3() //½ºÅ×ÀÌÁö 3
+    public void OpenVictory3() //ìŠ¤í…Œì´ì§€ 3
     {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts3.Length);
         displayText.text = Victorytexts3[randomIndex];
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
         //manager.Action(scanObject);
 
-        // PlayerPrefsÀÇ ½Ã°£ °ª °¡Á®¿Í¼­ Å¬¸®¾î Å¸ÀÓ Ãâ·ÂÇÏ±â
+        // PlayerPrefsì˜ ì‹œê°„ ê°’ ê°€ì ¸ì™€ì„œ í´ë¦¬ì–´ íƒ€ì„ ì¶œë ¥í•˜ê¸°
         float savedTime3 = PlayerPrefs.GetFloat("FinalTime3", 0f);
         curTime = time;
         curTime = savedTime3;
         Debug.Log(savedTime3);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
-    // ½Â¸® ÆË¾÷ ´İ±â (°ÔÀÓ Àç°³)
+    // ìŠ¹ë¦¬ íŒì—… ë‹«ê¸° (ê²Œì„ ì¬ê°œ)
     public void CloseVictory()
     {
-        gameObject.SetActive(false);
         
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
     }
 
-    // Àç½ÃÀÛ ¹öÆ° (°ÔÀÓ Àç½ÃÀÛ)
+    // ì¬ì‹œì‘ ë²„íŠ¼ (ê²Œì„ ì¬ì‹œì‘)
     public void RestartGame()
     {
+        if (Stage == 1) { SoundManager.Instance.Stage1BgmOn(); }
+        if (Stage == 2) { SoundManager.Instance.Stage2BgmOn(); }
+        if (Stage == 3) { SoundManager.Instance.Stage3BgmOn(); }
+
         gameObject.SetActive(false);
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         
     }

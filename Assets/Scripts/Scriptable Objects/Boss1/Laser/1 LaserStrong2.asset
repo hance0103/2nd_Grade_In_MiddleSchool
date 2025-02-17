@@ -15,10 +15,13 @@ MonoBehaviour:
   laserType: LaserStrong2
   damage: 100
   laserSpeed: 90
-  laserDuration: 3
-  laserWidth: 7
-  laserColor: {r: 1, g: 0, b: 0, a: 1}
+  laserDuration: 2
+  laserSprite: Sprites/Laser/WP2_laser_E
+  laserWidth: 3
+  laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  laserFollowDuration: 2
+  laserLockDuration: 1
