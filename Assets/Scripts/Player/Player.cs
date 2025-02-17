@@ -4,7 +4,14 @@ using UnityEngine;
 using UnityEngine.Animations;
 public class Player : MonoBehaviour
 {
-    public PlayerState playerState = PlayerState.Idle;
+    public PlayerStateMachine stateMachine = new();
+
+    private void Start()
+    {
+        //stateMachine.ChangeState(new IdleState());
+    }
+
+    //public PlayerState playerState = PlayerState.Idle;
 
     [SerializeField]
     private int _playerHp;
