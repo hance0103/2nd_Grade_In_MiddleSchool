@@ -1,50 +1,51 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BossEnragePopup : MonoBehaviour
 {
-    [Header("ÇÃ·¹ÀÌ¾î/º¸½º ¿ÀºêÁ§Æ®")]
+    [Header("í”Œë ˆì´ì–´/ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Boss;
     
-    [Header("ÀÌµ¿½ÃÅ³ ÀÌ¹ÌÁö ¿ÀºêÁ§Æ®")]
+    [Header("ì´ë™ì‹œí‚¬ ì´ë¯¸ì§€ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject TopBar;
     [SerializeField] private GameObject MiddleBar;
     [SerializeField] private GameObject BottomBar;
     [SerializeField] private Image TopText;
     [SerializeField] private Image BottomText;
 
-    [Header("1Â÷ ÀÌµ¿ ½Ã°£(ÃÊ)")]
+    [Header("1ì°¨ ì´ë™ ì‹œê°„(ì´ˆ)")]
     [SerializeField] private float moveDuration1 = 0.5f;
-    [Header("2Â÷ ÀÌµ¿ ½Ã°£(ÃÊ)")]
+    [Header("2ì°¨ ì´ë™ ì‹œê°„(ì´ˆ)")]
     [SerializeField] private float moveDuration2 = 0.5f;
-    [Header("ÅØ½ºÆ® ÀÌµ¿ ½Ã°£(ÃÊ)")]
+    [Header("í…ìŠ¤íŠ¸ ì´ë™ ì‹œê°„(ì´ˆ)")]
     [SerializeField] private float TextmoveDuration = 4f;
 
-    [Header("1Â÷ ÀÌµ¿ÇÒ °Å¸®(¾ç¼ö¸é ¿À¸¥ÂÊ, À½¼ö¸é ¿ŞÂÊ)")]
+    [Header("1ì°¨ ì´ë™í•  ê±°ë¦¬(ì–‘ìˆ˜ë©´ ì˜¤ë¥¸ìª½, ìŒìˆ˜ë©´ ì™¼ìª½)")]
     [SerializeField] private float moveFastRight1 = 1000f;  
     //[SerializeField] private float moveFastLeft1 = -1000f;  
     [SerializeField] private float moveSlowRight1 = 300f;   
     [SerializeField] private float moveSlowLeft1 = -300f;   
 
-    [Header("2Â÷ ÀÌµ¿ÇÒ °Å¸®(¾ç¼ö¸é ¿À¸¥ÂÊ, À½¼ö¸é ¿ŞÂÊ)")]
+    [Header("2ì°¨ ì´ë™í•  ê±°ë¦¬(ì–‘ìˆ˜ë©´ ì˜¤ë¥¸ìª½, ìŒìˆ˜ë©´ ì™¼ìª½)")]
     [SerializeField] private float moveFastRight2 = 2000f;  
     [SerializeField] private float moveFastLeft2 = -2000f;  
     
 
-    [Header("ÅØ½ºÆ® ÀÌµ¿ °Å¸®(¾ç¼ö¸é ¿À¸¥ÂÊ, À½¼ö¸é ¿ŞÂÊ)")]
+    [Header("í…ìŠ¤íŠ¸ ì´ë™ ê±°ë¦¬(ì–‘ìˆ˜ë©´ ì˜¤ë¥¸ìª½, ìŒìˆ˜ë©´ ì™¼ìª½)")]
     [SerializeField] private float moveRight = 1000f;   
     [SerializeField] private float moveLeft = -1000f;   
 
-    [Header("´İÈ÷±â±îÁö ±â´Ù¸± ½Ã°£(ÃÊ)")]
+    [Header("ë‹«íˆê¸°ê¹Œì§€ ê¸°ë‹¤ë¦´ ì‹œê°„(ì´ˆ)")]
     [SerializeField] private float waitBeforeClose = 3f;
 
-    [Header("±Û¾¾ ±ôºıÀÌ´Â ½Ã°£ ¹× ¼Óµµ")]
+    [Header("ê¸€ì”¨ ê¹œë¹¡ì´ëŠ” ì‹œê°„ ë° ì†ë„")]
     [SerializeField] private float blinkDuration = 4f;
     [SerializeField] private float blinkSpeed = 4f;
 
-    // ¿øº» À§Ä¡ ÀúÀå¿ë º¯¼ö
+    // ì›ë³¸ ìœ„ì¹˜ ì €ì¥ìš© ë³€ìˆ˜
     private Vector2 initTopBarPos;
     private Vector2 initMiddleBarPos;
     private Vector2 initBottomBarPos;
@@ -53,25 +54,28 @@ public class BossEnragePopup : MonoBehaviour
 
     private void Start()
     {
-        // ½ÃÀÛ ½Ã, RectTransformµéÀÇ ¿øº» À§Ä¡¸¦ ±â¾ï
+        // ì‹œì‘ ì‹œ, RectTransformë“¤ì˜ ì›ë³¸ ìœ„ì¹˜ë¥¼ ê¸°ì–µ
         initTopBarPos = TopBar.GetComponent<RectTransform>().anchoredPosition;
         initMiddleBarPos = MiddleBar.GetComponent<RectTransform>().anchoredPosition;
         initBottomBarPos = BottomBar.GetComponent<RectTransform>().anchoredPosition;
         initTopTextPos = TopText.GetComponent<RectTransform>().anchoredPosition;
         initBottomTextPos = BottomText.GetComponent<RectTransform>().anchoredPosition;
     }
-
     public void OnEnrage() 
     {
-        
-        // 1) º¸½º ±¤ÆøÈ­ ÆĞ³Î(ÀÌ ½ºÅ©¸³Æ®°¡ ºÙÀº GameObject) È°¼ºÈ­
+        Player.transform.position = new Vector3(-4.0f, -2.5f, 0f);
+        Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
+        SoundManager.Instance.EffectSoundOn("Screaming");
+        // 1) ë³´ìŠ¤ ê´‘í­í™” íŒ¨ë„(ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ë¶™ì€ GameObject) í™œì„±í™”
         gameObject.SetActive(true);
-        // Æ®¸®°Å(¶Ç´Â Ã³À½ºÎÅÍ) ¹ßµ¿ ½Ã ÄÚ·çÆ¾ ½ÇÇà
+        // íŠ¸ë¦¬ê±°(ë˜ëŠ” ì²˜ìŒë¶€í„°) ë°œë™ ì‹œ ì½”ë£¨í‹´ ì‹¤í–‰
         StartCoroutine(MoveFirst());
         StartCoroutine(MoveText());
     }
+
     private IEnumerator MoveText()
     {
+        
         RectTransform topTextRect = TopText.GetComponent<RectTransform>();
         RectTransform bottomTextRect = BottomText.GetComponent<RectTransform>();
         Vector2 topTextStartPos = topTextRect.anchoredPosition;
@@ -80,7 +84,7 @@ public class BossEnragePopup : MonoBehaviour
         StartCoroutine(BlinkText(TopText, blinkDuration, blinkSpeed));
         StartCoroutine(BlinkText(BottomText, blinkDuration, blinkSpeed));
 
-        // 2) moveDuration µ¿¾È ¿·À¸·Î ºÎµå·´°Ô ÀÌµ¿
+        // 2) moveDuration ë™ì•ˆ ì˜†ìœ¼ë¡œ ë¶€ë“œëŸ½ê²Œ ì´ë™
         float elapsed = 0f;
         
         while (elapsed < TextmoveDuration)
@@ -88,30 +92,30 @@ public class BossEnragePopup : MonoBehaviour
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / TextmoveDuration;
 
-            // TopText ¡æ SlowRight
+            // TopText â†’ SlowRight
             topTextRect.anchoredPosition = Vector2.Lerp(
                 topTextStartPos,
                 topTextStartPos + new Vector2(moveRight, 0f),
                 t
             );
 
-            // BottomText ¡æ SlowLeft
+            // BottomText â†’ SlowLeft
             bottomTextRect.anchoredPosition = Vector2.Lerp(
                 bottomTextStartPos,
                 bottomTextStartPos + new Vector2(moveLeft, 0f),
                 t
             );
 
-            yield return null; // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null; // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
-        // ÀÌµ¿ÀÌ Á¤È®È÷ ³¡³µ´ÂÁö º¸Á¤ (t=1 »óÅÂ)
+        // ì´ë™ì´ ì •í™•íˆ ëë‚¬ëŠ”ì§€ ë³´ì • (t=1 ìƒíƒœ)
         
         topTextRect.anchoredPosition = topTextStartPos + new Vector2(moveSlowRight1, 0f);
         bottomTextRect.anchoredPosition = bottomTextStartPos + new Vector2(moveSlowLeft1, 0f);
     }
     private IEnumerator BlinkText(Image targetImage, float blinkDuration, float blinkSpeed)
     {
-        //±Û¾¾ ±ôºıÀÌ´Â ¿¬Ãâ
+        //ê¸€ì”¨ ê¹œë¹¡ì´ëŠ” ì—°ì¶œ
         float elapsed = 0f;
         while (elapsed < blinkDuration)
         {
@@ -125,7 +129,7 @@ public class BossEnragePopup : MonoBehaviour
             yield return null;
         }
 
-        // ³¡³ª¸é ¾ËÆÄ°ª º¹¿ø
+        // ëë‚˜ë©´ ì•ŒíŒŒê°’ ë³µì›
         Color finalColor = targetImage.color;
         finalColor.a = 1f;
         targetImage.color = finalColor;
@@ -133,10 +137,10 @@ public class BossEnragePopup : MonoBehaviour
 
     private IEnumerator MoveFirst()
     {
-        // 1) º¸½º ±¤ÆøÈ­ ÆĞ³Î(ÀÌ ½ºÅ©¸³Æ®°¡ ºÙÀº GameObject) È°¼ºÈ­
+        // 1) ë³´ìŠ¤ ê´‘í­í™” íŒ¨ë„(ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ë¶™ì€ GameObject) í™œì„±í™”
         gameObject.SetActive(true);
 
-        // °¢°¢ÀÇ RectTransformÀ» ±¸ÇÏ°í, ½ÃÀÛ À§Ä¡¸¦ ±â·Ï
+        // ê°ê°ì˜ RectTransformì„ êµ¬í•˜ê³ , ì‹œì‘ ìœ„ì¹˜ë¥¼ ê¸°ë¡
         RectTransform topBarRect = TopBar.GetComponent<RectTransform>();
         RectTransform middleBarRect = MiddleBar.GetComponent<RectTransform>();
         RectTransform bottomBarRect = BottomBar.GetComponent<RectTransform>();
@@ -150,51 +154,51 @@ public class BossEnragePopup : MonoBehaviour
         Vector2 bottomBarMem = bottomBarRect.anchoredPosition;
 
 
-        // 2) moveDuration µ¿¾È ¿·À¸·Î ºÎµå·´°Ô ÀÌµ¿
+        // 2) moveDuration ë™ì•ˆ ì˜†ìœ¼ë¡œ ë¶€ë“œëŸ½ê²Œ ì´ë™
         float elapsed = 0f;
         while (elapsed < moveDuration1)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / moveDuration1;
 
-            // TopBar ¡æ FastRight
+            // TopBar â†’ FastRight
             topBarRect.anchoredPosition = Vector2.Lerp(
                 topBarStartPos,
                 topBarStartPos + new Vector2(moveFastRight1, 0f),
                 t
             );
 
-            // MiddleBar ¡æ SlowRight
+            // MiddleBar â†’ SlowRight
             middleBarRect.anchoredPosition = Vector2.Lerp(
                 middleBarStartPos,
                 middleBarStartPos + new Vector2(moveSlowLeft1, 0f),
                 t
             );
 
-            // BottomBar ¡æ FastLeft
+            // BottomBar â†’ FastLeft
             bottomBarRect.anchoredPosition = Vector2.Lerp(
                 bottomBarStartPos,
                 bottomBarStartPos + new Vector2(moveFastRight1, 0f),
                 t
             );
 
-            yield return null; // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null; // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
         
         
-        // ÀÌµ¿ÀÌ Á¤È®È÷ ³¡³µ´ÂÁö º¸Á¤ (t=1 »óÅÂ)
+        // ì´ë™ì´ ì •í™•íˆ ëë‚¬ëŠ”ì§€ ë³´ì • (t=1 ìƒíƒœ)
         topBarRect.anchoredPosition = topBarStartPos + new Vector2(moveFastRight1, 0f);
         middleBarRect.anchoredPosition = middleBarStartPos + new Vector2(moveSlowLeft1, 0f);
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight1, 0f);
         
 
-        // 3) ÀÌµ¿ ÈÄ 2ÃÊ ±â´Ù·È´Ù°¡ ´İ´Â ¿¬Ãâ
+        // 3) ì´ë™ í›„ 2ì´ˆ ê¸°ë‹¤ë ¸ë‹¤ê°€ ë‹«ëŠ” ì—°ì¶œ
         yield return new WaitForSecondsRealtime(waitBeforeClose);
         StartCoroutine(MoveSecond());
     }
     private IEnumerator MoveSecond()
     {
-        // °¢°¢ÀÇ RectTransformÀ» ±¸ÇÏ°í, ½ÃÀÛ À§Ä¡¸¦ ±â·Ï
+        // ê°ê°ì˜ RectTransformì„ êµ¬í•˜ê³ , ì‹œì‘ ìœ„ì¹˜ë¥¼ ê¸°ë¡
         RectTransform topBarRect = TopBar.GetComponent<RectTransform>();
         RectTransform middleBarRect = MiddleBar.GetComponent<RectTransform>();
         RectTransform bottomBarRect = BottomBar.GetComponent<RectTransform>();
@@ -203,50 +207,50 @@ public class BossEnragePopup : MonoBehaviour
         Vector2 middleBarStartPos = middleBarRect.anchoredPosition;
         Vector2 bottomBarStartPos = bottomBarRect.anchoredPosition;
         
-        // 2) moveDuration µ¿¾È ¿·À¸·Î ºÎµå·´°Ô ÀÌµ¿
+        // 2) moveDuration ë™ì•ˆ ì˜†ìœ¼ë¡œ ë¶€ë“œëŸ½ê²Œ ì´ë™
         float elapsed = 0f;
         while (elapsed < moveDuration2)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / moveDuration2;
 
-            // TopBar ¡æ FastRight
+            // TopBar â†’ FastRight
             topBarRect.anchoredPosition = Vector2.Lerp(
                 topBarStartPos,
                 topBarStartPos + new Vector2(moveFastRight2, 0f),
                 t
             );
 
-            // MiddleBar ¡æ SlowRight
+            // MiddleBar â†’ SlowRight
             middleBarRect.anchoredPosition = Vector2.Lerp(
                 middleBarStartPos,
                 middleBarStartPos + new Vector2(moveFastLeft2, 0f),
                 t
             );
 
-            // BottomBar ¡æ FastLeft
+            // BottomBar â†’ FastLeft
             bottomBarRect.anchoredPosition = Vector2.Lerp(
                 bottomBarStartPos,
                 bottomBarStartPos + new Vector2(moveFastRight2, 0f),
                 t
             );
 
-            yield return null; // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null; // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
 
-        // ÀÌµ¿ÀÌ Á¤È®È÷ ³¡³µ´ÂÁö º¸Á¤ (t=1 »óÅÂ)
+        // ì´ë™ì´ ì •í™•íˆ ëë‚¬ëŠ”ì§€ ë³´ì • (t=1 ìƒíƒœ)
         topBarRect.anchoredPosition = topBarStartPos + new Vector2(moveFastRight2, 0f);
         middleBarRect.anchoredPosition = middleBarStartPos + new Vector2(moveFastLeft2, 0f);
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight2, 0f);
 
-        // ÆĞ³Î(º¸½º ±¤ÆøÈ­ ÆË¾÷) ºñÈ°¼ºÈ­
+        // íŒ¨ë„(ë³´ìŠ¤ ê´‘í­í™” íŒì—…) ë¹„í™œì„±í™”
         gameObject.SetActive(false);
-        // ´Ù½Ã Ä×À» ¶§µµ µ¿ÀÏÇÏ°Ô ¿¬ÃâµÇµµ·Ï, ¿øº» À§Ä¡·Î º¹¿ø
+        // ë‹¤ì‹œ ì¼°ì„ ë•Œë„ ë™ì¼í•˜ê²Œ ì—°ì¶œë˜ë„ë¡, ì›ë³¸ ìœ„ì¹˜ë¡œ ë³µì›
         TopBar.GetComponent<RectTransform>().anchoredPosition = initTopBarPos;
         MiddleBar.GetComponent<RectTransform>().anchoredPosition = initMiddleBarPos;
         BottomBar.GetComponent<RectTransform>().anchoredPosition = initBottomBarPos;
         TopText.GetComponent<RectTransform>().anchoredPosition = initTopTextPos;
         BottomText.GetComponent<RectTransform>().anchoredPosition = initBottomTextPos;
-        // ÄÚ·çÆ¾ Á¾·á
+        // ì½”ë£¨í‹´ ì¢…ë£Œ
     }
 }

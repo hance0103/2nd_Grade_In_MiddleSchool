@@ -51,6 +51,8 @@ public class PopupVictory : MonoBehaviour
     // 승리 팝업 열기 (게임 일시정지)
     public void OpenVictory1() //스테이지 분류로 시간 저장 영역 다르게
     {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts1.Length); // 배열 범위 내에서 무작위 인덱스 선택
         displayText.text = Victorytexts1[randomIndex]; // 해당 무작위 인덱스 출력
         gameObject.SetActive(true);
@@ -68,6 +70,8 @@ public class PopupVictory : MonoBehaviour
     }
     public void OpenVictory2() //스테이지 2
     {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts2.Length);
         displayText.text = Victorytexts2[randomIndex];
         gameObject.SetActive(true);
@@ -85,6 +89,8 @@ public class PopupVictory : MonoBehaviour
     }
     public void OpenVictory3() //스테이지 3
     {
+        GameManager.isFinishBossZoominAllowed = false;
+        SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts3.Length);
         displayText.text = Victorytexts3[randomIndex];
         gameObject.SetActive(true);
@@ -103,7 +109,6 @@ public class PopupVictory : MonoBehaviour
     // 승리 팝업 닫기 (게임 재개)
     public void CloseVictory()
     {
-        gameObject.SetActive(false);
         
         Time.timeScale = 1f; // 시간 재개
     }
@@ -111,6 +116,10 @@ public class PopupVictory : MonoBehaviour
     // 재시작 버튼 (게임 재시작)
     public void RestartGame()
     {
+        if (Stage == 1) { SoundManager.Instance.Stage1BgmOn(); }
+        if (Stage == 2) { SoundManager.Instance.Stage2BgmOn(); }
+        if (Stage == 3) { SoundManager.Instance.Stage3BgmOn(); }
+
         gameObject.SetActive(false);
         Time.timeScale = 1f; // 시간 재개
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);

@@ -31,47 +31,73 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    AudioClip bgmMain; // ¸ŞÀÎ ¿Àµğ¿ÀÅ¬¸³
-    AudioClip bgmStage; // ½ºÅ×ÀÌÁö ¿Àµğ¿ÀÅ¬¸³
+    AudioClip bgmMain; // ë©”ì¸ ì˜¤ë””ì˜¤í´ë¦½
+    AudioClip bgmStage1; // ìŠ¤í…Œì´ì§€ ì˜¤ë””ì˜¤í´ë¦½
+    AudioClip bgmStage2;
+    AudioClip bgmStage3;
+    AudioClip win;
+    AudioClip lose;
+    private AudioSource audioSource1; // ë°°ê²½ìŒ ì˜¤ë””ì˜¤ì†ŒìŠ¤, ë°°ê²½ìŒë“¤ì„ ì €ì¥í•´ì„œ ì‚¬ìš©í•¨
+    private AudioSource audioSource2; // íš¨ê³¼ìŒ ì˜¤ë””ì˜¤ì†ŒìŠ¤, íš¨ê³¼ìŒë“¤ì„ ì €ì¥í•´ì„œ ì‚¬ìš©í•¨
 
-
-    private AudioSource audioSource1; // ¹è°æÀ½ ¿Àµğ¿À¼Ò½º, ¹è°æÀ½µéÀ» ÀúÀåÇØ¼­ »ç¿ëÇÔ
-    private AudioSource audioSource2; // È¿°úÀ½ ¿Àµğ¿À¼Ò½º, È¿°úÀ½µéÀ» ÀúÀåÇØ¼­ »ç¿ëÇÔ
-
-    void Start() // °ÔÀÓ Ã³À½ ½ÃÀÛ½Ã À½¾Ç¼¼ÆÃ
+    void Start() // ê²Œì„ ì²˜ìŒ ì‹œì‘ì‹œ ìŒì•…ì„¸íŒ…
     {
-        // ¸¸¾à ÇÃ·¹ÀÌ¾î ÇÁ·¾½º¿¡ ÀúÀåµÈ bgm°ú effectÀÇ Volume°ªÀÌ ÀÖ´Ù¸é ºÒ·¯¿Â´Ù. °ÔÀÓÀÌ ²¨Á³´Ù ÄÑÁ®µµ ÀüÀÇ °ªÀ» À¯ÁöÇÏ±â À§ÇÔ.
+        // ë§Œì•½ í”Œë ˆì´ì–´ í”„ë ™ìŠ¤ì— ì €ì¥ëœ bgmê³¼ effectì˜ Volumeê°’ì´ ìˆë‹¤ë©´ ë¶ˆëŸ¬ì˜¨ë‹¤. ê²Œì„ì´ êº¼ì¡Œë‹¤ ì¼œì ¸ë„ ì „ì˜ ê°’ì„ ìœ ì§€í•˜ê¸° ìœ„í•¨.
         if (!PlayerPrefs.HasKey("bgmVolume")) PlayerPrefs.SetFloat("bgmVolume", 1.0f);
         if (!PlayerPrefs.HasKey("effectVolume")) PlayerPrefs.SetFloat("effectVolume", 1.0f);
 
-        // audioSource¿¡ AudioSource ÄÄÆ÷³ÍÆ®¸¦ Ãß°¡
+        // audioSourceì— AudioSource ì»´í¬ë„ŒíŠ¸ë¥¼ ì¶”ê°€
         audioSource1 = gameObject.AddComponent<AudioSource>();
         audioSource2 = gameObject.AddComponent<AudioSource>();
         audioSource1.loop = true;
 
-        // ¿Àµğ¿À Å¬¸³¿¡ ¿Àµğ¿À Ãß°¡
-        bgmMain = Resources.Load<AudioClip>("Sounds/SampleBGM");
-        bgmStage = Resources.Load<AudioClip>("Sounds/SampleBossBGM");
-        
-
-        MainBgmOn(); // °ÔÀÓ ½ÃÀÛ½Ã ¸ŞÀÎ¸Ş´º¿¡¼­ ¿ÀÇÁ´×Bgm Àç»ı
+        // ì˜¤ë””ì˜¤ í´ë¦½ì— ì˜¤ë””ì˜¤ ì¶”ê°€
+        bgmMain = Resources.Load<AudioClip>("Sounds/main");
+        bgmStage1 = Resources.Load<AudioClip>("Sounds/1stageTheme_first_dream");
+        bgmStage2 = Resources.Load<AudioClip>("Sounds/2stageTheme_foggy_classroom");
+        bgmStage3 = Resources.Load<AudioClip>("Sounds/3stage");
+        win = Resources.Load<AudioClip>("Sounds/win");
+        lose = Resources.Load<AudioClip>("Sounds/lose");
+        MainBgmOn(); // ê²Œì„ ì‹œì‘ì‹œ ë©”ì¸ë©”ë‰´ì—ì„œ ì˜¤í”„ë‹Bgm ì¬ìƒ
     }
 
     public void MainBgmOn()
     {
         audioSource1.clip = bgmMain;
-        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume"); // ÇÃ·¹ÀÌ¾îÇÁ·¾½º¿¡¼­ bgmVolume °ª °¡Á®¿À±â
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume"); // í”Œë ˆì´ì–´í”„ë ™ìŠ¤ì—ì„œ bgmVolume ê°’ ê°€ì ¸ì˜¤ê¸°
         audioSource1.Play();
     }
-    public void StageBgmOn()
+    public void Stage1BgmOn()
     {
-        audioSource1.clip = bgmStage;
+        audioSource1.clip = bgmStage1;
         audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
         audioSource1.Play();
     }
-    
-
-    //¿É¼ÇÃ¢ À½Çâ ½½¶óÀÌ´õ¿¡¼­ °ª º¯°æ½Ã ¿Àµğ¿À¼Ò½ºÀÇ º¼·ıÀ» Á¶ÀıÇÏ°í ÀÌ °ªÀ» ÇÃ·¹ÀÌ¾î ÇÁ·¾½º¿¡ ÀúÀå
+    public void Stage2BgmOn()
+    {
+        audioSource1.clip = bgmStage2;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    public void Stage3BgmOn()
+    {
+        audioSource1.clip = bgmStage3;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    public void winBgmOn()
+    {
+        audioSource1.clip = win;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    public void loseBgmOn()
+    {
+        audioSource1.clip = lose;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    //ì˜µì…˜ì°½ ìŒí–¥ ìŠ¬ë¼ì´ë”ì—ì„œ ê°’ ë³€ê²½ì‹œ ì˜¤ë””ì˜¤ì†ŒìŠ¤ì˜ ë³¼ë¥¨ì„ ì¡°ì ˆí•˜ê³  ì´ ê°’ì„ í”Œë ˆì´ì–´ í”„ë ™ìŠ¤ì— ì €ì¥
     public void OnBgmVolumeChange(float volume)
     {
         audioSource1.volume = volume;
@@ -83,13 +109,13 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat("effectVolume", volume);
     }
 
-    // ¿øÇÏ´Â °÷¿¡ È¿°úÀ½ Ãß°¡ À§ÇÑ ÇÔ¼ö
-    // SoundManager.Instance.EffectSoundOn("Walk")¿Í °°ÀÌ »ç¿ë
+    // ì›í•˜ëŠ” ê³³ì— íš¨ê³¼ìŒ ì¶”ê°€ ìœ„í•œ í•¨ìˆ˜
+    // SoundManager.Instance.EffectSoundOn("Walk")ì™€ ê°™ì´ ì‚¬ìš©
     public void EffectSoundOn(string effectName)
     {
         string effect = "Sounds/" + effectName;
         AudioClip effectClip = Resources.Load<AudioClip>(effect);
-        audioSource2.volume = PlayerPrefs.GetFloat("effectVolume"); // ÇÃ·¹ÀÌ¾îÇÁ·¾½º¿¡¼­ effectVolume °ª °¡Á®¿À±â
+        audioSource2.volume = PlayerPrefs.GetFloat("effectVolume"); // í”Œë ˆì´ì–´í”„ë ™ìŠ¤ì—ì„œ effectVolume ê°’ ê°€ì ¸ì˜¤ê¸°
         audioSource2.clip = effectClip;
         audioSource2.PlayOneShot(effectClip);
     }

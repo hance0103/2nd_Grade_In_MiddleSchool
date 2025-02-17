@@ -8,7 +8,7 @@ public class FinishingPopup : MonoBehaviour
     [Header("참조 요소들")]
     public TMP_Text ChatText;         // 저장된 채팅이 나오는 텍스트
     public GameObject TextBox;
-    public GameObject VictoryPanel;
+    public GameObject ClosingTextPanel;
 
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
@@ -127,7 +127,7 @@ public class FinishingPopup : MonoBehaviour
     {
         // 패널 비활성화
         gameObject.SetActive(false);
-        VictoryPanel.SetActive(true);
+        ClosingTextPanel.SetActive(true);
 
         // 플레이어, 보스 오브젝트 비활성화
         Player.SetActive(false);

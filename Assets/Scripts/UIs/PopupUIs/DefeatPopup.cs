@@ -5,35 +5,35 @@ public class DefeatPopup : MonoBehaviour
 {
     [SerializeField]
     private string[] Defeattexts1 = {
-        "³×³ğ ¶§¹®¿¡..¿À´Ãµµ Áö°¢ÀÌ±¸³ª..",
-        "Å©À¹...ÀÌ ¸öÀÌ Áö´Ù´Ï..Ä¡¿å½º·´±¸³ª",
-        "¿À´ÃÀÇ ÆĞ¹è´Â..Á×À»¶§±îÁö ÀØÁö ¾Ê°Ú´Ù..",
-        "¹ÏÀ» ¼ö ¾ø´Ù..½ÅÈ£µî µûÀ§¿¡ ´çÇÏ´Ù´Ï..",
-        "¹æ½ÉÇß±¸³ª..´ÙÀ½ ¹ø¿£ ºÁÁÖÁö ¾Ê°Ú´Ù "
+        "ë„¤ë†ˆ ë•Œë¬¸ì—..ì˜¤ëŠ˜ë„ ì§€ê°ì´êµ¬ë‚˜..",
+        "í¬ìœ½...ì´ ëª¸ì´ ì§€ë‹¤ë‹ˆ..ì¹˜ìš•ìŠ¤ëŸ½êµ¬ë‚˜",
+        "ì˜¤ëŠ˜ì˜ íŒ¨ë°°ëŠ”..ì£½ì„ë•Œê¹Œì§€ ìŠì§€ ì•Šê² ë‹¤..",
+        "ë¯¿ì„ ìˆ˜ ì—†ë‹¤..ì‹ í˜¸ë“± ë”°ìœ„ì— ë‹¹í•˜ë‹¤ë‹ˆ..",
+        "ë°©ì‹¬í–ˆêµ¬ë‚˜..ë‹¤ìŒ ë²ˆì—” ë´ì£¼ì§€ ì•Šê² ë‹¤ "
     };
     [SerializeField]
     private string[] Defeattexts2 = {
-        "³×³ğ ¶§¹®¿¡...",
-        "Å©À¹...Ä¡¿å½º·´±¸³ª",
-        "¿À´ÃÀÇ ÆĞ¹è´Â..ÀØÁö ¾Ê°Ú´Ù..",
-        "¹ÏÀ» ¼ö ¾ø´Ù..´çÇÏ´Ù´Ï..",
-        "¹æ½ÉÇß±¸³ª.."
+        "ë„¤ë†ˆ ë•Œë¬¸ì—...",
+        "í¬ìœ½...ì¹˜ìš•ìŠ¤ëŸ½êµ¬ë‚˜",
+        "ì˜¤ëŠ˜ì˜ íŒ¨ë°°ëŠ”..ìŠì§€ ì•Šê² ë‹¤..",
+        "ë¯¿ì„ ìˆ˜ ì—†ë‹¤..ë‹¹í•˜ë‹¤ë‹ˆ..",
+        "ë°©ì‹¬í–ˆêµ¬ë‚˜.."
     };
     [SerializeField]
     private string[] Defeattexts3 = {
-        "³×³ğ ¶§¹®¿¡..¿À´Ãµµ Áö°¢ÀÌ±¸³ª..",
-        "Å©À¹...ÀÌ ¸öÀÌ Áö´Ù´Ï..Ä¡¿å½º·´±¸³ª",
-        "¿À´ÃÀÇ ÆĞ¹è´Â..Á×À»¶§±îÁö ÀØÁö ¾Ê°Ú´Ù..",
-        "¹ÏÀ» ¼ö ¾ø´Ù..½ÅÈ£µî µûÀ§¿¡ ´çÇÏ´Ù´Ï..",
-        "¹æ½ÉÇß±¸³ª..´ÙÀ½ ¹ø¿£ ºÁÁÖÁö ¾Ê°Ú´Ù "
+        "ë„¤ë†ˆ ë•Œë¬¸ì—..ì˜¤ëŠ˜ë„ ì§€ê°ì´êµ¬ë‚˜..",
+        "í¬ìœ½...ì´ ëª¸ì´ ì§€ë‹¤ë‹ˆ..ì¹˜ìš•ìŠ¤ëŸ½êµ¬ë‚˜",
+        "ì˜¤ëŠ˜ì˜ íŒ¨ë°°ëŠ”..ì£½ì„ë•Œê¹Œì§€ ìŠì§€ ì•Šê² ë‹¤..",
+        "ë¯¿ì„ ìˆ˜ ì—†ë‹¤..ì‹ í˜¸ë“± ë”°ìœ„ì— ë‹¹í•˜ë‹¤ë‹ˆ..",
+        "ë°©ì‹¬í–ˆêµ¬ë‚˜..ë‹¤ìŒ ë²ˆì—” ë´ì£¼ì§€ ì•Šê² ë‹¤ "
     };
     [SerializeField] private TMP_Text displayText;
     public void ShowRandomText1()
     {
-        // ¹è¿­ ¹üÀ§ ³»¿¡¼­ ¹«ÀÛÀ§ ÀÎµ¦½º ¼±ÅÃ
+        // ë°°ì—´ ë²”ìœ„ ë‚´ì—ì„œ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì„ íƒ
         int randomIndex = Random.Range(0, Defeattexts1.Length);
 
-        // ¼±ÅÃµÈ ÅØ½ºÆ®¸¦ UI¿¡ Ç¥½Ã
+        // ì„ íƒëœ í…ìŠ¤íŠ¸ë¥¼ UIì— í‘œì‹œ
         if (displayText != null)
         {
             displayText.text = Defeattexts1[randomIndex];
@@ -41,10 +41,10 @@ public class DefeatPopup : MonoBehaviour
     }
     public void ShowRandomText2()
     {
-        // ¹è¿­ ¹üÀ§ ³»¿¡¼­ ¹«ÀÛÀ§ ÀÎµ¦½º ¼±ÅÃ
+        // ë°°ì—´ ë²”ìœ„ ë‚´ì—ì„œ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì„ íƒ
         int randomIndex = Random.Range(0, Defeattexts2.Length);
 
-        // ¼±ÅÃµÈ ÅØ½ºÆ®¸¦ UI¿¡ Ç¥½Ã
+        // ì„ íƒëœ í…ìŠ¤íŠ¸ë¥¼ UIì— í‘œì‹œ
         if (displayText != null)
         {
             displayText.text = Defeattexts2[randomIndex];
@@ -52,68 +52,71 @@ public class DefeatPopup : MonoBehaviour
     }
     public void ShowRandomText3()
     {
-        // ¹è¿­ ¹üÀ§ ³»¿¡¼­ ¹«ÀÛÀ§ ÀÎµ¦½º ¼±ÅÃ
+        // ë°°ì—´ ë²”ìœ„ ë‚´ì—ì„œ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì„ íƒ
         int randomIndex = Random.Range(0, Defeattexts3.Length);
 
-        // ¼±ÅÃµÈ ÅØ½ºÆ®¸¦ UI¿¡ Ç¥½Ã
+        // ì„ íƒëœ í…ìŠ¤íŠ¸ë¥¼ UIì— í‘œì‹œ
         if (displayText != null)
         {
             displayText.text = Defeattexts3[randomIndex];
         }
     }
-    // ÆĞ¹è ½Ã°£À» Ãâ·ÂÇÏ±â À§ÇÑ ÅØ½ºÆ® ¿ÀºêÁ§Æ®µé
+    // íŒ¨ë°° ì‹œê°„ì„ ì¶œë ¥í•˜ê¸° ìœ„í•œ í…ìŠ¤íŠ¸ ì˜¤ë¸Œì íŠ¸ë“¤
     [SerializeField] private TMP_Text displayDefeatTime;
     [SerializeField] private float curTime;
     int minute;
     int second;
-    // ÆĞ¹è ÆË¾÷ ¿­±â (°ÔÀÓ ÀÏ½ÃÁ¤Áö)
+    // íŒ¨ë°° íŒì—… ì—´ê¸° (ê²Œì„ ì¼ì‹œì •ì§€)
     public void OpenDefeat1()
     {
+        SoundManager.Instance.loseBgmOn();
         ShowRandomText1();
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
-        Timer timer = FindObjectOfType<Timer>(); //ÆĞ¹èÇÑ ½Ã°£À» ÀúÀåÇÏÁö ¾ÊÀ¸¹Ç·Î ÂüÁ¶¸¸ ÇÏ±â
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
+        Timer timer = FindObjectOfType<Timer>(); //íŒ¨ë°°í•œ ì‹œê°„ì„ ì €ì¥í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì°¸ì¡°ë§Œ í•˜ê¸°
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "ºĞÅõÇÑ ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayDefeatTime.text = "ë¶„íˆ¬í•œ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
     public void OpenDefeat2()
     {
+        SoundManager.Instance.loseBgmOn();
         ShowRandomText2();
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
-        Timer timer = FindObjectOfType<Timer>(); //ÆĞ¹èÇÑ ½Ã°£À» ÀúÀåÇÏÁö ¾ÊÀ¸¹Ç·Î ÂüÁ¶¸¸ ÇÏ±â
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
+        Timer timer = FindObjectOfType<Timer>(); //íŒ¨ë°°í•œ ì‹œê°„ì„ ì €ì¥í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì°¸ì¡°ë§Œ í•˜ê¸°
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "ºĞÅõÇÑ ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayDefeatTime.text = "ë¶„íˆ¬í•œ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
     public void OpenDefeat3()
     {
+        SoundManager.Instance.loseBgmOn();
         ShowRandomText3();
         gameObject.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
-        Timer timer = FindObjectOfType<Timer>(); //ÆĞ¹èÇÑ ½Ã°£À» ÀúÀåÇÏÁö ¾ÊÀ¸¹Ç·Î ÂüÁ¶¸¸ ÇÏ±â
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
+        Timer timer = FindObjectOfType<Timer>(); //íŒ¨ë°°í•œ ì‹œê°„ì„ ì €ì¥í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì°¸ì¡°ë§Œ í•˜ê¸°
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "ºĞÅõÇÑ ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayDefeatTime.text = "ë¶„íˆ¬í•œ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
     }
 
-    // ÆĞ¹è ÆË¾÷ ´İ±â (°ÔÀÓ Àç°³)
+    // íŒ¨ë°° íŒì—… ë‹«ê¸° (ê²Œì„ ì¬ê°œ)
     public void CloseDefeat()
     {
         gameObject.SetActive(false);
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
     }
 
-    // Àç½ÃÀÛ ¹öÆ° (°ÔÀÓ Àç½ÃÀÛ)
+    // ì¬ì‹œì‘ ë²„íŠ¼ (ê²Œì„ ì¬ì‹œì‘)
     public void RestartGame()
     {
         gameObject.SetActive(false);
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
-        // °ÔÀÓ Àç½ÃÀÛ ·ÎÁ÷ Ãß°¡ (ÇÊ¿ä ½Ã Àå¸é ´Ù½Ã ·Îµå µî)
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
+        // ê²Œì„ ì¬ì‹œì‘ ë¡œì§ ì¶”ê°€ (í•„ìš” ì‹œ ì¥ë©´ ë‹¤ì‹œ ë¡œë“œ ë“±)
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
     

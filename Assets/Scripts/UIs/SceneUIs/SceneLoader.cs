@@ -32,21 +32,21 @@ public class SceneLoader : MonoBehaviour
     public void LoadStage1()
     { 
         SceneManager.LoadScene("Stage1");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage1BgmOn();
         Time.timeScale = 1.0f;
     }
 
     public void LoadStage2()
     {
         SceneManager.LoadScene("Stage2");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage2BgmOn();
         Time.timeScale = 1.0f;
     }
 
     public void LoadStage3()
     {
         SceneManager.LoadScene("Stage3");
-        SoundManager.Instance.StageBgmOn();
+        SoundManager.Instance.Stage3BgmOn();
         Time.timeScale = 1.0f;
     }
 }

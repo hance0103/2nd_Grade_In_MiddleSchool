@@ -575,7 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChatText: {fileID: 160148550}
   TextBox: {fileID: 927988856}
-  VictoryPanel: {fileID: 768407484}
+  ClosingTextPanel: {fileID: 196237602}
   Player: {fileID: 1579350640}
   Boss: {fileID: 1463315024}
   CharacterPose: {fileID: 1160414317}
@@ -3894,8 +3894,8 @@ RectTransform:
   - {fileID: 360203574}
   - {fileID: 2077653110}
   - {fileID: 122115808}
-  - {fileID: 768407485}
   - {fileID: 196237603}
+  - {fileID: 768407485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5562,6 +5562,7 @@ GameObject:
   - component: {fileID: 1153216162}
   - component: {fileID: 1153216161}
   - component: {fileID: 1153216160}
+  - component: {fileID: 1153216163}
   m_Layer: 5
   m_Name: NextStageButton
   m_TagString: Untagged
@@ -5632,9 +5633,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 196237607}
-        m_TargetAssemblyTypeName: Stage1ClosingTextPopup, Assembly-CSharp
-        m_MethodName: OnClosingTextButtonClicked
+      - m_Target: {fileID: 1153216163}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadStage2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5682,6 +5683,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153216157}
   m_CullTransparentMesh: 1
+--- !u!114 &1153216163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153216157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606addcf685aaea489c27c4ef8fd78c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1160414317
 GameObject:
   m_ObjectHideFlags: 0
@@ -7696,8 +7709,10 @@ MonoBehaviour:
   boss: {fileID: 1793914943}
   Finishboss: {fileID: 1463315023}
   zoomSizeBoss: 3
-  zoomDurationBoss: 1
-  pauseDurationBoss: 2
+  zoomDurationBoss: 0.4
+  pauseDurationBoss: 4
+  shakeMagnitude: 0.1
+  shakeFrequency: 20
   Player: {fileID: 1579350648}
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
