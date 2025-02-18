@@ -74,12 +74,13 @@ public class ProjectileController : MonoBehaviour
         float targetX = playerTransform.position.x;
         float directionX = (targetX > bossTransform.position.x) ? 1f : -1f;
         float angleToPlayer = (directionX > 0) ? 0f : 180f;
+        Debug.Log(angleToPlayer);
 
         while (projectilesFired < projectileData.ProjectileCount)
         {
             if (Time.time >= nextFireTime)
             {
-                Vector3 basePosition = bossTransform.position + new Vector3(0, 1.5f, 0);
+                Vector3 basePosition = bossTransform.position + new Vector3(0, 1.8f, 0);
 
                 if (isEnraged)
                 {
@@ -302,13 +303,17 @@ public class ProjectileController : MonoBehaviour
 
     public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
     {
+        // 맵을 14개의 구역으로 나눔
         int divisions = 14;
         float sectionWidth = mapWidth / divisions;
         List<GameObject> activeProjectiles = new List<GameObject>();
 
         for (int iteration = 0; iteration < 5; iteration++)
         {
+            // 비활성화된 투사체 제거
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
+
+            #region 안전구역 위치 계산
 
             // 왼쪽 영역의 안전구역 위치들 계산
             List<float> leftPossibleSafeZones = new List<float>();
@@ -318,6 +323,7 @@ public class ProjectileController : MonoBehaviour
                 float xPos = leftBound + (i * sectionWidth);
                 leftPossibleSafeZones.Add(xPos);
             }
+            
 
             // 오른쪽 영역의 안전구역 위치들 계산
             List<float> rightPossibleSafeZones = new List<float>();
@@ -326,17 +332,21 @@ public class ProjectileController : MonoBehaviour
                 float xPos = mapCenter + (i * sectionWidth);
                 rightPossibleSafeZones.Add(xPos);
             }
+            #endregion
 
+            #region 안전구역 선택 로직
             // 왼쪽 안전구역 2개 선택
             List<float> leftSelectedSafeZones = new List<float>();
             if (leftPossibleSafeZones.Count >= 2)
             {
+                // 첫 번째 안전구역 선택
                 int firstIndex = Random.Range(0, leftPossibleSafeZones.Count);
                 leftSelectedSafeZones.Add(leftPossibleSafeZones[firstIndex]);
                 float firstZone = leftPossibleSafeZones[firstIndex];
 
-                leftPossibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
+                leftPossibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth);
 
+                // 남은 위치들 중에서 두 번째 안전구역 선택
                 if (leftPossibleSafeZones.Count > 0)
                 {
                     int secondIndex = Random.Range(0, leftPossibleSafeZones.Count);
@@ -352,7 +362,7 @@ public class ProjectileController : MonoBehaviour
                 rightSelectedSafeZones.Add(rightPossibleSafeZones[firstIndex]);
                 float firstZone = rightPossibleSafeZones[firstIndex];
 
-                rightPossibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
+                rightPossibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth);
 
                 if (rightPossibleSafeZones.Count > 0)
                 {
@@ -360,20 +370,26 @@ public class ProjectileController : MonoBehaviour
                     rightSelectedSafeZones.Add(rightPossibleSafeZones[secondIndex]);
                 }
             }
+            #endregion
 
-            // 비 발사
+            #region safeZoneWidth 간격으로 투사체 생성
+            
+            // 안전구역 내부가 아닌 곳에만 투사체 생성
             for (float x = leftBound; x <= rightBound; x += safeZoneWidth)
             {
                 bool isInSafeZone = false;
                 if (x < mapCenter)
                 {
+                    // 왼쪽 영역에서는 왼쪽 안전구역 체크
                     isInSafeZone = leftSelectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
                 }
                 else
                 {
+                    // 오른쪽 영역에서는 오른쪽 안전구역 체크
                     isInSafeZone = rightSelectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
                 }
 
+                // 안전구역이 아닌 경우에만 투사체 생성
                 if (!isInSafeZone)
                 {
                     try
@@ -397,8 +413,10 @@ public class ProjectileController : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(projectileData.FireRate);
+            #endregion
         }
 
+        // 모든 투사체가 사라질 때까지 대기
         while (activeProjectiles.Count > 0)
         {
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
@@ -491,7 +509,7 @@ public class ProjectileController : MonoBehaviour
     {
         GameObject projectile = projectilePool.Get();
         projectile.transform.position = position;
-        //projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        projectile.transform.rotation = Quaternion.Euler(0, -angle, 0);
         projectile.transform.localScale = projectileData.ProjectileScale;
 
         // 수평 방향으로만 발사

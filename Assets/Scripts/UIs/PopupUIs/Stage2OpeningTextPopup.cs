@@ -7,25 +7,25 @@ using TMPro;
 
 public class Stage2OpeningTextPopup : MonoBehaviour
 {
-    [Header("ÂüÁ¶ ¿ä¼Òµé")]
-    public TMP_Text ChatText;      // ½ÇÁ¦ Ã¤ÆÃÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public TMP_Text CharacterName; // Ä³¸¯ÅÍ ÀÌ¸§ÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public GameObject OpeningTextPanel;  // ¿ÀÇÁ´× ½ºÅ©¸³Æ® ÆĞ³Î
+    [Header("ì°¸ì¡° ìš”ì†Œë“¤")]
+    public TMP_Text ChatText;      // ì‹¤ì œ ì±„íŒ…ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public TMP_Text CharacterName; // ìºë¦­í„° ì´ë¦„ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public GameObject OpeningTextPanel;  // ì˜¤í”„ë‹ ìŠ¤í¬ë¦½íŠ¸ íŒ¨ë„
     public GameObject TempPenal;
     public Button NextButton;
     public Button SkipButton;
-    [SerializeField] private GameObject Timer; // Å¸ÀÌ¸Ó È°¼ºÈ­/ºñÈ°¼ºÈ­ ¿ëµµ
+    [SerializeField] private GameObject Timer; // íƒ€ì´ë¨¸ í™œì„±í™”/ë¹„í™œì„±í™” ìš©ë„
 
-    [Header("¿ÀÇÁ´× ½ºÅ©¸³Æ® Ä³¸¯ÅÍ/º¸½º ½ºÇÁ¶óÀÌÆ®")]
-    public GameObject CharacterPose1; // ¼Õ°¡¶ô Æ÷Áî, ½Å³­ Ç¥Á¤
-    public GameObject CharacterPose2; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ´« °¨°í ¹Ì¼Ò
-    public GameObject CharacterPose3; // ¼Õ°¡¶ô Æ÷Áî, È­³­ Ç¥Á¤(ÀÌ±ÛÀÌ±Û)
-    public GameObject CharacterPose4; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ¾îµÓ°í Â°·Áº¸´Â Ç¥Á¤(ºĞ³ë¸¦ ¾ï´©¸£´Â µíÇÑ)
-    public GameObject CharacterPose5; // Á¥È÷°í ¿ô´Â Æ÷Áî
-    public GameObject CharacterPose6; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ÁøÁöÇÑ Ç¥Á¤
-    public GameObject CharacterPose7; // ´«¿¡ ºÓÀº±â¿îÀÌ µ·´Ù
+    [Header("ì˜¤í”„ë‹ ìŠ¤í¬ë¦½íŠ¸ ìºë¦­í„°/ë³´ìŠ¤ ìŠ¤í”„ë¼ì´íŠ¸")]
+    public GameObject CharacterPose1; // ì†ê°€ë½ í¬ì¦ˆ, ì‹ ë‚œ í‘œì •
+    public GameObject CharacterPose2; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ëˆˆ ê°ê³  ë¯¸ì†Œ
+    public GameObject CharacterPose3; // ì†ê°€ë½ í¬ì¦ˆ, í™”ë‚œ í‘œì •(ì´ê¸€ì´ê¸€)
+    public GameObject CharacterPose4; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì–´ë‘¡ê³  ì§¸ë ¤ë³´ëŠ” í‘œì •(ë¶„ë…¸ë¥¼ ì–µëˆ„ë¥´ëŠ” ë“¯í•œ)
+    public GameObject CharacterPose5; // ì –íˆê³  ì›ƒëŠ” í¬ì¦ˆ
+    public GameObject CharacterPose6; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì§„ì§€í•œ í‘œì •
+    public GameObject CharacterPose7; // ëˆˆì— ë¶‰ì€ê¸°ìš´ì´ ëˆë‹¤
 
-    [Header("ÇÃ·¹ÀÌ¾î/º¸½º ¿ÀºêÁ§Æ®")]
+    [Header("í”Œë ˆì´ì–´/ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject PlayerHP;
     [SerializeField] private GameObject Boss;
@@ -37,15 +37,16 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public static bool isFirstTime2 = true;
     void Start()
     {
+        Debug.Log(isFirstTime2);
         if (!isFirstTime2)
         {
             OnSkipButtonClicked();
-            Debug.Log("!isFristtime");
+            Debug.Log("!isFristtime2");
         }
         else
         {
             Open();
-            isFirstTime2 = false;
+            
         }
     }
 
@@ -55,11 +56,12 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     }
     void Open()
     {
+        Time.timeScale = 0;
         NextButton.onClick.AddListener(OnNextButtonClicked);
         var timer = FindObjectOfType<Timer>();
         StartCoroutine(OpeningTextStage2());
         Timer.SetActive(false);
-        Time.timeScale = 0;
+        timer.TimeActive = false;
     }
     void OnNextButtonClicked()
     {
@@ -67,7 +69,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         {
             isSkipping = true;
         }
-        // ÀÌ¹Ì ´ë»ç°¡ ´Ù ³ª¿ÔÀ¸¸é, ´ÙÀ½ ´ë»ç·Î ³Ñ¾î°¡´Â ½ÅÈ£
+        // ì´ë¯¸ ëŒ€ì‚¬ê°€ ë‹¤ ë‚˜ì™”ìœ¼ë©´, ë‹¤ìŒ ëŒ€ì‚¬ë¡œ ë„˜ì–´ê°€ëŠ” ì‹ í˜¸
         else
         {
             isNextButtonClicked = true;
@@ -91,7 +93,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         ChatText.text = "";
         writerText = "";
 
-        // ÅØ½ºÆ® Å¸ÀÌÇÎ È¿°ú
+        // í…ìŠ¤íŠ¸ íƒ€ì´í•‘ íš¨ê³¼
         for (a = 0; a < narration.Length; a++)
         {
             if (isSkipping)
@@ -106,41 +108,42 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         }
         isFullTextDisplayed = true;
         isSkipping = false;
-        // Å°¸¦ ´Ù½Ã ´©¸¦ ¶§±îÁö ¹«ÇÑÁ¤ ´ë±â
+        // í‚¤ë¥¼ ë‹¤ì‹œ ëˆ„ë¥¼ ë•Œê¹Œì§€ ë¬´í•œì • ëŒ€ê¸°
         isNextButtonClicked = false;
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage2() //("µîÀåÀÎ¹°", "´ë»ç")·Î ÀÔ·Â
+    IEnumerator OpeningTextStage2() //("ë“±ì¥ì¸ë¬¼", "ëŒ€ì‚¬")ë¡œ ì…ë ¥
     {
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÃÂ, ²Ï³ª ½Ã°£À» ÇãºñÇß±º.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "´õ ºü¸¥ ÅÛÆ÷·Î °É¾î°¥ ¼ö¹Û¿¡"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÈåÀ½ ÆòÈ­·Î¿ö¾ß ÇÒ µî±·±æ¿¡ ÀÌ ºÒ±æÇÑ ±â¿îÀº ¹«¾ùÀÌ³Ä.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÚ²Ù¸¸ °ÉÀ½ÀÌ ´À·ÁÁö°í ¼Õ¿¡ ¶¡ÀÌ ³ª´Â±¸³ª.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¼Õ¹ßÀÌ ¾îµò°¡¿¡ ¼Ó¹ÚµÇ´Â ±âºĞ..."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¼³¸¶ [±äÀå]ÀÌ¶õ °ÍÀ» ÇÏ°í ÀÖ³ª??"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÌ ¸öÀÌ ±äÀå µûÀ§ ÇÒ ¸® ¾ø´Ù"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÌ·±.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÁÖº¯¿¡ ´©±º°¡ ¼º°¡½Å ³ğÀÌ ÀÖ´Â °ÍÀÌ Æ²¸²¾ø±º"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÚ, ¾îµğ³Ä ! ¼û¾î ÀÖÁö ¸»°í ³ª¿Í¶ó !"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ºñ°ÌÇÑ ÀÚ½Ä.."));
-        yield return StartCoroutine(NormalChat("°Å¹Ì", "¾ÕµÚ ¾øÀÌ ´ıºñ´Â °Ç ÇÑ°á°°±¸³ª"));
-        yield return StartCoroutine(NormalChat("°Å¹Ì", "³ªÀÇ ±×¹°·Î ³ÊÀÇ ¸ö »Ó¸¸ÀÌ ¾Æ´Ï¶ó Á¤½Å±îÁö [¼Ó¹Ú]½ÃÄÑÁÖ¸¶.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¹ú·¹ ÁÖÁ¦¿¡ ¾µµ¥¾øÀÌ ¸»ÀÌ ±æ±º.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÌ ¸ö¿¡°Ô °É¸Â´Â [¿¹ÀÇ]¸¦ °®Ãâ ¼ö ÀÖµµ·Ï ¹«ÂüÈ÷ ±³À°½ÃÄÑÁÖ¸¶"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "´ıº­¶ó !!"));
-        yield return StartCoroutine(NormalChat("", "ÀüÅõ¿¡ ÁøÀÔÇÕ´Ï´Ù"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë¬´ì‚¬íˆ ë„ì°©í–ˆêµ°-"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "í•™êµì—” ì „ë¶€ ì•½í•œ ë†ˆë“¤ë¿ì´ë¼ ì‹œì‹œí•˜ë‹¤."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë¹¨ë¦¬ 'ê·¸ ì‹œê°„'ì´ ì™€ì•¼ í•˜ëŠ”ë°.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "íìŒ í‰í™”ë¡œì›Œì•¼ í•  êµì‹¤ì— ì´ ë¶ˆê¸¸í•œ ê¸°ìš´ì€ ë¬´ì—‡ì´ëƒ.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ìê¾¸ë§Œ ê±¸ìŒì´ ëŠë ¤ì§€ê³  ì†ì— ë•€ì´ ë‚˜ëŠ”êµ¬ë‚˜.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì†ë°œì´ ì–´ë”˜ê°€ì— ì†ë°•ë˜ëŠ” ê¸°ë¶„..."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì„¤ë§ˆ [ê¸´ì¥]ì´ë€ ê²ƒì„ í•˜ê³  ìˆë‚˜??"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì´ ëª¸ì´ ê¸´ì¥ ë”°ìœ„ í•  ë¦¬ ì—†ë‹¤"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì´ëŸ°.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì£¼ë³€ì— ëˆ„êµ°ê°€ ì„±ê°€ì‹  ë†ˆì´ ìˆëŠ” ê²ƒì´ í‹€ë¦¼ì—†êµ°"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì, ì–´ë””ëƒ ! ìˆ¨ì–´ ìˆì§€ ë§ê³  ë‚˜ì™€ë¼ !"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë¹„ê²í•œ ìì‹.."));
+        yield return StartCoroutine(NormalChat("ê±°ë¯¸", "ì•ë’¤ ì—†ì´ ë¤ë¹„ëŠ” ê±´ í•œê²°ê°™êµ¬ë‚˜"));
+        yield return StartCoroutine(NormalChat("ê±°ë¯¸", "ë‚˜ì˜ ê·¸ë¬¼ë¡œ ë„ˆì˜ ëª¸ ë¿ë§Œì´ ì•„ë‹ˆë¼ ì •ì‹ ê¹Œì§€ [ì†ë°•]ì‹œì¼œì£¼ë§ˆ.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë²Œë ˆ ì£¼ì œì— ì“¸ë°ì—†ì´ ë§ì´ ê¸¸êµ°.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì´ ëª¸ì—ê²Œ ê±¸ë§ëŠ” [ì˜ˆì˜]ë¥¼ ê°–ì¶œ ìˆ˜ ìˆë„ë¡ ë¬´ì°¸íˆ êµìœ¡ì‹œì¼œì£¼ë§ˆ"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë¤ë²¼ë¼ !!"));
+        yield return StartCoroutine(NormalChat("", "ì „íˆ¬ì— ì§„ì…í•©ë‹ˆë‹¤"));
         CloseOpeningText();
     }
 
     void CloseOpeningText()
     {
-        OpeningTextPanel.SetActive(false); // ÆĞ³Î ºñÈ°¼ºÈ­
+        OpeningTextPanel.SetActive(false); // íŒ¨ë„ ë¹„í™œì„±í™”
         isFirstTime2 = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
-        // Å¸ÀÌ¸ÓÀÇ TimeActive ÄÑ°í, ÄÚ·çÆ¾ ¼öµ¿ ½ÇÇà
-        Timer.SetActive(true);
+        // íƒ€ì´ë¨¸ì˜ TimeActive ì¼œê³ , ì½”ë£¨í‹´ ìˆ˜ë™ ì‹¤í–‰
+        
         Time.timeScale = 1;
         Timer.SetActive(true);
         timer.TimeActive = true;

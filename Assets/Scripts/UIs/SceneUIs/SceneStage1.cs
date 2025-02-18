@@ -23,31 +23,32 @@ public class SceneStage1 : MonoBehaviour
     {
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Stage2");
+        SoundManager.Instance.Stage2BgmOn();
         Time.timeScale = 1.0f;
     }
-    public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷
-    public GameObject creditsPopup; // Å©·¹µ÷ ÆË¾÷
-    public GameObject PausePopup; // ÀÏ½ÃÁ¤Áö ÆË¾÷
+    public GameObject settingsPopup; // ì„¤ì • íŒì—…
+    public GameObject creditsPopup; // í¬ë ˆë”§ íŒì—…
+    public GameObject PausePopup; // ì¼ì‹œì •ì§€ íŒì—…
     public GameObject TextPopup;
-    // ¼³Á¤ ÆË¾÷ ¿­±â
+    // ì„¤ì • íŒì—… ì—´ê¸°
     public void OpenSettings()
     {
         settingsPopup.SetActive(true);
     }
 
-    // ¼³Á¤ ÆË¾÷ ´İ±â
+    // ì„¤ì • íŒì—… ë‹«ê¸°
     public void CloseSettings()
     {
         settingsPopup.SetActive(false);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ¿­±â
+    // í¬ë ˆë”§ íŒì—… ì—´ê¸°
     public void OpenCredits()
     {
         creditsPopup.SetActive(true);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ´İ±â
+    // í¬ë ˆë”§ íŒì—… ë‹«ê¸°
     public void CloseCredits()
     {
         creditsPopup.SetActive(false);
@@ -61,26 +62,26 @@ public class SceneStage1 : MonoBehaviour
         TextPopup.SetActive(false);
     }
 
-    // ÀÏ½ÃÁ¤Áö ÆË¾÷ ¿­±â (°ÔÀÓ ÀÏ½ÃÁ¤Áö)
+    // ì¼ì‹œì •ì§€ íŒì—… ì—´ê¸° (ê²Œì„ ì¼ì‹œì •ì§€)
     public void OpenPause()
     {
         PausePopup.SetActive(true);
-        Time.timeScale = 0f; // ½Ã°£ Á¤Áö
+        Time.timeScale = 0f; // ì‹œê°„ ì •ì§€
     }
 
-    // ÀÏ½ÃÁ¤Áö ÆË¾÷ ´İ±â (°ÔÀÓ Àç°³)
+    // ì¼ì‹œì •ì§€ íŒì—… ë‹«ê¸° (ê²Œì„ ì¬ê°œ)
     public void ClosePause()
     {
         PausePopup.SetActive(false);
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
     }
 
-    // Àç½ÃÀÛ ¹öÆ° (°ÔÀÓ Àç½ÃÀÛ)
+    // ì¬ì‹œì‘ ë²„íŠ¼ (ê²Œì„ ì¬ì‹œì‘)
     public void RestartGame()
     {
         PausePopup.SetActive(false);
-        Time.timeScale = 1f; // ½Ã°£ Àç°³
-        // °ÔÀÓ Àç½ÃÀÛ ·ÎÁ÷ Ãß°¡ (ÇÊ¿ä ½Ã Àå¸é ´Ù½Ã ·Îµå µî)
+        Time.timeScale = 1f; // ì‹œê°„ ì¬ê°œ
+        // ê²Œì„ ì¬ì‹œì‘ ë¡œì§ ì¶”ê°€ (í•„ìš” ì‹œ ì¥ë©´ ë‹¤ì‹œ ë¡œë“œ ë“±)
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 }

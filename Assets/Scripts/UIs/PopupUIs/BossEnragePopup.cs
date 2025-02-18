@@ -5,6 +5,8 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BossEnragePopup : MonoBehaviour
 {
+    [Header("스테이지")]
+    [SerializeField] private int Stage;
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Boss;
@@ -64,7 +66,9 @@ public class BossEnragePopup : MonoBehaviour
     public void OnEnrage() 
     {
         Player.transform.position = new Vector3(-4.0f, -2.5f, 0f);
-        Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
+        if (Stage == 1) { Boss.transform.position = new Vector3(4.6f, -1.0f, 0f); }
+        if (Stage == 2) { Boss.transform.position = new Vector3(6.0f, 1.7f, 0f); }
+        if (Stage == 3) { Boss.transform.position = new Vector3(4.6f, -1.0f, 0f); }
         SoundManager.Instance.EffectSoundOn("Screaming");
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화
         gameObject.SetActive(true);

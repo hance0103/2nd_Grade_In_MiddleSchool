@@ -1960,6 +1960,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1958353429}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: rainSpaceWeak5
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: mapWidthPositions.Array.data[0]
       value: 
       objectReference: {fileID: 1530457280}

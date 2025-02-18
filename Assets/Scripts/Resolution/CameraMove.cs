@@ -94,7 +94,7 @@ public class CameraMove : MonoBehaviour
             player.transform.position.y,
             transform.position.z
         );
-        Debug.Log(isZooming);
+        
         // 화면 경계 제한
         targetPos.x = Mathf.Clamp(targetPos.x, minCameraBoundary.x, maxCameraBoundary.x);
         targetPos.y = Mathf.Clamp(targetPos.y, minCameraBoundary.y, maxCameraBoundary.y);
