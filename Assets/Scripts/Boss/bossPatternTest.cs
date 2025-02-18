@@ -347,7 +347,7 @@ public class bossPatternTest : MonoBehaviour
         );
         Vector2 direction = (bossPosition - savedPlayerPosition).normalized;
         Vector3 rightPositionMover = new Vector3(1.9f, 0.5f, 0);
-        Vector3 leftPositionMover = new Vector3(1.9f, 0.5f, 0);
+        Vector3 leftPositionMover = new Vector3(-1.9f, 0.5f, 0);
         GameObject laserStart;
         LaserController2 laser;
 
