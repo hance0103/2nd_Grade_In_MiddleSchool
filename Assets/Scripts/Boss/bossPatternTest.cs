@@ -103,6 +103,8 @@ public class bossPatternTest : MonoBehaviour
         }
 
         patternDic.Add(0, new BossState[] { BossState.WeakPattern2 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern3 });
 
@@ -338,13 +340,14 @@ public class bossPatternTest : MonoBehaviour
         animator.SetBool("isPre", true);
 
         // �ڷ���Ʈ ���� ������ �÷��̾��� ��ġ�� ���� (��� �������� �� ��ġ�� ���)
-        Vector2 bossPosition = transform.position;
+        Vector2 bossPosition = transform.position - new Vector3(0, 0.5f,0);
         Vector2 savedPlayerPosition = new Vector2(
             player.transform.position.x,
             bossPosition.y  // ������ y���� ����Ͽ� ���� ����
         );
         Vector2 direction = (bossPosition - savedPlayerPosition).normalized;
-        Vector3 positionMover = new Vector3(1.5f, 0, 0);
+        Vector3 rightPositionMover = new Vector3(1.9f, 0.5f, 0);
+        Vector3 leftPositionMover = new Vector3(1.9f, 0.5f, 0);
         GameObject laserStart;
         LaserController2 laser;
 
@@ -353,17 +356,18 @@ public class bossPatternTest : MonoBehaviour
             //SoundManager.Instance.EffectSoundOn("16-1");
             if (direction == Vector2.right)
             {
-                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - positionMover, Quaternion.identity);
+                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - rightPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
             else
             {
-                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position + positionMover, Quaternion.identity);
+                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - leftPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
             for (int i = 0; i < 4; i++)
             {
                 laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart{i}");
+                laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
                 yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
             }
             Debug.Log($"약공격 2 실행: {weakPattern2Data.PatternName}, 약공격2데미지: {weakPattern2Data.Damage}");
@@ -380,17 +384,18 @@ public class bossPatternTest : MonoBehaviour
             //SoundManager.Instance.EffectSoundOn("16-1");
             if (direction == Vector2.right)
             {
-                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - positionMover, Quaternion.identity);
+                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - rightPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
             else
             {
-                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position + positionMover, Quaternion.identity);
+                laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
             for (int i = 0; i < 4; i++)
             {
                 laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E{i}");
+                laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
                 yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
             }
             Debug.Log($"������ ���� ����. ����: {weakPattern2Data.PatternName}, ���ݷ�: {weakPattern2Data.Damage}");

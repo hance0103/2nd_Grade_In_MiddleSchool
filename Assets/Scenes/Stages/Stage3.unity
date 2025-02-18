@@ -5610,6 +5610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2307d3aeeb8b043bee7e35d0f51300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stage: 0
   Player: {fileID: 0}
   Boss: {fileID: 0}
   TopBar: {fileID: 338067751}
@@ -6039,11 +6040,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.12
+      value: 9.17
       objectReference: {fileID: 0}
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.21
+      value: -3.23
       objectReference: {fileID: 0}
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7317,6 +7318,8 @@ MonoBehaviour:
   zoomSizeBoss: 3
   zoomDurationBoss: 1
   pauseDurationBoss: 2
+  shakeMagnitude: 0.1
+  shakeFrequency: 20
   Player: {fileID: 0}
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
@@ -8924,13 +8927,14 @@ MonoBehaviour:
   VictoryPanel: {fileID: 2021582448}
   NextButton: {fileID: 297986515}
   SkipButton: {fileID: 589224345}
-  OpenClosingText: {fileID: 0}
   Timer: {fileID: 337292674}
+  Player: {fileID: 0}
+  Boss: {fileID: 0}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
   CharacterPose4: {fileID: 0}
-  Boss: {fileID: 0}
+  BossPose: {fileID: 0}
   writerText: 
   typingSpeed: 0.02
   isSkipping: 0
