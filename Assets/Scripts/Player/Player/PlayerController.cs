@@ -10,16 +10,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Move")]
     [SerializeField] private float nowSpeed = 0f;
-    [SerializeField] private float maxSpeed = 5f;         // √÷∞Ì º”µµ
+    [SerializeField] private float maxSpeed = 5f;         // ÏµúÍ≥† ÏÜçÎèÑ
     [SerializeField] private float moveAccel;
 
     private float moveInput = 0f;
 
     [Header("Jump")]
-    [SerializeField] private float minJumpForce = 5f;  // √÷º“ ¡°«¡ »˚
-    [SerializeField] private float maxJumpForce = 10f; // √÷¥Î ¡°«¡ »˚
-    [SerializeField] private float maxJumpHeight = 3f; // √÷¥Î ¡°«¡ ≥Ù¿Ã
-    [SerializeField] private float maxChargeTime = 0.5f; // √÷¥Î ¡°«¡ √Ê¿¸ Ω√∞£
+    [SerializeField] private float minJumpForce = 5f;  // ÏµúÏÜå Ï†êÌîÑ Ìûò
+    [SerializeField] private float maxJumpForce = 10f; // ÏµúÎåÄ Ï†êÌîÑ Ìûò
+    [SerializeField] private float maxJumpHeight = 3f; // ÏµúÎåÄ Ï†êÌîÑ ÎÜíÏù¥
+    [SerializeField] private float maxChargeTime = 0.5f; // ÏµúÎåÄ Ï†êÌîÑ Ï∂©Ï†Ñ ÏãúÍ∞Ñ
 
     private bool spaceReleased = false;
     private bool isJumping = false;
@@ -31,8 +31,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashBeforeDelay = 0.1f;
     [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float dashTime;
 
-    private bool canDash = true;
+    [SerializeField] private float diagonalDashX;
+    [SerializeField] private float diagonalDashY;
+
+    private float dashCooldownTimer = 0f;
+
+
+    public bool canDash { get; set; }
     private Vector2 dashStartPos;
     private Vector2 dashDirection;
 
@@ -47,6 +54,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(new IdleState(this));
         direction = PlayerInputDirection.None;
         looking = PlayerLookingDirection.Right;
+        canDash = true;
     }
 
     private void Update()
@@ -134,51 +142,105 @@ public class PlayerController : MonoBehaviour
 
     public void StartDash()
     {
-        if (!canDash) return;
-
+        canDash = false;
         dashStartPos = transform.position;
-        // πÊ«‚∞ËªÍ ≥÷æÓæﬂ«‘
+        // Î∞©Ìñ•Í≥ÑÏÇ∞ ÎÑ£Ïñ¥ÏïºÌï®
+        dashDirection = Vector2.zero;
+        switch (direction)
+        {
+            case PlayerInputDirection.Up:
+                dashDirection = new Vector2(0, dashDistance);
+                break;
+            case PlayerInputDirection.Down:
+                dashDirection = new Vector2(0, -dashDistance);
+                break;
+            case PlayerInputDirection.Right:
+                dashDirection = new Vector2(dashDistance, 0);
+                break;
+            case PlayerInputDirection.Left:
+                dashDirection = new Vector2(-dashDistance, 0);
+                break;
+            case PlayerInputDirection.UpRight:
+                dashDirection = new Vector2(diagonalDashX, diagonalDashY);
+                break;
+            case PlayerInputDirection.UpLeft:
+                dashDirection = new Vector2(-diagonalDashX, diagonalDashY);
+                break;
+            case PlayerInputDirection.DownRight:
+                dashDirection = new Vector2(diagonalDashX, -diagonalDashY);
+                break;
+            case PlayerInputDirection.DownLeft:
+                dashDirection = new Vector2(-diagonalDashX, -diagonalDashY);
+                break;
+            case PlayerInputDirection.None:
+                switch (looking)
+                {
+                    case PlayerLookingDirection.Right:
+                        dashDirection = new Vector2(dashDistance, 0);
+                        break;
+                    case PlayerLookingDirection.Left:
+                        dashDirection = new Vector2(-dashDistance, 0);
+                        break;
+                }
+                break;
+        }
 
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;
 
-        StartCoroutine(DashCoroutine());
+        StartCoroutine(DashCoroutine(dashDirection));
     }
-    private IEnumerator DashCoroutine()
+    private IEnumerator DashCoroutine(Vector2 direction)
     {
-        yield return new WaitForSeconds(dashBeforeDelay);
+        float dashBeforeDelayCounter = 0f;
+        while (dashBeforeDelayCounter <= dashBeforeDelay)
+        {
+            rb.velocity = Vector2.zero;
+            dashBeforeDelayCounter += Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine(Dash(direction));
+        StartCoroutine(PlayerDashCoolDown());
+    }
+    private IEnumerator Dash(Vector2 direction)
+    {
+        Debug.Log("ÎåÄÏãú ÏãúÏûë");
 
-        
-        Vector2 dashEndPos = dashStartPos + (dashDirection * dashDistance);
-        float dashTime = 0f;
+        Vector2 dashStartPos = rb.position;
+        Vector2 dashEndPos = rb.position + direction;
+        dashTime = 0f;
+        Debug.Log(dashStartPos);
+        Debug.Log(dashEndPos);
+
 
         while (dashTime < dashDuration)
         {
+            Debug.Log("ÎåÄÏãú ÏßÑÌñâÏ§ë");
+
+            // Ïù¥Ï™Ω ÏàòÏ†ï
             dashTime += Time.deltaTime;
             float t = dashTime / dashDuration;
             Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
             rb.MovePosition(newPosition);
             yield return null;
         }
-
-        EndDash();
-    }
-
-    public void EndDash()
-    {
+        Debug.Log("ÎåÄÏãú ÎÅù");
         rb.velocity = Vector2.zero;
+        rb.gravityScale = 4;
+        stateMachine.RestorePreviousState();
     }
-
-    public void SetDashCooldown()
+    private IEnumerator PlayerDashCoolDown()
     {
         canDash = false;
-        Invoke(nameof(ResetDashCooldown), dashCooldown);
-    }
-
-    private void ResetDashCooldown()
-    {
+        dashCooldownTimer = 0f;
+        while (dashCooldownTimer <= dashCooldown)
+        {
+            dashCooldownTimer += Time.deltaTime;
+            yield return null;
+        }
         canDash = true;
     }
+
     public void ChangeState(IPlayerState newState)
     {
         stateMachine.ChangeState(newState);

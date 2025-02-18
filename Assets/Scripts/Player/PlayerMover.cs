@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 public class PlayerMover : MonoBehaviour
 {
     //TODO
-    // ÇÏÇâÁ¡ÇÁ ¸¸µé¾î¾ßÇÔ
+    // í•˜í–¥ì í”„ ë§Œë“¤ì–´ì•¼í•¨
 
     private Player _player;
     private Rigidbody2D _rigid;
@@ -16,42 +16,42 @@ public class PlayerMover : MonoBehaviour
     private string left_or_right;
     [Header("Move")]
     [SerializeField]
-    private float _movSpeed = 0f;    //ÀÌµ¿ ¼Óµµ
+    private float _movSpeed = 0f;    //ì´ë™ ì†ë„
     [SerializeField]
-    private float _maxMovSpeed; //ÃÖ´ë ¼Óµµ
+    private float _maxMovSpeed; //ìµœëŒ€ ì†ë„
     [SerializeField]
-    private float _movAccel;    //°¡¼Óµµ
+    private float _movAccel;    //ê°€ì†ë„
 
     [Header("Jump")]
     [SerializeField]
-    private float _maxJumpForce;   // ÃÖ´ë Á¡ÇÁ
+    private float _maxJumpForce;   // ìµœëŒ€ ì í”„
     [SerializeField]
-    private float _minJumpForce;   // ÃÖ¼Ò Á¡ÇÁ 
+    private float _minJumpForce;   // ìµœì†Œ ì í”„ 
     [SerializeField]
-    private float _maxChargeTime;  // ÃÖ´ë Á¡ÇÁ ÃæÀü ½Ã°£
+    private float _maxChargeTime;  // ìµœëŒ€ ì í”„ ì¶©ì „ ì‹œê°„
 
     [SerializeField]
-    private float _jumpTimer = 0f;          // Á¡ÇÁ Å° ´©¸£´Â ½Ã°£
+    private float _jumpTimer = 0f;          // ì í”„ í‚¤ ëˆ„ë¥´ëŠ” ì‹œê°„
     [SerializeField]
-    private bool _canJump = true;           // Á¡ÇÁ °¡´ÉÇÑÁö
+    private bool _canJump = true;           // ì í”„ ê°€ëŠ¥í•œì§€
     [SerializeField]
-    private bool _isJumping = false;        // Á¡ÇÁ ÁßÀÎÁö
+    private bool _isJumping = false;        // ì í”„ ì¤‘ì¸ì§€
     [SerializeField]
-    private float normalGravityScale;       // ÀÏ¹İ Áß·Â½ºÄÉÀÏ
+    private float normalGravityScale;       // ì¼ë°˜ ì¤‘ë ¥ìŠ¤ì¼€ì¼
     [SerializeField]
-    private float fallingGravityScale;      // ³«ÇÏ Áß·Â½ºÄÉÀÏ
+    private float fallingGravityScale;      // ë‚™í•˜ ì¤‘ë ¥ìŠ¤ì¼€ì¼
 
     [Header("Dash")]
     [SerializeField]
-    private float _dashDistance;        //´ë½¬ °Å¸®
+    private float _dashDistance;        //ëŒ€ì‰¬ ê±°ë¦¬
     [SerializeField]
     private float _diagonalDashX;
     [SerializeField]
     private float _diagonalDashY;
     [SerializeField]
-    private float _dashDuration;        //´ë½¬ Áö¼Ó½Ã°£
+    private float _dashDuration;        //ëŒ€ì‰¬ ì§€ì†ì‹œê°„
 
-    private float _dashTime = 0;        //´ë½¬¸¦ ¾ó¸¶³ª Çß´ÂÁö ½Ã°£
+    private float _dashTime = 0;        //ëŒ€ì‰¬ë¥¼ ì–¼ë§ˆë‚˜ í–ˆëŠ”ì§€ ì‹œê°„
     [SerializeField]
     private float _dashGravityScale;
     [SerializeField]
@@ -59,9 +59,9 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private float _dashBeforeDelay;
 
-    // ÄğÅ¸ÀÓ °è»ê °ü·Ã º¯¼ö
+    // ì¿¨íƒ€ì„ ê³„ì‚° ê´€ë ¨ ë³€ìˆ˜
     [SerializeField]
-    private float _dashCoolDown;    //´ë½¬ ÄğÅ¸ÀÓ
+    private float _dashCoolDown;    //ëŒ€ì‰¬ ì¿¨íƒ€ì„
     private bool _canDash = true;
     private float _dashCooldownTimer = 0f;
 
@@ -122,7 +122,7 @@ public class PlayerMover : MonoBehaviour
     //            break;
     //        case PlayerState.Jump:
     //            {
-    //                //PlayerMoveInput ÇÔ¼ö¿¡¼­ State°¡ JumpÀÏ¶§´Â Move·Î ¹Ù²ÙÁö ¾ÊÀ½
+    //                //PlayerMoveInput í•¨ìˆ˜ì—ì„œ Stateê°€ Jumpì¼ë•ŒëŠ” Moveë¡œ ë°”ê¾¸ì§€ ì•ŠìŒ
     //                PlayerMoveInput();
     //                PlayerJump();
     //            }
@@ -152,26 +152,26 @@ public class PlayerMover : MonoBehaviour
     //        _player.playerAni.SetBool("IsJumpDown", true);
     //    }
     //}
-    //// ¾÷µ¥ÀÌÆ®¿¡¼­ ¸®Áöµå¹Ùµğ¸¦ »ç¿ëÇÏ¸é ¸®Áöµå¹Ù´Ù´Â 60ÇÁ·¹ÀÓ¸¶´Ù '°­Á¦'·Î ½ÇÇà
-    //// ¾÷µ¥ÀÌÆ®´Â ¾÷µ¥ÀÌÆ®°¡ ¿Ï·á µÉ¶§¸¶´Ù ½ÇÇà 0.15~0.17 µÉ ¼öµµ ÀÖ´Ù.
-    //// ÇÈ½ºµå ¾÷µ¥ÀÌÆ®¿¡¼­ ¹°¸® ¿¬»êÀÌ ÀÏ¾î³ªµµ·Ï À¯´ÏÆ¼´Â ¼¼ÆÃÀÌ µÇ¾î ÀÖ´Ù.
+    //// ì—…ë°ì´íŠ¸ì—ì„œ ë¦¬ì§€ë“œë°”ë””ë¥¼ ì‚¬ìš©í•˜ë©´ ë¦¬ì§€ë“œë°”ë‹¤ëŠ” 60í”„ë ˆì„ë§ˆë‹¤ 'ê°•ì œ'ë¡œ ì‹¤í–‰
+    //// ì—…ë°ì´íŠ¸ëŠ” ì—…ë°ì´íŠ¸ê°€ ì™„ë£Œ ë ë•Œë§ˆë‹¤ ì‹¤í–‰ 0.15~0.17 ë  ìˆ˜ë„ ìˆë‹¤.
+    //// í”½ìŠ¤ë“œ ì—…ë°ì´íŠ¸ì—ì„œ ë¬¼ë¦¬ ì—°ì‚°ì´ ì¼ì–´ë‚˜ë„ë¡ ìœ ë‹ˆí‹°ëŠ” ì„¸íŒ…ì´ ë˜ì–´ ìˆë‹¤.
     //private void PlayerMoveInput()
     //{
     //    if (Input.GetKey(KeyCode.LeftArrow))
     //    {
-    //        if (Input.GetKey(KeyCode.UpArrow))  // ¿ŞÂÊ À§ ¹æÇâÅ° ÀÔ·Â
+    //        if (Input.GetKey(KeyCode.UpArrow))  // ì™¼ìª½ ìœ„ ë°©í–¥í‚¤ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.UpLeft;
     //        }
-    //        else if (Input.GetKey(KeyCode.DownArrow))   // ¿ŞÂÊ ¾Æ·¡ ¹æÇâÅ° ÀÔ·Â
+    //        else if (Input.GetKey(KeyCode.DownArrow))   // ì™¼ìª½ ì•„ë˜ ë°©í–¥í‚¤ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.DownLeft;
     //        }
-    //        else // ¿ŞÂÊ ¹æÇâÅ°¸¸ ÀÔ·Â
+    //        else // ì™¼ìª½ ë°©í–¥í‚¤ë§Œ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.Left;
     //        }
-    //        Á¡ÇÁÁß¿¡´Â state º¯°æ ¾ÈÇÔ
+    //        ì í”„ì¤‘ì—ëŠ” state ë³€ê²½ ì•ˆí•¨
     //        if (_player.playerState != PlayerState.Jump)
     //        {
     //            _player.playerState = PlayerState.Move;
@@ -182,15 +182,15 @@ public class PlayerMover : MonoBehaviour
     //    }
     //    else if (Input.GetKey(KeyCode.RightArrow))
     //    {
-    //        if (Input.GetKey(KeyCode.UpArrow)) // ¿À¸¥ÂÊ À§ ¹æÇâÅ° ÀÔ·Â
+    //        if (Input.GetKey(KeyCode.UpArrow)) // ì˜¤ë¥¸ìª½ ìœ„ ë°©í–¥í‚¤ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.UpRight;
     //        }
-    //        else if (Input.GetKey(KeyCode.DownArrow)) // ¿À¸¥ÂÊ ¾Æ·¡ ¹æÇâÅ° ÀÔ·Â
+    //        else if (Input.GetKey(KeyCode.DownArrow)) // ì˜¤ë¥¸ìª½ ì•„ë˜ ë°©í–¥í‚¤ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.DownRight;
     //        }
-    //        else //¿À¸¥ÂÊ ¹æÇâÅ°¸¸ ÀÔ·Â
+    //        else //ì˜¤ë¥¸ìª½ ë°©í–¥í‚¤ë§Œ ì…ë ¥
     //        {
     //            _direction = PlayerInputDirection.Right;
     //        }
@@ -309,7 +309,7 @@ public class PlayerMover : MonoBehaviour
     //}
     //private IEnumerator Dash(PlayerState beforeState)
     //{
-    //    Debug.Log("´ë½Ã ½ÃÀÛ");
+    //    Debug.Log("ëŒ€ì‹œ ì‹œì‘");
     //    _rigid.gravityScale = 0;
 
     //    Vector2 _dashDirection = Vector2.zero;
@@ -360,16 +360,16 @@ public class PlayerMover : MonoBehaviour
     //    //_rigid.position = dashEndPos;
     //    while (_dashTime < _dashDuration)
     //    {
-    //        Debug.Log("´ë½Ã ÁøÇàÁß");
+    //        Debug.Log("ëŒ€ì‹œ ì§„í–‰ì¤‘");
 
-    //        // ÀÌÂÊ ¼öÁ¤
+    //        // ì´ìª½ ìˆ˜ì •
     //        _dashTime += Time.deltaTime;
     //        float t = _dashTime / _dashDuration;
     //        Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
     //        _rigid.MovePosition(newPosition);
     //        yield return null;
     //    }
-    //    Debug.Log("´ë½Ã ³¡");
+    //    Debug.Log("ëŒ€ì‹œ ë");
     //    if (beforeState == PlayerState.Jump)
     //    {
     //        _player.playerState = PlayerState.Jump;
@@ -406,8 +406,8 @@ public class PlayerMover : MonoBehaviour
     //    _canDash = true;
     //}
 
-    ////³ªÁß¿¡ ¹ß ºÎºĞ¿¡ Äİ¶óÀÌ´õ ÇÏ³ª ´õ ¸¸µé¾î¼­
-    ////º®¿¡ ºÎµúÇûÀ»¶§ Á¡ÇÁ ÃÊ±âÈ­ ¾ÈµÇµµ·Ï °íÃÄ¾ßÇÔ
+    ////ë‚˜ì¤‘ì— ë°œ ë¶€ë¶„ì— ì½œë¼ì´ë” í•˜ë‚˜ ë” ë§Œë“¤ì–´ì„œ
+    ////ë²½ì— ë¶€ë”ªí˜”ì„ë•Œ ì í”„ ì´ˆê¸°í™” ì•ˆë˜ë„ë¡ ê³ ì³ì•¼í•¨
     //private void OnCollisionEnter2D(Collision2D collision)
     //{
     //    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))

@@ -6,18 +6,18 @@ public class IdleState : IPlayerState
 
     public IdleState(PlayerController player) { this.player = player; }
 
-    public void Enter() => Debug.Log("Idle »óÅÂ ½ÃÀÛ");
+    public void Enter() => Debug.Log("Idle ìƒíƒœ ì‹œìž‘");
 
     public void Update()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0) player.ChangeState(new MoveState(player));
         else if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
-        else if (Input.GetKeyDown(KeyCode.LeftShift)) player.ChangeState(new DashState(player));
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash) player.ChangeState(new DashState(player));
         else if (Input.GetKeyDown(KeyCode.Z)) player.ChangeState(new AttackState(player));
     }
 
-    public void Exit() => Debug.Log("Idle »óÅÂ Á¾·á");
+    public void Exit() => Debug.Log("Idle ìƒíƒœ ì¢…ë£Œ");
     public override string ToString() => "Idle";
 }
 
@@ -27,7 +27,7 @@ public class MoveState : IPlayerState
 
     public MoveState(PlayerController player) { this.player = player; }
 
-    public void Enter() => Debug.Log("Move »óÅÂ ½ÃÀÛ");
+    public void Enter() => Debug.Log("Move ìƒíƒœ ì‹œìž‘");
 
     public void Update()
     {
@@ -37,12 +37,13 @@ public class MoveState : IPlayerState
         if (moveInput == 0) player.ChangeState(new IdleState(player));
         else if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
         else if (Input.GetKeyDown(KeyCode.Z)) player.ChangeState(new AttackState(player));
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash) player.ChangeState(new DashState(player));
     }
 
     public void Exit()
     {
         player.SetMoveInput(0);
-        Debug.Log("Move »óÅÂ Á¾·á");
+        Debug.Log("Move ìƒíƒœ ì¢…ë£Œ");
     }
 
     public override string ToString() => "Move";
@@ -56,7 +57,7 @@ public class JumpState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Jump »óÅÂ ½ÃÀÛ");
+        Debug.Log("Jump ìƒíƒœ ì‹œìž‘");
         player.StartJump();
     }
 
@@ -66,23 +67,24 @@ public class JumpState : IPlayerState
         {
             player.ChargeJump();
         }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            player.ChangeState(new JumpAttackState(player));
+        }
+        else if (player.IsGrounded())
+        {
+            player.ChangeState(new IdleState(player));
+        }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             player.ReleaseJump();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            player.ChangeState(new JumpAttackState(player));
-        }
-        if (player.IsGrounded())
-        {
-            player.ChangeState(new IdleState(player));
-        }
+
     }
 
     public void Exit()
     {
-        Debug.Log("Jump »óÅÂ Á¾·á");
+        Debug.Log("Jump ìƒíƒœ ì¢…ë£Œ");
         player.ResetJump();
     }
 
@@ -93,13 +95,11 @@ public class JumpState : IPlayerState
 public class DashState : IPlayerState
 {
     private PlayerController player;
-    private float dashStartTime;
-    private float dashDuration = 0.3f;
     public DashState(PlayerController player) { this.player = player; }
 
     public void Enter()
     {
-        Debug.Log("Dash »óÅÂ ½ÃÀÛ");
+        Debug.Log("Dash ìƒíƒœ ì‹œìž‘");
         player.StartDash();
     }
 
@@ -110,8 +110,7 @@ public class DashState : IPlayerState
 
     public void Exit()
     {
-        Debug.Log("Dash »óÅÂ Á¾·á");
-        player.EndDash();
+        Debug.Log("Dash ìƒíƒœ ì¢…ë£Œ");
     }
     public override string ToString() => "Dash";
 }
@@ -126,17 +125,24 @@ public class AttackState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Attack »óÅÂ ½ÃÀÛ");
+        Debug.Log("Attack ìƒíƒœ ì‹œìž‘");
         startTime = Time.time;
         player.StopMovement();
     }
 
     public void Update()
     {
-        if (Time.time - startTime >= attackDuration) player.ChangeState(new IdleState(player));
+        if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
+        else if (Input.GetKeyDown(KeyCode.LeftShift)) player.ChangeState(new DashState(player));
+
+
+
+
+        // í‚¤ ë–¼ë©´ idleìƒíƒœë¡œ
+        if (Input.GetKeyUp(KeyCode.Z)) player.ChangeState(new IdleState(player));
     }
 
-    public void Exit() => Debug.Log("Attack »óÅÂ Á¾·á");
+    public void Exit() => Debug.Log("Attack ìƒíƒœ ì¢…ë£Œ");
     public override string ToString() => "Attack";
 }
 
@@ -150,7 +156,7 @@ public class JumpAttackState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("JumpAttack »óÅÂ ½ÃÀÛ");
+        Debug.Log("JumpAttack ìƒíƒœ ì‹œìž‘");
         startTime = Time.time;
     }
 
@@ -159,6 +165,6 @@ public class JumpAttackState : IPlayerState
         if (Time.time - startTime >= attackDuration) player.ChangeState(new JumpState(player));
     }
 
-    public void Exit() => Debug.Log("JumpAttack »óÅÂ Á¾·á");
+    public void Exit() => Debug.Log("JumpAttack ìƒíƒœ ì¢…ë£Œ");
     public override string ToString() => "JumpAttack";
 }
