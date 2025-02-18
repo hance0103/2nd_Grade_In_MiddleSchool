@@ -7,36 +7,39 @@ using TMPro;
 
 public class Stage2ClosingTextPopup : MonoBehaviour
 {
-    [Header("ÂüÁ¶ ¿ä¼Òµé")]
-    public TMP_Text ChatText;      // ½ÇÁ¦ Ã¤ÆÃÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public TMP_Text CharacterName; // Ä³¸¯ÅÍ ÀÌ¸§ÀÌ ³ª¿À´Â ÅØ½ºÆ®
-    public GameObject ClosingTextPanel;  // Å¬·ÎÂ¡ ½ºÅ©¸³Æ® ÆĞ³Î
-    public GameObject VictoryPanel;      // ½Â¸® ÆË¾÷ ÆĞ³Î
+    [Header("ì°¸ì¡° ìš”ì†Œë“¤")]
+    public TMP_Text ChatText;      // ì‹¤ì œ ì±„íŒ…ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public TMP_Text CharacterName; // ìºë¦­í„° ì´ë¦„ì´ ë‚˜ì˜¤ëŠ” í…ìŠ¤íŠ¸
+    public GameObject ClosingTextPanel;  // í´ë¡œì§• ìŠ¤í¬ë¦½íŠ¸ íŒ¨ë„
+    public GameObject VictoryPanel;      // ìŠ¹ë¦¬ íŒì—… íŒ¨ë„
     public Button NextButton;
     public Button SkipButton;
-    public Button OpenClosingText; // Å¬·ÎÂ¡ ÅØ½ºÆ® ÆĞ³Î È°¼ºÈ­ ¹öÆ°
-    [SerializeField] private GameObject Timer; // Å¸ÀÌ¸Ó È°¼ºÈ­/ºñÈ°¼ºÈ­ ¿ëµµ
+    [SerializeField] private GameObject Timer; // íƒ€ì´ë¨¸ í™œì„±í™”/ë¹„í™œì„±í™” ìš©ë„
 
-    //º¯°æ ÇÊ¿ä
-    [Header("Å¬·ÎÂ¡ ½ºÅ©¸³Æ® Ä³¸¯ÅÍ/º¸½º ½ºÇÁ¶óÀÌÆ®")]
-    public GameObject CharacterPose1; // ¼Õ°¡¶ô Æ÷Áî, ºñ¿ô´Â Ç¥Á¤
-    public GameObject CharacterPose2; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ÁøÁöÇÑ Ç¥Á¤
-    public GameObject CharacterPose3; // ÀÚÁö·¯Áö°Ô ¿ô´Â Ç¥Á¤
-    public GameObject CharacterPose4; // ¸Ó¸®¿¡ ¼Õ Æ÷Áî, ½Å³­ Ç¥Á¤
-    public GameObject Boss;
+    [Header("í”Œë ˆì´ì–´/ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸")]
+    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Boss;
+
+    //ë³€ê²½ í•„ìš”
+    [Header("í´ë¡œì§• ìŠ¤í¬ë¦½íŠ¸ ìºë¦­í„°/ë³´ìŠ¤ ìŠ¤í”„ë¼ì´íŠ¸")]
+    public GameObject CharacterPose1; // ì†ê°€ë½ í¬ì¦ˆ, ë¹„ì›ƒëŠ” í‘œì •
+    public GameObject CharacterPose2; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì§„ì§€í•œ í‘œì •
+    public GameObject CharacterPose3; // ìì§€ëŸ¬ì§€ê²Œ ì›ƒëŠ” í‘œì •
+    public GameObject CharacterPose4; // ë¨¸ë¦¬ì— ì† í¬ì¦ˆ, ì‹ ë‚œ í‘œì •
+    public GameObject BossPose;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
     public string writerText = "";
     void Start()
     {
-
+        OnClosingText();
     }
-    public void OnClosingTextButtonClicked() // ´ÙÀ½ ½ºÅ×ÀÌÁö ¹öÆ°À» ´­·¶À» ¶§ ½ÇÇàµÇ´Â ÆĞ³Î
+    public void OnClosingText() // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì‹¤í–‰ë˜ëŠ” íŒ¨ë„
     {
+        Player.SetActive(false);
+        Boss.SetActive(false);
         Timer.SetActive(false);
-        VictoryPanel.SetActive(false);
-        ClosingTextPanel.SetActive(true);
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(ClosingTextStage2());
     }
@@ -50,7 +53,7 @@ public class Stage2ClosingTextPopup : MonoBehaviour
         {
             isSkipping = true;
         }
-        // ÀÌ¹Ì ´ë»ç°¡ ´Ù ³ª¿ÔÀ¸¸é, ´ÙÀ½ ´ë»ç·Î ³Ñ¾î°¡´Â ½ÅÈ£
+        // ì´ë¯¸ ëŒ€ì‚¬ê°€ ë‹¤ ë‚˜ì™”ìœ¼ë©´, ë‹¤ìŒ ëŒ€ì‚¬ë¡œ ë„˜ì–´ê°€ëŠ” ì‹ í˜¸
         else
         {
             isNextButtonClicked = true;
@@ -74,7 +77,7 @@ public class Stage2ClosingTextPopup : MonoBehaviour
         ChatText.text = "";
         writerText = "";
 
-        // ÅØ½ºÆ® Å¸ÀÌÇÎ È¿°ú
+        // í…ìŠ¤íŠ¸ íƒ€ì´í•‘ íš¨ê³¼
         for (a = 0; a < narration.Length; a++)
         {
             if (isSkipping)
@@ -89,32 +92,32 @@ public class Stage2ClosingTextPopup : MonoBehaviour
         }
         isFullTextDisplayed = true;
         isSkipping = false;
-        // Å°¸¦ ´Ù½Ã ´©¸¦ ¶§±îÁö ¹«ÇÑÁ¤ ´ë±â
+        // í‚¤ë¥¼ ë‹¤ì‹œ ëˆ„ë¥¼ ë•Œê¹Œì§€ ë¬´í•œì • ëŒ€ê¸°
         isNextButtonClicked = false;
         yield return new WaitUntil(() => isNextButtonClicked);
     }
     
-    IEnumerator ClosingTextStage2() //("µîÀåÀÎ¹°", "´ë»ç")·Î ÀÔ·Â 
+    IEnumerator ClosingTextStage2() //("ë“±ì¥ì¸ë¬¼", "ëŒ€ì‚¬")ë¡œ ì…ë ¥ 
     {
         
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÌ ¸öÀ» °¡µ×´ø ´õ·¯¿î ±â¿îÀÌ ÀÌÁ¦¾ß »ç¶óÁ³±º.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "°Å¹Ì ÁÖÁ¦¿¡ ³¯ ¼º°¡½Ã°Ô ÇÏ´Ù´Ï.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "´Ù½Ã ¸¶ÁÖÄ¡´Â ³¯¿£ Àß±ÙÀß±Ù ¹â¾Æ ÁÖ¸¶"));
-        yield return StartCoroutine(NormalChat("°Å¹Ì", "¿À¸¸ÇÑ ÀÚ¿©.."));
-        yield return StartCoroutine(NormalChat("°Å¹Ì", "½Â¸®µµ ³ÊÀÇ Âø°¢ÀÌ´Ù.."));
-        yield return StartCoroutine(NormalChat("°Å¹Ì", "³» ÀúÁÖ´Â ³Î µû¶ó´Ù´Ò °ÍÀÌ´Ù.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "Èï, ¾îµğ ÇÑ ¹ø ½ÇÄÆ ÀúÁÖÇØ º¸°Å¶ó !"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "ÀÌ ¸ö ÅĞ³¡ ÇÏ³ª °Çµå¸®Áö ¸øÇÒ °ÍÀÌ´Ù"));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "¾à°ñ °°À¸´Ï.."));
-        yield return StartCoroutine(NormalChat("ÁÖÀÎ°ø", "´Ù½Ã´Â ±³½ÇÀÇ ÆòÈ­¸¦ ±ú¶ß¸®Áö ¸»¾Æ¶ó"));
-        yield return StartCoroutine(NormalChat("", "3½ºÅ×ÀÌÁö¿¡ ÁøÀÔÇÕ´Ï´Ù"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì´ ëª¸ì„ ê°€ë’€ë˜ ë”ëŸ¬ìš´ ê¸°ìš´ì´ ì´ì œì•¼ ì‚¬ë¼ì¡Œêµ°.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ê±°ë¯¸ ì£¼ì œì— ë‚  ì„±ê°€ì‹œê²Œ í•˜ë‹¤ë‹ˆ.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë‹¤ì‹œ ë§ˆì£¼ì¹˜ëŠ” ë‚ ì—” ì˜ê·¼ì˜ê·¼ ë°Ÿì•„ ì£¼ë§ˆ"));
+        yield return StartCoroutine(NormalChat("ê±°ë¯¸", "ì˜¤ë§Œí•œ ìì—¬.."));
+        yield return StartCoroutine(NormalChat("ê±°ë¯¸", "ìŠ¹ë¦¬ë„ ë„ˆì˜ ì°©ê°ì´ë‹¤.."));
+        yield return StartCoroutine(NormalChat("ê±°ë¯¸", "ë‚´ ì €ì£¼ëŠ” ë„ ë”°ë¼ë‹¤ë‹ ê²ƒì´ë‹¤.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "í¥, ì–´ë”” í•œ ë²ˆ ì‹¤ì»· ì €ì£¼í•´ ë³´ê±°ë¼ !"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì´ ëª¸ í„¸ë í•˜ë‚˜ ê±´ë“œë¦¬ì§€ ëª»í•  ê²ƒì´ë‹¤"));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ì•½ê³¨ ê°™ìœ¼ë‹ˆ.."));
+        yield return StartCoroutine(NormalChat("ì£¼ì¸ê³µ", "ë‹¤ì‹œëŠ” êµì‹¤ì˜ í‰í™”ë¥¼ ê¹¨ëœ¨ë¦¬ì§€ ë§ì•„ë¼"));
+        yield return StartCoroutine(NormalChat("", "3ìŠ¤í…Œì´ì§€ì— ì§„ì…í•©ë‹ˆë‹¤"));
         CloseClosingText();
     }
 
     void CloseClosingText()
     {
-        ClosingTextPanel.SetActive(false);
-        SceneManager.LoadScene("Stage3");
+        gameObject.SetActive(false);
+        VictoryPanel.SetActive(true);
 
     }
 }
