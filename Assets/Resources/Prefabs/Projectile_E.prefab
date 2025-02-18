@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1075810070933197721}
   - component: {fileID: 2619227699546373057}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: Projectile_E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 42.399998, z: 50}
+  m_LocalScale: {x: 50, y: 42.4, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9f09d97927728e2449eb13cb16f1f8d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2e02ddb50ab40f468c9ab6404018dd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.0020602643}
+  m_Offset: {x: 0, y: 0.14836282}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0696092}
+  m_Size: {x: 1, y: 0.87405896}
   m_EdgeRadius: 0
 --- !u!50 &7596088807446460626
 Rigidbody2D:
@@ -216,7 +216,7 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.27444926, y: 0.5136691}
-      - {x: -0.27136675, y: -0.5155658}
-      - {x: 0.29269698, y: -0.008059502}
+    - - {x: -0.28405455, y: 0.516946}
+      - {x: -0.27922025, y: -0.5250508}
+      - {x: 0.29032975, y: 0.0032820841}
   m_UseDelaunayMesh: 0

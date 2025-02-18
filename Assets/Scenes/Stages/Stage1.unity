@@ -1300,6 +1300,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: projectileEPrefab
+      value: 
+      objectReference: {fileID: 4219906739377575671, guid: 3576574643edd1647a0703cb2308b8de, type: 3}
+    - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: EnragedWeakLaserData
       value: 
       objectReference: {fileID: 11400000, guid: d6fab277396a4cd4ca676253a9e894a7, type: 2}
@@ -10085,11 +10089,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.2
+      value: 5.35
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.98
+      value: -3.93
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.z

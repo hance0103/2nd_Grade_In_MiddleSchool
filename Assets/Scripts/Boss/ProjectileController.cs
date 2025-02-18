@@ -74,12 +74,13 @@ public class ProjectileController : MonoBehaviour
         float targetX = playerTransform.position.x;
         float directionX = (targetX > bossTransform.position.x) ? 1f : -1f;
         float angleToPlayer = (directionX > 0) ? 0f : 180f;
+        Debug.Log(angleToPlayer);
 
         while (projectilesFired < projectileData.ProjectileCount)
         {
             if (Time.time >= nextFireTime)
             {
-                Vector3 basePosition = bossTransform.position + new Vector3(0, 1.5f, 0);
+                Vector3 basePosition = bossTransform.position + new Vector3(0, 1.8f, 0);
 
                 if (isEnraged)
                 {
@@ -491,7 +492,7 @@ public class ProjectileController : MonoBehaviour
     {
         GameObject projectile = projectilePool.Get();
         projectile.transform.position = position;
-        //projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        projectile.transform.rotation = Quaternion.Euler(0, -angle, 0);
         projectile.transform.localScale = projectileData.ProjectileScale;
 
         // 수평 방향으로만 발사
