@@ -115,9 +115,10 @@ public class Stage2OpeningTextPopup : MonoBehaviour
 
     IEnumerator OpeningTextStage2() //("등장인물", "대사")로 입력
     {
-        yield return StartCoroutine(NormalChat("주인공", "쳇, 꽤나 시간을 허비했군.."));
-        yield return StartCoroutine(NormalChat("주인공", "더 빠른 템포로 걸어갈 수밖에"));
-        yield return StartCoroutine(NormalChat("주인공", "흐음 평화로워야 할 등굣길에 이 불길한 기운은 무엇이냐.."));
+        yield return StartCoroutine(NormalChat("주인공", "무사히 도착했군-"));
+        yield return StartCoroutine(NormalChat("주인공", "학교엔 전부 약한 놈들뿐이라 시시하다."));
+        yield return StartCoroutine(NormalChat("주인공", "빨리 '그 시간'이 와야 하는데.."));
+        yield return StartCoroutine(NormalChat("주인공", "흐음 평화로워야 할 교실에 이 불길한 기운은 무엇이냐.."));
         yield return StartCoroutine(NormalChat("주인공", "자꾸만 걸음이 느려지고 손에 땀이 나는구나.."));
         yield return StartCoroutine(NormalChat("주인공", "손발이 어딘가에 속박되는 기분..."));
         yield return StartCoroutine(NormalChat("주인공", "설마 [긴장]이란 것을 하고 있나??"));
