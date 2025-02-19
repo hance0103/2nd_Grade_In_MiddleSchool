@@ -10,6 +10,7 @@ public class LaserController2 : MonoBehaviour
     private LayerMask targetLayer;
     private Animator animator;
     private Rigidbody2D rb;
+
     public static LaserController2 Create(LaserScriptableObject data, Vector2 startPosition, Transform player)
     {
         GameObject laserObj = new GameObject("Laser");

@@ -8044,6 +8044,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1579350647}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: rainSpaceWeak5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: countDownBeforeStart
       value: 2
       objectReference: {fileID: 0}
