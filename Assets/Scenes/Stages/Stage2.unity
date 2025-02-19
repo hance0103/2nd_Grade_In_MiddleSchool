@@ -7748,10 +7748,13 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1582770704}
-  Finishboss: {fileID: 392371908}
   zoomSizeBoss: 3
   zoomDurationBoss: 1
-  pauseDurationBoss: 2
+  pauseDurationBoss: 5
+  Finishboss: {fileID: 392371908}
+  zoomSizeBossF: 3
+  zoomDurationBossF: 0.4
+  pauseDurationBossF: 4
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 1579350655}
@@ -8777,9 +8780,9 @@ MonoBehaviour:
   BottomBar: {fileID: 892416754}
   TopText: {fileID: 145561590}
   BottomText: {fileID: 1533905782}
-  moveDuration1: 0.3
-  moveDuration2: 0.3
-  TextmoveDuration: 3
+  moveDuration1: 1
+  moveDuration2: 1
+  TextmoveDuration: 5
   moveFastRight1: 1000
   moveSlowRight1: 300
   moveSlowLeft1: -300
@@ -8787,7 +8790,7 @@ MonoBehaviour:
   moveFastLeft2: -2000
   moveRight: 1000
   moveLeft: -1000
-  waitBeforeClose: 2.4
+  waitBeforeClose: 3
   blinkDuration: 1
   blinkSpeed: 1
 --- !u!114 &1708688246
@@ -9604,6 +9607,7 @@ MonoBehaviour:
   Stage: 2
   displayClearTime: {fileID: 391899468}
   displayText: {fileID: 251931486}
+  EndingPopup: {fileID: 0}
 --- !u!114 &1914536217
 MonoBehaviour:
   m_ObjectHideFlags: 0

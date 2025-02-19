@@ -18,9 +18,10 @@ public class DiaryPopup : MonoBehaviour
 
     int minute;
     int second;
-    // ´ÙÀÌ¾î¸® ÆË¾÷ ¿­±â
+    // ë‹¤ì´ì–´ë¦¬ íŒì—… ì—´ê¸°
     public void OpenDiaryPage1()
     {
+        SoundManager.Instance.EffectSoundOn("1");
         gameObject.SetActive(true);
         float savedTime1 = PlayerPrefs.GetFloat("FinalTime1", 0f);
         curTime = time;
@@ -28,17 +29,17 @@ public class DiaryPopup : MonoBehaviour
         Debug.Log(savedTime1);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        Stage1ClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
+        Stage1ClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
         
-        string SavedText1 = PlayerPrefs.GetString("FinalText1", "¾ÆÁ÷ µµ·ú³»Áö ¾Ê¾Ò´Ù!");
-        Debug.Log("ºÒ·¯¿Â µ¥ÀÌÅÍ: " + SavedText1);
-        Stage1ClearText.text = "ÇÇ´Ï½¬ ´ë»ç: " + SavedText1;
+        string SavedText1 = PlayerPrefs.GetString("FinalText1", "ì•„ì§ ë„ë¥™ë‚´ì§€ ì•Šì•˜ë‹¤!");
+        Debug.Log("ë¶ˆëŸ¬ì˜¨ ë°ì´í„°: " + SavedText1);
+        Stage1ClearText.text = "í”¼ë‹ˆì‰¬ ëŒ€ì‚¬: " + SavedText1;
 
     }
     
     public void OpenDiaryPage2()
     {
-        
+        SoundManager.Instance.EffectSoundOn("1");
         gameObject.SetActive(true);
         
         float savedTime2 = PlayerPrefs.GetFloat("FinalTime2", 0f);
@@ -47,10 +48,10 @@ public class DiaryPopup : MonoBehaviour
         Debug.Log(savedTime2);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        Stage2ClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
-        string SavedText2 = PlayerPrefs.GetString("FinalText2","¾ÆÁ÷ µµ·ú³»Áö ¾Ê¾Ò´Ù!");
-        Debug.Log("ºÒ·¯¿Â µ¥ÀÌÅÍ: " + SavedText2);
-        Stage2ClearText.text = "ÇÇ´Ï½¬ ´ë»ç: " + SavedText2;
+        Stage2ClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
+        string SavedText2 = PlayerPrefs.GetString("FinalText2","ì•„ì§ ë„ë¥™ë‚´ì§€ ì•Šì•˜ë‹¤!");
+        Debug.Log("ë¶ˆëŸ¬ì˜¨ ë°ì´í„°: " + SavedText2);
+        Stage2ClearText.text = "í”¼ë‹ˆì‰¬ ëŒ€ì‚¬: " + SavedText2;
 
 
         float savedTime3 = PlayerPrefs.GetFloat("FinalTime3", 0f);
@@ -59,17 +60,18 @@ public class DiaryPopup : MonoBehaviour
         Debug.Log(savedTime3);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        Stage3ClearTime.text = "Å¬¸®¾î ½Ã°£ : " + minute.ToString("00") + ":" + second.ToString("00");
-        string SavedText3 = PlayerPrefs.GetString("FinalText3", "¾ÆÁ÷ µµ·ú³»Áö ¾Ê¾Ò´Ù!");
-        Debug.Log("ºÒ·¯¿Â µ¥ÀÌÅÍ: " + SavedText3);
-        Stage3ClearText.text = "ÇÇ´Ï½¬ ´ë»ç: " + SavedText3;
+        Stage3ClearTime.text = "í´ë¦¬ì–´ ì‹œê°„ : " + minute.ToString("00") + ":" + second.ToString("00");
+        string SavedText3 = PlayerPrefs.GetString("FinalText3", "ì•„ì§ ë„ë¥™ë‚´ì§€ ì•Šì•˜ë‹¤!");
+        Debug.Log("ë¶ˆëŸ¬ì˜¨ ë°ì´í„°: " + SavedText3);
+        Stage3ClearText.text = "í”¼ë‹ˆì‰¬ ëŒ€ì‚¬: " + SavedText3;
 
     }
 
 
-    // ´ÙÀÌ¾î¸® ÆË¾÷ ´İ±â
+    // ë‹¤ì´ì–´ë¦¬ íŒì—… ë‹«ê¸°
     public void CloseDiaryPage()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         gameObject.SetActive(false);
     }
 }

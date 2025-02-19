@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
     AudioClip bgmStage3;
     AudioClip win;
     AudioClip lose;
+    AudioClip ending;
     private AudioSource audioSource1; // 배경음 오디오소스, 배경음들을 저장해서 사용함
     private AudioSource audioSource2; // 효과음 오디오소스, 효과음들을 저장해서 사용함
 
@@ -58,6 +59,7 @@ public class SoundManager : MonoBehaviour
         bgmStage3 = Resources.Load<AudioClip>("Sounds/3stage");
         win = Resources.Load<AudioClip>("Sounds/win");
         lose = Resources.Load<AudioClip>("Sounds/lose");
+        ending = Resources.Load<AudioClip>("Sounds/EndingBGM");
         MainBgmOn(); // 게임 시작시 메인메뉴에서 오프닝Bgm 재생
     }
 
@@ -94,6 +96,12 @@ public class SoundManager : MonoBehaviour
     public void loseBgmOn()
     {
         audioSource1.clip = lose;
+        audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
+        audioSource1.Play();
+    }
+    public void EndingBgmOn()
+    {
+        audioSource1.clip = ending;
         audioSource1.volume = PlayerPrefs.GetFloat("bgmVolume");
         audioSource1.Play();
     }

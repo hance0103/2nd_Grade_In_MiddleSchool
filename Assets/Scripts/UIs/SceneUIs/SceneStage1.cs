@@ -7,6 +7,7 @@ public class SceneStage1 : MonoBehaviour
 {
     public void LoadMain()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Main");
         SoundManager.Instance.MainBgmOn();
@@ -14,6 +15,7 @@ public class SceneStage1 : MonoBehaviour
     }
     public void LoadStageSelect()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("StageSelect");
         SoundManager.Instance.MainBgmOn();
@@ -21,6 +23,7 @@ public class SceneStage1 : MonoBehaviour
     }
     public void LoadStage2()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Stage2");
         SoundManager.Instance.Stage2BgmOn();
@@ -33,38 +36,45 @@ public class SceneStage1 : MonoBehaviour
     // 설정 팝업 열기
     public void OpenSettings()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         settingsPopup.SetActive(true);
     }
 
     // 설정 팝업 닫기
     public void CloseSettings()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         settingsPopup.SetActive(false);
     }
 
     // 크레딧 팝업 열기
     public void OpenCredits()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         creditsPopup.SetActive(true);
     }
 
     // 크레딧 팝업 닫기
     public void CloseCredits()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         creditsPopup.SetActive(false);
     }
     public void OpenText()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         TextPopup.SetActive(true);
     }
     public void CloseText()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         TextPopup.SetActive(false);
     }
 
     // 일시정지 팝업 열기 (게임 일시정지)
     public void OpenPause()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         PausePopup.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
     }
@@ -72,6 +82,7 @@ public class SceneStage1 : MonoBehaviour
     // 일시정지 팝업 닫기 (게임 재개)
     public void ClosePause()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         PausePopup.SetActive(false);
         Time.timeScale = 1f; // 시간 재개
     }
@@ -79,6 +90,7 @@ public class SceneStage1 : MonoBehaviour
     // 재시작 버튼 (게임 재시작)
     public void RestartGame()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         PausePopup.SetActive(false);
         Time.timeScale = 1f; // 시간 재개
         // 게임 재시작 로직 추가 (필요 시 장면 다시 로드 등)

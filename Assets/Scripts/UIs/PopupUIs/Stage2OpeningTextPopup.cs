@@ -65,6 +65,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     }
     void OnNextButtonClicked()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         if (!isFullTextDisplayed)
         {
             isSkipping = true;

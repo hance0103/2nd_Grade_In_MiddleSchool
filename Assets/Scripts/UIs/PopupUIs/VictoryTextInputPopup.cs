@@ -101,6 +101,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     /// </summary>
     public void Stage1SavePanel()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
@@ -110,6 +111,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage2SavePanel()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
@@ -119,6 +121,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage3SavePanel()
     {
+        SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText3", savedData);
         
@@ -217,6 +220,7 @@ public class VictoryTextInputPopup : MonoBehaviour
    
     void ClosePanel()
     {
+
         gameObject.SetActive(false);
         FinishPanel.SetActive(true);
     }
