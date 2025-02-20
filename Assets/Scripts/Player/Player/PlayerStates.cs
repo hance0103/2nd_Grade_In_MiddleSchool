@@ -12,6 +12,8 @@ public class IdleState : IPlayerState
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0) player.ChangeState(new MoveState(player));
+
+
         else if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
         else if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash) player.ChangeState(new DashState(player));
         else if (Input.GetKeyDown(KeyCode.Z)) player.ChangeState(new AttackState(player));
@@ -58,11 +60,22 @@ public class JumpState : IPlayerState
     public void Enter()
     {
         Debug.Log("Jump 상태 시작");
+
+
         player.StartJump();
     }
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash)
+        {
+            player.ChangeState(new DashState(player));
+            return;
+        }
+
+        if (player.GetCurrentState() is DashState) return;
+
+
         if (Input.GetKey(KeyCode.Space))
         {
             player.ChargeJump();
@@ -71,14 +84,19 @@ public class JumpState : IPlayerState
         {
             player.ChangeState(new JumpAttackState(player));
         }
-        else if (player.IsGrounded())
-        {
-            player.ChangeState(new IdleState(player));
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
+        else if (Input.GetKeyUp(KeyCode.Space))
         {
             player.ReleaseJump();
         }
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        player.SetMoveInput(moveInput);
+
+        if (player.IsGrounded())
+        {
+            player.ChangeState(new IdleState(player));
+        }
+
 
     }
 

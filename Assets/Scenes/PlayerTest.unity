@@ -164,7 +164,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11.21, y: 13.61}
+    oldSize: {x: 13, y: 15}
     newSize: {x: 11.21, y: 13.61}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -282,9 +282,15 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 0}
-  zoomSize: 3
-  zoomDuration: 1
-  pauseDuration: 2
+  Finishboss: {fileID: 0}
+  zoomSizeBoss: 3
+  zoomDurationBoss: 0.4
+  pauseDurationBoss: 4
+  shakeMagnitude: 0.1
+  shakeFrequency: 20
+  Player: {fileID: 0}
+  zoomSizePlayer: 3
+  zoomDurationPlayer: 1
 --- !u!1 &541393234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,6 +1460,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
+  Stage: 0
 --- !u!1 &8514173885341725578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,17 +1554,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowSpeed: 0
-  maxSpeed: 5
-  moveAccel: 1
-  minJumpForce: 5
-  maxJumpForce: 10
+  maxSpeed: 12
+  moveAccel: 20
+  minJumpForce: 10
+  maxJumpForce: 12
   maxJumpHeight: 3
   maxChargeTime: 0.5
   dashDistance: 5
   dashBeforeDelay: 0.1
-  dashDuration: 0.3
+  dashDuration: 0.1
   dashCooldown: 1
+  dashTime: 0
+  diagonalDashX: 5
+  diagonalDashY: 5
   direction: 0
+  looking: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

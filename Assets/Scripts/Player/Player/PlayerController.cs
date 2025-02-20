@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private PlayerStateMachine stateMachine;
     private Rigidbody2D rb;
 
+    [SerializeField] IPlayerState nowState;
 
     [Header("Move")]
     [SerializeField] private float nowSpeed = 0f;
@@ -43,6 +44,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 dashStartPos;
     private Vector2 dashDirection;
 
+    private Vector2 dashBeforeVelocity;
+
     [Header("Direction")]
     [SerializeField] private PlayerInputDirection direction;
     [SerializeField] private PlayerLookingDirection looking;
@@ -55,12 +58,14 @@ public class PlayerController : MonoBehaviour
         direction = PlayerInputDirection.None;
         looking = PlayerLookingDirection.Right;
         canDash = true;
+
+        
     }
 
     private void Update()
     {
-        stateMachine.Update();
         direction = GetInputDirection();
+        stateMachine.Update();
     }
 
     private void FixedUpdate()
@@ -70,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
+        if (stateMachine.GetCurrentState() is DashState) return;
         if (moveInput != 0)
         {
             nowSpeed += moveAccel * Time.deltaTime;
@@ -90,6 +96,12 @@ public class PlayerController : MonoBehaviour
 
     public void StartJump()
     {
+        if (stateMachine.GetPreviousState() is DashState)
+        {
+            isJumping = true;
+            return;
+        }
+
         if (!isJumping)
         {
             isJumping = true;
@@ -144,6 +156,9 @@ public class PlayerController : MonoBehaviour
     {
         canDash = false;
         dashStartPos = transform.position;
+
+        dashBeforeVelocity = rb.velocity;
+
         // 방향계산 넣어야함
         dashDirection = Vector2.zero;
         switch (direction)
@@ -215,17 +230,18 @@ public class PlayerController : MonoBehaviour
 
         while (dashTime < dashDuration)
         {
+            yield return new WaitForFixedUpdate();
+
             Debug.Log("대시 진행중");
 
-            // 이쪽 수정
             dashTime += Time.deltaTime;
             float t = dashTime / dashDuration;
             Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
             rb.MovePosition(newPosition);
-            yield return null;
+
         }
         Debug.Log("대시 끝");
-        rb.velocity = Vector2.zero;
+        rb.velocity = dashBeforeVelocity;
         rb.gravityScale = 4;
         stateMachine.RestorePreviousState();
     }
