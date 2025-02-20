@@ -1991,9 +1991,9 @@ MonoBehaviour:
   BottomBar: {fileID: 987841904}
   TopText: {fileID: 642406865}
   BottomText: {fileID: 839648433}
-  moveDuration1: 0.3
-  moveDuration2: 0.3
-  TextmoveDuration: 3
+  moveDuration1: 1
+  moveDuration2: 1
+  TextmoveDuration: 5
   moveFastRight1: 1000
   moveSlowRight1: 300
   moveSlowLeft1: -300
@@ -2001,7 +2001,7 @@ MonoBehaviour:
   moveFastLeft2: -2000
   moveRight: 1000
   moveLeft: -1000
-  waitBeforeClose: 2.4
+  waitBeforeClose: 3
   blinkDuration: 1
   blinkSpeed: 1
 --- !u!1 &438163093
@@ -3285,6 +3285,7 @@ MonoBehaviour:
   Stage: 1
   displayClearTime: {fileID: 1618595360}
   displayText: {fileID: 1389893725}
+  EndingPopup: {fileID: 0}
 --- !u!1 &786787149
 GameObject:
   m_ObjectHideFlags: 0
@@ -8009,10 +8010,13 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1793914943}
-  Finishboss: {fileID: 1463315023}
   zoomSizeBoss: 3
   zoomDurationBoss: 0.4
   pauseDurationBoss: 4
+  Finishboss: {fileID: 1463315023}
+  zoomSizeBossF: 3
+  zoomDurationBossF: 0.4
+  pauseDurationBossF: 4
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 1579350648}
@@ -10089,11 +10093,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.66
+      value: 15.25
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.69
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.z

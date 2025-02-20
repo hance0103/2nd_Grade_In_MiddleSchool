@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1 LaserStrong2
   m_EditorClassIdentifier: 
   laserType: LaserStrong2
-  damage: 100
+  damage: 35
   laserSpeed: 90
   laserDuration: 2
   laserSprite: Sprites/Laser/WP2_laser_E

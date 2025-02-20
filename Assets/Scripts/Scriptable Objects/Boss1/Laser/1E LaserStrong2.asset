@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 1E LaserStrong2
   m_EditorClassIdentifier: 
   laserType: LaserStrong2Erange
-  damage: 20
+  damage: 45
   laserSpeed: 100
   laserDuration: 3
   laserSprite: Sprites/Laser/WP2_laser_E
-  laserWidth: 1.5
+  laserWidth: 3
   laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
   targetLayer:

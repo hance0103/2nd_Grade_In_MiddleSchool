@@ -9,16 +9,16 @@ public class SceneMain : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     [SerializeField] private float soundEffect_delayTime;
 
-    private bool isDraggingAllowed = false; // µå·¡±× °¡´É ¿©ºÎ ÇÃ·¡±×
+    private bool isDraggingAllowed = false; // ë“œë˜ê·¸ ê°€ëŠ¥ ì—¬ë¶€ í”Œë˜ê·¸
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // µå·¡±× ½ÃÀÛ ½Ã ÇöÀç ¼±ÅÃµÈ UI ¿ä¼Ò°¡ DraggableButtonÀ» Æ÷ÇÔÇÏ°í ÀÖ´ÂÁö È®ÀÎ ÈÄ ¸Â´Ù¸é ½ÇÇà
+        // ë“œë˜ê·¸ ì‹œì‘ ì‹œ í˜„ì¬ ì„ íƒëœ UI ìš”ì†Œê°€ DraggableButtonì„ í¬í•¨í•˜ê³  ìˆëŠ”ì§€ í™•ì¸ í›„ ë§ë‹¤ë©´ ì‹¤í–‰
 
         if (eventData.pointerEnter != null && eventData.pointerEnter.CompareTag("DraggableButton"))
         {
             isDraggingAllowed = true;
-            Debug.Log("µå·¡±× ½ÃÀÛ");
+            Debug.Log("ë“œë˜ê·¸ ì‹œì‘");
         }
         else
         {
@@ -38,42 +38,42 @@ public class SceneMain : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (isDraggingAllowed)
         {
-            Debug.Log("µå·¡±× Á¾·á");
+            Debug.Log("ë“œë˜ê·¸ ì¢…ë£Œ");
             StartCoroutine(LoadStageSelect());
         }
     }
 
     private IEnumerator LoadStageSelect()
     {
-        SoundManager.Instance.EffectSoundOn("Guitarplug"); // È¿°úÀ½ Àç»ı
+        SoundManager.Instance.EffectSoundOn("2"); // íš¨ê³¼ìŒ ì¬ìƒ
 
         yield return new WaitForSeconds(soundEffect_delayTime);
 
         SceneManager.LoadScene("StageSelect");
     }
 
-    public GameObject settingsPopup; // ¼³Á¤ ÆË¾÷
-    public GameObject creditsPopup; // Å©·¹µ÷ ÆË¾÷
+    public GameObject settingsPopup; // ì„¤ì • íŒì—…
+    public GameObject creditsPopup; // í¬ë ˆë”§ íŒì—…
 
-    // ¼³Á¤ ÆË¾÷ ¿­±â
+    // ì„¤ì • íŒì—… ì—´ê¸°
     public void OpenSettings()
     {
         settingsPopup.SetActive(true);
     }
 
-    // ¼³Á¤ ÆË¾÷ ´İ±â
+    // ì„¤ì • íŒì—… ë‹«ê¸°
     public void CloseSettings()
     {
         settingsPopup.SetActive(false);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ¿­±â
+    // í¬ë ˆë”§ íŒì—… ì—´ê¸°
     public void OpenCredits()
     {
         creditsPopup.SetActive(true);
     }
 
-    // Å©·¹µ÷ ÆË¾÷ ´İ±â
+    // í¬ë ˆë”§ íŒì—… ë‹«ê¸°
     public void CloseCredits()
     {
         creditsPopup.SetActive(false);

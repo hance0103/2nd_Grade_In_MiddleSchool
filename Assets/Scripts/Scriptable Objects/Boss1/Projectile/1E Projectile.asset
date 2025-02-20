@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba9fc2e93a47f244b883b3cd6856e8c, type: 3}
   m_Name: 1E Projectile
   m_EditorClassIdentifier: 
-  damage: 10
-  projectileSpeed: 7
-  projectileCount: 18
+  damage: 15
+  projectileSpeed: 15
+  projectileCount: 20
   projectileScale: {x: 1.8, y: 1.8, z: 1.8}
   verticalSpacing: 3
-  fireRate: 1
-  afterFireDelay: 3
+  fireRate: 1.3
+  afterFireDelay: 2.5

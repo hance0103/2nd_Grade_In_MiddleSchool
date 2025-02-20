@@ -702,6 +702,7 @@ MonoBehaviour:
   Stage: 3
   displayClearTime: {fileID: 1761819674}
   displayText: {fileID: 1489923588}
+  EndingPopup: {fileID: 1083244656}
 --- !u!114 &259194591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2949,7 +2950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &655133496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3158,7 +3159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &672326076
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4628,7 +4629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &954662641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5172,6 +5173,7 @@ GameObject:
   - component: {fileID: 1083244657}
   - component: {fileID: 1083244659}
   - component: {fileID: 1083244658}
+  - component: {fileID: 1083244660}
   m_Layer: 5
   m_Name: EndingPanel
   m_TagString: Untagged
@@ -5242,6 +5244,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083244656}
   m_CullTransparentMesh: 1
+--- !u!114 &1083244660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083244656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a806d07649b7e04cbe2fdad9092919c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background1: {fileID: 655133497}
+  frame1: {fileID: 672326077}
+  background2: {fileID: 1828219300}
+  frame2: {fileID: 1917696874}
+  background3: {fileID: 954662642}
+  frame3: {fileID: 2125943615}
+  fadeDuration: 1
+  waitDuration: 4
 --- !u!1 &1098950273
 GameObject:
   m_ObjectHideFlags: 0
@@ -7970,7 +7992,7 @@ GameObject:
   - component: {fileID: 1516472230}
   - component: {fileID: 1516472229}
   - component: {fileID: 1516472228}
-  - component: {fileID: 1516472227}
+  - component: {fileID: 1516472231}
   m_Layer: 5
   m_Name: EndingButton
   m_TagString: Untagged
@@ -7997,21 +8019,6 @@ RectTransform:
   m_AnchoredPosition: {x: 3.63, y: -1.32}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1516472227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1516472225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d639a2c6664b94a94e3c9c563a157e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 1606049830}
-  creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 712020745}
 --- !u!114 &1516472228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8056,9 +8063,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1516472227}
-        m_TargetAssemblyTypeName: SceneStage2, Assembly-CSharp
-        m_MethodName: LoadStage3
+      - m_Target: {fileID: 1516472231}
+        m_TargetAssemblyTypeName: PopupVictory, Assembly-CSharp
+        m_MethodName: Ending
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8106,6 +8113,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516472225}
   m_CullTransparentMesh: 1
+--- !u!114 &1516472231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516472225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da329456074341046b460fc88ba26b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stage: 3
+  displayClearTime: {fileID: 1761819674}
+  displayText: {fileID: 1489923588}
+  EndingPopup: {fileID: 1083244656}
 --- !u!1 &1529864654
 GameObject:
   m_ObjectHideFlags: 0
@@ -8232,10 +8255,13 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1129969038}
-  Finishboss: {fileID: 1009866283}
   zoomSizeBoss: 3
   zoomDurationBoss: 1
-  pauseDurationBoss: 2
+  pauseDurationBoss: 5
+  Finishboss: {fileID: 1009866283}
+  zoomSizeBossF: 3
+  zoomDurationBossF: 0.4
+  pauseDurationBossF: 4
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 1579350655}
@@ -9380,9 +9406,9 @@ MonoBehaviour:
   BottomBar: {fileID: 2123000551}
   TopText: {fileID: 426765916}
   BottomText: {fileID: 1497835840}
-  moveDuration1: 0.3
-  moveDuration2: 0.3
-  TextmoveDuration: 3
+  moveDuration1: 1
+  moveDuration2: 1
+  TextmoveDuration: 5
   moveFastRight1: 1000
   moveSlowRight1: 300
   moveSlowLeft1: -300
@@ -9390,7 +9416,7 @@ MonoBehaviour:
   moveFastLeft2: -2000
   moveRight: 1000
   moveLeft: -1000
-  waitBeforeClose: 2.4
+  waitBeforeClose: 3
   blinkDuration: 1
   blinkSpeed: 1
 --- !u!114 &1766191357
@@ -9579,7 +9605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1828219299
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10019,7 +10045,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1917696873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11406,7 +11432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2125943614
 RectTransform:
   m_ObjectHideFlags: 0

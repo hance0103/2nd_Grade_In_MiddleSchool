@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1 LaserWeak2
   m_EditorClassIdentifier: 
   laserType: LaserWeak2
-  damage: 10
+  damage: 15
   laserSpeed: 75
   laserDuration: 0.2
   laserSprite: Sprites/Laser/WP2_laser

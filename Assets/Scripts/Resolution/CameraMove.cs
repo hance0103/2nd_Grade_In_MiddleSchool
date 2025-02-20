@@ -11,10 +11,14 @@ public class CameraMove : MonoBehaviour
 
     [Header("Boss Zoom Event")]
     [SerializeField] private Transform boss;         // 보스 오브젝트의 Transform
-    [SerializeField] private Transform Finishboss;
     [SerializeField] private float zoomSizeBoss = 3f;    // 보스에게 줌인할 때의 Orthographic Size
     [SerializeField] private float zoomDurationBoss = 0.4f;// 줌인/아웃에 걸리는 시간(초)
-    [SerializeField] private float pauseDurationBoss = 4f;// 줌인 상태로 멈춰있는 시간(초)
+    [SerializeField] private float pauseDurationBoss = 5f;// 줌인 상태로 멈춰있는 시간(초)
+    [Header("Finish Boss Zoom Event")]
+    [SerializeField] private Transform Finishboss;
+    [SerializeField] private float zoomSizeBossF = 3f;    // 보스에게 줌인할 때의 Orthographic Size
+    [SerializeField] private float zoomDurationBossF = 0.4f;// 줌인/아웃에 걸리는 시간(초)
+    [SerializeField] private float pauseDurationBossF = 4f;// 줌인 상태로 멈춰있는 시간(초)
 
     [Header("카메라 흔들기 옵션")]
     public float shakeMagnitude = 0.1f;   // 흔들림 정도
@@ -132,7 +136,10 @@ public class CameraMove : MonoBehaviour
 
             yield return null;
         }
+
+        //보스 스프라이트 흔들기 (너무 짜치면 없애는걸로...)
         StartCoroutine(DistortBossSpriteCoroutine(pauseDurationBoss));
+
         // 3) 줌된 상태로 잠시 대기(pauseDuration 초)
         yield return new WaitForSecondsRealtime(pauseDurationBoss);
 
@@ -156,7 +163,6 @@ public class CameraMove : MonoBehaviour
     }
     private IEnumerator DistortBossSpriteCoroutine(float duration) // 보스 Transform으로 왜곡 효과 주기
     {
-        // 보스 위치 (z는 그대로 유지)
         Vector3 bossPos = boss.position;
         bossPos.z = transform.position.z;
         float elapsed = 0f;
@@ -255,21 +261,21 @@ public class CameraMove : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / zoomDurationBoss;
-            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizeBoss, t);
+            t += Time.unscaledDeltaTime / zoomDurationBossF;
+            cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizeBossF, t);
             transform.position = Vector3.Lerp(originalPos, bossPos, t);
             yield return null;
         }
 
         // 줌된 상태로 잠시 대기(pauseDuration 초) 이 동안 보스 쓰러지는 애니메이션 재생
-        yield return new WaitForSecondsRealtime(pauseDurationBoss);
+        yield return new WaitForSecondsRealtime(pauseDurationBossF);
         
         // 카메라 원상 복귀 (줌 아웃)
         t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / zoomDurationBoss;
-            cam.orthographicSize = Mathf.Lerp(zoomSizeBoss, originalSize, t);
+            t += Time.unscaledDeltaTime / zoomDurationBossF;
+            cam.orthographicSize = Mathf.Lerp(zoomSizeBossF, originalSize, t);
             transform.position = Vector3.Lerp(bossPos, originalPos, t);
             yield return null;
         }

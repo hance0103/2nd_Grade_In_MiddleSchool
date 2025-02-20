@@ -52,6 +52,8 @@ public class PopupVictory : MonoBehaviour
     [Header("시간 출력을 위한 참조 요소들")]
     [SerializeField] private TMP_Text displayClearTime;
     [SerializeField] private TMP_Text displayText;
+    [Header("엔딩 팝업")]
+    [SerializeField] private GameObject EndingPopup;
     private int minute;
     private int second;
     private float time;
@@ -127,7 +129,10 @@ public class PopupVictory : MonoBehaviour
         
         Time.timeScale = 1f; // 시간 재개
     }
-
+    public void Ending()
+    {
+        EndingPopup.SetActive(true);
+    }
     // 재시작 버튼 (게임 재시작)
     public void RestartGame()
     {
