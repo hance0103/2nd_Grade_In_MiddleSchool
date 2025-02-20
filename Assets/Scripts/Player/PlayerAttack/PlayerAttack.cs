@@ -6,13 +6,13 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("NormalAttack")]
     [SerializeField]
-    private float _normalAttackDmg;        //µ•πÃ¡ˆ
+    private float _normalAttackDmg;        //Îç∞ÎØ∏ÏßÄ
     [SerializeField]
     private float _normalAttackSpeed;
     [SerializeField]
-    private float _normalAttackRange;       //ªÁ∞≈∏Æ
+    private float _normalAttackRange;       //ÏÇ¨Í±∞Î¶¨
     [SerializeField]
-    private float _normalAttack_delay;      //∞¯∞›¡÷±‚
+    private float _normalAttack_delay;      //Í≥µÍ≤©Ï£ºÍ∏∞
     private float _nextFireTime = 0f;
     [SerializeField]
     private GameObject _normalAttackPrefab;
@@ -48,107 +48,89 @@ public class PlayerAttack : MonoBehaviour
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
         _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
     }
-    //private void Update()
-    //{
-    //    if (_player.playerState != PlayerState.Jump && _player.playerState != PlayerState.JumpAttack)
-    //    {
-    //        if (_player.playerState != PlayerState.Dash || _player.playerState != PlayerState.JumpAttack
-    //            || _player.playerState != PlayerState.JumpAttack)
-    //        {
-    //            PlayerAttackInput();
-    //        }
+    private void Update()
+    {
 
-    //        PlayerAttackInput();
-    //    }
-    //    else if (_player.playerState == PlayerState.Jump)
-    //    {
-    //        if (!isKeyDown && _player.playerState != PlayerState.JumpAttack)
-    //        {
-    //            //¡°«¡∞¯∞›
 
-    //        }
-    //        PlayerJumpAttack();
-    //    }
+        PlayerAttackCancel();
+    }
+    private void PlayerAttackInput()
+    {
+        if (Input.GetKey(KeyCode.A) && Time.time >= _nextFireTime)
+        {
+            _player.playerAni.SetBool("IsNormalAttack", true);
+            //_player.playerState = PlayerState.Attack;
+            Shoot();
+            _nextFireTime = Time.time + _normalAttack_delay; // Îã§Ïùå Î∞úÏÇ¨ ÏãúÍ∞Ñ Í∞±Ïã†
+            isKeyDown = true;
+        }
 
-    //    PlayerAttackCancel();
-    //}
-    //private void PlayerAttackInput()
-    //{
-    //    if (Input.GetKey(KeyCode.A) && Time.time >= _nextFireTime)
-    //    {
-    //        _player.playerAni.SetBool("IsNormalAttack", true);
-    //        _player.playerState = PlayerState.Attack;
-    //        Shoot();
-    //        _nextFireTime = Time.time + _normalAttack_delay; // ¥Ÿ¿Ω πﬂªÁ Ω√∞£ ∞ªΩ≈
-    //        isKeyDown = true;
-    //    }
+    }
+    private void PlayerNormalAttack()
+    {
+    }
+    private void PlayerAttackCancel()
+    {
+        if (Input.GetKeyUp(KeyCode.A) )
+        {
+            //_player.playerAni.SetBool("IsNormalAttack", false);
+            //_player.playerState = PlayerState.Idle;
+            isKeyDown = false;
+        }
+    }
+    private void Shoot()
+    {
+        if (_normalAttackPrefab != null && _attackPoint != null)
+        {
+            bool atttackDirection;
+            if (_playerMove._looking == PlayerLookingDirection.Right)
+            {
+                atttackDirection = true;
+            }
+            else
+            {
+                atttackDirection = false;
+            }
+            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
+            PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
+            attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
+            Debug.Log("Ìà¨ÏÇ¨Ï≤¥ Î∞úÏÇ¨");
+        }
+    }
+    private void PlayerJumpAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _player.playerAni.SetBool("IsJumpAttack", true);
+            _jumpAttackObject.SetActive(true);
+            if (_playerMove._looking == PlayerLookingDirection.Right)
+            {
+                _jumpAttackObject.transform.localPosition = new Vector3(_jumpAttackObjX, _jumpAttackObjY, 0);
+                _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                _jumpAttackObject.transform.localPosition = new Vector3(-_jumpAttackObjX, _jumpAttackObjY, 0);
+                _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            //_player.playerState = PlayerState.JumpAttack;
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -_jumpAttack_diveVelocity);
+            //gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
 
-    //}
-    //private void PlayerNormalAttack()
-    //{
-    //}
-    //private void PlayerAttackCancel()
-    //{
-    //    if (Input.GetKeyUp(KeyCode.A) && _player.playerState == PlayerState.Attack)
-    //    {
-    //        _player.playerAni.SetBool("IsNormalAttack", false);
-    //        _player.playerState = PlayerState.Idle;
-    //        isKeyDown = false;
-    //    }
-    //}
-    //private void Shoot()
-    //{
-    //    if (_normalAttackPrefab != null && _attackPoint != null)
-    //    {
-    //        bool atttackDirection;
-    //        if (_playerMove._looking == PlayerLookingDirection.Right) 
-    //        {
-    //            atttackDirection = true;
-    //        }
-    //        else
-    //        {
-    //            atttackDirection = false;
-    //        }
-    //        GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
-    //        PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
-    //        attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
-    //        Debug.Log("≈ıªÁ√º πﬂªÁ");
-    //    }
-    //}
-    //private void PlayerJumpAttack()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.A))
-    //    {
-    //        _player.playerAni.SetBool("IsJumpAttack", true);
-    //        _jumpAttackObject.SetActive(true);
-    //        if (_playerMove._looking == PlayerLookingDirection.Right)
-    //        {
-    //            _jumpAttackObject.transform.localPosition = new Vector3(_jumpAttackObjX, _jumpAttackObjY, 0);
-    //            _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = false;
-    //        }
-    //        else
-    //        {
-    //            _jumpAttackObject.transform.localPosition = new Vector3(-_jumpAttackObjX, _jumpAttackObjY, 0);
-    //            _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
-    //        }
-    //        _player.playerState = PlayerState.JumpAttack;
-    //        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -_jumpAttack_diveVelocity);
-    //        //gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-            
 
-    //    }
-    //}
-    //public IEnumerator PlayerJumpAttackDelay()
-    //{
-    //    Debug.Log("Ω√∞£ ¡§¡ˆ");
-    //    Time.timeScale = 0.0f;
-    //    yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
-    //    Time.timeScale = 1;
-    //    _jumpAttackObject.SetActive(false);
-    //    Debug.Log("Ω√∞£ ∫π±∏");
-    //}
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    // ∫Œµ˙»˘ π∞√º µ•πÃ¡ˆ
-    //}
+        }
+    }
+    public IEnumerator PlayerJumpAttackDelay()
+    {
+        Debug.Log("ÏãúÍ∞Ñ Ï†ïÏßÄ");
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
+        Time.timeScale = 1;
+        _jumpAttackObject.SetActive(false);
+        Debug.Log("ÏãúÍ∞Ñ Î≥µÍµ¨");
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Î∂ÄÎî™Ìûå Î¨ºÏ≤¥ Îç∞ÎØ∏ÏßÄ
+    }
 }

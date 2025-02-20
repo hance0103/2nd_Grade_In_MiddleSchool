@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private float jumpStartY;
     private float jumpTimer = 0f;
+    private bool canJump;
 
     [Header("Dash")]
     [SerializeField] private float dashDistance = 5f;
@@ -50,16 +51,53 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInputDirection direction;
     [SerializeField] private PlayerLookingDirection looking;
 
+    [Header("NormalAttack")]
+    [SerializeField]
+    private float _normalAttackDmg;        //데미지
+    [SerializeField]
+    private float _normalAttackSpeed;
+    [SerializeField]
+    private float _normalAttackRange;       //사거리
+    [SerializeField]
+    private float _normalAttack_delay;      //공격주기
+    private float _nextFireTime = 0f;
+    [SerializeField]
+    private GameObject _normalAttackPrefab;
+    [SerializeField]
+    private Transform _attackPoint;
+
+    [Header("JumpAttack")]
+    [SerializeField]
+    private float _jumpAttack_diveVelocity;
+    [SerializeField]
+    private float _jumpAttack_dmg;
+    public float _jumpAttackHitDelay;
+    [SerializeField]
+    private GameObject _jumpAttackObject;
+
+    private float _jumpAttackObjX;
+    private float _jumpAttackObjY;
+
+
+    public GameObject enemy;
+
+
+    private SpriteRenderer sprite;
     private void Awake()
     {
+        sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         stateMachine = new PlayerStateMachine();
         stateMachine.ChangeState(new IdleState(this));
         direction = PlayerInputDirection.None;
         looking = PlayerLookingDirection.Right;
         canDash = true;
+        canJump = true;
 
-        
+        _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
+        _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
+        _jumpAttackObject.SetActive(false);
+
     }
 
     private void Update()
@@ -75,16 +113,25 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (stateMachine.GetCurrentState() is DashState) return;
+        if (stateMachine.GetCurrentState() is DashState || stateMachine.GetCurrentState() is JumpAttackState) return;
         if (moveInput != 0)
         {
             nowSpeed += moveAccel * Time.deltaTime;
             nowSpeed = Mathf.Min(nowSpeed, maxSpeed);
+            if (moveInput < 0)
+            {
+                sprite.flipX = true;
+            }
+            else
+            {
+                sprite.flipX = false;
+            }
         }
         else
         {
             nowSpeed = 0;
         }
+
         Vector3 movement = new Vector3(moveInput * nowSpeed * Time.deltaTime, 0, 0);
         transform.position += movement;
     }
@@ -98,7 +145,9 @@ public class PlayerController : MonoBehaviour
     {
         if (stateMachine.GetPreviousState() is DashState)
         {
+            Debug.Log("대시 후 점프 불가");
             isJumping = true;
+            canJump = false;
             return;
         }
 
@@ -115,7 +164,7 @@ public class PlayerController : MonoBehaviour
     public void ChargeJump()
     {
         if (!isJumping) return;
-
+        if (!canJump) return;
         jumpTimer += Time.deltaTime;
 
         if (transform.position.y - jumpStartY >= maxJumpHeight)
@@ -232,18 +281,23 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
 
-            Debug.Log("대시 진행중");
-
             dashTime += Time.deltaTime;
             float t = dashTime / dashDuration;
             Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
             rb.MovePosition(newPosition);
 
         }
-        Debug.Log("대시 끝");
         rb.velocity = dashBeforeVelocity;
         rb.gravityScale = 4;
-        stateMachine.RestorePreviousState();
+
+        if (dashEndPos.y > dashStartPos.y)
+        {
+            ChangeState(new JumpState(this));
+        }
+        else
+        {
+            stateMachine.RestorePreviousState();
+        }
     }
     private IEnumerator PlayerDashCoolDown()
     {
@@ -289,6 +343,62 @@ public class PlayerController : MonoBehaviour
 
         return PlayerInputDirection.None;
     }
+
+    public void PlayerNormalAttack()
+    {
+        if (Time.time >= _nextFireTime)
+        {
+            Shoot();
+            _nextFireTime = Time.time + _normalAttack_delay;
+        }
+    }
+    private void Shoot()
+    {
+        if (_normalAttackPrefab != null && _attackPoint != null)
+        {
+            bool atttackDirection;
+            if (looking == PlayerLookingDirection.Right)
+            {
+                atttackDirection = true;
+            }
+            else
+            {
+                atttackDirection = false;
+            }
+            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
+            PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
+            attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
+            Debug.Log("투사체 발사");
+        }
+    }
+
+    public void PlayerJumpAttack()
+    {
+        _jumpAttackObject.SetActive(true);
+        if (looking == PlayerLookingDirection.Right)
+        {
+            _jumpAttackObject.transform.localPosition = new Vector3(_jumpAttackObjX, _jumpAttackObjY, 0);
+            _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            _jumpAttackObject.transform.localPosition = new Vector3(-_jumpAttackObjX, _jumpAttackObjY, 0);
+            _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        rb.velocity = new Vector2(0, -_jumpAttack_diveVelocity);
+    }
+    public IEnumerator PlayerJumpAttackDelay()
+    {
+        Debug.Log("시간 정지");
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
+        Time.timeScale = 1;
+        Debug.Log("시간 복구");
+    }
+    public void EndJumpAttack()
+    {
+        _jumpAttackObject.SetActive(false);
+    }
     public IPlayerState GetCurrentState()
     {
         return stateMachine.GetCurrentState();
@@ -297,8 +407,26 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.RestorePreviousState();
     }
-    public bool IsGrounded()
+    //public bool IsGrounded()
+    //{
+    //    return rb.velocity.y == 0;
+    //}
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        return rb.velocity.y == 0;
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
+        {
+            canJump = true;
+            Debug.Log("착지");
+            rb.velocity = Vector2.zero;
+            ChangeState(new IdleState(this));
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
+        {
+
+        }
     }
 }

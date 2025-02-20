@@ -282,10 +282,13 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 0}
-  Finishboss: {fileID: 0}
   zoomSizeBoss: 3
   zoomDurationBoss: 0.4
   pauseDurationBoss: 4
+  Finishboss: {fileID: 0}
+  zoomSizeBossF: 3
+  zoomDurationBossF: 0.4
+  pauseDurationBossF: 4
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 0}
@@ -1221,7 +1224,7 @@ GameObject:
   - component: {fileID: 5490268199916517378}
   - component: {fileID: 6118876714967939980}
   - component: {fileID: 2643634702767906878}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1382,7 +1385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de288a503c126941beebff39b113ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pAttack: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!1001 &7499809311223280358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1569,6 +1572,17 @@ MonoBehaviour:
   diagonalDashY: 5
   direction: 0
   looking: 0
+  _normalAttackDmg: 0
+  _normalAttackSpeed: 10
+  _normalAttackRange: 3
+  _normalAttack_delay: 0.1
+  _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
+  _attackPoint: {fileID: 9055643325848292304}
+  _jumpAttack_diveVelocity: 15
+  _jumpAttack_dmg: 0
+  _jumpAttackHitDelay: 0.1
+  _jumpAttackObject: {fileID: 739547920693808431}
+  enemy: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

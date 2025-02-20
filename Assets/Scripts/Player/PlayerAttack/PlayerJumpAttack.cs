@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerJumpAttack : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerAttack _pAttack;
+    [SerializeField] private PlayerController controller;
+
+
     public float _delay { get; set; }
     // Start is called before the first frame update
     void Start()
@@ -16,9 +17,9 @@ public class PlayerJumpAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Boss"))
         {
-            _pAttack._enemy = collision.gameObject;
+            controller.enemy = collision.gameObject;
             BossHPManager.Instance.TakeDamage(30);
-            //StartCoroutine(_pAttack.PlayerJumpAttackDelay());
+            StartCoroutine(controller.PlayerJumpAttackDelay());
         }
         else if (collision.gameObject.CompareTag("Ground"))
         {
