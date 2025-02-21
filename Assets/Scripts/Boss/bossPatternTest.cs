@@ -32,7 +32,7 @@ public class bossPatternTest : MonoBehaviour
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
-    public Player player; // Player Ÿ���� ������ ������ ���� ��������
+    public GameObject player; // Player Ÿ���� ������ ������ ���� ��������
     private LaserController laserController; // LaserController ����
     private ProjectileController projectileController; // ProjectileController ����
 
@@ -679,9 +679,9 @@ public class bossPatternTest : MonoBehaviour
 
         //�����ҷ�
 
-        // �ð� ����
-        Debug.Log("�ð� ����!");
-        player.GetComponent<Rigidbody2D>().isKinematic = true;
+        // 플레이어 멈추는 함수 넣는 위치
+        // 여기
+
         animator.SetBool("isPre", false);
         yield return new WaitForSecondsRealtime(2f);
         

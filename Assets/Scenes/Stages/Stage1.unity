@@ -576,7 +576,7 @@ MonoBehaviour:
   ChatText: {fileID: 160148550}
   TextBox: {fileID: 927988856}
   ClosingTextPanel: {fileID: 196237602}
-  Player: {fileID: 1579350640}
+  Player: {fileID: 0}
   Boss: {fileID: 1463315024}
   CharacterPose: {fileID: 1160414317}
   Effect: {fileID: 0}
@@ -1290,7 +1290,7 @@ PrefabInstance:
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1078561829}
+      objectReference: {fileID: 1662229116}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: isEnraged
       value: 0
@@ -1431,7 +1431,7 @@ MonoBehaviour:
   SkipButton: {fileID: 619915670}
   OpenClosingText: {fileID: 0}
   Timer: {fileID: 1239949766}
-  Player: {fileID: 1579350640}
+  Player: {fileID: 0}
   Boss: {fileID: 1793914935}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
@@ -1984,7 +1984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage: 1
-  Player: {fileID: 1579350640}
+  Player: {fileID: 0}
   Boss: {fileID: 1793914935}
   TopBar: {fileID: 1627974906}
   MiddleBar: {fileID: 863223623}
@@ -5290,17 +5290,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.5, y: 0}
   m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1078561829 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3130791659085943985, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1953349571}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579350640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef756eee8ffb23844aa30acfaf262efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1106841694
 GameObject:
   m_ObjectHideFlags: 0
@@ -8019,7 +8008,7 @@ MonoBehaviour:
   pauseDurationBossF: 4
   shakeMagnitude: 0.1
   shakeFrequency: 20
-  Player: {fileID: 1579350648}
+  Player: {fileID: 1662229123}
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
 --- !u!1 &1532798315
@@ -8097,16 +8086,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532798315}
   m_CullTransparentMesh: 1
---- !u!1 &1579350640 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2065551335920805261, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1953349571}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1579350648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1670334456713764311, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1953349571}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1604017323
 GameObject:
   m_ObjectHideFlags: 0
@@ -8597,6 +8576,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627974906}
   m_CullTransparentMesh: 1
+--- !u!1 &1662229116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3740991347051064449, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+  m_PrefabInstance: {fileID: 1953349571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1662229123 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2230473478739971651, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+  m_PrefabInstance: {fileID: 1953349571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1690275025
 GameObject:
   m_ObjectHideFlags: 0
@@ -10139,6 +10128,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2230473478739971651, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230473478739971651, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.89
+      objectReference: {fileID: 0}
     - target: {fileID: 2259321521332702069, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: Stage
       value: 1
@@ -10150,7 +10147,7 @@ PrefabInstance:
     - target: {fileID: 2259321521332702069, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: Player
       value: 
-      objectReference: {fileID: 1579350640}
+      objectReference: {fileID: 0}
     - target: {fileID: 2259321521332702069, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: DefeatPopup
       value: 
@@ -10159,9 +10156,21 @@ PrefabInstance:
       propertyPath: DefeatPopupScript
       value: 
       objectReference: {fileID: 1439323143}
+    - target: {fileID: 3740991347051064449, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4522402780352805337, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: _canJump
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4576846398964082355, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4576846398964082355, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: moveAccel
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10706,7 +10715,7 @@ MonoBehaviour:
   FinishPanel: {fileID: 122115807}
   fadeImage: {fileID: 518726516}
   fadeDuration: 1
-  player: {fileID: 1579350640}
+  player: {fileID: 0}
   boss: {fileID: 1463315024}
 --- !u!1 &2088047089
 GameObject:
@@ -11018,7 +11027,7 @@ MonoBehaviour:
   NextButton: {fileID: 1009486324}
   SkipButton: {fileID: 1922605289}
   Timer: {fileID: 1239949766}
-  Player: {fileID: 1579350640}
+  Player: {fileID: 1662229116}
   PlayerHP: {fileID: 2016187473}
   Boss: {fileID: 1793914935}
   BossHP: {fileID: 1727800773}
