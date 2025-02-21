@@ -61,6 +61,37 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         Timer.SetActive(false);
         Time.timeScale = 0;
     }
+    IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
+    {
+        //교실 배경 리소스 추가 필요
+        yield return StartCoroutine(NormalChat("주인공", "드디어..!"));
+        //무대 배경 리소스 추가 필요
+        yield return StartCoroutine(NormalChat("주인공", "두근거린다.."));
+        yield return StartCoroutine(NormalChat("주인공", "하루종일 기다렸던 무대..."));
+        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
+        yield return StartCoroutine(NormalChat("주인공", "밴드의 선율이 온몸을 감싼다"));
+        yield return StartCoroutine(NormalChat("주인공", "짜릿해 ! 즐거워 !"));
+        yield return StartCoroutine(NormalChat("주인공", "이 순간이 영원했으면.."));
+        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
+
+        yield return StartCoroutine(NormalChat("최종보스", "즐겁니?"));
+
+        yield return StartCoroutine(NormalChat("주인공", "너..너는??"));
+        yield return StartCoroutine(NormalChat("주인공", "내 숙원의 적이자 라이벌.."));
+        yield return StartCoroutine(NormalChat("주인공", "하필 이런 곳에서 이 타이밍에.."));
+        yield return StartCoroutine(NormalChat("주인공", "네놈은 항상 날 방해하는군.."));
+
+        yield return StartCoroutine(NormalChat("최종보스", "후후.."));
+        yield return StartCoroutine(NormalChat("최종보스", "무대를 망치러 왔다 !"));
+        yield return StartCoroutine(NormalChat("최종보스", "함께 놀아 볼까?"));
+
+        yield return StartCoroutine(NormalChat("주인공", "인정하기 싫지만 네놈은 나와 견줄 만한 [힘]을 갖고 있다"));
+        yield return StartCoroutine(NormalChat("주인공", "승리를 장담할 수는 없지만.."));
+        yield return StartCoroutine(NormalChat("주인공", "네놈이 원하는 대로 흘러가도록 둘 수 없다"));
+        yield return StartCoroutine(NormalChat("주인공", "덤벼라"));
+        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
+        CloseOpeningText();
+    }
     void OnNextButtonClicked()
     {
         SoundManager.Instance.EffectSoundOn("3");
@@ -112,36 +143,73 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
+    IEnumerator FadeInImageFromRight(Image targetImage, float duration, float distance)
     {
-        //교실 배경 리소스 추가 필요
-        yield return StartCoroutine(NormalChat("주인공", "드디어..!"));
-        //무대 배경 리소스 추가 필요
-        yield return StartCoroutine(NormalChat("주인공", "두근거린다.."));
-        yield return StartCoroutine(NormalChat("주인공", "하루종일 기다렸던 무대..."));
-        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
-        yield return StartCoroutine(NormalChat("주인공", "밴드의 선율이 온몸을 감싼다"));
-        yield return StartCoroutine(NormalChat("주인공", "짜릿해 ! 즐거워 !"));
-        yield return StartCoroutine(NormalChat("주인공", "이 순간이 영원했으면.."));
-        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
 
-        yield return StartCoroutine(NormalChat("최종보스", "즐겁니?"));
-        
-        yield return StartCoroutine(NormalChat("주인공", "너..너는??"));
-        yield return StartCoroutine(NormalChat("주인공", "내 숙원의 적이자 라이벌.."));
-        yield return StartCoroutine(NormalChat("주인공", "하필 이런 곳에서 이 타이밍에.."));
-        yield return StartCoroutine(NormalChat("주인공", "네놈은 항상 날 방해하는군.."));
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
 
-        yield return StartCoroutine(NormalChat("최종보스", "후후.."));
-        yield return StartCoroutine(NormalChat("최종보스", "무대를 망치러 왔다 !"));
-        yield return StartCoroutine(NormalChat("최종보스", "함께 놀아 볼까?"));
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x + distance, finalPos.y);
 
-        yield return StartCoroutine(NormalChat("주인공", "인정하기 싫지만 네놈은 나와 견줄 만한 [힘]을 갖고 있다"));
-        yield return StartCoroutine(NormalChat("주인공", "승리를 장담할 수는 없지만.."));
-        yield return StartCoroutine(NormalChat("주인공", "네놈이 원하는 대로 흘러가도록 둘 수 없다"));
-        yield return StartCoroutine(NormalChat("주인공", "덤벼라"));
-        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
-        CloseOpeningText();
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
+    }
+
+
+    IEnumerator FadeInImageFromLeft(Image targetImage, float duration, float distance)
+    {
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x - distance, finalPos.y);
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
     }
 
     void CloseOpeningText()

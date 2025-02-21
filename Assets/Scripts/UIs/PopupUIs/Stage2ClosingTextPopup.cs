@@ -43,6 +43,22 @@ public class Stage2ClosingTextPopup : MonoBehaviour
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(ClosingTextStage2());
     }
+    IEnumerator ClosingTextStage2() //("등장인물", "대사")로 입력 
+    {
+
+        yield return StartCoroutine(NormalChat("주인공", "이 몸을 가뒀던 더러운 기운이 이제야 사라졌군.."));
+        yield return StartCoroutine(NormalChat("주인공", "거미 주제에 날 성가시게 하다니.."));
+        yield return StartCoroutine(NormalChat("주인공", "다시 마주치는 날엔 잘근잘근 밟아 주마"));
+        yield return StartCoroutine(NormalChat("거미", "오만한 자여.."));
+        yield return StartCoroutine(NormalChat("거미", "승리도 너의 착각이다.."));
+        yield return StartCoroutine(NormalChat("거미", "내 저주는 널 따라다닐 것이다.."));
+        yield return StartCoroutine(NormalChat("주인공", "흥, 어디 한 번 실컷 저주해 보거라 !"));
+        yield return StartCoroutine(NormalChat("주인공", "이 몸 털끝 하나 건드리지 못할 것이다"));
+        yield return StartCoroutine(NormalChat("주인공", "약골 같으니.."));
+        yield return StartCoroutine(NormalChat("주인공", "다시는 교실의 평화를 깨뜨리지 말아라"));
+        yield return StartCoroutine(NormalChat("", "3스테이지에 진입합니다"));
+        CloseClosingText();
+    }
     void Update()
     {
 
@@ -98,23 +114,75 @@ public class Stage2ClosingTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
     
-    IEnumerator ClosingTextStage2() //("등장인물", "대사")로 입력 
+    
+    IEnumerator FadeInImageFromRight(Image targetImage, float duration, float distance)
     {
-        
-        yield return StartCoroutine(NormalChat("주인공", "이 몸을 가뒀던 더러운 기운이 이제야 사라졌군.."));
-        yield return StartCoroutine(NormalChat("주인공", "거미 주제에 날 성가시게 하다니.."));
-        yield return StartCoroutine(NormalChat("주인공", "다시 마주치는 날엔 잘근잘근 밟아 주마"));
-        yield return StartCoroutine(NormalChat("거미", "오만한 자여.."));
-        yield return StartCoroutine(NormalChat("거미", "승리도 너의 착각이다.."));
-        yield return StartCoroutine(NormalChat("거미", "내 저주는 널 따라다닐 것이다.."));
-        yield return StartCoroutine(NormalChat("주인공", "흥, 어디 한 번 실컷 저주해 보거라 !"));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸 털끝 하나 건드리지 못할 것이다"));
-        yield return StartCoroutine(NormalChat("주인공", "약골 같으니.."));
-        yield return StartCoroutine(NormalChat("주인공", "다시는 교실의 평화를 깨뜨리지 말아라"));
-        yield return StartCoroutine(NormalChat("", "3스테이지에 진입합니다"));
-        CloseClosingText();
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x + distance, finalPos.y);
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
     }
 
+
+    IEnumerator FadeInImageFromLeft(Image targetImage, float duration, float distance)
+    {
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x - distance, finalPos.y);
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
+    }
     void CloseClosingText()
     {
         gameObject.SetActive(false);

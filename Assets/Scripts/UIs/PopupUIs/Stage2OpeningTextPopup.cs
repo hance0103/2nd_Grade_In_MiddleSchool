@@ -63,6 +63,29 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         Timer.SetActive(false);
         timer.TimeActive = false;
     }
+    IEnumerator OpeningTextStage2() //("등장인물", "대사")로 입력
+    {
+        yield return StartCoroutine(NormalChat("주인공", "무사히 도착했군-"));
+        yield return StartCoroutine(NormalChat("주인공", "학교엔 전부 약한 놈들뿐이라 시시하다."));
+        yield return StartCoroutine(NormalChat("주인공", "빨리 '그 시간'이 와야 하는데.."));
+        yield return StartCoroutine(NormalChat("주인공", "흐음 평화로워야 할 교실에 이 불길한 기운은 무엇이냐.."));
+        yield return StartCoroutine(NormalChat("주인공", "자꾸만 걸음이 느려지고 손에 땀이 나는구나.."));
+        yield return StartCoroutine(NormalChat("주인공", "손발이 어딘가에 속박되는 기분..."));
+        yield return StartCoroutine(NormalChat("주인공", "설마 [긴장]이란 것을 하고 있나??"));
+        yield return StartCoroutine(NormalChat("주인공", "이 몸이 긴장 따위 할 리 없다"));
+        yield return StartCoroutine(NormalChat("주인공", "이런.."));
+        yield return StartCoroutine(NormalChat("주인공", "주변에 누군가 성가신 놈이 있는 것이 틀림없군"));
+        yield return StartCoroutine(NormalChat("주인공", "자, 어디냐 ! 숨어 있지 말고 나와라 !"));
+        yield return StartCoroutine(NormalChat("주인공", "비겁한 자식.."));
+        yield return StartCoroutine(NormalChat("거미", "앞뒤 없이 덤비는 건 한결같구나"));
+        yield return StartCoroutine(NormalChat("거미", "나의 그물로 너의 몸 뿐만이 아니라 정신까지 [속박]시켜주마.."));
+        yield return StartCoroutine(NormalChat("주인공", "벌레 주제에 쓸데없이 말이 길군.."));
+        yield return StartCoroutine(NormalChat("주인공", "이 몸에게 걸맞는 [예의]를 갖출 수 있도록 무참히 교육시켜주마"));
+        yield return StartCoroutine(NormalChat("주인공", "덤벼라 !!"));
+        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
+        CloseOpeningText();
+    }
+
     void OnNextButtonClicked()
     {
         SoundManager.Instance.EffectSoundOn("3");
@@ -114,27 +137,74 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator OpeningTextStage2() //("등장인물", "대사")로 입력
+    
+    IEnumerator FadeInImageFromRight(Image targetImage, float duration, float distance)
     {
-        yield return StartCoroutine(NormalChat("주인공", "무사히 도착했군-"));
-        yield return StartCoroutine(NormalChat("주인공", "학교엔 전부 약한 놈들뿐이라 시시하다."));
-        yield return StartCoroutine(NormalChat("주인공", "빨리 '그 시간'이 와야 하는데.."));
-        yield return StartCoroutine(NormalChat("주인공", "흐음 평화로워야 할 교실에 이 불길한 기운은 무엇이냐.."));
-        yield return StartCoroutine(NormalChat("주인공", "자꾸만 걸음이 느려지고 손에 땀이 나는구나.."));
-        yield return StartCoroutine(NormalChat("주인공", "손발이 어딘가에 속박되는 기분..."));
-        yield return StartCoroutine(NormalChat("주인공", "설마 [긴장]이란 것을 하고 있나??"));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸이 긴장 따위 할 리 없다"));
-        yield return StartCoroutine(NormalChat("주인공", "이런.."));
-        yield return StartCoroutine(NormalChat("주인공", "주변에 누군가 성가신 놈이 있는 것이 틀림없군"));
-        yield return StartCoroutine(NormalChat("주인공", "자, 어디냐 ! 숨어 있지 말고 나와라 !"));
-        yield return StartCoroutine(NormalChat("주인공", "비겁한 자식.."));
-        yield return StartCoroutine(NormalChat("거미", "앞뒤 없이 덤비는 건 한결같구나"));
-        yield return StartCoroutine(NormalChat("거미", "나의 그물로 너의 몸 뿐만이 아니라 정신까지 [속박]시켜주마.."));
-        yield return StartCoroutine(NormalChat("주인공", "벌레 주제에 쓸데없이 말이 길군.."));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸에게 걸맞는 [예의]를 갖출 수 있도록 무참히 교육시켜주마"));
-        yield return StartCoroutine(NormalChat("주인공", "덤벼라 !!"));
-        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
-        CloseOpeningText();
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;            
+        Vector2 startPos = new Vector2(finalPos.x + distance, finalPos.y);  
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+            
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
+    }
+
+   
+    IEnumerator FadeInImageFromLeft(Image targetImage, float duration, float distance)
+    {
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;            
+        Vector2 startPos = new Vector2(finalPos.x - distance, finalPos.y);  
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
     }
 
     void CloseOpeningText()

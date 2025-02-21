@@ -43,7 +43,20 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(ClosingTextStage1());
-    } 
+    }
+    IEnumerator ClosingTextStage1() //("등장인물", "대사")로 입력
+    {
+        yield return StartCoroutine(NormalChat("주인공", "후훗, 네놈 따위가 [(별명)]에게 이길 수 있을 리가 없지"));
+        yield return StartCoroutine(NormalChat("주인공", "당연하고 시시한 승리다."));
+        yield return StartCoroutine(NormalChat("주인공", "어리석은 자여..다시는 이 몸을 방해할 생각하지 마라. 그땐 숨통을 끊어주마"));
+        yield return StartCoroutine(NormalChat("신호등", "크윽..오늘은 여기까지만 하지.."));
+        yield return StartCoroutine(NormalChat("신호등", "하지만 널 막을 자는 나뿐만이 아니다.."));
+        yield return StartCoroutine(NormalChat("주인공", "크큭..그 꼴로 말은 잘 하는구나 !!"));
+        yield return StartCoroutine(NormalChat("주인공", "나는 이만 가보겠다"));
+        yield return StartCoroutine(NormalChat("주인공", "오늘은 특별한 날이거든☆"));
+        yield return StartCoroutine(NormalChat("", "2스테이지에 진입합니다"));
+        CloseClosingText();
+    }
     void Update()
     {
         
@@ -99,20 +112,75 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         yield return new WaitUntil(() => isNextButtonClicked);
     }
 
-    IEnumerator ClosingTextStage1() //("등장인물", "대사")로 입력
+    
+    IEnumerator FadeInImageFromRight(Image targetImage, float duration, float distance)
     {
-        yield return StartCoroutine(NormalChat("주인공", "후훗, 네놈 따위가 [(별명)]에게 이길 수 있을 리가 없지"));
-        yield return StartCoroutine(NormalChat("주인공", "당연하고 시시한 승리다."));
-        yield return StartCoroutine(NormalChat("주인공", "어리석은 자여..다시는 이 몸을 방해할 생각하지 마라. 그땐 숨통을 끊어주마"));
-        yield return StartCoroutine(NormalChat("신호등", "크윽..오늘은 여기까지만 하지.."));
-        yield return StartCoroutine(NormalChat("신호등", "하지만 널 막을 자는 나뿐만이 아니다.."));
-        yield return StartCoroutine(NormalChat("주인공", "크큭..그 꼴로 말은 잘 하는구나 !!"));
-        yield return StartCoroutine(NormalChat("주인공", "나는 이만 가보겠다"));
-        yield return StartCoroutine(NormalChat("주인공", "오늘은 특별한 날이거든☆"));
-        yield return StartCoroutine(NormalChat("", "2스테이지에 진입합니다"));
-        CloseClosingText();
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x + distance, finalPos.y);
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
     }
 
+
+    IEnumerator FadeInImageFromLeft(Image targetImage, float duration, float distance)
+    {
+
+        Color originalColor = targetImage.color;
+        originalColor.a = 0f;
+        targetImage.color = originalColor;
+
+        RectTransform rt = targetImage.rectTransform;
+        Vector2 finalPos = rt.anchoredPosition;
+        Vector2 startPos = new Vector2(finalPos.x - distance, finalPos.y);
+
+        rt.anchoredPosition = startPos;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            originalColor.a = t;
+            targetImage.color = originalColor;
+
+            rt.anchoredPosition = Vector2.Lerp(startPos, finalPos, t);
+
+            yield return null;
+        }
+
+        // 보정 (알파값 / 위치)
+        originalColor.a = 1f;
+        targetImage.color = originalColor;
+        rt.anchoredPosition = finalPos;
+    }
     void CloseClosingText()
     {
         gameObject.SetActive(false);
