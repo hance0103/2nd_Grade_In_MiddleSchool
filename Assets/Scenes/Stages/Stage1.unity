@@ -10156,6 +10156,22 @@ PrefabInstance:
       propertyPath: DefeatPopupScript
       value: 
       objectReference: {fileID: 1439323143}
+    - target: {fileID: 2854240419381641850, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Stage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854240419381641850, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1662229116}
+    - target: {fileID: 2854240419381641850, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopup
+      value: 
+      objectReference: {fileID: 1439323141}
+    - target: {fileID: 2854240419381641850, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopupScript
+      value: 
+      objectReference: {fileID: 1439323143}
     - target: {fileID: 3740991347051064449, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_IsActive
       value: 0
