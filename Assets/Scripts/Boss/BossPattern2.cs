@@ -32,7 +32,7 @@ public class BossPattern2 : MonoBehaviour
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private BossState currentState;
-    public Player player; // Player 타입의 변수를 선언해 참조 가져오기
+    public GameObject player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController2 laserController; // LaserController 참조
     private ProjectileController projectileController; // ProjectileController 참조
     private bool isPattern6Active = false;

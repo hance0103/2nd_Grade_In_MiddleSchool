@@ -214,7 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowSpeed: 0
   maxSpeed: 12
-  moveAccel: 20
+  moveAccel: 30
   minJumpForce: 10
   maxJumpForce: 12
   maxJumpHeight: 3
@@ -234,7 +234,7 @@ MonoBehaviour:
   _normalAttack_delay: 0.1
   _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
   _attackPoint: {fileID: 2230473478739971651}
-  _jumpAttack_diveVelocity: 15
+  _jumpAttack_diveVelocity: 22
   _jumpAttack_dmg: 0
   _jumpAttackHitDelay: 0.1
   _jumpAttackObject: {fileID: 4393900281489476913}
