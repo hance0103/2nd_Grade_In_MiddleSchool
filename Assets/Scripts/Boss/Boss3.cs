@@ -38,7 +38,7 @@ public class Boss3 : MonoBehaviour
     private bool isDesEnr = false;
     private BossState currentState;
     public GameObject player;
-    private LaserController laserController;
+    private LaserController2 laserController;
     private ProjectileController projectileController;
 
     [Header("보스 기본 설정")]
@@ -52,8 +52,14 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private float countDownBeforeStart = 2f;
     [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions;
-    [Tooltip("약공격 5 위치")]
-    [SerializeField] private Transform[] pattern5Positions;
+    [Tooltip("약공격 5 위치1")]
+    [SerializeField] private Transform[] pattern51Positions;
+    [Tooltip("약공격 5 위치2")]
+    [SerializeField] private Transform[] pattern52Positions;
+    [Tooltip("약공격 5 위치3")]
+    [SerializeField] private Transform[] pattern53Positions;
+    [Tooltip("약공격 5 위치4")]
+    [SerializeField] private Transform[] pattern54Positions;
 
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
@@ -101,11 +107,11 @@ public class Boss3 : MonoBehaviour
     void Start()
     {
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -265,7 +271,7 @@ public class Boss3 : MonoBehaviour
                     Vector2 startPosition = new Vector2(leftPosition.x, targetY);
                     Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
-                    LaserController laser = LaserController.Create(
+                    LaserController2 laser = LaserController2.Create(
                         weak1LaserData,
                         startPosition,
                         null
@@ -297,7 +303,7 @@ public class Boss3 : MonoBehaviour
                 yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
                 Destroy(warningLine.gameObject);
 
-                LaserController laser = LaserController.Create(
+                LaserController2 laser = LaserController2.Create(
                     weak1LaserData,
                     startPosition,
                     null
@@ -381,7 +387,7 @@ public class Boss3 : MonoBehaviour
             {
                 foreach (int pos in pair)
                 {
-                    LaserController laser = LaserController.Create(
+                    LaserController2 laser = LaserController2.Create(
                         weak2LaserData,
                         new Vector2(sectionPositions[pos], topBound),
                         null
@@ -422,7 +428,7 @@ public class Boss3 : MonoBehaviour
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
 
             // 첫 번째 레이저 발사
-            LaserController firstLaser = LaserController.Create(
+            LaserController2 firstLaser = LaserController2.Create(
                 weak2LaserData,
                 new Vector2(startX, topBound),
                 null
@@ -459,7 +465,7 @@ public class Boss3 : MonoBehaviour
             // 7개 레이저 순차 발사
             for (int i = 0; i < 7; i++)
             {
-                LaserController laser = LaserController.Create(
+                LaserController2 laser = LaserController2.Create(
                     weak2LaserData,
                     new Vector2(sectionPositions[i], topBound),
                     null
@@ -559,7 +565,7 @@ public class Boss3 : MonoBehaviour
                     Vector2 startPos = warningLine.GetPosition(0); // 경고선의 시작 위치를 가져옵니다.
                     Vector2 endPos = warningLine.GetPosition(1); // 경고선의 끝 위치를 가져옵니다.
 
-                    LaserController laser = LaserController.Create(
+                    LaserController2 laser = LaserController2.Create(
                         weak3LaserData,
                         startPos,
                         null
@@ -652,7 +658,7 @@ public class Boss3 : MonoBehaviour
                         startPos += direction * laserOffset;
                     }
 
-                    LaserController laser = LaserController.Create(
+                    LaserController2 laser = LaserController2.Create(
                         weak3LaserData,
                         startPos,
                         null
@@ -807,12 +813,13 @@ public class Boss3 : MonoBehaviour
     {
         Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
-
+        #region 맵데이터
         float bottomBound = mapWidthPositions[0].position.y;
         float topBound = mapWidthPositions[1].position.y;
         float leftBound = mapWidthPositions[0].position.x;
         float rightBound = mapWidthPositions[1].position.x;
         float centerBound = (leftBound + rightBound) / 2;
+        #endregion
 
         transform.position = new Vector2(rightBound - 10, bottomBound + 4);
         FacePlayer();
@@ -823,16 +830,29 @@ public class Boss3 : MonoBehaviour
         {
             Debug.Log($"약공격5 - {patternCount + 1}번째 패턴");
 
-            // 10개의 랜덤 위치 선택
-            List<Transform> selectedPositions = new List<Transform>();
-            List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+            // 4개의 패턴 위치 배열 중 하나를 선택
+            Transform[] patternPositions;
+            int randomPatternIndex = Random.Range(0, 4);
 
-            for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
+            switch (randomPatternIndex)
             {
-                int randomIndex = Random.Range(0, availablePositions.Count);
-                selectedPositions.Add(availablePositions[randomIndex]);
-                availablePositions.RemoveAt(randomIndex);
+                case 0:
+                    patternPositions = pattern51Positions;
+                    break;
+                case 1:
+                    patternPositions = pattern52Positions;
+                    break;
+                case 2:
+                    patternPositions = pattern53Positions;
+                    break;
+                case 3:
+                default:
+                    patternPositions = pattern54Positions;
+                    break;
             }
+
+            // 선택한 패턴 위치 배열 사용
+            List<Transform> selectedPositions = new List<Transform>(patternPositions);
 
             // 모든 위치에 대한 경고 표시 동시 생성
             List<GameObject> warningObjects = new List<GameObject>();
@@ -996,14 +1016,14 @@ public class Boss3 : MonoBehaviour
         }
 
         // 가운데 3개의 레이저 생성 (3,4,5번째 구역)
-        LaserController[] lasers = new LaserController[3];
+        LaserController2[] lasers = new LaserController2[3];
         Vector2[] currentPositions = new Vector2[3];
 
         for (int i = 0; i < 3; i++)
         {
             currentPositions[i] = new Vector2(sectionPositions[i + 2], 0);
 
-            lasers[i] = LaserController.Create(
+            lasers[i] = LaserController2.Create(
                 enragedLaserData,
                 new Vector2(currentPositions[i].x, topBound),
                 null
@@ -1188,7 +1208,7 @@ public class Boss3 : MonoBehaviour
                 yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
                 Destroy(warningLine.gameObject);
 
-                LaserController laser = LaserController.Create(
+                LaserController2 laser = LaserController2.Create(
                     weak1LaserData,
                     startPosition,
                     null
@@ -1428,7 +1448,7 @@ public class Boss3 : MonoBehaviour
             {
                 // 10개의 랜덤 위치 선택
                 List<Transform> selectedPositions = new List<Transform>();
-                List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+                List<Transform> availablePositions = new List<Transform>(pattern51Positions);
 
                 for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
                 {
@@ -1603,7 +1623,7 @@ public class Boss3 : MonoBehaviour
 
                 // 10개의 랜덤 위치 선택
                 List<Transform> selectedPositions = new List<Transform>();
-                List<Transform> availablePositions = new List<Transform>(pattern5Positions);
+                List<Transform> availablePositions = new List<Transform>(pattern51Positions);
 
                 for (int i = 0; i < 10 && availablePositions.Count > 0; i++)
                 {
@@ -1845,7 +1865,7 @@ public class Boss3 : MonoBehaviour
         {
             foreach (var (startPos, endPos) in set)
             {
-                LaserController laser = LaserController.Create(
+                LaserController2 laser = LaserController2.Create(
                     desperate3LaserData,
                     startPos,
                     null
