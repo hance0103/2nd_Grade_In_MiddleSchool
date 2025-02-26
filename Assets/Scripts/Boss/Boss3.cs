@@ -37,7 +37,7 @@ public class Boss3 : MonoBehaviour
     private Dictionary<int, BossState[]> patternDic = new();
     private bool isDesEnr = false;
     private BossState currentState;
-    public Player player;
+    public GameObject player;
     private LaserController laserController;
     private ProjectileController projectileController;
 
@@ -48,6 +48,8 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private bool isDesperate = false;
     [Tooltip("그로기 시간 설정")]
     [SerializeField] private float groggyTime = 5f;
+    [Header("시작 전 카운트다운")]
+    [SerializeField] private float countDownBeforeStart = 2f;
     [Tooltip("맵 너비 계산")]
     [SerializeField] private Transform[] mapWidthPositions;
     [Tooltip("약공격 5 위치")]
@@ -99,18 +101,18 @@ public class Boss3 : MonoBehaviour
     void Start()
     {
         patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
+            BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
-            BossState.DesperatePattern1,
+            //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
             //BossState.DesperatePattern3
         });
 
-        StartCoroutine(Idle());
+        StartCoroutine(BeforeIdle());
     }
 
     void Update()
@@ -164,8 +166,31 @@ public class Boss3 : MonoBehaviour
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None);
+            yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
+            currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
+            currentCoroutine = null; // Idle 실행 조건
         }
+
+        yield return null;
+    }
+    public IEnumerator BeforeIdle()
+    {
+        // ī��Ʈ�ٿ�
+        for (float i = countDownBeforeStart; i > 0; i--)
+        {
+            //Debug.Log("ī��Ʈ�ٿ�: " + i);
+            yield return new WaitForSeconds(1f);
+        }
+        int patternNum = Random.Range(0, patternDic.Count);
+        BossState[] currentPattern = patternDic[patternNum];
+        for (int i = 0; i < currentPattern.Length; i++)
+        {
+            currentState = currentPattern[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
+            currentState = BossState.Idle;
+            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+        }
+
         yield return null;
     }
 

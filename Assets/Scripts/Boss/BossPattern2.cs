@@ -144,11 +144,16 @@ public class BossPattern2 : MonoBehaviour
         {
             StartCoroutine(Idle());
         }
+
+        if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        {
+            isEnraged = true;
+            animator.SetBool("isEnraged", true);
+            // ����ȭ ȿ��
+        }
     }
     public IEnumerator Idle() 
     {
-        yield return StartCoroutine(BeforeIdle());
-
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)

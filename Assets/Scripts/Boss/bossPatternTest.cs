@@ -155,8 +155,6 @@ public class bossPatternTest : MonoBehaviour
     }
     public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
     {
-        yield return StartCoroutine(BeforeIdle());
-
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
