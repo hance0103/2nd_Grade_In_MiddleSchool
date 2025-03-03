@@ -576,7 +576,7 @@ MonoBehaviour:
   ChatText: {fileID: 160148550}
   TextBox: {fileID: 927988856}
   ClosingTextPanel: {fileID: 196237602}
-  Player: {fileID: 0}
+  Player: {fileID: 1662229116}
   Boss: {fileID: 1463315024}
   CharacterPose: {fileID: 1160414317}
   Effect: {fileID: 0}
@@ -1506,7 +1506,7 @@ MonoBehaviour:
   SkipButton: {fileID: 619915670}
   OpenClosingText: {fileID: 0}
   Timer: {fileID: 1239949766}
-  Player: {fileID: 0}
+  Player: {fileID: 1662229116}
   Boss: {fileID: 1793914935}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
