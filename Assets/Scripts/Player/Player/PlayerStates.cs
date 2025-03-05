@@ -6,7 +6,10 @@ public class IdleState : IPlayerState
 
     public IdleState(PlayerController player) { this.player = player; }
 
-    public void Enter() => Debug.Log("Idle 상태 시작");
+    public void Enter()
+    { 
+        Debug.Log("Idle 상태 시작");
+    }
 
     public void Update()
     {
@@ -26,10 +29,13 @@ public class IdleState : IPlayerState
 public class MoveState : IPlayerState
 {
     private PlayerController player;
-
     public MoveState(PlayerController player) { this.player = player; }
 
-    public void Enter() => Debug.Log("Move 상태 시작");
+    public void Enter()
+    {
+        player.SetToBeforeSpeed();
+        Debug.Log("Move 상태 시작");
+    }
 
     public void Update()
     {
@@ -44,7 +50,7 @@ public class MoveState : IPlayerState
 
     public void Exit()
     {
-        player.SetMoveInput(0);
+        player.SaveBeforeSpeed();
         Debug.Log("Move 상태 종료");
     }
 
@@ -60,7 +66,6 @@ public class JumpState : IPlayerState
     public void Enter()
     {
         Debug.Log("Jump 상태 시작");
-
 
         player.StartJump();
     }
@@ -183,6 +188,7 @@ public class JumpAttackState : IPlayerState
     {
         Debug.Log("JumpAttack 상태 종료");
         player.EndJumpAttack();
+        player.ResetMovement();
     }
     public override string ToString() => "JumpAttack";
 }

@@ -14,9 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSpeed = 5f;         // 최고 속도
     [SerializeField] private float moveAccel;
 
+    [SerializeField] private float beforeSpeed = 0;
     private float moveInput = 0f;
 
     [Header("Jump")]
+    [SerializeField] private float minChargeTime = 0.1f;
     [SerializeField] private float minJumpForce = 5f;  // 최소 점프 힘
     [SerializeField] private float maxJumpForce = 10f; // 최대 점프 힘
     [SerializeField] private float maxJumpHeight = 3f; // 최대 점프 높이
@@ -79,6 +81,10 @@ public class PlayerController : MonoBehaviour
     private float _jumpAttackObjY;
 
 
+    [Header("PlayerHit")]
+    [SerializeField]
+    private float bindTimer = 1f;
+
     public GameObject enemy;
 
 
@@ -104,32 +110,38 @@ public class PlayerController : MonoBehaviour
     {
         direction = GetInputDirection();
         stateMachine.Update();
+
+        ApplyMovement();
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerBind();
+        }
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+        
     }
-
     private void ApplyMovement()
     {
         if (stateMachine.GetCurrentState() is DashState || stateMachine.GetCurrentState() is JumpAttackState) return;
         if (moveInput != 0)
         {
+            if (beforeSpeed != 0)
+            {
+                Debug.Log("속도 복구");
+                SetToBeforeSpeed();
+            }
             nowSpeed += moveAccel * Time.deltaTime;
             nowSpeed = Mathf.Min(nowSpeed, maxSpeed);
-            if (moveInput < 0)
-            {
-                sprite.flipX = true;
-            }
-            else
-            {
-                sprite.flipX = false;
-            }
+
+            sprite.flipX = moveInput < 0;
         }
         else
         {
             nowSpeed = 0;
+            beforeSpeed = 0;
         }
 
         Vector3 movement = new Vector3(moveInput * nowSpeed * Time.deltaTime, 0, 0);
@@ -140,9 +152,27 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = input;
     }
-
+    public void ResetMovement()
+    {
+        nowSpeed = 0;
+        moveInput = 0;
+    }
+    public void SaveBeforeSpeed()
+    {
+        beforeSpeed = nowSpeed;
+        Debug.Log($"속도{beforeSpeed}저장");
+    }
+    public void SetToBeforeSpeed()
+    {
+        nowSpeed = beforeSpeed;
+    }
+    public void ResetBeforeSpeed()
+    {
+        beforeSpeed = 0;
+    }
     public void StartJump()
     {
+        // 점프 대시 이후 점프 초기화 안되게
         if (stateMachine.GetPreviousState() is DashState)
         {
             Debug.Log("대시 후 점프 불가");
@@ -150,6 +180,8 @@ public class PlayerController : MonoBehaviour
             canJump = false;
             return;
         }
+
+
 
         if (!isJumping)
         {
@@ -163,8 +195,8 @@ public class PlayerController : MonoBehaviour
 
     public void ChargeJump()
     {
-        if (!isJumping) return;
-        if (!canJump) return;
+        if (!isJumping || !canJump) return;
+
         jumpTimer += Time.deltaTime;
 
         if (transform.position.y - jumpStartY >= maxJumpHeight)
@@ -173,8 +205,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float jumpForce = Mathf.Lerp(minJumpForce, maxJumpForce, jumpTimer / maxChargeTime);
-        Jump(jumpForce);
+        Jump(Mathf.Lerp(minJumpForce, maxJumpForce, jumpTimer / maxChargeTime));
     }
 
     public void ReleaseJump()
@@ -182,6 +213,10 @@ public class PlayerController : MonoBehaviour
         if (!isJumping) return;
 
         spaceReleased = true;
+
+
+        Jump(jumpTimer < minChargeTime ? minJumpForce : rb.velocity.y);
+
         isJumping = false;
     }
 
@@ -411,6 +446,27 @@ public class PlayerController : MonoBehaviour
     //{
     //    return rb.velocity.y == 0;
     //}
+
+    public void PlayerBind()
+    {
+        StartCoroutine(PlayerStop());
+    }
+    IEnumerator PlayerStop()
+    {
+        Debug.Log("바인드");
+        float bindCounter = 0f;
+        rb.isKinematic = true;
+        while (bindCounter <= bindTimer)
+        {
+            Debug.Log("바인드 진행중");
+            moveInput = 0;
+            rb.velocity = Vector2.zero;
+            bindCounter += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("바인드 끝");
+        rb.isKinematic = false;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
