@@ -87,6 +87,12 @@ public class BossPattern2 : MonoBehaviour
     [SerializeField] private GameObject rainProjectile; // 하늘에서 떨어지는 투사체 프리팹
 
     private Animator animator;
+
+    private BossHPManager bossHPManager; // BossHPManager ����
+    private bool shouldTriggerEnrage = false;
+    private bool isEnrageTriggered = false;
+    private bool isDead = false;
+
     #endregion
 
     void Start()
@@ -110,6 +116,15 @@ public class BossPattern2 : MonoBehaviour
    
     void Update()
     {
+        // 사망 조건 체크 - 최우선으로 처리
+        if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
+        {
+            isDead = true;
+            StartCoroutine(DeathEffect());
+            return; // 다른 업데이트 로직 실행 방지
+        }
+
+        #region 보스 상태 체크
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(WeakPattern1());
@@ -144,13 +159,31 @@ public class BossPattern2 : MonoBehaviour
         {
             StartCoroutine(Idle());
         }
+        #endregion
 
+        #region 광폭화 체크
         if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             isEnraged = true;
             animator.SetBool("isEnraged", true);
             // ����ȭ ȿ��
         }
+        
+        // 광폭화 조건 확인 - 체력이 50% 이하일 때
+        if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        {
+            isEnrageTriggered = true; // 한 번만 트리거되도록 설정
+            shouldTriggerEnrage = true;
+            Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
+        }
+
+        // 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
+        if (shouldTriggerEnrage && currentState == BossState.None && currentCoroutine == null)
+        {
+            shouldTriggerEnrage = false;
+            StartCoroutine(EnrageEffect(transform.position, player.transform.position));
+        }
+        #endregion
     }
     public IEnumerator Idle() 
     {
@@ -574,6 +607,110 @@ public class BossPattern2 : MonoBehaviour
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
+    }
+    #endregion
+
+    #region 광폭화 연출
+    private IEnumerator EnrageEffect(Vector2 bossPosition, Vector2 staticPlayerPosition)
+    {
+        Debug.Log("보스 광폭화 효과 시작!");
+
+        // 보스 상태를 None으로 설정하여 다른 패턴이 시작되지 않도록 함
+        currentState = BossState.None;
+
+        // 광폭화 애니메이션 및 효과 실행
+        //animator.SetTrigger("EnrageStart");
+        isEnraged = true;
+        //animator.SetBool("isEnraged", true);
+
+        // 여기에 광폭화 효과 로직 추가
+        // - 카메라 흔들림, 파티클, 사운드 등
+
+        // 광폭화 연출 시간 동안 대기
+        //yield return new WaitForSeconds(3.0f); // 필요에 따라 시간 조정
+
+        Debug.Log("보스 광폭화 효과 완료!");
+
+        // 광폭화 효과 후 Idle 상태로 전환
+        currentState = BossState.Idle;
+        currentCoroutine = null;
+        yield return null;
+    }
+    #endregion
+
+    #region 데스 연출
+    private IEnumerator DeathEffect()
+    {
+        Debug.Log("보스 사망 효과 시작!");
+
+        // 진행 중인 모든 코루틴 중지
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
+
+        // 모든 진행 중인 코루틴 중지 (패턴 포함)
+        StopAllCoroutines();
+
+        // 보스 상태 설정
+        currentState = BossState.None;
+
+        // 모든 투사체 찾아서 제거
+        GameObject[] projectiles = GameObject.FindGameObjectsWithTag("BossProjectile");
+        foreach (GameObject projectile in projectiles)
+        {
+            Destroy(projectile);
+        }
+
+        // 레이저 컨트롤러가 있다면 모든 레이저 비활성화
+        DeactivateAllLasers();
+
+        // 사망 애니메이션
+
+        // 사망 사운드 
+
+        // 카메라 효과
+
+        // 사망 애니메이션/효과 지속 시간 동안 대기
+        yield return new WaitForSeconds(3.0f);
+
+        // 보스 오브젝트 비활성화 또는 제거 전 페이드 아웃 효과
+        //SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        //if (renderer != null)
+        //{
+        //    float duration = 1.5f;
+        //    float elapsed = 0;
+        //    Color startColor = renderer.color;
+
+        //    while (elapsed < duration)
+        //    {
+        //        elapsed += Time.deltaTime;
+        //        float normalizedTime = elapsed / duration;
+        //        renderer.color = new Color(startColor.r, startColor.g, startColor.b, Mathf.Lerp(1, 0, normalizedTime));
+        //        yield return null;
+        //    }
+        //}
+
+        // 보스 오브젝트 제거
+        //Destroy(gameObject);
+
+        yield return null;
+    }
+
+    public void DeactivateAllLasers()
+    {
+        LaserController[] laserControllers = FindObjectsOfType<LaserController>();
+        foreach (LaserController laser in laserControllers)
+        {
+            laser.DeactivateLaser();
+        }
+
+        LaserController2[] laserControllers2 = FindObjectsOfType<LaserController2>();
+        foreach (LaserController2 laser in laserControllers2)
+        {
+            laser.DeactivateLaser();
+        }
     }
     #endregion
 

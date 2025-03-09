@@ -7,31 +7,31 @@ using TMPro;
 
 public class BossHPManager : MonoBehaviour
 {
-    //º¸½º hp¸¦ ÂüÁ¶ÇÏ´Â °÷ÀÌ ¸¹À¸¹Ç·Î Á¢±ÙÇÏ±â ½±°Ô ½Ì±ÛÅæÀ¸·Î ±¸Çö, ¾À ÀÌµ¿½Ã ÃÊ±âÈ­
+    //ë³´ìŠ¤ hpë¥¼ ì°¸ì¡°í•˜ëŠ” ê³³ì´ ë§ìœ¼ë¯€ë¡œ ì ‘ê·¼í•˜ê¸° ì‰½ê²Œ ì‹±ê¸€í†¤ìœ¼ë¡œ êµ¬í˜„, ì”¬ ì´ë™ì‹œ ì´ˆê¸°í™”
     public static BossHPManager Instance { get; private set; }
 
-    [Header("º¸½º HP ¼³Á¤")]
+    [Header("ë³´ìŠ¤ HP ì„¤ì •")]
     [SerializeField] public float maxHP = 100f;
-    [Header("º¸½º ÇöÀç HP")]
+    [Header("ë³´ìŠ¤ í˜„ì¬ HP")]
     public float currentHP;
-    [Header("½Â¸® ÅØ½ºÆ® ÀÔ·Â ÆË¾÷")]
+    [Header("ìŠ¹ë¦¬ í…ìŠ¤íŠ¸ ì…ë ¥ íŒì—…")]
     [SerializeField] private GameObject VictoryInputPopup;
     [SerializeField] private VictoryTextInputPopup victoryTextPopupScript;
-    [Header("±¤ÆøÈ­ ÆË¾÷")]
+    [Header("ê´‘í­í™” íŒì—…")]
     [SerializeField] private GameObject BossEnragePopup;
     [SerializeField] private BossEnragePopup BossEnragePopupScript;
-    [Header("º¸½º ¿ÀºêÁ§Æ®")]
+    [Header("ë³´ìŠ¤ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject Boss;
-    [Header("½ºÅ×ÀÌÁö")]
+    [Header("ìŠ¤í…Œì´ì§€")]
     [SerializeField] private int Stage;
-    [Header("Å¸ÀÌ¸Ó")]
+    [Header("íƒ€ì´ë¨¸")]
     [SerializeField] private GameObject Timer;
     
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
     private void Awake()
     {
-        // ½Ì±ÛÅæ ±âº» ±¸Çö
+        // ì‹±ê¸€í†¤ ê¸°ë³¸ êµ¬í˜„
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -39,8 +39,8 @@ public class BossHPManager : MonoBehaviour
         }
         Instance = this;
 
-        // ¾À ÀüÈ¯ ½Ã ÆÄ±«µÇµµ·Ï ¼³Á¤ 
-        // ½ÃÀÛ ½Ã HP ÃÊ±âÈ­
+        // ì”¬ ì „í™˜ ì‹œ íŒŒê´´ë˜ë„ë¡ ì„¤ì • 
+        // ì‹œì‘ ì‹œ HP ì´ˆê¸°í™”
         currentHP = maxHP;
     }
 
@@ -54,7 +54,7 @@ public class BossHPManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
-        Debug.Log($"º¸½º°¡ {damage} µ¥¹ÌÁö¸¦ ¹ŞÀ½. ³²Àº HP: {currentHP}");
+        Debug.Log($"ë³´ìŠ¤ê°€ {damage} ë°ë¯¸ì§€ë¥¼ ë°›ìŒ. ë‚¨ì€ HP: {currentHP}");
 
         if (Enrageactive && currentHP <= maxHP * 0.5f)
         {
@@ -94,35 +94,35 @@ public class BossHPManager : MonoBehaviour
     }
     private void BossDie1()
     {
-        Debug.Log("½ºÅ×ÀÌÁö 1 º¸½º°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ìŠ¤í…Œì´ì§€ 1 ë³´ìŠ¤ê°€ ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
         Timer.SetActive(false);
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ŞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆĞÅÏ ·çÆ¾ Á¾·á µî
+        // ë³´ìŠ¤ ì‚¬ë§ ì²˜ë¦¬ ë¡œì§ (ì• ë‹ˆë©”ì´ì…˜, ë“œë¡­ ì•„ì´í…œ ë“±)
+        // ì˜ˆ) ê²Œì„ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”, íŒ¨í„´ ë£¨í‹´ ì¢…ë£Œ ë“±
     }
     private void BossDie2()
     {
-        Debug.Log("½ºÅ×ÀÌÁö 2 º¸½º°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ìŠ¤í…Œì´ì§€ 2 ë³´ìŠ¤ê°€ ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage2OpenInputPanel();
         Timer.SetActive(false);
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ŞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆĞÅÏ ·çÆ¾ Á¾·á µî
+        // ë³´ìŠ¤ ì‚¬ë§ ì²˜ë¦¬ ë¡œì§ (ì• ë‹ˆë©”ì´ì…˜, ë“œë¡­ ì•„ì´í…œ ë“±)
+        // ì˜ˆ) ê²Œì„ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”, íŒ¨í„´ ë£¨í‹´ ì¢…ë£Œ ë“±
     }
     private void BossDie3()
     {
-        Debug.Log("½ºÅ×ÀÌÁö 3 º¸½º°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ìŠ¤í…Œì´ì§€ 3 ë³´ìŠ¤ê°€ ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage3OpenInputPanel();
         Timer.SetActive(false);
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ŞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆĞÅÏ ·çÆ¾ Á¾·á µî
+        // ë³´ìŠ¤ ì‚¬ë§ ì²˜ë¦¬ ë¡œì§ (ì• ë‹ˆë©”ì´ì…˜, ë“œë¡­ ì•„ì´í…œ ë“±)
+        // ì˜ˆ) ê²Œì„ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”, íŒ¨í„´ ë£¨í‹´ ì¢…ë£Œ ë“±
     }
 }

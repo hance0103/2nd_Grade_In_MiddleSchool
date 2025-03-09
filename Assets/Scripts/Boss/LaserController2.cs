@@ -158,5 +158,9 @@ public class LaserController2 : MonoBehaviour
             hpManager.TakeDamage(laserData.Damage);
         }
     }
+    public void DeactivateLaser()
+    {
+        gameObject.SetActive(false);
+    }
 }
 
