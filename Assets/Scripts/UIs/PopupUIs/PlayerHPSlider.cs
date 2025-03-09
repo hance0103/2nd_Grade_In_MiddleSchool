@@ -1,19 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHPSlider : MonoBehaviour
 {
-    [Header("ÇÃ·¹ÀÌ¾î HP ½½¶óÀÌ´õ")]
+    [Header("í”Œë ˆì´ì–´ HP ìŠ¬ë¼ì´ë”")]
     [SerializeField] private Slider PlayerHpSlider;
-
+    [SerializeField] private TMP_Text HPText;
     GameObject Player;
     private void Start()
     {
-        // ½½¶óÀÌ´õÀÇ MinValue, MaxValue¸¦ 0~1·Î ¸ÂÃß´Â °æ¿ì
+        // ìŠ¬ë¼ì´ë”ì˜ MinValue, MaxValueë¥¼ 0~1ë¡œ ë§ì¶”ëŠ” ê²½ìš°
         PlayerHpSlider.minValue = 0f;
         PlayerHpSlider.maxValue = 1f;
 
-        // ½ÃÀÛ ½Ã Ç®ÇÇ »óÅÂ
+        // ì‹œì‘ ì‹œ í’€í”¼ ìƒíƒœ
         PlayerHpSlider.value = 1f;
     }
     private void Awake()
@@ -25,17 +26,18 @@ public class PlayerHPSlider : MonoBehaviour
         if (Player == null)
         {
             Player = GameObject.Find("Player");
-            // Ã£Áö ¸øÇß´Ù¸é ´õ ÀÌ»ó ÁøÇàÇÒ ¼ö ¾øÀ¸´Ï return
+            // ì°¾ì§€ ëª»í–ˆë‹¤ë©´ ë” ì´ìƒ ì§„í–‰í•  ìˆ˜ ì—†ìœ¼ë‹ˆ return
             if (Player == null) return;
         }
-        // BossHPManager ½Ì±ÛÅæ¿¡¼­ HP Á¤º¸ °¡Á®¿À±â
+        // BossHPManager ì‹±ê¸€í†¤ì—ì„œ HP ì •ë³´ ê°€ì ¸ì˜¤ê¸°
         float currentHP = PlayerHPManager.Instance.GetCurrentHP();
         float maxHP = PlayerHPManager.Instance.GetMaxHP();
 
-        // ÇöÀç HP ºñÀ²À» 0~1·Î È¯»ê
+        // í˜„ì¬ HP ë¹„ìœ¨ì„ 0~1ë¡œ í™˜ì‚°
         float hpRatio = currentHP / maxHP;
 
-        // ½½¶óÀÌ´õÀÇ °ª °»½Å
+        // ìŠ¬ë¼ì´ë”ì˜ ê°’ ê°±ì‹ 
         PlayerHpSlider.value = hpRatio;
+        HPText.text = $"{(int)maxHP}/{(int)currentHP}";
     }
 }
