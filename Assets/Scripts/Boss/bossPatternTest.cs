@@ -38,6 +38,7 @@ public class bossPatternTest : MonoBehaviour
     private BossHPManager bossHPManager; // BossHPManager ����
     private bool shouldTriggerEnrage = false;
     private bool isEnrageTriggered = false;
+    private bool isDead = false;
 
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector���� ���� ����
@@ -118,7 +119,15 @@ public class bossPatternTest : MonoBehaviour
     void Update()
     {
         //ApplyContactDamage(); // Update���� ���� ������ ó��
+        // 사망 조건 체크 - 최우선으로 처리
+        if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
+        {
+            isDead = true;
+            StartCoroutine(DeathEffect());
+            return; // 다른 업데이트 로직 실행 방지
+        }
 
+        #region 패턴 실행
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(WeakPattern1Teleport());
@@ -143,12 +152,14 @@ public class bossPatternTest : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(StrongPattern2());
         }
-
+        
         if (currentState == BossState.Idle && currentCoroutine == null) // ������ ������ ������ �ٽ� Idle()������ ���� �����ϰ� ���ֱ�
         {
             StartCoroutine(Idle());
         }
-        
+        #endregion
+
+        #region 광폭화 체크
         if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             isEnraged = true;
@@ -170,6 +181,7 @@ public class bossPatternTest : MonoBehaviour
             shouldTriggerEnrage = false;
             StartCoroutine(EnrageEffect(transform.position, player.transform.position));
         }
+        #endregion
 
     }
     public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
@@ -875,6 +887,81 @@ public class bossPatternTest : MonoBehaviour
     }
     #endregion
 
+    #region 데스 연출
+    private IEnumerator DeathEffect()
+    {
+        Debug.Log("보스 사망 효과 시작!");
+
+        // 진행 중인 모든 코루틴 중지
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
+
+        // 모든 진행 중인 코루틴 중지 (패턴 포함)
+        StopAllCoroutines();
+
+        // 보스 상태 설정
+        currentState = BossState.None;
+
+        // 모든 투사체 찾아서 제거
+        GameObject[] projectiles = GameObject.FindGameObjectsWithTag("BossProjectile");
+        foreach (GameObject projectile in projectiles)
+        {
+            Destroy(projectile);
+        }
+
+        // 레이저 컨트롤러가 있다면 모든 레이저 비활성화
+        DeactivateAllLasers();
+
+        // 사망 애니메이션
+
+        // 사망 사운드 
+
+        // 카메라 효과
+
+        // 사망 애니메이션/효과 지속 시간 동안 대기
+        yield return new WaitForSeconds(3.0f);
+
+        // 보스 오브젝트 비활성화 또는 제거 전 페이드 아웃 효과
+        //SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        //if (renderer != null)
+        //{
+        //    float duration = 1.5f;
+        //    float elapsed = 0;
+        //    Color startColor = renderer.color;
+
+        //    while (elapsed < duration)
+        //    {
+        //        elapsed += Time.deltaTime;
+        //        float normalizedTime = elapsed / duration;
+        //        renderer.color = new Color(startColor.r, startColor.g, startColor.b, Mathf.Lerp(1, 0, normalizedTime));
+        //        yield return null;
+        //    }
+        //}
+
+        // 보스 오브젝트 제거
+        //Destroy(gameObject);
+
+        yield return null;
+    }
+
+    public void DeactivateAllLasers()
+    {
+        LaserController[] laserControllers = FindObjectsOfType<LaserController>();
+        foreach (LaserController laser in laserControllers)
+        {
+            laser.DeactivateLaser();
+        }
+
+        LaserController2[] laserControllers2 = FindObjectsOfType<LaserController2>();
+        foreach (LaserController2 laser in laserControllers2)
+        {
+            laser.DeactivateLaser();
+        }
+    }
+    #endregion
     private IEnumerator CreateStrikeEffect() // ���� ȿ�� ����
     {
         // ī�޶� ��鸲 ȿ�� (���� �����Ǿ� �ִٸ�)
@@ -989,7 +1076,7 @@ public class bossPatternTest : MonoBehaviour
 
     private Vector3 GetSafeTeleportPosition(Vector3 playerPos, Vector3 desiredOffset)
     {
-        // ���ʰ� ������ ��ġ ���
+        // 왼쪽과 오른쪽 위치 계산
         Vector3 leftPosition = new Vector3(
             playerPos.x - Mathf.Abs(desiredOffset.x),
             transform.position.y,
@@ -1006,60 +1093,55 @@ public class bossPatternTest : MonoBehaviour
         bool rightSafe = false;
         RaycastHit2D hit;
         float checkHeight = 10f;
-
-        // ����� ���� ǥ��
+        // 레이캐스트 경로 표시
         Debug.DrawRay(new Vector3(leftPosition.x, checkHeight, leftPosition.z), Vector2.down * checkHeight * 2, Color.red, 2f);
         Debug.DrawRay(new Vector3(rightPosition.x, checkHeight, rightPosition.z), Vector2.down * checkHeight * 2, Color.blue, 2f);
-
-        // ���̾��ũ ���� ����
+        // 레이어마스크 설정 준비
         int groundLayer = LayerMask.NameToLayer("Ground");
         int layerMask = 1 << groundLayer;
-
-        // ���� ��ġ üũ
+        // 왼쪽 위치 체크
         Vector2 leftRayStart = new Vector2(leftPosition.x, checkHeight);
         hit = Physics2D.Raycast(leftRayStart, Vector2.down, checkHeight * 2, layerMask);
         if (hit.collider != null)
         {
             leftSafe = true;
-            Debug.Log($"���� ����ĳ��Ʈ ��Ʈ: {hit.collider.name}, ���̾�: {hit.collider.gameObject.layer}");
+            Debug.Log($"왼쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
         }
         else
         {
-            Debug.Log("���� ����ĳ��Ʈ �̽�");
+            Debug.Log("왼쪽 레이캐스트 미스");
         }
-
-        // ������ ��ġ üũ
+        // 오른쪽 위치 체크
         Vector2 rightRayStart = new Vector2(rightPosition.x, checkHeight);
         hit = Physics2D.Raycast(rightRayStart, Vector2.down, checkHeight * 2, layerMask);
         if (hit.collider != null)
         {
             rightSafe = true;
-            Debug.Log($"������ ����ĳ��Ʈ ��Ʈ: {hit.collider.name}, ���̾�: {hit.collider.gameObject.layer}");
+            Debug.Log($"오른쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
         }
         else
         {
-            Debug.Log("������ ����ĳ��Ʈ �̽�");
+            Debug.Log("오른쪽 레이캐스트 미스");
         }
-
-        // ��� ��ȯ
+        // 결과 반환
         if (leftSafe && rightSafe)
         {
-            Debug.Log("���� ��� ����, ���� ����");
+            Debug.Log("양쪽 모두 안전, 랜덤 선택");
             return Random.value > 0.5f ? rightPosition : leftPosition;
         }
         else if (leftSafe)
         {
-            Debug.Log("���ʸ� ����");
+            Debug.Log("왼쪽만 안전");
             return leftPosition;
         }
         else if (rightSafe)
         {
-            Debug.Log("�����ʸ� ����");
+            Debug.Log("오른쪽만 안전");
             return rightPosition;
         }
         else
         {
-            Debug.Log("������ ��ġ ����, �÷��̾� ��ó�� �̵�");
+            Debug.Log("안전한 위치 없음, 플레이어 주변으로 이동");
             float safeOffset = 2f;
             return new Vector3(
                 playerPos.x + (Random.value > 0.5f ? safeOffset : -safeOffset),

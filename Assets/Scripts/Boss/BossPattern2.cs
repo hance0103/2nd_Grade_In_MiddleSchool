@@ -91,6 +91,7 @@ public class BossPattern2 : MonoBehaviour
     private BossHPManager bossHPManager; // BossHPManager ����
     private bool shouldTriggerEnrage = false;
     private bool isEnrageTriggered = false;
+    private bool isDead = false;
 
     #endregion
 
@@ -115,6 +116,15 @@ public class BossPattern2 : MonoBehaviour
    
     void Update()
     {
+        // 사망 조건 체크 - 최우선으로 처리
+        if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
+        {
+            isDead = true;
+            StartCoroutine(DeathEffect());
+            return; // 다른 업데이트 로직 실행 방지
+        }
+
+        #region 보스 상태 체크
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(WeakPattern1());
@@ -149,14 +159,16 @@ public class BossPattern2 : MonoBehaviour
         {
             StartCoroutine(Idle());
         }
+        #endregion
 
+        #region 광폭화 체크
         if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
             isEnraged = true;
             animator.SetBool("isEnraged", true);
             // ����ȭ ȿ��
         }
-
+        
         // 광폭화 조건 확인 - 체력이 50% 이하일 때
         if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
@@ -171,7 +183,7 @@ public class BossPattern2 : MonoBehaviour
             shouldTriggerEnrage = false;
             StartCoroutine(EnrageEffect(transform.position, player.transform.position));
         }
-
+        #endregion
     }
     public IEnumerator Idle() 
     {
@@ -626,6 +638,81 @@ public class BossPattern2 : MonoBehaviour
     }
     #endregion
 
+    #region 데스 연출
+    private IEnumerator DeathEffect()
+    {
+        Debug.Log("보스 사망 효과 시작!");
+
+        // 진행 중인 모든 코루틴 중지
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
+
+        // 모든 진행 중인 코루틴 중지 (패턴 포함)
+        StopAllCoroutines();
+
+        // 보스 상태 설정
+        currentState = BossState.None;
+
+        // 모든 투사체 찾아서 제거
+        GameObject[] projectiles = GameObject.FindGameObjectsWithTag("BossProjectile");
+        foreach (GameObject projectile in projectiles)
+        {
+            Destroy(projectile);
+        }
+
+        // 레이저 컨트롤러가 있다면 모든 레이저 비활성화
+        DeactivateAllLasers();
+
+        // 사망 애니메이션
+
+        // 사망 사운드 
+
+        // 카메라 효과
+
+        // 사망 애니메이션/효과 지속 시간 동안 대기
+        yield return new WaitForSeconds(3.0f);
+
+        // 보스 오브젝트 비활성화 또는 제거 전 페이드 아웃 효과
+        //SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        //if (renderer != null)
+        //{
+        //    float duration = 1.5f;
+        //    float elapsed = 0;
+        //    Color startColor = renderer.color;
+
+        //    while (elapsed < duration)
+        //    {
+        //        elapsed += Time.deltaTime;
+        //        float normalizedTime = elapsed / duration;
+        //        renderer.color = new Color(startColor.r, startColor.g, startColor.b, Mathf.Lerp(1, 0, normalizedTime));
+        //        yield return null;
+        //    }
+        //}
+
+        // 보스 오브젝트 제거
+        //Destroy(gameObject);
+
+        yield return null;
+    }
+
+    public void DeactivateAllLasers()
+    {
+        LaserController[] laserControllers = FindObjectsOfType<LaserController>();
+        foreach (LaserController laser in laserControllers)
+        {
+            laser.DeactivateLaser();
+        }
+
+        LaserController2[] laserControllers2 = FindObjectsOfType<LaserController2>();
+        foreach (LaserController2 laser in laserControllers2)
+        {
+            laser.DeactivateLaser();
+        }
+    }
+    #endregion
 
     private IEnumerator ExecutePoisonRain(ProjectileController poisonRainController)
     {

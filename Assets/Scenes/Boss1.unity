@@ -1328,7 +1328,7 @@ PrefabInstance:
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: BossEnragePopupScript
       value: 
-      objectReference: {fileID: 1981011062}
+      objectReference: {fileID: 0}
     - target: {fileID: 306969461706554809, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Size.x
       value: 9.213146
@@ -1438,9 +1438,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5052225282729758635, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1981011053}
-    - targetCorrespondingSourceObject: {fileID: 5052225282729758635, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1981011062}
   m_SourcePrefab: {fileID: 100100000, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
 --- !u!1 &1981011042 stripped
 GameObject:
@@ -1576,39 +1573,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1981011062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981011042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb2307d3aeeb8b043bee7e35d0f51300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stage: 0
-  Player: {fileID: 1124845070}
-  Boss: {fileID: 1981011042}
-  TopBar: {fileID: 0}
-  MiddleBar: {fileID: 0}
-  BottomBar: {fileID: 0}
-  TopText: {fileID: 0}
-  BottomText: {fileID: 0}
-  moveDuration1: 0.5
-  moveDuration2: 0.5
-  TextmoveDuration: 4
-  moveFastRight1: 1000
-  moveSlowRight1: 300
-  moveSlowLeft1: -300
-  moveFastRight2: 2000
-  moveFastLeft2: -2000
-  moveRight: 1000
-  moveLeft: -1000
-  waitBeforeClose: 3
-  blinkDuration: 4
-  blinkSpeed: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
