@@ -2134,7 +2134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage: 1
-  Player: {fileID: 0}
+  Player: {fileID: 1662229116}
   Boss: {fileID: 1793914935}
   TopBar: {fileID: 1627974906}
   MiddleBar: {fileID: 863223623}
