@@ -35,6 +35,9 @@ public class bossPatternTest : MonoBehaviour
     public GameObject player; // Player Ÿ���� ������ ������ ���� ��������
     private LaserController laserController; // LaserController ����
     private ProjectileController projectileController; // ProjectileController ����
+    private BossHPManager bossHPManager; // BossHPManager ����
+    private bool shouldTriggerEnrage = false;
+    private bool isEnrageTriggered = false;
 
     [Header("광폭화 T/F")]
     [SerializeField] private bool isEnraged = false; // Inspector���� ���� ����
@@ -81,7 +84,7 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private GameObject projectileEPrefab; 
 
     private Animator animator; // �ִϸ����� ���� �߰�
-                               //[SerializeField] private float rotationSpeed = 5f; // ������ �÷��̾ �ٶ󺸴� ȸ�� �ӵ�
+    //[SerializeField] private float rotationSpeed = 5f; // ������ �÷��̾ �ٶ󺸴� ȸ�� �ӵ�
 
     //// ������ ���� ������ ���� ����
     //[SerializeField] private float contactDamage = 10f;
@@ -102,7 +105,7 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        patternDic.Add(0, new BossState[] { BossState.StrongPattern2});
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1});
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
@@ -152,6 +155,22 @@ public class bossPatternTest : MonoBehaviour
             animator.SetBool("isEnraged", true);
             // ����ȭ ȿ��
         }
+
+        // 광폭화 조건 확인 - 체력이 50% 이하일 때
+        if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        {
+            isEnrageTriggered = true; // 한 번만 트리거되도록 설정
+            shouldTriggerEnrage = true;
+            Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
+        }
+
+        // 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
+        if (shouldTriggerEnrage && currentState == BossState.None && currentCoroutine == null)
+        {
+            shouldTriggerEnrage = false;
+            StartCoroutine(EnrageEffect(transform.position, player.transform.position));
+        }
+
     }
     public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
     {
@@ -825,6 +844,34 @@ public class bossPatternTest : MonoBehaviour
         {
             Destroy(safeZone);
         }
+    }
+    #endregion
+
+    #region 광폭화 연출
+    private IEnumerator EnrageEffect(Vector2 bossPosition, Vector2 staticPlayerPosition)
+    {
+        Debug.Log("보스 광폭화 효과 시작!");
+
+        // 보스 상태를 None으로 설정하여 다른 패턴이 시작되지 않도록 함
+        currentState = BossState.None;
+
+        // 광폭화 애니메이션 및 효과 실행
+        //animator.SetTrigger("EnrageStart");
+        isEnraged = true;
+        //animator.SetBool("isEnraged", true);
+
+        // 여기에 광폭화 효과 로직 추가
+        // - 카메라 흔들림, 파티클, 사운드 등
+
+        // 광폭화 연출 시간 동안 대기
+        //yield return new WaitForSeconds(3.0f); // 필요에 따라 시간 조정
+
+        Debug.Log("보스 광폭화 효과 완료!");
+
+        // 광폭화 효과 후 Idle 상태로 전환
+        currentState = BossState.Idle;
+        currentCoroutine = null;
+        yield return null;
     }
     #endregion
 
