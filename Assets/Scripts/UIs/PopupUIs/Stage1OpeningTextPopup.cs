@@ -12,6 +12,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
     public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
+    public GameObject ControllerPanel;  // 오프닝 스크립트 패널
     public GameObject TempPenal;
     public Button NextButton;
     public Button SkipButton;
@@ -226,6 +227,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     {
         
         OpeningTextPanel.SetActive(false); // 패널 비활성화
+        ControllerPanel.SetActive(true);
         isFirstTime1 = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
