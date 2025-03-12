@@ -16,8 +16,9 @@ MonoBehaviour:
   damage: 10
   laserSpeed: 1
   laserDuration: 1
+  laserSprite: Sprites/Laser/WP2_laser
   laserWidth: 4
-  laserColor: {r: 1, g: 0.90121305, b: 0.5330188, a: 1}
+  laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2

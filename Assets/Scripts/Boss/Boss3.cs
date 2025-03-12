@@ -107,18 +107,22 @@ public class Boss3 : MonoBehaviour
     private bool shouldTriggerEnrage = false;
     private bool isEnrageTriggered = false;
     private bool isDead = false;
-
+    Animator animator;
     #endregion
 
 
     void Start()
     {
+        animator = gameObject.GetComponent<Animator>();
+        if (isEnraged == true)
+            animator.SetBool("isEnraged", true);
+
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
-            BossState.WeakPattern5,
+            BossState.WeakPattern4,
+            //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -319,6 +323,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                    animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(startPosition, targetPosition));
                 }
 
@@ -351,6 +356,7 @@ public class Boss3 : MonoBehaviour
                     null
                 );
                 laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                animator.SetTrigger("isNormal");
                 yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
             }
             #endregion
@@ -613,7 +619,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak3LaserData.TargetLayer);
-
+                    animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(
                         startPos,
                         endPos // 경고선의 끝 위치로 발사
@@ -706,7 +712,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak3LaserData.TargetLayer);
-
+                    animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(
                         startPos,
                         startPos + direction * 20f
@@ -797,7 +803,7 @@ public class Boss3 : MonoBehaviour
 
             Destroy(warningObj);
             #endregion
-
+            animator.SetTrigger("isNormal");
             #region 폭발 프로젝타일 생성
             ProjectileController projectileController = ProjectileController.Create(
                 weak4ProjData,
@@ -833,7 +839,7 @@ public class Boss3 : MonoBehaviour
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
+            
             Destroy(projectile);
 
             if (attackCount < totalAttack - 1)
@@ -2057,8 +2063,8 @@ public class Boss3 : MonoBehaviour
         LineRenderer lineRenderer = dangerZoneObj.AddComponent<LineRenderer>();
 
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = laserData.LaserWidth;
-        lineRenderer.endWidth = laserData.LaserWidth;
+        lineRenderer.startWidth = laserData.LaserWidth*2;
+        lineRenderer.endWidth = laserData.LaserWidth*2;
 
         Color warningColor = new Color(1f, 0f, 0f, 0.5f);
         // 빨간색 반투명 material 설정
