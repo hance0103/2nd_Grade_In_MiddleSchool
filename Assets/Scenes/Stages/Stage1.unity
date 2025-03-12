@@ -1368,7 +1368,7 @@ PrefabInstance:
       objectReference: {fileID: 1662229116}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: isEnraged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: EnrangedLaserData
@@ -10327,7 +10327,7 @@ Transform:
   m_GameObject: {fileID: 1810874511}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.57, y: -3.25, z: -1.3625748}
+  m_LocalPosition: {x: 20.5273, y: -2.83, z: -1.3625748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

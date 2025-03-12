@@ -106,7 +106,7 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1});
+        patternDic.Add(0, new BossState[] { BossState.StrongPattern2});
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
@@ -649,28 +649,22 @@ public class bossPatternTest : MonoBehaviour
 
         // ������ ��ġ ����
         Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
-        Debug.Log("������2 �ڷ���Ʈ");
         SoundManager.Instance.EffectSoundOn("18");
         transform.position = selectedPosition.position;
         FacePlayer();
 
-        // ������ ���� ��ġ�� ��Ȯ�ϰ� ����
+        // 레이저 시작부분 조절
         Vector2 bossPosition = transform.position;
         Vector2 staticPlayerPosition = new Vector2(
             player.transform.position.x,
             bossPosition.y
         );
-
+        Vector2 direction = (bossPosition - staticPlayerPosition).normalized;
+        if(direction == Vector2.right)
+            bossPosition = bossPosition - new Vector2(0.7f, 0);
+        else
+            bossPosition = bossPosition - new Vector2(-0.7f, 0);
         yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
-
-        //if (isEnraged)
-        //{
-        //    yield return StartCoroutine(EnragedStrongPattern2(bossPosition));
-        //}
-        //else
-        //{
-        //    yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
-        //}
 
         currentState = BossState.None;
         currentCoroutine = null;
@@ -690,34 +684,61 @@ public class bossPatternTest : MonoBehaviour
         dangerZone.SetPosition(0, bossPosition);
         dangerZone.SetPosition(1, endPosition);
 
-        Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));     // �����̴� ȿ���� ����
+        Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));
 
         // ī��Ʈ�ٿ�
         Debug.Log("ī��Ʈ�ٿ� ����");
         animator.SetBool("isSP2", true);
         animator.SetBool("isPre", true);
         SoundManager.Instance.EffectSoundOn("16-1");
-        for (int i = 1; i <= strongPattern2Data.BeforeAttackDelay; i++)
+
+        Vector3 rightPositionMover = new Vector3(-3.5f, 0, 0);
+        Vector3 leftPositionMover = new Vector3(3.5f, 0, 0);
+        GameObject laserStart;
+        
+
+        // 레이저 시작 부분 애니메이션
+        if (direction == Vector2.right)
         {
-            yield return new WaitForSeconds(1f); // 1�ʾ� ī��Ʈ�ٿ�
+            laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - rightPositionMover, Quaternion.identity);
+            Debug.Log(direction);
+        }
+        else
+        {
+            laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
+            Debug.Log(direction);
         }
 
-        // ������ �ڷ�ƾ ���� �� �������� ǥ�� ����
+        SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
+        for (int i = 0; i <= strongPattern2Data.BeforeAttackDelay; i++)
+        {
+            laserStartSR.sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E{i}");
+            laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
+            laserStartSR.sortingOrder = -1;
+            yield return new WaitForSeconds(1f);
+        }
+        laserStartSR.sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E3");
+        laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
+
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
-        //�����ҷ�
 
         // 플레이어 멈추는 함수 넣는 위치
         // 여기
 
         animator.SetBool("isPre", false);
         yield return new WaitForSecondsRealtime(2f);
-        
-        // ����� ��ġ�� ����Ͽ� ������ �߻�
+
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
+
+        Debug.Log($"약공격 2 실행: {weakPattern2Data.PatternName}, 약공격2데미지: {weakPattern2Data.Damage}");
+        animator.SetBool("isPre", false);
         SoundManager.Instance.EffectSoundOn("16-2");
+
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
+
+        Destroy(laserStart);
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }
@@ -728,8 +749,6 @@ public class bossPatternTest : MonoBehaviour
         List<LaserController> activeLasers = new List<LaserController>();
         GameObject safeZone = null;
 
-
-        // ���� ��ġ ã��
         RaycastHit2D groundHit = Physics2D.Raycast(
             new Vector2(0, Camera.main.orthographicSize),
             Vector2.down,
@@ -743,17 +762,14 @@ public class bossPatternTest : MonoBehaviour
             yield break;
         }
 
-        // ���� ���� ���� (���麸�� �ణ ���� ��ġ)
         float groundY = groundHit.point.y;
         float safeZoneX = Random.Range(-9f, 20f);
         float safeZoneWidth = 3f;
         float safeZoneHeight = 5f;
-        float heightAboveGround = 1f; // �������κ����� �Ÿ�
+        float heightAboveGround = 1f;
 
-        // ���� ������ �߽��� Y ��ġ�� �������κ��� ������ ���� + heightAboveGround��ŭ ���� ����
         float safeZoneY = groundY + heightAboveGround + (safeZoneHeight / 2);
 
-        // ���� ���� ���� �� ���̸� ������ ��ġ ����
         safeZone = CreateSafeZoneVisual(new Vector2(safeZoneX, safeZoneY), safeZoneWidth, safeZoneHeight);
 
         if (safeZone != null)
