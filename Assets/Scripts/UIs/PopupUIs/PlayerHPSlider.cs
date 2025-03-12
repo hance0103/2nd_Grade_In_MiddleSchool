@@ -38,6 +38,6 @@ public class PlayerHPSlider : MonoBehaviour
 
         // 슬라이더의 값 갱신
         PlayerHpSlider.value = hpRatio;
-        HPText.text = $"{(int)maxHP}/{(int)currentHP}";
+        HPText.text = $"{(int)currentHP}/{(int)maxHP}";
     }
 }

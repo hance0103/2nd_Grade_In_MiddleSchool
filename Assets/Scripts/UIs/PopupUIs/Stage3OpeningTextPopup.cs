@@ -11,10 +11,11 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
     public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
-    public GameObject TempPenal;
+    public GameObject ControllerPanel;
     public Button NextButton;
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
+    public Image TimerBG;
 
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
@@ -215,11 +216,13 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     {
         OpeningTextPanel.SetActive(false); // 패널 비활성화
+        ControllerPanel.SetActive(true);
         isFirstTime3 = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
+        TimerBG.gameObject.SetActive(true);
         Time.timeScale = 1;
         Timer.SetActive(true);
         timer.TimeActive = true;

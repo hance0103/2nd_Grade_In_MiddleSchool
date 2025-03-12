@@ -11,10 +11,11 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public TMP_Text ChatText;      // 실제 채팅이 나오는 텍스트
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
     public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
-    public GameObject TempPenal;
+    public GameObject ControllerPanel;
     public Button NextButton;
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
+    public Image TimerBG;
 
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
@@ -210,6 +211,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     void CloseOpeningText()
     {
         OpeningTextPanel.SetActive(false); // 패널 비활성화
+        ControllerPanel.SetActive(true);
         isFirstTime2 = false;
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
@@ -217,6 +219,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         
         Time.timeScale = 1;
         Timer.SetActive(true);
+        TimerBG.gameObject.SetActive(true);
         timer.TimeActive = true;
         Player.SetActive(true);
         Boss.SetActive(true);

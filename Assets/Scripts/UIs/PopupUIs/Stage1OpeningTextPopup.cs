@@ -13,17 +13,17 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public TMP_Text CharacterName; // 캐릭터 이름이 나오는 텍스트
     public GameObject OpeningTextPanel;  // 오프닝 스크립트 패널
     public GameObject ControllerPanel;  // 오프닝 스크립트 패널
-    public GameObject TempPenal;
     public Button NextButton;
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
+    public Image TimerBG;
 
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject PlayerHP;
     [SerializeField] private GameObject Boss;
     [SerializeField] private GameObject BossHP;
-
+    
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public Image character1;
     public Image character2;
@@ -234,6 +234,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
         Timer.SetActive(true);
+        TimerBG.gameObject.SetActive(true);
         timer.TimeActive = true;
         Player.SetActive(true);
         Boss.SetActive(true);
