@@ -216,7 +216,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         Time.timeScale = 1f;
         var timer = FindObjectOfType<Timer>();
         // 타이머의 TimeActive 켜고, 코루틴 수동 실행
-        
+        timer.TimeActive = true;
         Time.timeScale = 1;
         Timer.SetActive(true);
         TimerBG.gameObject.SetActive(true);

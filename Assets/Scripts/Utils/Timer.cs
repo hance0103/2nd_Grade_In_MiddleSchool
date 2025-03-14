@@ -26,6 +26,7 @@ public class Timer : MonoBehaviour
         while (TimeActive)
         {
             curTime += Time.deltaTime;
+            
             minute = (int)curTime / 60;
             second = (int)curTime % 60;
             text.text = minute.ToString("00") + ":" + second.ToString("00");
@@ -34,13 +35,14 @@ public class Timer : MonoBehaviour
 
             if (!TimeActive)
             {
-                Debug.Log("½Ã°£ Á¾·á");
+                Debug.Log("ì‹œê°„ ì¢…ë£Œ");
                 Debug.Log(curTime);
                 curTime = 0;
                 yield break;
                 
             }
         }
+        
     }
     public float CurrentTime
     {

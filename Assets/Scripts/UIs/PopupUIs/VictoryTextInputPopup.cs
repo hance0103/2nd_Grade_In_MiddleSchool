@@ -7,6 +7,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TMP_InputField inputField; // TextMeshPro 버전
     [SerializeField] private Timer timer;
+    [SerializeField] public GameObject Controller;
     public GameObject FinishPanel;
     private string savedData;
 
@@ -25,7 +26,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     public void Stage1OpenInputPanel()
     {
         Time.timeScale = 0f; // 시간 정지
-        
+        Controller.SetActive(false);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
 
@@ -49,6 +50,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     public void Stage2OpenInputPanel()
     {
         Time.timeScale = 0f; // 시간 정지
+        Controller.SetActive(false);
         gameObject.SetActive(true);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
@@ -73,8 +75,9 @@ public class VictoryTextInputPopup : MonoBehaviour
 
     public void Stage3OpenInputPanel()
     {
-        Debug.Log("Stage1OpenInputPanel() 호출됨");
+        
         Time.timeScale = 0f; // 시간 정지
+        Controller.SetActive(false);
         gameObject.SetActive(true);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";

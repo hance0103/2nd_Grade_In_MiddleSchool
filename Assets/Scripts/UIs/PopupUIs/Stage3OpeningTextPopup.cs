@@ -224,7 +224,6 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         Timer.SetActive(true);
         TimerBG.gameObject.SetActive(true);
         Time.timeScale = 1;
-        Timer.SetActive(true);
         timer.TimeActive = true;
         Player.SetActive(true);
         Boss.SetActive(true);

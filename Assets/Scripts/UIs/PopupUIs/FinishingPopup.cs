@@ -17,8 +17,11 @@ public class FinishingPopup : MonoBehaviour
     [Header("캐릭터 스프라이트")]
     public GameObject CharacterPose;
 
-    [Header("피니시 이펙트")]
-    public GameObject Effect;         // 특수 이펙트 오브젝트 (예: 폭발, 일러 등)
+    
+    [Header("폭발 오브젝트들 (스프라이트 애니메이션 포함)")]
+    public GameObject explosionObject1;
+    public GameObject explosionObject2;
+    public GameObject explosionObject3;
     public GameObject BossPose1;
 
     [Header("피니시 연출 시간")]
@@ -85,11 +88,11 @@ public class FinishingPopup : MonoBehaviour
         TextBox.gameObject.SetActive(false);
         CharacterPose.gameObject.SetActive(false);
         // 대사 출력이 모두 끝나고 약간의 텀(연출용)
-        yield return new WaitForSeconds(3f);
-
+        StartCoroutine(ExplosionRoutine());
+        yield return new WaitForSeconds(3.6f);
         // 여기서 Player나 Boss의 애니메이터를 건드려서 마무리 연출 시작
         // 예: playerAnimator.SetTrigger("normalAttack");
-        
+
 
         // 특수 이펙트(이펙트 오브젝트 활성화, 사운드 재생 등)
         // Effect.SetActive(true);
@@ -106,9 +109,43 @@ public class FinishingPopup : MonoBehaviour
         CloseFinishing();
     }
 
-    /// <summary>
-    /// 지정된 문자열 narration을 duration초 동안 한 글자씩 타이핑하는 코루틴
-    /// </summary>
+    
+    IEnumerator ExplosionRoutine()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            // 1) 폭발 오브젝트들을 각각 랜덤 위치에 배치
+            explosionObject1.transform.position = GetRandomPosition();
+            explosionObject2.transform.position = GetRandomPosition();
+            explosionObject3.transform.position = GetRandomPosition();
+            
+            // 2) 활성화(애니메이션 시작)
+            explosionObject1.SetActive(true);
+            explosionObject2.SetActive(true);
+            explosionObject3.SetActive(true);
+
+            // 폭발 애니메이션이 재생되는 동안 기다림
+            // 예시: intervalTime 만큼
+            yield return new WaitForSeconds(0.6f);
+
+            // 3) 폭발 오브젝트 비활성화
+            explosionObject1.SetActive(false);
+            explosionObject2.SetActive(false);
+            explosionObject3.SetActive(false);
+
+            // 만약 한 번 터지고 사라진 뒤 잠시 텀을 두고 싶다면
+            // 추가로 시간 지연을 둘 수도 있음
+            // yield return new WaitForSeconds(0.2f); // 예시
+        }
+    }
+
+   
+    private Vector3 GetRandomPosition()
+    {
+        float randX = Random.Range(1300f, 1100f);
+        float randY = Random.Range(300f, 100f);
+        return new Vector3(randX, randY, 0f);
+    }
     IEnumerator TypingText(string narration, float duration)
     {
         ChatText.text = "";
