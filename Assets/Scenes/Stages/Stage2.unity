@@ -4097,7 +4097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &628864745
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8364,6 +8364,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1953349572}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: isEnraged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: rainSpaceWeak5
       value: 2

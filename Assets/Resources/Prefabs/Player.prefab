@@ -216,9 +216,9 @@ MonoBehaviour:
   maxSpeed: 12
   moveAccel: 30
   minJumpForce: 10
-  maxJumpForce: 12
-  maxJumpHeight: 3
-  maxChargeTime: 0.5
+  maxJumpForce: 10
+  maxJumpHeight: 2
+  maxChargeTime: 0.3
   dashDistance: 5
   dashBeforeDelay: 0.1
   dashDuration: 0.1

@@ -121,7 +121,7 @@ public class Boss3 : MonoBehaviour
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            BossState.WeakPattern4,
+            //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
