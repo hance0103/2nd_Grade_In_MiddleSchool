@@ -98,7 +98,7 @@ public class BossHPManager : MonoBehaviour
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
-        Timer.SetActive(false);
+        
         Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
@@ -109,7 +109,7 @@ public class BossHPManager : MonoBehaviour
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage2OpenInputPanel();
-        Timer.SetActive(false);
+        
         Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
@@ -120,7 +120,7 @@ public class BossHPManager : MonoBehaviour
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage3OpenInputPanel();
-        Timer.SetActive(false);
+        
         Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
