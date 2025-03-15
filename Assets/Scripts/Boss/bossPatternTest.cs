@@ -399,13 +399,10 @@ public class bossPatternTest : MonoBehaviour
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - leftPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
-            for (int i = 0; i < 4; i++)
-            {
-                laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart{i}");
-                laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
-            }
-            Debug.Log($"약공격 2 실행: {weakPattern2Data.PatternName}, 약공격2데미지: {weakPattern2Data.Damage}");
+            laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            //레이저 시작부분 크기 증가
+            yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(1.7f, 1.7f, 1f), weakPattern2Data.BeforeAttackDelay));
+
             laser = LaserController2.Create(weakLaserData, bossPosition, player.transform);
             animator.SetBool("isPre", false);
             SoundManager.Instance.EffectSoundOn("16-2");
@@ -427,13 +424,10 @@ public class bossPatternTest : MonoBehaviour
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
                 Debug.Log(direction);
             }
-            for (int i = 0; i < 4; i++)
-            {
-                laserStart.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E{i}");
-                laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                yield return new WaitForSeconds(weakPattern2Data.BeforeAttackDelay / 5f);
-            }
-            Debug.Log($"������ ���� ����. ����: {weakPattern2Data.PatternName}, ���ݷ�: {weakPattern2Data.Damage}");
+            laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            //레이저 시작부분 크기 증가
+            yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(1.7f, 1.7f, 1f), weakEnraged2Data.BeforeAttackDelay));
+
             laser = LaserController2.Create(EnragedWeakLaserData, bossPosition, player.transform);
             animator.SetBool("isPre", false);
             SoundManager.Instance.EffectSoundOn("16-2");
@@ -465,6 +459,23 @@ public class bossPatternTest : MonoBehaviour
         currentState = BossState.None;
         currentCoroutine = null;
         yield return null;
+    }
+
+    private IEnumerator ScaleUpSprite(Transform target, Vector3 targetScale, float duration)
+    {
+        Vector3 startScale = target.localScale;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            target.localScale = Vector3.Lerp(startScale, targetScale, t);
+            yield return null;
+        }
+
+        // 최종 크기를 정확히 맞춤
+        target.localScale = targetScale;
     }
     #endregion
 
@@ -714,17 +725,10 @@ public class bossPatternTest : MonoBehaviour
             laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
             Debug.Log(direction);
         }
-
-        SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
-        for (int i = 0; i <= strongPattern2Data.BeforeAttackDelay; i++)
-        {
-            laserStartSR.sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E{i}");
-            laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
-            laserStartSR.sortingOrder = -1;
-            yield return new WaitForSeconds(1f);
-        }
-        laserStartSR.sprite = Resources.Load<Sprite>($"Sprites/Laser/LaserStart_E3");
         laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
+        SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
+        yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(5.2f, 5.2f, 1f), weakPattern2Data.BeforeAttackDelay));
+        laserStartSR.sortingOrder = -1;
 
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (dangerZone != null) Destroy(dangerZone.gameObject);
