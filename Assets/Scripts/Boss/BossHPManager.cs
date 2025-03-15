@@ -94,34 +94,79 @@ public class BossHPManager : MonoBehaviour
     }
     private void BossDie1()
     {
+        // 1. Timer 컴포넌트를 찾아서
+        Timer timer = FindObjectOfType<Timer>();
+
+        if (timer != null)
+        {
+            // 2. TimeActive를 false로 변경하여 타이머 정지
+            timer.TimeActive = false;
+            Debug.Log(timer.curTime);
+            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
+            PlayerPrefs.SetFloat("FinalTime1", timer.curTime);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
+        }
         Debug.Log("스테이지 1 보스가 사망했습니다.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
         
-        Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
     }
     private void BossDie2()
     {
+        // 1. Timer 컴포넌트를 찾아서
+        Timer timer = FindObjectOfType<Timer>();
+
+        if (timer != null)
+        {
+            // 2. TimeActive를 false로 변경하여 타이머 정지
+            timer.TimeActive = false;
+            Debug.Log(timer.curTime);
+            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
+            PlayerPrefs.SetFloat("FinalTime2", timer.curTime);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
+        }
         Debug.Log("스테이지 2 보스가 사망했습니다.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage2OpenInputPanel();
         
-        Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
     }
     private void BossDie3()
     {
+        // 1. Timer 컴포넌트를 찾아서
+        Timer timer = FindObjectOfType<Timer>();
+
+        if (timer != null)
+        {
+            // 2. TimeActive를 false로 변경하여 타이머 정지
+            timer.TimeActive = false;
+            Debug.Log(timer.curTime);
+            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
+            PlayerPrefs.SetFloat("FinalTime3", timer.curTime);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
+        }
         Debug.Log("스테이지 3 보스가 사망했습니다.");
         Boss.SetActive(false);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage3OpenInputPanel();
         
-        Time.timeScale = 0f;
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
     }

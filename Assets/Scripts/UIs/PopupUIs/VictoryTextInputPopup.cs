@@ -25,79 +25,28 @@ public class VictoryTextInputPopup : MonoBehaviour
     /// </summary>
     public void Stage1OpenInputPanel()
     {
-        Time.timeScale = 0f; // 시간 정지
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
+        Timer.Destroy(timer);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
-
-        // 1. Timer 컴포넌트를 찾아서
-        Timer timer = FindObjectOfType<Timer>();
-
-        if (timer != null)
-        {
-            // 2. TimeActive를 false로 변경하여 타이머 정지
-            timer.TimeActive = false;
-            Debug.Log(timer.curTime);
-            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
-            PlayerPrefs.SetFloat("FinalTime1", timer.curTime);
-            PlayerPrefs.Save();
-        }
-        else
-        {
-            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
-        }
     }
     public void Stage2OpenInputPanel()
     {
-        Time.timeScale = 0f; // 시간 정지
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
-        gameObject.SetActive(true);
+        Timer.Destroy(timer);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
-
-        // 1. Timer 컴포넌트를 찾아서
-        Timer timer = FindObjectOfType<Timer>();
-
-        if (timer != null)
-        {
-            // 2. TimeActive를 false로 변경하여 타이머 정지
-            timer.TimeActive = false;
-            Debug.Log(timer.curTime);
-            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
-            PlayerPrefs.SetFloat("FinalTime2", timer.curTime);
-            PlayerPrefs.Save();
-        }
-        else
-        {
-            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
-        }
     }
 
     public void Stage3OpenInputPanel()
     {
-        
-        Time.timeScale = 0f; // 시간 정지
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
-        gameObject.SetActive(true);
+        Timer.Destroy(timer);
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
-
-        // 1. Timer 컴포넌트를 찾아서
-        Timer timer = FindObjectOfType<Timer>();
-
-        if (timer != null)
-        {
-            // 2. TimeActive를 false로 변경하여 타이머 정지
-            timer.TimeActive = false;
-            Debug.Log(timer.curTime);
-            // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
-            PlayerPrefs.SetFloat("FinalTime3", timer.curTime);
-            PlayerPrefs.Save();
-        }
-        else
-        {
-            Debug.LogWarning("Timer 스크립트를 찾을 수 없습니다!");
-        }
     }
     /// <summary>
     /// 확인/저장 버튼 기능 , 스테이지 별로 피니쉬 대사를 따로 적용할 수 있도록 구분해주기
@@ -110,7 +59,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         PlayerPrefs.Save();
         boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        ClosePanel();
     }
     public void Stage2SavePanel()
     {
@@ -217,13 +166,12 @@ public class VictoryTextInputPopup : MonoBehaviour
         Color finalColor = fadeImage.color;
         finalColor.a = 0f;
         fadeImage.color = finalColor;
-        ClosePanel();
+        inputField.gameObject.SetActive(true);
     }
 
    
     void ClosePanel()
     {
-
         gameObject.SetActive(false);
         FinishPanel.SetActive(true);
     }

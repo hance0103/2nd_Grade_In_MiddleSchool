@@ -87,23 +87,24 @@ public class FinishingPopup : MonoBehaviour
         ChatText.gameObject.SetActive(false);
         TextBox.gameObject.SetActive(false);
         CharacterPose.gameObject.SetActive(false);
-        // 대사 출력이 모두 끝나고 약간의 텀(연출용)
+       
+        bool isAtk = true;
+        Playeranimator.SetBool("IsNormalAttack", isAtk);
         StartCoroutine(ExplosionRoutine());
-        yield return new WaitForSeconds(3.6f);
-        // 여기서 Player나 Boss의 애니메이터를 건드려서 마무리 연출 시작
-        // 예: playerAnimator.SetTrigger("normalAttack");
+        yield return new WaitForSeconds(4.2f);
+        isAtk = false;
+        Playeranimator.SetBool("IsNormalAttack", isAtk);
 
 
         // 특수 이펙트(이펙트 오브젝트 활성화, 사운드 재생 등)
         // Effect.SetActive(true);
-        // SoundManager.Instance.EffectSoundOn("19"); // 마무리타 때리는 느낌의 사운드 등
+        // SoundManager.Instance.EffectSoundOn(""); // 마무리타 때리는 느낌의 사운드 등
 
-        // 보스 스프라이트에게 카메라 줌 인 연출
         // 보스 쓰러지는 애니메이터 추가 예정
         // 예: bossAnimator.SetTrigger("Death");
         GameManager.isFinishBossZoominAllowed = true;
         yield return new WaitForSeconds(FinishTime - 6f);
-        // (위에서 대사 3초 + 대사 끝 후 3초 + 카메라 보스에게 줌 인 연출 = 총합 10초)
+
 
         // 마지막으로 연출이 끝났을 때 화면 전환 또는 오브젝트 비활성화
         CloseFinishing();
@@ -118,28 +119,35 @@ public class FinishingPopup : MonoBehaviour
             explosionObject1.transform.position = GetRandomPosition();
             explosionObject2.transform.position = GetRandomPosition();
             explosionObject3.transform.position = GetRandomPosition();
-            
+
             // 2) 활성화(애니메이션 시작)
-            explosionObject1.SetActive(true);
-            explosionObject2.SetActive(true);
-            explosionObject3.SetActive(true);
-
-            // 폭발 애니메이션이 재생되는 동안 기다림
-            // 예시: intervalTime 만큼
-            yield return new WaitForSeconds(0.6f);
-
-            // 3) 폭발 오브젝트 비활성화
-            explosionObject1.SetActive(false);
-            explosionObject2.SetActive(false);
-            explosionObject3.SetActive(false);
-
-            // 만약 한 번 터지고 사라진 뒤 잠시 텀을 두고 싶다면
-            // 추가로 시간 지연을 둘 수도 있음
-            // yield return new WaitForSeconds(0.2f); // 예시
+            StartCoroutine(Explosion1());
+            yield return new WaitForSeconds(0.2f);
+            StartCoroutine(Explosion2());
+            yield return new WaitForSeconds(0.2f);
+            StartCoroutine(Explosion3());
+            yield return new WaitForSeconds(0.2f);
         }
     }
+    IEnumerator Explosion1()
+    {
+        explosionObject1.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        explosionObject1.SetActive(false);
+    }
+    IEnumerator Explosion2()
+    {
+        explosionObject2.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        explosionObject2.SetActive(false);
+    }
+    IEnumerator Explosion3()
+    {
+        explosionObject3.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        explosionObject3.SetActive(false);
+    }
 
-   
     private Vector3 GetRandomPosition()
     {
         float randX = Random.Range(1300f, 1100f);

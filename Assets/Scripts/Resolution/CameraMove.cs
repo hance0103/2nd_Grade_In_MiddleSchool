@@ -76,12 +76,12 @@ public class CameraMove : MonoBehaviour
             StartCoroutine(ZoomToBossCoroutine());
         }
         // ============ 보스 사망 체크 → 한 번만 이벤트 실행 ============
-        if (!isDieEventTriggered &&
-            BossHPManager.Instance.GetCurrentHP() == BossHPManager.Instance.GetMaxHP() * 0f)
-        {
-            isDieEventTriggered = true;
-            StartCoroutine(ZoomToPlayerCoroutine());
-        }
+        //if (!isDieEventTriggered &&
+        //    BossHPManager.Instance.GetCurrentHP() == BossHPManager.Instance.GetMaxHP() * 0f)
+        //{
+        //    isDieEventTriggered = true;
+        //    StartCoroutine(ZoomToPlayerCoroutine());
+        //}
         // 이벤트 중이면(줌 연출 코루틴 진행중) 평소의 카메라 따라가기 로직 중단
         if (isZooming)
         {

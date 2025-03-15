@@ -2467,7 +2467,9 @@ MonoBehaviour:
   Player: {fileID: 1953349572}
   Boss: {fileID: 392371907}
   CharacterPose: {fileID: 128083474}
-  Effect: {fileID: 0}
+  explosionObject1: {fileID: 0}
+  explosionObject2: {fileID: 0}
+  explosionObject3: {fileID: 0}
   BossPose1: {fileID: 0}
   FinishTime: 10
   Stage: 2
@@ -7209,6 +7211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 1374706811}
   timer: {fileID: 2098328243}
+  Controller: {fileID: 0}
   FinishPanel: {fileID: 376783850}
   fadeImage: {fileID: 49493442}
   fadeDuration: 1
@@ -11507,6 +11510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 1374706811}
   timer: {fileID: 2098328243}
+  Controller: {fileID: 1037712893}
   FinishPanel: {fileID: 376783850}
   fadeImage: {fileID: 49493442}
   fadeDuration: 1
