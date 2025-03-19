@@ -581,6 +581,7 @@ MonoBehaviour:
   ClosingTextPanel: {fileID: 196237602}
   Player: {fileID: 1662229116}
   Boss: {fileID: 1463315024}
+  oldBoss: {fileID: 1793914935}
   CharacterPose: {fileID: 1160414317}
   explosionObject1: {fileID: 790485826}
   explosionObject2: {fileID: 1488074386}
@@ -6234,7 +6235,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1662229124}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: StartDash
+        m_MethodName: OnClickDashButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10804,7 +10805,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1662229124}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: PlayerNormalAttack
+        m_MethodName: OnClickAttackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11376,7 +11377,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1963567882}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1662229124}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnClickJumpButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1963567882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11431,35 +11444,11 @@ MonoBehaviour:
   - eventID: 2
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1662229124}
-          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-          m_MethodName: OnJumpButtonDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - eventID: 3
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1662229124}
-          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-          m_MethodName: OnJumpButtonUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!1 &1980401267
 GameObject:
   m_ObjectHideFlags: 0

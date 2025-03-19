@@ -2566,6 +2566,7 @@ MonoBehaviour:
   ClosingTextPanel: {fileID: 124391814}
   Player: {fileID: 1953349572}
   Boss: {fileID: 392371907}
+  oldBoss: {fileID: 1582770697}
   CharacterPose: {fileID: 128083474}
   explosionObject1: {fileID: 91463145}
   explosionObject2: {fileID: 793440399}

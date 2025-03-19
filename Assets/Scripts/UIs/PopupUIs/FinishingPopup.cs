@@ -16,7 +16,7 @@ public class FinishingPopup : MonoBehaviour
     [SerializeField] private GameObject Boss;
 
     [Header("기존 보스 오브젝트")]
-    [SerializeField] private GameObject oldBoss;
+    [SerializeField] private GameObject oldBoss; // 기존 보스 지우기용
 
     [Header("캐릭터 스프라이트")]
     public GameObject CharacterPose;
@@ -105,7 +105,7 @@ public class FinishingPopup : MonoBehaviour
         Playeranimator.SetBool("IsNormalAttack", isAtk);
         //StartCoroutine(ExplosionRoutine());
         StartCoroutine(SendFlyingText(narration, totalTypingDuration));
-        yield return new WaitForSeconds(4.8f);
+        yield return new WaitForSeconds(5.2f);
         isAtk = false;
         Playeranimator.SetBool("IsNormalAttack", isAtk);
 
@@ -140,7 +140,7 @@ public class FinishingPopup : MonoBehaviour
     }
     IEnumerator SpawnAndMoveLetter(string letter)
     {
-        // 1) 글자 프리팹 생성 (플레이어 위치에서)
+        // 글자 프리팹 생성 (플레이어 위치에서)
         GameObject letterObj = Instantiate(letterPrefab, UI.transform);
         letterObj.transform.SetParent(UI.transform, false);
         RectTransform letterRect = letterObj.GetComponent<RectTransform>();
@@ -150,7 +150,7 @@ public class FinishingPopup : MonoBehaviour
         // 초기 위치 지정
         letterRect.anchoredPosition = startScreenPos;
 
-        // 4) 텍스트 설정
+        // 텍스트 설정
         TMP_Text letterTMP = letterObj.GetComponentInChildren<TMP_Text>();
         if (letterTMP != null)
         {
@@ -175,12 +175,12 @@ public class FinishingPopup : MonoBehaviour
     {
         for (int i = 0; i < 7; i++)
         {
-            // 1) 폭발 오브젝트들을 각각 랜덤 위치에 배치
+            // 폭발 오브젝트들을 각각 랜덤 위치에 배치
             explosionObject1.transform.position = GetRandomPosition();
             explosionObject2.transform.position = GetRandomPosition();
             explosionObject3.transform.position = GetRandomPosition();
 
-            // 2) 활성화(애니메이션 시작)
+            // 활성화(애니메이션 시작)
             StartCoroutine(Explosion1());
             yield return new WaitForSeconds(0.2f);
             StartCoroutine(Explosion2());
