@@ -586,6 +586,10 @@ MonoBehaviour:
   explosionObject2: {fileID: 1488074386}
   explosionObject3: {fileID: 252328008}
   BossPose1: {fileID: 0}
+  startPosition: {x: -18, y: -10, z: 0}
+  endPosition: {x: -2, y: -7, z: 0}
+  letterPrefab: {fileID: 4408722047587706453, guid: 2ee98c49cfd8f8148ac5990e82ad05cf, type: 3}
+  UI: {fileID: 904183009}
   FinishTime: 10
   Stage: 1
 --- !u!1 &128768944

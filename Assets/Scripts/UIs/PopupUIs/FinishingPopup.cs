@@ -15,6 +15,9 @@ public class FinishingPopup : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Boss;
 
+    [Header("기존 보스 오브젝트")]
+    [SerializeField] private GameObject oldBoss;
+
     [Header("캐릭터 스프라이트")]
     public GameObject CharacterPose;
 
@@ -25,11 +28,12 @@ public class FinishingPopup : MonoBehaviour
     public GameObject explosionObject3;
     public GameObject BossPose1;
 
-    [Header("텍스트 생성 관련")]
-    public Transform playerTextSpawnPos;   
-    public Transform bossTextEndPos;       
-    public GameObject letterPrefab;
-    public Canvas UI;
+    [Header("텍스트 연출")]
+    public Vector3 startPosition = new Vector3(-4.0f, -2.5f, 0f);  // 출발 지점
+    public Vector3 endPosition = new Vector3(6.5f, -1.5f, 0f);   // 도착 지점
+    public GameObject letterPrefab;       // 텍스트 생성 인스턴스 프리팹
+    public Canvas UI;                     // 텍스트 띄울 캔버스
+
     [Header("피니시 연출 시간")]
     public float FinishTime = 10f;    // 전체 연출 시간(예상 10초)
 
@@ -75,9 +79,10 @@ public class FinishingPopup : MonoBehaviour
     }
 
     
-    private float totalTypingDuration = 3f; // 대사가 완전히 출력되는 데 걸리는 시간 (3초)
+    private float totalTypingDuration = 5f; // 대사가 완전히 출력되는 데 걸리는 시간 (5초)
     IEnumerator OpenText(string narration)
     {
+        oldBoss.SetActive(false);
         Boss.SetActive(true);
         if (Boss != null)
         {
@@ -89,7 +94,7 @@ public class FinishingPopup : MonoBehaviour
 
         // 대사를 3초에 걸쳐 천천히 타이핑
         //yield return StartCoroutine(TypingText(narration, totalTypingDuration));
-        yield return StartCoroutine(SendFlyingText(narration, totalTypingDuration));
+        //yield return StartCoroutine(SendFlyingText(narration, totalTypingDuration));
 
         // 대화창 비활성화
         ChatText.gameObject.SetActive(false);
@@ -98,8 +103,9 @@ public class FinishingPopup : MonoBehaviour
        
         bool isAtk = true;
         Playeranimator.SetBool("IsNormalAttack", isAtk);
-        StartCoroutine(ExplosionRoutine());
-        yield return new WaitForSeconds(4.2f);
+        //StartCoroutine(ExplosionRoutine());
+        StartCoroutine(SendFlyingText(narration, totalTypingDuration));
+        yield return new WaitForSeconds(4.8f);
         isAtk = false;
         Playeranimator.SetBool("IsNormalAttack", isAtk);
 
@@ -119,6 +125,7 @@ public class FinishingPopup : MonoBehaviour
     }
     IEnumerator SendFlyingText(string narration, float duration)
     {
+        StartCoroutine(ExplosionRoutine());
         // 글자 총 길이에 따라 각 글자 생성 간격
         float timePerChar = duration / narration.Length;
 
@@ -134,20 +141,21 @@ public class FinishingPopup : MonoBehaviour
     IEnumerator SpawnAndMoveLetter(string letter)
     {
         // 1) 글자 프리팹 생성 (플레이어 위치에서)
-        GameObject letterObj = Instantiate(letterPrefab, playerTextSpawnPos.position, Quaternion.identity);
+        GameObject letterObj = Instantiate(letterPrefab, UI.transform);
         letterObj.transform.SetParent(UI.transform, false);
         RectTransform letterRect = letterObj.GetComponent<RectTransform>();
-        Vector3 startScreenPos = Camera.main.WorldToScreenPoint(playerTextSpawnPos.position);
+        Vector3 startScreenPos = Camera.main.WorldToScreenPoint(startPosition);
+        Vector3 endScreenPos = Camera.main.WorldToScreenPoint(endPosition);
+
+        // 초기 위치 지정
         letterRect.anchoredPosition = startScreenPos;
-        // 2) 글자 세팅 (TMP_Text가 프리팹에 들어있다고 가정)
+
+        // 4) 텍스트 설정
         TMP_Text letterTMP = letterObj.GetComponentInChildren<TMP_Text>();
         if (letterTMP != null)
         {
             letterTMP.text = letter;
         }
-
-        // 3) 보스 위치까지 이동
-        Vector3 endScreenPos = Camera.main.WorldToScreenPoint(bossTextEndPos.position);
 
         float moveTime = 0.8f;
         float elapsed = 0f;
@@ -160,11 +168,12 @@ public class FinishingPopup : MonoBehaviour
             letterRect.anchoredPosition = currentPos;
             yield return null;
         }
+        letterObj.SetActive(false);
     }
 
     IEnumerator ExplosionRoutine()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 7; i++)
         {
             // 1) 폭발 오브젝트들을 각각 랜덤 위치에 배치
             explosionObject1.transform.position = GetRandomPosition();

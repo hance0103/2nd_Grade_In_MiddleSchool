@@ -70,6 +70,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        ClosePanel();
     }
     public void Stage3SavePanel()
     {
@@ -81,6 +82,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        ClosePanel();
     }
     /// <summary>
     /// 페이드 아웃 → Player/Boss 재배치·활성화 → 페이드 인 → 게임 재시작
