@@ -197,7 +197,7 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
-
+    #region 안쓰는 ExecuteWeakPattern5Rain
     /*public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
     {
         // 맵을 14등분
@@ -300,6 +300,7 @@ public class ProjectileController : MonoBehaviour
         yield return new WaitForSeconds(1f); // 모든 프로젝타일이 사라질 때까지 추가 대기
         Destroy(gameObject); // 컨트롤러 제거
     }*/
+    #endregion
 
     public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
     {
@@ -484,12 +485,16 @@ public class ProjectileController : MonoBehaviour
         float destroyY = -10f;
         Vector2 moveDirection = Vector2.down;
         float moveSpeed = projectileData.ProjectileSpeed;
+        float rotationSpeed = 180f; // 초당 회전 각도 (시계방향은 양수)
 
         while (projectile != null && projectile.activeInHierarchy)
         {
             if (projectile == null) break;  // 추가 null 체크
-
+            // 아래로 이동
             projectile.transform.position += (Vector3)(moveDirection * moveSpeed * Time.deltaTime);
+
+            // 시계방향으로 회전 (Z축 기준 음수 회전이 시계방향)
+            projectile.transform.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
 
             if (projectile.transform.position.y <= destroyY)
             {
