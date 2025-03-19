@@ -110,8 +110,8 @@ public class bossPatternTest : MonoBehaviour
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            //BossState.StrongPattern1,
-            BossState.StrongPattern2
+            BossState.StrongPattern1,
+            //BossState.StrongPattern2
         });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
@@ -485,17 +485,17 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("�����3");
         currentState = BossState.WeakPattern3;
 
-        // �߷� ���� ���� �� �ӵ� �ʱ�ȭ
+        // 중력 설정 제거 및 속도 초기화
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
 
-        // ���� Ƚ�� ���� (����ȭ ���¿� ����)
+        // 공격 횟수 설정 (광폭화 상태에 따라)
         int attackCount = isEnraged ? 3 : 1;
 
         for (int strike = 0; strike < attackCount; strike++)
         {
-            // �÷��̾� ���� �ڷ���Ʈ
+            // 플레이어 위치 텔포
             float targetX = player.transform.position.x;
             Vector3 teleportPosition = new Vector3(targetX,
                 player.transform.position.y + weakPattern3Data.TeleportOffset.y,
@@ -504,12 +504,12 @@ public class bossPatternTest : MonoBehaviour
             SoundManager.Instance.EffectSoundOn("15");
             transform.position = teleportPosition;
             FacePlayer();
-            //�ִϸ��̼� ����
+            //애니메이션 재생
             animator.SetBool("isWP3", true);
 
             if (strike == 0)
             {
-                // ī��Ʈ�ٿ�
+                // 카운트다운
                 for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
                 {
                     Debug.Log("ī��Ʈ�ٿ�: " + i);
@@ -517,16 +517,16 @@ public class bossPatternTest : MonoBehaviour
                 }
             }
 
-            // ����ȭ ������ �� �����ð� ���
+            // 광폭화 상태일 때 대기시간 감소
             if (isEnraged)
             {
                 yield return new WaitForSeconds(0.2f);
             }
 
             rb.gravityScale = 1f;
-            bool hasDealtDamage = false;  // �ѹ��� ������ �����ϱ� ���� �÷���
+            bool hasDealtDamage = false;  // 한번만 데미지 적용하기 위한 플래그
 
-            // ���� ���� ���
+            // 보스 높이 측정
             Vector3 startPosition = transform.position;
             float bossHeight = GetComponent<Collider2D>()?.bounds.size.y ?? 1f;
 
@@ -540,7 +540,7 @@ public class bossPatternTest : MonoBehaviour
             float groundY = groundHit.collider != null ?
                 groundHit.point.y + (bossHeight / 2) : 0f;
 
-            // ������� ��� ����
+            // 내려찍기
             float elapsedTime = 0f;
             SoundManager.Instance.EffectSoundOn("15-3");
 
@@ -550,7 +550,7 @@ public class bossPatternTest : MonoBehaviour
                 float progress = elapsedTime / weakPattern3AttackDuration;
                 float easedProgress = 1 - Mathf.Pow(1 - progress, 3);  // ��¡ �������� �ڿ������� ���
 
-                // ���ο� ��ġ ���
+                // 이징 함수로 자연스러운 하강 표현
                 float currentY = Mathf.Lerp(startPosition.y, groundY, easedProgress);
                 Vector3 newPosition = new Vector3(targetX,
                     Mathf.Max(currentY, groundY),
@@ -579,11 +579,11 @@ public class bossPatternTest : MonoBehaviour
                 yield return null;
             }
 
-            // ���� Ÿ�� ����Ʈ
+            // 공격 타격 이펙트
             transform.position = new Vector3(targetX, groundY, transform.position.z);
             yield return StartCoroutine(CreateStrikeEffect());
 
-            // ���� ������ ���� ��� ��� (������ ������ �ƴ� ���)
+            // 연속 공격을 위한 부양 단계 (마지막 공격이 아닐 경우)
             if (strike < attackCount - 1)
             {
                 rb.gravityScale = 0f;
@@ -593,7 +593,7 @@ public class bossPatternTest : MonoBehaviour
 
                 yield return new WaitForSeconds(0.1f);
 
-                // �ε巯�� ��� ���
+                // 부드러운 상승 표현
                 while (elapsedTime < risingDuration)
                 {
                     elapsedTime += Time.deltaTime;
@@ -612,9 +612,9 @@ public class bossPatternTest : MonoBehaviour
             }
         }
 
-        // ���� ����
+        // 종료
         yield return new WaitForSeconds(weakPattern3Data.AfterAttackDelay);
-        //�ִϸ��̼� ����
+        //애니메이션 종료
         animator.SetBool("isWP3", false);
         currentState = BossState.None;
         currentCoroutine = null;
@@ -988,20 +988,46 @@ public class bossPatternTest : MonoBehaviour
         }
     }
     #endregion
-    private IEnumerator CreateStrikeEffect() // ���� ȿ�� ����
+
+    #region 약공 3 타격 효과
+    private IEnumerator CreateStrikeEffect() // 타격 효과 생성
     {
-        // ī�޶� ��鸲 ȿ�� (���� �����Ǿ� �ִٸ�)
-        //CameraShake.Instance.ShakeCamera(0.5f, 0.5f);
+        // 카메라 흔들림 효과 (직접 구현)
+        StartCoroutine(ShakeMainCamera(1.2f, 0.8f));
 
-        // �ٴ� ����Ʈ ���� (��ƼŬ �ý����� �ִٸ�)
-        //if (strikeEffectPrefab != null)
-        //{
-        //    Instantiate(strikeEffectPrefab, transform.position, Quaternion.identity);
-        //}
-
-        // ����� ����
+        // 잠시 대기
         yield return new WaitForSeconds(0.2f);
+
+        // 추가 약한 흔들림으로 여진 효과 생성
+        StartCoroutine(ShakeMainCamera(0.4f, 0.3f));
+
+        yield return new WaitForSeconds(0.1f);
     }
+
+    // 간단한 카메라 흔들림 구현
+    private IEnumerator ShakeMainCamera(float intensity, float duration)
+    {
+        Vector3 originalPos = Camera.main.transform.position;
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
+        {
+            float x = UnityEngine.Random.Range(-1f, 1f) * intensity;
+            float y = UnityEngine.Random.Range(-1f, 1f) * intensity;
+
+            Camera.main.transform.position = new Vector3(
+                originalPos.x + x,
+                originalPos.y + y,
+                originalPos.z
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Camera.main.transform.position = originalPos;
+    }
+    #endregion
 
     private void FacePlayer() // �ü�
     {

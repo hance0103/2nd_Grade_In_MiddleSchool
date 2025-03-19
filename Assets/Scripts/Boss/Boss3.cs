@@ -120,7 +120,7 @@ public class Boss3 : MonoBehaviour
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
@@ -682,43 +682,40 @@ public class Boss3 : MonoBehaviour
                     yield return null;
                 }
 
+                // 먼저 경고선 위치 정보를 저장
+                List<Vector2[]> laserPaths = new List<Vector2[]>();
+                foreach (var line in warningLines)
+                {
+                    laserPaths.Add(new Vector2[] { line.GetPosition(0), line.GetPosition(1) });
+                    Debug.Log($"저장된 경로: 시작={line.GetPosition(0)}, 끝={line.GetPosition(1)}");
+                }
+
                 // 경고선 제거
                 foreach (var line in warningLines)
                 {
                     Destroy(line.gameObject);
                 }
 
-                // 레이저 4방향 발사
-                float laserOffset = isPenetratingCross ? 0f : 2f;
-                Vector2[] laserDirections = new Vector2[]
+                // 저장된 정확한 위치로 레이저 발사
+                for (int i = 0; i < laserPaths.Count; i++)
                 {
-                    Vector2.up,
-                    Vector2.down,
-                    Vector2.right,
-                    Vector2.left
-                };
+                    Vector2 exactStartPos = laserPaths[i][0];
+                    Vector2 exactEndPos = laserPaths[i][1];
 
-                foreach (Vector2 direction in laserDirections)
-                {
-                    Vector2 startPos = fixedPosition;
-                    if (!isPenetratingCross)
-                    {
-                        startPos += direction * laserOffset;
-                    }
+                    Debug.Log($"레이저 {i} 발사: 시작={exactStartPos}, 끝={exactEndPos}");
 
                     LaserController2 laser = LaserController2.Create(
                         weak3LaserData,
-                        startPos,
+                        exactStartPos,
                         null
                     );
                     laser.SetTargetLayer(weak3LaserData.TargetLayer);
                     animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(
-                        startPos,
-                        startPos + direction * 20f
+                        exactStartPos,
+                        exactEndPos
                     ));
                 }
-
                 // 다음 공격 전 대기
                 yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
             }

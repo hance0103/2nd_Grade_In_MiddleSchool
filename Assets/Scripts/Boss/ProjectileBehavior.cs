@@ -28,13 +28,10 @@ public class ProjectileBehaviour : MonoBehaviour
 
         if (collision.CompareTag("Player")) // 플레이어와 충돌
         {
-            Player player = collision.GetComponent<Player>();
-            if (player != null)
-            {
-                SoundManager.Instance.EffectSoundOn("21");
-                Debug.Log($"플레이어 피격! 데미지: {damage}");
-                PlayerHPManager.Instance.TakeDamage(damage); // 실제 데미지 적용 로직
-            }
+            // Player 컴포넌트 체크 없이 바로 데미지 적용
+            SoundManager.Instance.EffectSoundOn("21");
+            Debug.Log($"플레이어 피격! 데미지: {damage}");
+            PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
             ReleaseProjectile();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") ||
