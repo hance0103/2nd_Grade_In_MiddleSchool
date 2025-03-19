@@ -117,6 +117,11 @@ public class PlayerController : MonoBehaviour
         {
             PlayerBind();
         }
+        // 누르고 있는 동안만 ChargeJump() 호출
+        if (isButtonPressed)
+        {
+            ChargeJump();
+        }
     }
 
     private void FixedUpdate()
@@ -170,6 +175,19 @@ public class PlayerController : MonoBehaviour
     {
         beforeSpeed = 0;
     }
+
+    public bool isButtonPressed = false;
+    public void OnJumpButtonDown() // PointerDown에 연결
+    {
+        isButtonPressed = true;
+        StartJump();
+    }
+
+    public void OnJumpButtonUp() // PointerUp에 연결
+    {
+        isButtonPressed = false;
+        ReleaseJump();
+    }
     public void StartJump()
     {
         // 점프 대시 이후 점프 초기화 안되게
@@ -180,8 +198,6 @@ public class PlayerController : MonoBehaviour
             canJump = false;
             return;
         }
-
-
 
         if (!isJumping)
         {

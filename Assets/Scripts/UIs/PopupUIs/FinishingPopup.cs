@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class FinishingPopup : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class FinishingPopup : MonoBehaviour
     public GameObject explosionObject3;
     public GameObject BossPose1;
 
+    [Header("텍스트 생성 관련")]
+    public Transform playerTextSpawnPos;   
+    public Transform bossTextEndPos;       
+    public GameObject letterPrefab;
+    public Canvas UI;
     [Header("피니시 연출 시간")]
     public float FinishTime = 10f;    // 전체 연출 시간(예상 10초)
 
@@ -82,7 +88,9 @@ public class FinishingPopup : MonoBehaviour
         // SoundManager.Instance.EffectSoundOn("18"); // 예시
 
         // 대사를 3초에 걸쳐 천천히 타이핑
-        yield return StartCoroutine(TypingText(narration, totalTypingDuration));
+        //yield return StartCoroutine(TypingText(narration, totalTypingDuration));
+        yield return StartCoroutine(SendFlyingText(narration, totalTypingDuration));
+
         // 대화창 비활성화
         ChatText.gameObject.SetActive(false);
         TextBox.gameObject.SetActive(false);
@@ -109,8 +117,51 @@ public class FinishingPopup : MonoBehaviour
         // 마지막으로 연출이 끝났을 때 화면 전환 또는 오브젝트 비활성화
         CloseFinishing();
     }
+    IEnumerator SendFlyingText(string narration, float duration)
+    {
+        // 글자 총 길이에 따라 각 글자 생성 간격
+        float timePerChar = duration / narration.Length;
 
-    
+        for (int i = 0; i < narration.Length; i++)
+        {
+            // 글자를 하나 생성해서 날리는 코루틴
+            StartCoroutine(SpawnAndMoveLetter(narration[i].ToString()));
+
+            // 다음 글자까지 대기 (타이핑 효과)
+            yield return new WaitForSeconds(timePerChar);
+        }
+    }
+    IEnumerator SpawnAndMoveLetter(string letter)
+    {
+        // 1) 글자 프리팹 생성 (플레이어 위치에서)
+        GameObject letterObj = Instantiate(letterPrefab, playerTextSpawnPos.position, Quaternion.identity);
+        letterObj.transform.SetParent(UI.transform, false);
+        RectTransform letterRect = letterObj.GetComponent<RectTransform>();
+        Vector3 startScreenPos = Camera.main.WorldToScreenPoint(playerTextSpawnPos.position);
+        letterRect.anchoredPosition = startScreenPos;
+        // 2) 글자 세팅 (TMP_Text가 프리팹에 들어있다고 가정)
+        TMP_Text letterTMP = letterObj.GetComponentInChildren<TMP_Text>();
+        if (letterTMP != null)
+        {
+            letterTMP.text = letter;
+        }
+
+        // 3) 보스 위치까지 이동
+        Vector3 endScreenPos = Camera.main.WorldToScreenPoint(bossTextEndPos.position);
+
+        float moveTime = 0.8f;
+        float elapsed = 0f;
+        while (elapsed < moveTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / moveTime;
+            // 시작~끝 스크린좌표를 Lerp, 그리고 RectTransform의 anchoredPosition에 대입
+            Vector3 currentPos = Vector3.Lerp(startScreenPos, endScreenPos, t);
+            letterRect.anchoredPosition = currentPos;
+            yield return null;
+        }
+    }
+
     IEnumerator ExplosionRoutine()
     {
         for (int i = 0; i < 6; i++)
