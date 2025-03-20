@@ -102,12 +102,12 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] { 
-            //BossState.WeakPattern1,
+            BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            BossState.WeakPattern5,
-            BossState.WeakPattern6
+            //BossState.WeakPattern5,
+            //BossState.WeakPattern6
         });
 
         if (isEnraged)
@@ -261,6 +261,7 @@ public class BossPattern2 : MonoBehaviour
         // 2. 레이저 경고선 표시 및 플레이어 추적
         Debug.Log("추적 경고선");
         LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+        warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
         StartCoroutine(BlinkDangerZone(warningLine)); // 깜빡임 효과 시작
 
         Vector2 fixedPlayerPos = Vector2.zero;
@@ -368,6 +369,7 @@ public class BossPattern2 : MonoBehaviour
 
             // 1. 경고선 생성 및 플레이어 추적
             LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+            warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
             StartCoroutine(BlinkDangerZone(warningLine));
 
             animator.SetBool("isPre", true);

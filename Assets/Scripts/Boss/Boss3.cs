@@ -118,11 +118,11 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
+            BossState.WeakPattern1,
+            BossState.WeakPattern2,
             BossState.WeakPattern3,
-            //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            BossState.WeakPattern4,
+            BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
