@@ -102,12 +102,13 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] { 
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            BossState.WeakPattern3,
+            //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
-            //BossState.WeakPattern6
+            //BossState.WeakPattern6,
+            BossState.Groggy
         });
 
         if (isEnraged)
@@ -158,6 +159,11 @@ public class BossPattern2 : MonoBehaviour
         if (currentState == BossState.WeakPattern6 && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(WeakPattern6());
+        }
+
+        if (currentState == BossState.Groggy && currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(GroggyState());
         }
 
         if (currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
@@ -738,14 +744,17 @@ public class BossPattern2 : MonoBehaviour
 
     public IEnumerator GroggyState()
     {
+        animator.SetTrigger("isGroggy");
         Debug.Log("그로기 상태");
         currentState = BossState.Groggy;
 
-        for (float i = groggyTime; i > 0; i--)
+        for (float i = groggyTime - 1; i > 0; i--)
         {
             Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
         }
+        animator.SetTrigger("isRecovery");
+        yield return new WaitForSeconds(1f);
 
         currentState = BossState.None;
         currentCoroutine = null;
