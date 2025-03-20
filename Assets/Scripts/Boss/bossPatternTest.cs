@@ -993,13 +993,13 @@ public class bossPatternTest : MonoBehaviour
     private IEnumerator CreateStrikeEffect() // 타격 효과 생성
     {
         // 카메라 흔들림 효과 (직접 구현)
-        StartCoroutine(ShakeMainCamera(1.2f, 0.8f));
+        StartCoroutine(ShakeMainCamera(0.2f, 0.2f));
 
         // 잠시 대기
         yield return new WaitForSeconds(0.2f);
 
         // 추가 약한 흔들림으로 여진 효과 생성
-        StartCoroutine(ShakeMainCamera(0.4f, 0.3f));
+        StartCoroutine(ShakeMainCamera(0.1f, 0.1f));
 
         yield return new WaitForSeconds(0.1f);
     }
