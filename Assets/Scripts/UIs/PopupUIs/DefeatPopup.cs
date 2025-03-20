@@ -28,6 +28,8 @@ public class DefeatPopup : MonoBehaviour
         "방심했구나..다음 번엔 봐주지 않겠다 "
     };
     [SerializeField] private TMP_Text displayText;
+    [Header("스테이지")]
+    [SerializeField] private int Stage;
     public void ShowRandomText1()
     {
         // 배열 범위 내에서 무작위 인덱스 선택
@@ -115,6 +117,18 @@ public class DefeatPopup : MonoBehaviour
     // 재시작 버튼 (게임 재시작)
     public void RestartGame()
     {
+        if (Stage == 1)
+        {
+            SoundManager.Instance.Stage1BgmOn();
+        }
+        if (Stage == 2)
+        {
+            SoundManager.Instance.Stage2BgmOn();
+        }
+        if (Stage == 3)
+        {
+            SoundManager.Instance.Stage3BgmOn();
+        }
         SoundManager.Instance.EffectSoundOn("3");
         gameObject.SetActive(false);
         Time.timeScale = 1f; // 시간 재개

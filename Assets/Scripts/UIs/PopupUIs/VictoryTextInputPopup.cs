@@ -27,7 +27,8 @@ public class VictoryTextInputPopup : MonoBehaviour
     {
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
-        Timer.Destroy(timer);
+        Timer timer = FindObjectOfType<Timer>();
+        timer.TimeActive = false;
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
     }
@@ -35,7 +36,8 @@ public class VictoryTextInputPopup : MonoBehaviour
     {
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
-        Timer.Destroy(timer);
+        Timer timer = FindObjectOfType<Timer>();
+        timer.TimeActive = false;
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
     }
@@ -44,7 +46,8 @@ public class VictoryTextInputPopup : MonoBehaviour
     {
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
-        Timer.Destroy(timer);
+        Timer timer = FindObjectOfType<Timer>();
+        timer.TimeActive = false;
         // 패널이 열릴 때 입력란 초기화
         inputField.text = "";
     }

@@ -5187,6 +5187,7 @@ MonoBehaviour:
   - "\uBC29\uC2EC\uD588\uAD6C\uB098..\uB2E4\uC74C \uBC88\uC5D4 \uBD10\uC8FC\uC9C0
     \uC54A\uACA0\uB2E4 "
   displayText: {fileID: 811944444}
+  Stage: 3
   displayDefeatTime: {fileID: 2016279352}
   curTime: 0
 --- !u!114 &921439962
@@ -8556,6 +8557,7 @@ MonoBehaviour:
   ChatText: {fileID: 851788875}
   TextBox: {fileID: 1619176818}
   ClosingTextPanel: {fileID: 578913974}
+  Timer: {fileID: 1101572429}
   Player: {fileID: 1953349572}
   Boss: {fileID: 1009866276}
   oldBoss: {fileID: 1129969030}
@@ -9768,7 +9770,6 @@ GameObject:
   - component: {fileID: 1493550034}
   - component: {fileID: 1493550033}
   - component: {fileID: 1493550032}
-  - component: {fileID: 1493550031}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -9795,43 +9796,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.5, y: -1.22}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1493550031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493550029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b7ee7aa6444bc94b924c19100359261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Defeattexts1:
-  - "\uB124\uB188 \uB54C\uBB38\uC5D0..\uC624\uB298\uB3C4 \uC9C0\uAC01\uC774\uAD6C\uB098.."
-  - "\uD06C\uC73D...\uC774 \uBAB8\uC774 \uC9C0\uB2E4\uB2C8..\uCE58\uC695\uC2A4\uB7FD\uAD6C\uB098"
-  - "\uC624\uB298\uC758 \uD328\uBC30\uB294..\uC8FD\uC744\uB54C\uAE4C\uC9C0 \uC78A\uC9C0
-    \uC54A\uACA0\uB2E4.."
-  - "\uBBFF\uC744 \uC218 \uC5C6\uB2E4..\uC2E0\uD638\uB4F1 \uB530\uC704\uC5D0 \uB2F9\uD558\uB2E4\uB2C8.."
-  - "\uBC29\uC2EC\uD588\uAD6C\uB098..\uB2E4\uC74C \uBC88\uC5D4 \uBD10\uC8FC\uC9C0
-    \uC54A\uACA0\uB2E4 "
-  Defeattexts2:
-  - "\uB124\uB188 \uB54C\uBB38\uC5D0..."
-  - "\uD06C\uC73D...\uCE58\uC695\uC2A4\uB7FD\uAD6C\uB098"
-  - "\uC624\uB298\uC758 \uD328\uBC30\uB294..\uC78A\uC9C0 \uC54A\uACA0\uB2E4.."
-  - "\uBBFF\uC744 \uC218 \uC5C6\uB2E4..\uB2F9\uD558\uB2E4\uB2C8.."
-  - "\uBC29\uC2EC\uD588\uAD6C\uB098.."
-  Defeattexts3:
-  - "\uB124\uB188 \uB54C\uBB38\uC5D0..\uC624\uB298\uB3C4 \uC9C0\uAC01\uC774\uAD6C\uB098.."
-  - "\uD06C\uC73D...\uC774 \uBAB8\uC774 \uC9C0\uB2E4\uB2C8..\uCE58\uC695\uC2A4\uB7FD\uAD6C\uB098"
-  - "\uC624\uB298\uC758 \uD328\uBC30\uB294..\uC8FD\uC744\uB54C\uAE4C\uC9C0 \uC78A\uC9C0
-    \uC54A\uACA0\uB2E4.."
-  - "\uBBFF\uC744 \uC218 \uC5C6\uB2E4..\uC2E0\uD638\uB4F1 \uB530\uC704\uC5D0 \uB2F9\uD558\uB2E4\uB2C8.."
-  - "\uBC29\uC2EC\uD588\uAD6C\uB098..\uB2E4\uC74C \uBC88\uC5D4 \uBD10\uC8FC\uC9C0
-    \uC54A\uACA0\uB2E4 "
-  displayText: {fileID: 0}
-  displayDefeatTime: {fileID: 0}
-  curTime: 0
 --- !u!114 &1493550032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9876,8 +9840,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1493550031}
-        m_TargetAssemblyTypeName: PopupDefeat, Assembly-CSharp
+      - m_Target: {fileID: 921439961}
+        m_TargetAssemblyTypeName: DefeatPopup, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:

@@ -10,6 +10,7 @@ public class FinishingPopup : MonoBehaviour
     public TMP_Text ChatText;         // 저장된 채팅이 나오는 텍스트
     public GameObject TextBox;
     public GameObject ClosingTextPanel;
+    public GameObject Timer;
 
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
@@ -82,6 +83,7 @@ public class FinishingPopup : MonoBehaviour
     private float totalTypingDuration = 5f; // 대사가 완전히 출력되는 데 걸리는 시간 (5초)
     IEnumerator OpenText(string narration)
     {
+        Timer.SetActive(false);
         oldBoss.SetActive(false);
         Boss.SetActive(true);
         if (Boss != null)
