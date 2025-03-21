@@ -176,9 +176,14 @@ public class PlayerController : MonoBehaviour
         beforeSpeed = 0;
     }
 
+    public void OnDashButton() 
+    {
+        stateMachine.ChangeState(new DashState(this));
+    }
     public bool isButtonPressed = false;
     public void OnJumpButtonDown() // PointerDown에 연결
     {
+        stateMachine.ChangeState(new JumpState(this));
         isButtonPressed = true;
         StartJump();
     }
@@ -187,6 +192,19 @@ public class PlayerController : MonoBehaviour
     {
         isButtonPressed = false;
         ReleaseJump();
+    }
+    public void OnAttackButton()
+    {
+        
+        if (GetCurrentState() is JumpState)
+        {
+            stateMachine.ChangeState(new JumpAttackState(this));
+        }
+        else
+        {
+            PlayerNormalAttack();
+            Debug.Log("지상에서 공격하는 로직");
+        }
     }
     public void StartJump()
     {
