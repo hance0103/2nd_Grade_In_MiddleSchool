@@ -14,6 +14,9 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     public GameObject ControllerPanel;
     public Button NextButton;
     public Button SkipButton;
+    public Transform targetObject;
+    public Vector3 targetPosition;
+    public float moveDuration = 2f;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
     public Image TimerBG;
 
@@ -64,9 +67,13 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     }
     IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
     {
-        //교실 배경 리소스 추가 필요
+        yield return StartCoroutine(NormalChat("", "(지루한 수업시간...)"));
+        SoundManager.Instance.EffectSoundOn("28");
+        yield return StartCoroutine(NormalChat("", "(딩동댕동~)"));
         yield return StartCoroutine(NormalChat("주인공", "드디어..!"));
-        //무대 배경 리소스 추가 필요
+        yield return StartCoroutine(NormalChat("", "(후다닥 뛰쳐 나간다)"));
+        SoundManager.Instance.EffectSoundOn("running");
+        StartCoroutine(MoveToPosition(targetObject, targetPosition, moveDuration));
         yield return StartCoroutine(NormalChat("주인공", "두근거린다.."));
         yield return StartCoroutine(NormalChat("주인공", "하루종일 기다렸던 무대..."));
         yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
@@ -212,9 +219,24 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         targetImage.color = originalColor;
         rt.anchoredPosition = finalPos;
     }
+    private IEnumerator MoveToPosition(Transform objTransform, Vector3 endPos, float duration)
+    {
+        Vector3 startPos = objTransform.position;
+        float elapsedTime = 0f;
 
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            objTransform.position = Vector3.Lerp(startPos, endPos, t);
+            elapsedTime += Time.unscaledDeltaTime;
+
+            yield return null;
+        }
+        objTransform.position = endPos;
+    }
     void CloseOpeningText()
     {
+        targetObject.position = targetPosition;
         OpeningTextPanel.SetActive(false); // 패널 비활성화
         ControllerPanel.SetActive(true);
         isFirstTime3 = false;
