@@ -183,9 +183,15 @@ public class PlayerController : MonoBehaviour
     public bool isButtonPressed = false;
     public void OnJumpButtonDown() // PointerDown에 연결
     {
-        stateMachine.ChangeState(new JumpState(this));
-        isButtonPressed = true;
-        StartJump();
+        if (GetCurrentState() is JumpState) {
+            return;
+        }
+        else
+        {
+            stateMachine.ChangeState(new JumpState(this));
+            isButtonPressed = true;
+            StartJump();
+        }
     }
 
     public void OnJumpButtonUp() // PointerUp에 연결
