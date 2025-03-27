@@ -118,11 +118,11 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            BossState.WeakPattern5,
+           // BossState.WeakPattern3,
+            //BossState.WeakPattern4,
+            //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -467,27 +467,27 @@ public class Boss3 : MonoBehaviour
             float startX = startFrom ? rightBound : leftBound;
 
             // 첫 번째 레이저 경고 및 발사
-            LineRenderer firstWarningLine = CreateDangerZone(weak2LaserData);
-            StartCoroutine(BlinkDangerZone(firstWarningLine));
+            //LineRenderer firstWarningLine = CreateDangerZone(weak2LaserData);
+            //StartCoroutine(BlinkDangerZone(firstWarningLine));
 
-            firstWarningLine.SetPosition(0, new Vector2(startX, topBound));
-            firstWarningLine.SetPosition(1, new Vector2(startX, bottomBound));
+            //firstWarningLine.SetPosition(0, new Vector2(startX, topBound));
+            //firstWarningLine.SetPosition(1, new Vector2(startX, bottomBound));
 
-            yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
+            //yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
 
-            // 첫 번째 레이저 발사
-            LaserController2 firstLaser = LaserController2.Create(
-                weak2LaserData,
-                new Vector2(startX, topBound),
-                null
-            );
-            firstLaser.SetTargetLayer(weak2LaserData.TargetLayer);
-            yield return StartCoroutine(firstLaser.FireLaser(
-                new Vector2(startX, topBound),
-                new Vector2(startX, bottomBound)
-            ));
+            //// 첫 번째 레이저 발사
+            //LaserController2 firstLaser = LaserController2.Create(
+            //    weak2LaserData,
+            //    new Vector2(startX, topBound),
+            //    null
+            //);
+            //firstLaser.SetTargetLayer(weak2LaserData.TargetLayer);
+            //yield return StartCoroutine(firstLaser.FireLaser(
+            //    new Vector2(startX, topBound),
+            //    new Vector2(startX, bottomBound)
+            //));
 
-            Destroy(firstWarningLine.gameObject);
+            //Destroy(firstWarningLine.gameObject);
 
             // 7개의 경고선 순차 생성
             List<LineRenderer> warningLines = new List<LineRenderer>();
@@ -500,7 +500,7 @@ public class Boss3 : MonoBehaviour
                 warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
 
                 warningLines.Add(warningLine);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
@@ -525,7 +525,7 @@ public class Boss3 : MonoBehaviour
                     new Vector2(sectionPositions[i], bottomBound)
                 ));
 
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
