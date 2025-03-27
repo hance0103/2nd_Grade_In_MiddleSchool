@@ -14,9 +14,10 @@ public class IdleState : IPlayerState
     public void Update()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
+
+        var input = player.inputCommand;
+
         if (moveInput != 0) player.ChangeState(new MoveState(player));
-
-
         else if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
         else if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash) player.ChangeState(new DashState(player));
         else if (Input.GetKeyDown(KeyCode.A)) player.ChangeState(new AttackState(player));

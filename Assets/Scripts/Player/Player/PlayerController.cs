@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -87,10 +88,14 @@ public class PlayerController : MonoBehaviour
 
     public GameObject enemy;
 
+    [SerializeField]
+    private ControllerUI controller;
+    public PlayerInputCommand inputCommand;
 
     private SpriteRenderer sprite;
     private void Awake()
     {
+        inputCommand = GetComponent<PlayerInputCommand>();
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         stateMachine = new PlayerStateMachine();
@@ -105,13 +110,30 @@ public class PlayerController : MonoBehaviour
         _jumpAttackObject.SetActive(false);
 
     }
+    void Start()
+    {
 
+    }
     private void Update()
     {
         direction = GetInputDirection();
         stateMachine.Update();
 
         ApplyMovement();
+
+        direction = controller.GetDirection(controller.GetInput());
+        if (direction == PlayerInputDirection.Right ||
+            direction == PlayerInputDirection.UpRight || 
+            direction == PlayerInputDirection.DownRight)
+        {
+            looking = PlayerLookingDirection.Right;
+        }
+        else if (direction == PlayerInputDirection.Left ||
+                direction == PlayerInputDirection.UpLeft || 
+                direction == PlayerInputDirection.DownLeft)
+        {
+            looking = PlayerLookingDirection.Left;
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -122,11 +144,6 @@ public class PlayerController : MonoBehaviour
         {
             ChargeJump();
         }
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
     private void ApplyMovement()
     {
@@ -176,42 +193,44 @@ public class PlayerController : MonoBehaviour
         beforeSpeed = 0;
     }
 
-    public void OnDashButton() 
-    {
-        stateMachine.ChangeState(new DashState(this));
-    }
     public bool isButtonPressed = false;
-    public void OnJumpButtonDown() // PointerDown에 연결
-    {
-        if (GetCurrentState() is JumpState) {
-            return;
-        }
-        else
-        {
-            stateMachine.ChangeState(new JumpState(this));
-            isButtonPressed = true;
-            StartJump();
-        }
-    }
 
-    public void OnJumpButtonUp() // PointerUp에 연결
-    {
-        isButtonPressed = false;
-        ReleaseJump();
-    }
-    public void OnAttackButton()
-    {
+    // public void OnDashButton() 
+    // {
+    //     stateMachine.ChangeState(new DashState(this));
+    // }
+    
+    // public void OnJumpButtonDown() // PointerDown에 연결
+    // {
+    //     if (GetCurrentState() is JumpState) {
+    //         return;
+    //     }
+    //     else
+    //     {
+    //         stateMachine.ChangeState(new JumpState(this));
+    //         isButtonPressed = true;
+    //         StartJump();
+    //     }
+    // }
+
+    // public void OnJumpButtonUp() // PointerUp에 연결
+    // {
+    //     isButtonPressed = false;
+    //     ReleaseJump();
+    // }
+    // public void OnAttackButton()
+    // {
         
-        if (GetCurrentState() is JumpState)
-        {
-            stateMachine.ChangeState(new JumpAttackState(this));
-        }
-        else
-        {
-            PlayerNormalAttack();
-            Debug.Log("지상에서 공격하는 로직");
-        }
-    }
+    //     if (GetCurrentState() is JumpState)
+    //     {
+    //         stateMachine.ChangeState(new JumpAttackState(this));
+    //     }
+    //     else
+    //     {
+    //         PlayerNormalAttack();
+    //         Debug.Log("지상에서 공격하는 로직");
+    //     }
+    // }
     public void StartJump()
     {
         // 점프 대시 이후 점프 초기화 안되게
