@@ -119,8 +119,8 @@ public class Boss3 : MonoBehaviour
 
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
-            BossState.WeakPattern2,
-           // BossState.WeakPattern3,
+           // BossState.WeakPattern2,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
