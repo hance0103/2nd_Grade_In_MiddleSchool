@@ -16,6 +16,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
     public Image TimerBG;
+    public GameObject controller;
 
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
@@ -225,5 +226,6 @@ public class Stage2OpeningTextPopup : MonoBehaviour
         Boss.SetActive(true);
         PlayerHP.SetActive(true);
         BossHP.SetActive(true);
+        controller.SetActive(true);
     }
 }
