@@ -531,6 +531,10 @@ public class BossPattern2 : MonoBehaviour
         Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
         isPattern6Active = true;  // 패턴 시작
 
+        float mapLeft = mapWidthPositions[0].position.x + 1f;
+        float mapRight = mapWidthPositions[1].position.x + 1f;
+        float mapWidth = mapRight - mapLeft;
+
         // 독비 컨트롤러 생성
         ProjectileController poisonRainController = ProjectileController.Create(
             projectileRainData,
@@ -546,7 +550,9 @@ public class BossPattern2 : MonoBehaviour
         // 독비 패턴 시작
         Coroutine continuousRainCoroutine = StartCoroutine(poisonRainController.ExecuteContinuousRainPattern(
             transform,
-            30f,  // mapWidth
+            mapWidth,
+            mapLeft,
+            mapRight,
             poisonRainSpacing,
             new System.Func<bool>(() => isPattern6Active)
         ));
@@ -742,6 +748,7 @@ public class BossPattern2 : MonoBehaviour
         }
     }
 
+    #region 그로기 상태
     public IEnumerator GroggyState()
     {
         animator.SetTrigger("isGroggy");
@@ -760,8 +767,10 @@ public class BossPattern2 : MonoBehaviour
         currentCoroutine = null;
         yield return null;
     }
+    #endregion
 
-    private void FacePlayer() // 시선
+    #region 보스몹 시선 처리
+    private void FacePlayer()
     {
         if (player != null)
         {
@@ -773,7 +782,9 @@ public class BossPattern2 : MonoBehaviour
             );
         }
     }
+    #endregion
 
+    #region 위험 구역 표시
     private LineRenderer CreateDangerZone(LaserScriptableObject laserData)
     {
         GameObject dangerZoneObj = new GameObject("DangerZone");
@@ -791,7 +802,9 @@ public class BossPattern2 : MonoBehaviour
 
         return lineRenderer;
     }
+    #endregion
 
+    #region 위험 구역 깜빡임 효과
     private IEnumerator BlinkDangerZone(LineRenderer dangerZone)
     {
         float blinkSpeed = 0.5f; // 깜빡임 속도
@@ -822,8 +835,13 @@ public class BossPattern2 : MonoBehaviour
             }
         }
     }
+    #endregion
     private void StartContinuousPoisonRain()
     {
+        float mapLeft = mapWidthPositions[0].position.x + 1f;
+        float mapRight = mapWidthPositions[1].position.x + 1f;
+        float mapWidth = mapRight - mapLeft;
+
         // Create poison rain controller
         ProjectileController poisonRainController = ProjectileController.Create(
             projectileRainData,
@@ -836,7 +854,9 @@ public class BossPattern2 : MonoBehaviour
         // Start continuous rain
         poisonRainCoroutine = StartCoroutine(poisonRainController.ExecuteContinuousRainPattern(
             transform,
-            30f,  // mapWidth
+            mapWidth,
+            mapLeft,
+            mapRight,
             poisonRainSpacing,
             () => true  // Always continue as long as enraged
         ));
