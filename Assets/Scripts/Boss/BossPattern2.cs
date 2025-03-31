@@ -106,9 +106,9 @@ public class BossPattern2 : MonoBehaviour
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            BossState.WeakPattern5,
             //BossState.WeakPattern6,
-            BossState.Groggy
+            //BossState.Groggy
         });
 
         if (isEnraged)

@@ -399,8 +399,7 @@ public class ProjectileController : MonoBehaviour
                         GameObject projectile = projectilePool.Get();
                         if (projectile != null)
                         {
-                            bool YPlusOne = Random.value > 0.5f;
-                            float offsetY = YPlusOne ? 0.5f : -0.5f;
+                            float offsetY = Random.Range(-1f, 1f);
                             projectile.SetActive(true);
                             Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f + offsetY, 0);
                             projectile.transform.position = spawnPosition;
@@ -656,10 +655,10 @@ public class ProjectileController : MonoBehaviour
                         GameObject projectile = projectilePool.Get();
                         if (projectile != null)
                         {
-                            bool YPlusOne = Random.value > 0.5f;
-                            float offsetY = YPlusOne ? 0.5f : -0.5f;
+                            float offsetX = Random.Range(-2f, 2f);
+                            float offsetY = Random.Range(-3f, 3f);
                             projectile.SetActive(true);
-                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f + offsetY, 0);
+                            Vector3 spawnPosition = new Vector3(x + offsetX, bossTransform.position.y + 10f + offsetY, 0);
                             projectile.transform.position = spawnPosition;
                             projectile.transform.rotation = Quaternion.identity;
                             projectile.transform.localScale = projectileData.ProjectileScale;
