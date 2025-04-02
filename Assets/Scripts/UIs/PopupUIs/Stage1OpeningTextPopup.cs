@@ -17,6 +17,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     public Button SkipButton;
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
     public Image TimerBG;
+    public GameObject controller;
 
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
@@ -240,5 +241,6 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         Boss.SetActive(true);
         PlayerHP.SetActive(true);
         BossHP.SetActive(true);
+        controller.SetActive(true);
     }
 }

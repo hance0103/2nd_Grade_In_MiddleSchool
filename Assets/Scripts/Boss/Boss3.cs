@@ -118,9 +118,9 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
+            BossState.WeakPattern1,
             BossState.WeakPattern2,
-           // BossState.WeakPattern3,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
@@ -252,7 +252,7 @@ public class Boss3 : MonoBehaviour
         Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
 
-        transform.position = new Vector2(mapWidthPositions[1].position.x, mapWidthPositions[0].position.y);
+        transform.position = new Vector2(mapWidthPositions[1].position.x, mapWidthPositions[0].position.y + 2f);
         FacePlayer();
 
         #region 맵 데이터
