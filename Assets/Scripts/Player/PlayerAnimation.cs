@@ -15,8 +15,11 @@ public class PlayerAnimation : MonoBehaviour
         // 상태 이름 해시 미리 캐싱
         animCache["Idle"] = Animator.StringToHash("Idle");
         animCache["Move"] = Animator.StringToHash("Move");
-        animCache["Jump"] = Animator.StringToHash("Jump");
-        animCache["Attack"] = Animator.StringToHash("Attack");
+        animCache["JumpUp"] = Animator.StringToHash("JumpUp");
+        animCache["JumpDown"] = Animator.StringToHash("JumpDown");
+        animCache["NormalAttack"] = Animator.StringToHash("NormalAttack");
+        animCache["Dash"] = Animator.StringToHash("Dash");
+        animCache["JumpAttack"] = Animator.StringToHash("JumpAttack");
     }
 
     public void PlayAnimation(string name)

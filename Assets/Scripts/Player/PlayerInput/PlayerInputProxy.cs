@@ -29,15 +29,13 @@ public class PlayerInputProxy : MonoBehaviour
     {
         inputActions.Enable();
 
-        inputActions.Player.Jump.started += ctx => JumpPressed = true;
-        inputActions.Player.Jump.performed += ctx => JumpPressed = true;
-        inputActions.Player.Jump.canceled += ctx => JumpPressed = true;
+        inputActions.Player.Jump.started += ctx => JumpPressed = JumpHeld = true;
+        inputActions.Player.Jump.canceled += ctx => JumpReleased = !(JumpHeld = false);
 
-        inputActions.Player.Dash.performed += ctx  => DashPressed = true;
-
-        inputActions.Player.Attack.started += ctx  => AttackPressed = true;
-        inputActions.Player.Attack.canceled += ctx => AttackPressed = true;
+        inputActions.Player.Dash.performed += ctx => DashPressed = true;
+        inputActions.Player.Attack.performed += ctx => AttackPressed = true;
     }
+
 
     private void OnDisable()
     {
@@ -50,7 +48,10 @@ public class PlayerInputProxy : MonoBehaviour
         DashPressed = false;
         AttackPressed = false;
     }
-
+    public void ResetAttack()
+    {
+        AttackPressed = false;
+    }
     public void OnJumpButtonDown()
     {
         JumpPressed = true;

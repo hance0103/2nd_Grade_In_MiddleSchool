@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSpeed = 5f;         // 최고 속도
     [SerializeField] private float moveAccel;
 
-    [SerializeField] private float beforeSpeed = 0;
     private float moveInput = 0f;
 
     [Header("Jump")]
@@ -41,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float diagonalDashX;
     [SerializeField] private float diagonalDashY;
-
+    [SerializeField] private GameObject dashEffect;
     private float dashCooldownTimer = 0f;
 
 
@@ -114,6 +113,7 @@ public class PlayerController : MonoBehaviour
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
         _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
         _jumpAttackObject.SetActive(false);
+        dashEffect.SetActive(false);
 
     }
     void Start()
@@ -199,15 +199,7 @@ public class PlayerController : MonoBehaviour
                 moveInput = 0f;
             }
         }
-
-
-
-
-
-
         ApplyMovement();
-
-        
         if (Input.GetKeyDown(KeyCode.P))
         {
             PlayerBind();
@@ -217,28 +209,25 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyMovement()
     {
-        if (stateMachine.GetCurrentState() is DashState || stateMachine.GetCurrentState() is JumpAttackState) return;
+        var currentState = stateMachine.GetCurrentState();
+        if (!(currentState is MoveState || currentState is JumpState))
+            return;
+
         if (moveInput != 0)
         {
-            if (beforeSpeed != 0)
-            {
-                Debug.Log("속도 복구");
-                SetToBeforeSpeed();
-            }
             nowSpeed += moveAccel * Time.deltaTime;
             nowSpeed = Mathf.Min(nowSpeed, maxSpeed);
-
             sprite.flipX = moveInput < 0;
         }
-        else
+        else if (currentState is MoveState)
         {
             nowSpeed = 0;
-            beforeSpeed = 0;
         }
 
-        Vector3 movement = new Vector3(moveInput * nowSpeed * Time.deltaTime, 0, 0);
-        transform.position += movement;
+        transform.position += new Vector3(moveInput * nowSpeed * Time.deltaTime, 0, 0);
     }
+
+
 
     public void SetMoveInput(float input)
     {
@@ -252,19 +241,6 @@ public class PlayerController : MonoBehaviour
     {
         nowSpeed = 0;
         moveInput = 0;
-    }
-    public void SaveBeforeSpeed()
-    {
-        beforeSpeed = nowSpeed;
-        Debug.Log($"속도{beforeSpeed}저장");
-    }
-    public void SetToBeforeSpeed()
-    {
-        nowSpeed = beforeSpeed;
-    }
-    public void ResetBeforeSpeed()
-    {
-        beforeSpeed = 0;
     }
 
     public void StartJump()
@@ -333,7 +309,9 @@ public class PlayerController : MonoBehaviour
 
     public void StartDash()
     {
+        if (!canDash) return;
         canDash = false;
+        canJump = false;
         dashStartPos = transform.position;
 
         dashBeforeVelocity = rb.velocity;
@@ -386,49 +364,40 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator DashCoroutine(Vector2 direction)
     {
-        float dashBeforeDelayCounter = 0f;
-        while (dashBeforeDelayCounter <= dashBeforeDelay)
-        {
-            rb.velocity = Vector2.zero;
-            dashBeforeDelayCounter += Time.deltaTime;
-            yield return null;
-        }
-        StartCoroutine(Dash(direction));
-        StartCoroutine(PlayerDashCoolDown());
-    }
-    private IEnumerator Dash(Vector2 direction)
-    {
-        Debug.Log("대시 시작");
+        anim.PlayAnimation("Dash");
+        dashEffect.SetActive(true);
+
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(dashBeforeDelay);
 
         Vector2 dashStartPos = rb.position;
-        Vector2 dashEndPos = rb.position + direction;
-        dashTime = 0f;
-        Debug.Log(dashStartPos);
-        Debug.Log(dashEndPos);
+        Vector2 dashEndPos = dashStartPos + direction;
 
-
-        while (dashTime < dashDuration)
+        float elapsed = 0f;
+        while (elapsed < dashDuration)
         {
-            yield return new WaitForFixedUpdate();
-
-            dashTime += Time.deltaTime;
-            float t = dashTime / dashDuration;
-            Vector2 newPosition = Vector2.Lerp(dashStartPos, dashEndPos, t);
-            rb.MovePosition(newPosition);
-
+            elapsed += Time.deltaTime;
+            rb.MovePosition(Vector2.Lerp(dashStartPos, dashEndPos, elapsed / dashDuration));
+            yield return null;
         }
-        rb.velocity = dashBeforeVelocity;
+
         rb.gravityScale = 4;
+        rb.velocity = dashBeforeVelocity;
 
-        if (dashEndPos.y > dashStartPos.y)
-        {
+        dashEffect.SetActive(false);
+        StartCoroutine(PlayerDashCoolDown());
+        canJump = false;
+
+        if ((dashEndPos.y > dashStartPos.y) || stateMachine.GetPreviousState() is JumpState)
             ChangeState(new JumpState(this));
-        }
         else
-        {
-            stateMachine.RestorePreviousState();
-        }
+            ChangeState(new IdleState(this));
+
+
     }
+
     private IEnumerator PlayerDashCoolDown()
     {
         canDash = false;
@@ -537,11 +506,10 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.RestorePreviousState();
     }
-    //public bool IsGrounded()
-    //{
-    //    return rb.velocity.y == 0;
-    //}
-
+    public float GetFallingVelocity()
+    {
+        return rb.velocity.y;
+    }
     public void PlayerBind()
     {
         StartCoroutine(PlayerStop());
@@ -568,11 +536,17 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             canJump = true;
-            Debug.Log("착지");
-            rb.velocity = Vector2.zero;
-            ChangeState(new IdleState(this));
+
+            // 수직 속도만 초기화
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+
+            if (moveInput != 0)
+                ChangeState(new MoveState(this));
+            else
+                ChangeState(new IdleState(this));
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
@@ -580,4 +554,4 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-}
+} 

@@ -38,7 +38,6 @@ public class MoveState : IPlayerState
     {
         Debug.Log("Move 상태 시작");
 
-        player.SetToBeforeSpeed();
         player.anim.PlayAnimation("Move");
     }
 
@@ -57,7 +56,6 @@ public class MoveState : IPlayerState
 
     public void Exit()
     {
-        player.SaveBeforeSpeed();
         Debug.Log("Move 상태 종료");
     }
 
@@ -75,11 +73,17 @@ public class JumpState : IPlayerState
         Debug.Log("Jump 상태 시작");
 
         player.StartJump();
+        player.anim.PlayAnimation("JumpUp");
     }
 
     public void Update()
     {
         var input = player.input;
+
+        if (player.GetFallingVelocity() < 0)
+        {
+            player.anim.PlayAnimation("JumpDown");
+        }
 
         if ((Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) && player.canDash)
         {
@@ -155,9 +159,10 @@ public class AttackState : IPlayerState
     private PlayerController player;
 
     public AttackState(PlayerController player) { this.player = player; }
-
+    
     public void Enter()
     {
+        player.anim.PlayAnimationCrossFade("NormalAttack");
         Debug.Log("Attack 상태 시작");
     }
 
@@ -174,7 +179,12 @@ public class AttackState : IPlayerState
 
     }
 
-    public void Exit() => Debug.Log("Attack 상태 종료");
+    public void Exit()
+    {
+        var input = player.input;
+        input.ResetAttack();
+        Debug.Log("Attack 상태 종료");
+    }
     public override string ToString() => "Attack";
 }
 
@@ -189,6 +199,7 @@ public class JumpAttackState : IPlayerState
     {
         Debug.Log("JumpAttack 상태 시작");
         player.PlayerJumpAttack();
+        player.anim.PlayAnimation("JumpAttack");
     }
 
     public void Update()
