@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,10 @@ public class PlayerInputProxy : MonoBehaviour
     }
     void Update()
     {
+        if (JumpHeld)
+        {
+            OnJumpButtonHeld();
+        }
     }
 
     private void OnEnable()
@@ -46,7 +51,6 @@ public class PlayerInputProxy : MonoBehaviour
         AttackPressed = false;
     }
 
-    // 👉 UI 버튼에서 호출할 함수
     public void OnJumpButtonDown()
     {
         JumpPressed = true;
@@ -59,8 +63,12 @@ public class PlayerInputProxy : MonoBehaviour
         JumpReleased = true;
         JumpHeld = false;
         Debug.Log("Jump 버튼 뗌");
+        ResetJumpFlags();
     }
-
+    public void OnJumpButtonHeld()
+    {
+        Debug.Log("Jump 버튼 누르는 중");
+    }
     public void ResetJumpFlags()
     {
         JumpPressed = false;
