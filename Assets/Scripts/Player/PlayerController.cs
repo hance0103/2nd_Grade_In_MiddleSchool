@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -88,16 +89,21 @@ public class PlayerController : MonoBehaviour
 
     public GameObject enemy;
 
+    [Header("Controller")]
+    // 컨트롤러 조작이 기본
+    public bool isKeyboardControll = false;
     [SerializeField]
     private ControllerUI controller;
     public PlayerInputProxy input;
 
+    public PlayerAnimation anim;
     private SpriteRenderer sprite;
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<PlayerAnimation>();
         stateMachine = new PlayerStateMachine();
         stateMachine.ChangeState(new IdleState(this));
         direction = PlayerInputDirection.None;
@@ -119,27 +125,85 @@ public class PlayerController : MonoBehaviour
         direction = GetInputDirection();
         stateMachine.Update();
 
-        
-
-        direction = controller.GetDirection(controller.GetInput());
-        if (direction == PlayerInputDirection.Right ||
-            direction == PlayerInputDirection.UpRight || 
-            direction == PlayerInputDirection.DownRight)
+        if (isKeyboardControll)
         {
-            looking = PlayerLookingDirection.Right;
-            moveInput = 1f;
-        }
-        else if (direction == PlayerInputDirection.Left ||
-                direction == PlayerInputDirection.UpLeft || 
-                direction == PlayerInputDirection.DownLeft)
-        {
-            looking = PlayerLookingDirection.Left;
-            moveInput = -1f;
+            //키보드 조작
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    direction = PlayerInputDirection.UpRight;
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                direction = PlayerInputDirection.DownRight;
+                }
+                else
+                {
+                    direction = PlayerInputDirection.Right;
+                }
+                moveInput = 1f;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    direction = PlayerInputDirection.UpLeft;
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    direction = PlayerInputDirection.DownLeft;
+                }
+                else
+                {
+                    direction = PlayerInputDirection.Left;
+                }
+                moveInput = -1f;
+            }
+            else if (Input.GetKey(KeyCode.UpArrow))
+            {
+                direction = PlayerInputDirection.Up;
+                moveInput = 0f;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                direction = PlayerInputDirection.Down;
+                moveInput = 0f;
+            }
+            else
+            {
+                direction = PlayerInputDirection.None;
+                moveInput = 0f;
+            }
         }
         else
         {
-            moveInput = 0f;
+            // 컨트롤러 조작
+            direction = controller.GetDirection(controller.GetInput());
+            if (direction == PlayerInputDirection.Right ||
+                direction == PlayerInputDirection.UpRight || 
+                direction == PlayerInputDirection.DownRight)
+            {
+                looking = PlayerLookingDirection.Right;
+                moveInput = 1f;
+            }
+            else if (direction == PlayerInputDirection.Left ||
+                    direction == PlayerInputDirection.UpLeft || 
+                    direction == PlayerInputDirection.DownLeft)
+            {
+                looking = PlayerLookingDirection.Left;
+                moveInput = -1f;
+            }
+            else
+            {
+                moveInput = 0f;
+            }
         }
+
+
+
+
+
 
         ApplyMovement();
 
@@ -147,11 +211,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             PlayerBind();
-        }
-        // 누르고 있는 동안만 ChargeJump() 호출
-        if (isButtonPressed)
-        {
-            ChargeJump();
         }
 
         input.ResetInputs();
@@ -208,44 +267,6 @@ public class PlayerController : MonoBehaviour
         beforeSpeed = 0;
     }
 
-    public bool isButtonPressed = false;
-
-    // public void OnDashButton() 
-    // {
-    //     stateMachine.ChangeState(new DashState(this));
-    // }
-    
-    // public void OnJumpButtonDown() // PointerDown에 연결
-    // {
-    //     if (GetCurrentState() is JumpState) {
-    //         return;
-    //     }
-    //     else
-    //     {
-    //         stateMachine.ChangeState(new JumpState(this));
-    //         isButtonPressed = true;
-    //         StartJump();
-    //     }
-    // }
-
-    // public void OnJumpButtonUp() // PointerUp에 연결
-    // {
-    //     isButtonPressed = false;
-    //     ReleaseJump();
-    // }
-    // public void OnAttackButton()
-    // {
-        
-    //     if (GetCurrentState() is JumpState)
-    //     {
-    //         stateMachine.ChangeState(new JumpAttackState(this));
-    //     }
-    //     else
-    //     {
-    //         PlayerNormalAttack();
-    //         Debug.Log("지상에서 공격하는 로직");
-    //     }
-    // }
     public void StartJump()
     {
         // 점프 대시 이후 점프 초기화 안되게
