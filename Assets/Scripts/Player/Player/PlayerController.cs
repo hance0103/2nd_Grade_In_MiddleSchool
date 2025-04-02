@@ -90,12 +90,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private ControllerUI controller;
-    public PlayerInputCommand inputCommand;
+    public PlayerInputProxy input;
 
     private SpriteRenderer sprite;
     private void Awake()
     {
-        inputCommand = GetComponent<PlayerInputCommand>();
+        input = GetComponent<PlayerInputProxy>();
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         stateMachine = new PlayerStateMachine();
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         direction = GetInputDirection();
         stateMachine.Update();
 
-        ApplyMovement();
+        
 
         direction = controller.GetDirection(controller.GetInput());
         if (direction == PlayerInputDirection.Right ||
@@ -127,14 +127,23 @@ public class PlayerController : MonoBehaviour
             direction == PlayerInputDirection.DownRight)
         {
             looking = PlayerLookingDirection.Right;
+            moveInput = 1f;
         }
         else if (direction == PlayerInputDirection.Left ||
                 direction == PlayerInputDirection.UpLeft || 
                 direction == PlayerInputDirection.DownLeft)
         {
             looking = PlayerLookingDirection.Left;
+            moveInput = -1f;
+        }
+        else
+        {
+            moveInput = 0f;
         }
 
+        ApplyMovement();
+
+        
         if (Input.GetKeyDown(KeyCode.P))
         {
             PlayerBind();
@@ -144,6 +153,8 @@ public class PlayerController : MonoBehaviour
         {
             ChargeJump();
         }
+
+        input.ResetInputs();
     }
     private void ApplyMovement()
     {
@@ -173,6 +184,10 @@ public class PlayerController : MonoBehaviour
     public void SetMoveInput(float input)
     {
         moveInput = input;
+    }
+    public float GetMoveInput()
+    {
+        return moveInput;
     }
     public void ResetMovement()
     {

@@ -13,14 +13,15 @@ public class IdleState : IPlayerState
 
     public void Update()
     {
-        float moveInput = Input.GetAxisRaw("Horizontal");
+        var input = player.input;
 
-        var input = player.inputCommand;
+        float moveInput = player.GetMoveInput();
+        
 
         if (moveInput != 0) player.ChangeState(new MoveState(player));
         else if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash) player.ChangeState(new DashState(player));
-        else if (Input.GetKeyDown(KeyCode.A)) player.ChangeState(new AttackState(player));
+        else if ((Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) && player.canDash) player.ChangeState(new DashState(player));
+        else if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed) player.ChangeState(new AttackState(player));
     }
 
     public void Exit() => Debug.Log("Idle 상태 종료");
@@ -40,7 +41,8 @@ public class MoveState : IPlayerState
 
     public void Update()
     {
-        float moveInput = Input.GetAxisRaw("Horizontal");
+        float moveInput = player.GetMoveInput();
+
         player.SetMoveInput(moveInput);
 
         if (moveInput == 0) player.ChangeState(new IdleState(player));
@@ -73,6 +75,8 @@ public class JumpState : IPlayerState
 
     public void Update()
     {
+        var input = player.input;
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && player.canDash)
         {
             player.ChangeState(new DashState(player));
@@ -154,10 +158,12 @@ public class AttackState : IPlayerState
 
     public void Update()
     {
+        var input = player.input;
+
         if (Input.GetKeyDown(KeyCode.Space)) player.ChangeState(new JumpState(player));
         else if (Input.GetKeyDown(KeyCode.LeftShift)) player.ChangeState(new DashState(player));
 
-        if (Input.GetKeyUp(KeyCode.A)) player.ChangeState(new IdleState(player));
+        if (Input.GetKeyUp(KeyCode.A) || input.AttackPressed) player.ChangeState(new IdleState(player));
 
         player.PlayerNormalAttack();
 
