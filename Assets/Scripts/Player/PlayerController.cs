@@ -97,18 +97,24 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAnimation anim;
     private SpriteRenderer sprite;
+    private BoxCollider2D collider2d;
+
+    private Vector2 colliderOffset;
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<PlayerAnimation>();
+        collider2d = GetComponent<BoxCollider2D>();
         stateMachine = new PlayerStateMachine();
         stateMachine.ChangeState(new IdleState(this));
         direction = PlayerInputDirection.None;
         looking = PlayerLookingDirection.Right;
         canDash = true;
         canJump = true;
+
+        colliderOffset = collider2d.offset;
 
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
         _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
@@ -218,6 +224,15 @@ public class PlayerController : MonoBehaviour
             nowSpeed += moveAccel * Time.deltaTime;
             nowSpeed = Mathf.Min(nowSpeed, maxSpeed);
             sprite.flipX = moveInput < 0;
+
+            if (moveInput > 0)
+            {
+                collider2d.offset = colliderOffset;
+            }
+            else if (moveInput < 0)
+            {
+                collider2d.offset = new Vector2(-colliderOffset.x, colliderOffset.y);
+            }
         }
         else if (currentState is MoveState)
         {
@@ -293,8 +308,10 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(float force)
     {
-        rb.velocity = new Vector2(rb.velocity.x, force);
+        rb.velocity = new Vector2(rb.velocity.x, 0f); // 기존 수직 속도 초기화
+        rb.AddForce(Vector2.up * force, ForceMode2D.Impulse); // 힘을 순간적으로 가함
     }
+
 
     public void ResetJump()
     {
@@ -533,7 +550,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             canJump = true;
 
@@ -546,12 +563,25 @@ public class PlayerController : MonoBehaviour
                 ChangeState(new IdleState(this));
         }
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            if (rb.velocity.y < 0)
+            {
+                Debug.Log("플랫폼 위에 올라감");
+                collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+                ChangeState(new IdleState(this));
+            }
+        }
+
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
-
+            collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         }
     }
 } 
