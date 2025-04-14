@@ -26,10 +26,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxChargeTime = 0.5f; // 최대 점프 충전 시간
 
     private bool spaceReleased = false;
-    private bool isJumping = false;
+    public bool isJumping = false;
     private float jumpStartY;
     private float jumpTimer = 0f;
     private bool canJump;
+
+    public bool isOnPlatform = false;
+    public GameObject nowPlatform;
 
     [Header("Dash")]
     [SerializeField] private float dashDistance = 5f;
@@ -73,7 +76,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _jumpAttack_diveVelocity;
     [SerializeField]
-    private float _jumpAttack_dmg;
+    public float _jumpAttack_dmg;
     public float _jumpAttackHitDelay;
     [SerializeField]
     private GameObject _jumpAttackObject;
@@ -570,8 +573,11 @@ public class PlayerController : MonoBehaviour
             if (rb.velocity.y < 0)
             {
                 Debug.Log("플랫폼 위에 올라감");
+                isOnPlatform = true;
                 collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+                nowPlatform = collision.gameObject;
                 ChangeState(new IdleState(this));
+                
             }
         }
 
@@ -581,6 +587,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
+            isOnPlatform = false;
             collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         }
     }

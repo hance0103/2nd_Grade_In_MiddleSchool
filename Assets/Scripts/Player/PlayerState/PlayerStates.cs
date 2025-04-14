@@ -18,6 +18,23 @@ public class IdleState : IPlayerState
 
         float moveInput = player.GetMoveInput();
         
+        if (player.isOnPlatform)
+        {
+            // 플랫폼 위에 있을때
+            if (player.GetInputDirection() == PlayerInputDirection.Down ||
+                player.GetInputDirection() == PlayerInputDirection.DownRight ||
+                player.GetInputDirection() == PlayerInputDirection.DownLeft)
+            {
+                if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
+                {
+                    player.isOnPlatform = false;
+                    player.nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
+                    player.isJumping = true;
+                    player.ChangeState(new JumpState(player));
+                    return;
+                }
+            }
+        }
 
         if (moveInput != 0) player.ChangeState(new MoveState(player));
         else if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed) player.ChangeState(new JumpState(player));
@@ -47,6 +64,24 @@ public class MoveState : IPlayerState
         var input = player.input;
 
         player.SetMoveInput(moveInput);
+
+        if (player.isOnPlatform)
+        {
+            // 플랫폼 위에 있을때
+            if (player.GetInputDirection() == PlayerInputDirection.Down ||
+                player.GetInputDirection() == PlayerInputDirection.DownRight ||
+                player.GetInputDirection() == PlayerInputDirection.DownLeft)
+            {
+                if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
+                {
+                    player.isOnPlatform = false;
+                    player.nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
+                    player.isJumping = true;
+                    player.ChangeState(new JumpState(player));
+                    return;
+                }
+            }
+        }
 
         if (moveInput == 0) player.ChangeState(new IdleState(player));
         else if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed) player.ChangeState(new JumpState(player));

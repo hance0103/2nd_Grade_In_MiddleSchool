@@ -56,19 +56,19 @@ public class PlayerInputProxy : MonoBehaviour
     {
         JumpPressed = true;
         JumpHeld = true;
-        Debug.Log("Jump 버튼 눌림");
+        //Debug.Log("Jump 버튼 눌림");
     }
 
     public void OnJumpButtonUp()
     {
         JumpReleased = true;
         JumpHeld = false;
-        Debug.Log("Jump 버튼 뗌");
+        //Debug.Log("Jump 버튼 뗌");
         ResetJumpFlags();
     }
     public void OnJumpButtonHeld()
     {
-        Debug.Log("Jump 버튼 누르는 중");
+        //Debug.Log("Jump 버튼 누르는 중");
     }
     public void ResetJumpFlags()
     {
