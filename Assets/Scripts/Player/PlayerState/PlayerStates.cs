@@ -128,19 +128,22 @@ public class JumpState : IPlayerState
         {
             player.anim.PlayAnimation("JumpDown");
         }
+
         if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed)
         {
             player.ChangeState(new JumpAttackState(player));
             return;
         }
-        if (player.isDownJumping || player.GetJumpingDash() || player.isFallingFromPlatform)
-            return;
-
         if ((Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) && player.canDash)
         {
             player.ChangeState(new DashState(player));
             return;
         }
+
+        if (player.isDownJumping || player.GetJumpingDash() || player.isFallingFromPlatform)
+            return;
+
+
 
 
         if (player.GetCurrentState() is DashState) return;
@@ -158,12 +161,6 @@ public class JumpState : IPlayerState
 
         float moveInput = player.GetMoveInput();
         player.SetMoveInput(moveInput);
-
-        //if (player.IsGrounded())
-        //{
-        //    player.ChangeState(new IdleState(player));
-        //}
-
 
     }
 
