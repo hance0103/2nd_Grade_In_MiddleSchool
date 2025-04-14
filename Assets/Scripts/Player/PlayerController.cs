@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float diagonalDashY;
     [SerializeField] private GameObject dashEffect;
     private float dashCooldownTimer = 0f;
-
+    private float dashEffectPosX;
+    private float dashEffectPosY;
 
     public bool canDash { get; set; }
     private Vector2 dashStartPos;
@@ -122,6 +123,9 @@ public class PlayerController : MonoBehaviour
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
         _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
         _jumpAttackObject.SetActive(false);
+
+        dashEffectPosX = dashEffect.transform.localPosition.x;
+        dashEffectPosY = dashEffect.transform.localPosition.y;
         dashEffect.SetActive(false);
 
     }
@@ -208,11 +212,8 @@ public class PlayerController : MonoBehaviour
                 moveInput = 0f;
             }
         }
+
         ApplyMovement();
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PlayerBind();
-        }
 
         input.ResetInputs();
     }
@@ -254,6 +255,10 @@ public class PlayerController : MonoBehaviour
     public float GetMoveInput()
     {
         return moveInput;
+    }
+    public PlayerLookingDirection GetLookingDirection()
+    {
+        return looking;
     }
     public void ResetMovement()
     {
@@ -385,7 +390,18 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCoroutine(Vector2 direction)
     {
         anim.PlayAnimation("Dash");
+
         dashEffect.SetActive(true);
+        if (looking == PlayerLookingDirection.Right)
+        {
+            dashEffect.transform.localPosition = new Vector2(dashEffectPosX, dashEffectPosY);
+            dashEffect.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (looking == PlayerLookingDirection.Left)
+        {
+            dashEffect.transform.localPosition = new Vector2(-dashEffectPosX, -dashEffectPosY);
+            dashEffect.GetComponent<SpriteRenderer>().flipX = true;
+        }
 
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
@@ -463,20 +479,20 @@ public class PlayerController : MonoBehaviour
         return PlayerInputDirection.None;
     }
 
-    public void PlayerNormalAttack()
+    public void PlayerNormalAttack(PlayerLookingDirection attackDirection)
     {
         if (Time.time >= _nextFireTime)
         {
-            Shoot();
+            Shoot(attackDirection);
             _nextFireTime = Time.time + _normalAttack_delay;
         }
     }
-    private void Shoot()
+    private void Shoot(PlayerLookingDirection attackDirection)
     {
         if (_normalAttackPrefab != null && _attackPoint != null)
         {
             bool atttackDirection;
-            if (looking == PlayerLookingDirection.Right)
+            if (attackDirection == PlayerLookingDirection.Right)
             {
                 atttackDirection = true;
             }

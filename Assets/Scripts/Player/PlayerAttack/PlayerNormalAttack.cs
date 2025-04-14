@@ -9,7 +9,7 @@ public class PlayerNormalAttack : MonoBehaviour
     private float _lifeTime;
     private float _damage;
     private bool _attackDirection;
-
+    private SpriteRenderer sprite;
     [SerializeField] private float damamgevalue;
     public void AttackSetting(float damage, float speed, float lifeTime, bool direction)
     {
@@ -20,6 +20,7 @@ public class PlayerNormalAttack : MonoBehaviour
     }
     void Start()
     {
+        sprite = GetComponent<SpriteRenderer>();
         Destroy(gameObject, _lifeTime);
     }
 
@@ -34,6 +35,7 @@ public class PlayerNormalAttack : MonoBehaviour
         else
         {
             Vector3 vec = new Vector3(-1, 0, 0);
+            sprite.flipX = true;
             transform.Translate(vec * _speed * Time.deltaTime);
         }
         
@@ -44,7 +46,8 @@ public class PlayerNormalAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Boss"))
         {
             BossHPManager.Instance.TakeDamage(_damage);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        
     }
 }

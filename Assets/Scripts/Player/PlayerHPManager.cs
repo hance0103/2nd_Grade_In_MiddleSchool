@@ -7,24 +7,24 @@ using TMPro;
 
 public class PlayerHPManager : MonoBehaviour
 {
-    //ÇÃ·¹ÀÌ¾î hp¸¦ ½Ì±ÛÅæÀ¸·Î ±¸Çö, ¾À ÀÌµ¿½Ã ÃÊ±âÈ­
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ hpï¿½ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     public static PlayerHPManager Instance { get; private set; }
 
-    [Header("ÇÃ·¹ÀÌ¾î HP ¼³Á¤")]
+    [Header("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ HP ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private float maxHP = 100f;
-    [Header("ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®")]
+    [Header("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®")]
     [SerializeField] private GameObject Player;
-    [Header("ÆÐ¹è ÆË¾÷")]
+    [Header("ï¿½Ð¹ï¿½ ï¿½Ë¾ï¿½")]
     [SerializeField] private GameObject DefeatPopup;
     [SerializeField] private DefeatPopup DefeatPopupScript;
-    [Header("½ºÅ×ÀÌÁö")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private int Stage;
     private float currentHP;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
     private void Awake()
     {
-        // ½Ì±ÛÅæ ±âº» ±¸Çö
+        // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -32,9 +32,13 @@ public class PlayerHPManager : MonoBehaviour
         }
         Instance = this;
 
-        // ¾À ÀüÈ¯ ½Ã ÆÄ±«µÇµµ·Ï ¼³Á¤ 
-        // ½ÃÀÛ ½Ã HP ÃÊ±âÈ­
+        // ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ HP ï¿½Ê±ï¿½È­
         currentHP = maxHP;
+    }
+    void Start()
+    {
+        Player = this.gameObject;
     }
 
     public void RestartHP()
@@ -46,7 +50,7 @@ public class PlayerHPManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
-        Debug.Log($"ÇÃ·¹ÀÌ¾î°¡ {damage} µ¥¹ÌÁö¸¦ ¹ÞÀ½. ³²Àº HP: {currentHP}");
+        Debug.Log($"ï¿½Ã·ï¿½ï¿½Ì¾î°¡ {damage} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ HP: {currentHP}");
 
         
         if (currentHP <= 0 && Stage == 1)
@@ -77,32 +81,32 @@ public class PlayerHPManager : MonoBehaviour
     
     private void PlayerDie1()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         DefeatPopup.SetActive(true);
         Player.SetActive(false);
         DefeatPopupScript.OpenDefeat1();
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ÞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆÐÅÏ ·çÆ¾ Á¾·á µî
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+        // ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     }
     private void PlayerDie2()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         DefeatPopup.SetActive(true);
         Player.SetActive(false);
         DefeatPopupScript.OpenDefeat2();
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ÞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆÐÅÏ ·çÆ¾ Á¾·á µî
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+        // ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     }
     private void PlayerDie3()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         DefeatPopup.SetActive(true);
         Player.SetActive(false);
         DefeatPopupScript.OpenDefeat3();
         Time.timeScale = 0f;
-        // º¸½º »ç¸Á Ã³¸® ·ÎÁ÷ (¾Ö´Ï¸ÞÀÌ¼Ç, µå·Ó ¾ÆÀÌÅÛ µî)
-        // ¿¹) °ÔÀÓ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­, ÆÐÅÏ ·çÆ¾ Á¾·á µî
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+        // ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     }
 }

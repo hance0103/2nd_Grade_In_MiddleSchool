@@ -192,12 +192,13 @@ public class DashState : IPlayerState
 public class AttackState : IPlayerState
 {
     private PlayerController player;
-
+    private PlayerLookingDirection attackDirection;
     public AttackState(PlayerController player) { this.player = player; }
     
     public void Enter()
     {
         player.anim.PlayAnimationCrossFade("NormalAttack");
+        attackDirection = player.GetLookingDirection();
         Debug.Log("Attack 상태 시작");
     }
 
@@ -210,7 +211,7 @@ public class AttackState : IPlayerState
 
         if (Input.GetKeyUp(KeyCode.A) || input.AttackPressed) player.ChangeState(new IdleState(player));
 
-        player.PlayerNormalAttack();
+        player.PlayerNormalAttack(attackDirection);
 
     }
 
