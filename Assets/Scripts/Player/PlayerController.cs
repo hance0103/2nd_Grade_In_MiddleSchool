@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
+using Unity.PlasticSCM.Editor.WebApi;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -34,6 +35,9 @@ public class PlayerController : MonoBehaviour
     public bool isOnPlatform = false;
     public GameObject nowPlatform;
 
+    [SerializeField]
+    private bool isOnGround;
+
     [Header("Dash")]
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashBeforeDelay = 0.1f;
@@ -48,9 +52,16 @@ public class PlayerController : MonoBehaviour
     private float dashEffectPosX;
     private float dashEffectPosY;
 
-    public bool canDash { get; set; }
+    
     private Vector2 dashStartPos;
     private Vector2 dashDirection;
+
+    [SerializeField]
+    private bool isJumpingDash;
+    public bool isDownJumping {get;set;}
+    public bool canDash { get; set; }
+
+    public bool isFallingFromPlatform = false;
 
     private Vector2 dashBeforeVelocity;
 
@@ -103,7 +114,16 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     private BoxCollider2D collider2d;
 
+
     private Vector2 colliderOffset;
+
+    private float colliderLeft;
+    private float colliderRight;
+    private float colliderBottom;
+    [SerializeField]
+    private LayerMask platformMask;
+
+    
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
@@ -117,7 +137,9 @@ public class PlayerController : MonoBehaviour
         looking = PlayerLookingDirection.Right;
         canDash = true;
         canJump = true;
-
+        isDownJumping = false;
+        isJumpingDash = false;
+        isOnGround = true;
         colliderOffset = collider2d.offset;
 
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
@@ -127,6 +149,7 @@ public class PlayerController : MonoBehaviour
         dashEffectPosX = dashEffect.transform.localPosition.x;
         dashEffectPosY = dashEffect.transform.localPosition.y;
         dashEffect.SetActive(false);
+
 
     }
     void Start()
@@ -216,6 +239,55 @@ public class PlayerController : MonoBehaviour
         ApplyMovement();
 
         input.ResetInputs();
+
+
+    }
+    private void FixedUpdate()
+    {
+        //RayCast
+        colliderLeft = collider2d.bounds.min.x;
+        colliderRight = collider2d.bounds.max.x;
+        colliderBottom = collider2d.bounds.min.y;
+
+        Vector2 rayVecLeft = new Vector2(colliderLeft, colliderBottom);
+        Vector2 rayVecRight = new Vector2(colliderRight, colliderBottom);
+        Vector2 rayDirection = Vector2.down;
+        float rayDistance = 0.1f;
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, rayDistance, platformMask);
+        RaycastHit2D hitright = Physics2D.Raycast(rayVecRight, rayDirection, rayDistance, platformMask);
+
+        Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection*rayDistance, Color.green);
+        Debug.DrawLine(rayVecRight, rayVecRight + rayDirection*rayDistance, Color.green);
+
+        if ((hitLeft.collider != null || hitright.collider != null))
+        {
+            Collider2D hitCol = hitLeft.collider != null ? hitLeft.collider : hitright.collider;
+            if (!isOnPlatform && !isDownJumping)
+            {
+                Debug.Log("플랫폼 위에 올라감");
+                isJumpingDash = false;
+                isOnPlatform = true;
+                nowPlatform = hitCol.gameObject;
+                hitCol.isTrigger = false;
+                ChangeState(new IdleState(this));
+            }
+        }
+        else if (hitLeft.collider == null && hitright.collider == null)
+        {
+            if (isOnPlatform)
+            {
+                isFallingFromPlatform = true;
+                ChangeState(new JumpState(this));
+            }
+                
+            isOnPlatform = false;
+            if (nowPlatform != null)
+            {
+                nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
+                nowPlatform = null;
+            }
+        }
     }
     private void ApplyMovement()
     {
@@ -272,6 +344,7 @@ public class PlayerController : MonoBehaviour
         if (stateMachine.GetPreviousState() is DashState)
         {
             Debug.Log("대시 후 점프 불가");
+            isJumpingDash = true;
             isJumping = true;
             canJump = false;
             return;
@@ -289,7 +362,7 @@ public class PlayerController : MonoBehaviour
 
     public void ChargeJump()
     {
-        if (!isJumping || !canJump) return;
+        if (!isJumping || !canJump || GetJumpingDash()) return;
 
         jumpTimer += Time.deltaTime;
 
@@ -337,10 +410,13 @@ public class PlayerController : MonoBehaviour
         if (!canDash) return;
         canDash = false;
         canJump = false;
+        jumpTimer = 0f;
         dashStartPos = transform.position;
 
-        dashBeforeVelocity = rb.velocity;
 
+        dashBeforeVelocity = rb.velocity;
+        dashBeforeVelocity.y = 0;
+        
         // 방향계산 넣어야함
         dashDirection = Vector2.zero;
         switch (direction)
@@ -546,33 +622,20 @@ public class PlayerController : MonoBehaviour
     {
         return rb.velocity.y;
     }
-    public void PlayerBind()
+    public bool GetJumpingDash()
     {
-        StartCoroutine(PlayerStop());
-    }
-    IEnumerator PlayerStop()
-    {
-        Debug.Log("바인드");
-        float bindCounter = 0f;
-        rb.isKinematic = true;
-        while (bindCounter <= bindTimer)
-        {
-            Debug.Log("바인드 진행중");
-            moveInput = 0;
-            rb.velocity = Vector2.zero;
-            bindCounter += Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log("바인드 끝");
-        rb.isKinematic = false;
+        return isJumpingDash;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            isOnGround = true;
             canJump = true;
-
+            isDownJumping = false;
+            isJumpingDash = false;
+            isFallingFromPlatform = false;
             // 수직 속도만 초기화
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
@@ -582,29 +645,33 @@ public class PlayerController : MonoBehaviour
                 ChangeState(new IdleState(this));
         }
     }
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            if (rb.velocity.y < 0)
-            {
-                Debug.Log("플랫폼 위에 올라감");
-                isOnPlatform = true;
-                collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
-                nowPlatform = collision.gameObject;
-                ChangeState(new IdleState(this));
-                
-            }
-        }
 
-    }
+
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Platform"))
+    //     {
+
+    //         if (rb.velocity.y < 0)
+    //         {
+
+
+    //             Debug.Log("플랫폼 위에 올라감");
+    //             isOnPlatform = true;
+    //             collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+    //             nowPlatform = collision.gameObject;
+    //             ChangeState(new IdleState(this));
+                
+    //         }
+    //     }
+
+    // }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isOnPlatform = false;
-            collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            isOnGround = false;
         }
     }
 } 

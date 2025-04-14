@@ -27,6 +27,8 @@ public class IdleState : IPlayerState
             {
                 if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
                 {
+                    Debug.Log("하향점프");
+                    player.isDownJumping = true;
                     player.isOnPlatform = false;
                     player.nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
                     player.isJumping = true;
@@ -42,7 +44,10 @@ public class IdleState : IPlayerState
         else if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed) player.ChangeState(new AttackState(player));
     }
 
-    public void Exit() => Debug.Log("Idle 상태 종료");
+    public void Exit()
+    {
+        //Debug.Log("Idle 상태 종료");
+    }
     public override string ToString() => "Idle";
 }
 
@@ -53,7 +58,7 @@ public class MoveState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Move 상태 시작");
+        //Debug.Log("Move 상태 시작");
 
         player.anim.PlayAnimation("Move");
     }
@@ -74,6 +79,7 @@ public class MoveState : IPlayerState
             {
                 if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
                 {
+                    player.isDownJumping = true;
                     player.isOnPlatform = false;
                     player.nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
                     player.isJumping = true;
@@ -91,7 +97,7 @@ public class MoveState : IPlayerState
 
     public void Exit()
     {
-        Debug.Log("Move 상태 종료");
+        //Debug.Log("Move 상태 종료");
     }
 
     public override string ToString() => "Move";
@@ -106,7 +112,9 @@ public class JumpState : IPlayerState
     public void Enter()
     {
         Debug.Log("Jump 상태 시작");
-
+        if (player.isDownJumping || player.isFallingFromPlatform ||player.GetJumpingDash())
+            return;
+            
         player.StartJump();
         player.anim.PlayAnimation("JumpUp");
     }
@@ -119,6 +127,13 @@ public class JumpState : IPlayerState
         {
             player.anim.PlayAnimation("JumpDown");
         }
+        if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed)
+        {
+            player.ChangeState(new JumpAttackState(player));
+            return;
+        }
+        if (player.isDownJumping || player.GetJumpingDash() || player.isFallingFromPlatform)
+            return;
 
         if ((Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) && player.canDash)
         {
@@ -126,11 +141,7 @@ public class JumpState : IPlayerState
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed)
-        {
-            player.ChangeState(new JumpAttackState(player));
-            return;
-        }
+
         if (player.GetCurrentState() is DashState) return;
 
 
@@ -157,7 +168,7 @@ public class JumpState : IPlayerState
 
     public void Exit()
     {
-        Debug.Log("Jump 상태 종료");
+        //Debug.Log("Jump 상태 종료");
         
         player.ResetJump();
     }
@@ -233,7 +244,7 @@ public class JumpAttackState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("JumpAttack 상태 시작");
+        //Debug.Log("JumpAttack 상태 시작");
         player.PlayerJumpAttack();
         player.anim.PlayAnimation("JumpAttack");
     }
@@ -245,33 +256,9 @@ public class JumpAttackState : IPlayerState
 
     public void Exit()
     {
-        Debug.Log("JumpAttack 상태 종료");
+        //Debug.Log("JumpAttack 상태 종료");
         player.EndJumpAttack();
         player.ResetMovement();
     }
     public override string ToString() => "JumpAttack";
-}
-
-public class BindState : IPlayerState
-{
-    private PlayerController player;
-
-    public BindState(PlayerController player) { this.player = player; }
-
-    public void Enter()
-    {
-        Debug.Log("Bind 상태 시작");
-    }
-
-    public void Update()
-    {
-
-    }
-
-    public void Exit()
-    {
-        Debug.Log("Bind 상태 종료");
-        player.RestorePreviousState();
-    }
-    public override string ToString() => "Bind";
 }

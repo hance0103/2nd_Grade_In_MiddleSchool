@@ -252,6 +252,10 @@ MonoBehaviour:
   controller: {fileID: 0}
   input: {fileID: 0}
   anim: {fileID: 0}
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  isDownJumping: 0
 --- !u!114 &6994913468536392741
 MonoBehaviour:
   m_ObjectHideFlags: 0
