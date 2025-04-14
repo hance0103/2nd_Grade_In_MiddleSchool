@@ -226,6 +226,7 @@ MonoBehaviour:
   isJumping: 0
   isOnPlatform: 0
   nowPlatform: {fileID: 0}
+  isOnGround: 0
   dashDistance: 5
   dashBeforeDelay: 0.1
   dashDuration: 0.1
@@ -234,6 +235,8 @@ MonoBehaviour:
   diagonalDashX: 5
   diagonalDashY: 5
   dashEffect: {fileID: 5859108131183404584}
+  isJumpingDash: 0
+  isFallingFromPlatform: 0
   direction: 8
   looking: 0
   _normalAttackDmg: 0
@@ -255,7 +258,6 @@ MonoBehaviour:
   platformMask:
     serializedVersion: 2
     m_Bits: 4096
-  isDownJumping: 0
 --- !u!114 &6994913468536392741
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1758,10 +1758,6 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 3899080805333057914}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: platformMask.m_Bits
-      value: 4096
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1778,10 +1774,6 @@ PrefabInstance:
     - target: {fileID: 3785432611975125168, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
       propertyPath: m_Name
       value: Platform
-      objectReference: {fileID: 0}
-    - target: {fileID: 3785432611975125168, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7201586855376654361, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
       propertyPath: m_LocalPosition.x
