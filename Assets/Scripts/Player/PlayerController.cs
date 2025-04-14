@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (hitLeft.collider == null && hitright.collider == null)
         {
-            if (isOnPlatform && !isJumping)
+            if (isOnPlatform && !isJumping && !(stateMachine.GetCurrentState() is DashState))
             {
                 isFallingFromPlatform = true;
                 ChangeState(new JumpState(this));
@@ -489,12 +489,18 @@ public class PlayerController : MonoBehaviour
         Vector2 dashStartPos = rb.position;
         Vector2 dashEndPos = dashStartPos + direction;
 
+        Vector2 dashSpeed = direction/dashDuration;
+
         float elapsed = 0f;
         while (elapsed < dashDuration)
         {
-            elapsed += Time.deltaTime;
-            rb.MovePosition(Vector2.Lerp(dashStartPos, dashEndPos, elapsed / dashDuration));
-            yield return null;
+            Debug.Log(elapsed);
+            elapsed += Time.fixedDeltaTime;
+            Vector2 nextPos = rb.position + dashSpeed*Time.fixedDeltaTime;
+            rb.MovePosition(nextPos);
+
+
+            yield return new WaitForFixedUpdate();
         }
 
         rb.gravityScale = 4;
