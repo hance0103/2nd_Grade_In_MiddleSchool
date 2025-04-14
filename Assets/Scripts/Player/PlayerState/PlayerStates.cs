@@ -10,6 +10,7 @@ public class IdleState : IPlayerState
     { 
         Debug.Log("Idle 상태 시작");
         player.anim.PlayAnimation("Idle");
+        player.canJump = true;
     }
 
     public void Update()
@@ -58,7 +59,7 @@ public class MoveState : IPlayerState
 
     public void Enter()
     {
-        //Debug.Log("Move 상태 시작");
+        Debug.Log("Move 상태 시작");
 
         player.anim.PlayAnimation("Move");
     }

@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public bool isJumping = false;
     private float jumpStartY;
     private float jumpTimer = 0f;
-    private bool canJump;
+    public bool canJump;
 
     public bool isOnPlatform = false;
     public GameObject nowPlatform;
@@ -266,8 +266,10 @@ public class PlayerController : MonoBehaviour
             if (!isOnPlatform && !isDownJumping)
             {
                 Debug.Log("플랫폼 위에 올라감");
+                canJump = true;
                 isJumpingDash = false;
                 isOnPlatform = true;
+                isFallingFromPlatform = false;
                 nowPlatform = hitCol.gameObject;
                 hitCol.isTrigger = false;
                 ChangeState(new IdleState(this));
@@ -275,7 +277,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (hitLeft.collider == null && hitright.collider == null)
         {
-            if (isOnPlatform)
+            if (isOnPlatform && !isJumping)
             {
                 isFallingFromPlatform = true;
                 ChangeState(new JumpState(this));
