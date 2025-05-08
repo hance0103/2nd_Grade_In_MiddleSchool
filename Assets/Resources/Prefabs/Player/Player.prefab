@@ -23,7 +23,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5949930095949123849
 Transform:
   m_ObjectHideFlags: 0
@@ -217,38 +217,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowSpeed: 0
   maxSpeed: 12
-  moveAccel: 30
+  moveAccel: 50
   minChargeTime: 0.1
-  minJumpForce: 10
-  maxJumpForce: 10
-  maxJumpHeight: 2.5
-  maxChargeTime: 0.3
+  minJumpForce: 11
+  maxJumpForce: 12
+  maxJumpHeight: 1.8
+  maxChargeTime: 0.4
   isJumping: 0
   canJump: 0
   isOnPlatform: 0
   nowPlatform: {fileID: 0}
   isOnGround: 0
   dashDistance: 5
-  dashBeforeDelay: 0.1
+  dashBeforeDelay: 0.07
   dashDuration: 0.1
-  dashCooldown: 1
+  dashCooldown: 0.4
   dashTime: 0
-  diagonalDashX: 5
-  diagonalDashY: 5
+  diagonalDashX: 4
+  diagonalDashY: 3
   dashEffect: {fileID: 5859108131183404584}
   isJumpingDash: 0
   isFallingFromPlatform: 0
   direction: 8
   looking: 0
-  _normalAttackDmg: 0
-  _normalAttackSpeed: 10
-  _normalAttackRange: 3
-  _normalAttack_delay: 0.1
+  _normalAttackDmg: 10
+  _normalAttackSpeed: 13
+  _normalAttackRange: 1.2
+  _normalAttack_delay: 0.25
   _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
   _attackPoint: {fileID: 5949930095949123849}
-  _jumpAttack_diveVelocity: 22
-  _jumpAttack_dmg: 0
-  _jumpAttackHitDelay: 0.1
+  _jumpAttack_diveVelocity: 30
+  _jumpAttack_dmg: 30
+  _jumpAttackHitDelay: 0.06
   _jumpAttackObject: {fileID: 7060654203872380840}
   bindTimer: 1
   enemy: {fileID: 0}
