@@ -62,6 +62,7 @@ public class BossEnragePopup : MonoBehaviour
         initBottomBarPos = BottomBar.GetComponent<RectTransform>().anchoredPosition;
         initTopTextPos = TopText.GetComponent<RectTransform>().anchoredPosition;
         initBottomTextPos = BottomText.GetComponent<RectTransform>().anchoredPosition;
+        OnEnrage();
     }
     public void OnEnrage() 
     {

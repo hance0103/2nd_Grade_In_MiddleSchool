@@ -60,15 +60,18 @@ public class FinishingPopup : MonoBehaviour
         ChatText.gameObject.SetActive(true);
         Playeranimator = Player.GetComponent<Animator>();
         Bossanimator = Boss.GetComponent<Animator>();
+        
         // 스테이지별 대사 불러오기(PlayerPrefs에서)
         string finalChat = "";
         if (Stage == 1)
         {
             finalChat = PlayerPrefs.GetString("FinalText1", "죽어라!");
+            Bossanimator.SetBool("isEnraged", true);
         }
         else if (Stage == 2)
         {
             finalChat = PlayerPrefs.GetString("FinalText2", "죽어라!");
+            Bossanimator.SetBool("isEnraged", true);
         }
         else if (Stage == 3)
         {
@@ -88,7 +91,7 @@ public class FinishingPopup : MonoBehaviour
         Boss.SetActive(true);
         if (Boss != null)
         {
-            Boss.transform.position = new Vector3(6.5f, -1.5f, 0f);
+            Boss.transform.position = new Vector3(6.5f, -3.5f, 0f);
             Boss.SetActive(true);
         }
         // (필요하다면) 대사가 시작될 때 사운드 이펙트

@@ -937,8 +937,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.25
-  m_fontSizeBase: 0.25
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8099,15 +8099,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11048,6 +11048,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Stage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 104924279}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopup
+      value: 
+      objectReference: {fileID: 1439323141}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopupScript
+      value: 
+      objectReference: {fileID: 1439323143}
     - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: dashDistance
       value: 5
@@ -11757,7 +11773,7 @@ MonoBehaviour:
   FinishPanel: {fileID: 122115807}
   fadeImage: {fileID: 518726516}
   fadeDuration: 1
-  player: {fileID: 0}
+  player: {fileID: 104924279}
   boss: {fileID: 1463315024}
 --- !u!1 &2088047089
 GameObject:

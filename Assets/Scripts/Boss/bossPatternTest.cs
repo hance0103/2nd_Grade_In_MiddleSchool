@@ -176,6 +176,7 @@ public class bossPatternTest : MonoBehaviour
         // 광폭화 조건 확인 - 체력이 50% 이하일 때
         if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
         {
+            currentState = BossState.Idle;
             isEnrageTriggered = true; // 한 번만 트리거되도록 설정
             shouldTriggerEnrage = true;
             Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");

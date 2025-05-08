@@ -46,13 +46,8 @@ public class PlayerHPManager : MonoBehaviour
         currentHP = maxHP;
     }
 
-
-    public void TakeDamage(float damage)
+    private void Update()
     {
-        currentHP -= damage;
-        Debug.Log($"�÷��̾ {damage} �������� ����. ���� HP: {currentHP}");
-
-        
         if (currentHP <= 0 && Stage == 1)
         {
             currentHP = 0;
@@ -68,6 +63,15 @@ public class PlayerHPManager : MonoBehaviour
             currentHP = 0;
             PlayerDie3();
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+        Debug.Log($"�÷��̾ {damage} �������� ����. ���� HP: {currentHP}");
+
+        
+        
     }
     public float GetCurrentHP()
     {

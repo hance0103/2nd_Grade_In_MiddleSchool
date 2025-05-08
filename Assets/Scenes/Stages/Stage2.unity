@@ -2866,6 +2866,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
   m_PrefabInstance: {fileID: 1485213651}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &392371909
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392371907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a3b183376dd8f247a3c58508351d301, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &429271332
 GameObject:
   m_ObjectHideFlags: 0
@@ -8266,7 +8287,10 @@ PrefabInstance:
     - {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 392371909}
   m_SourcePrefab: {fileID: 100100000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
 --- !u!1 &1492907616
 GameObject:
@@ -10843,9 +10867,21 @@ PrefabInstance:
       value: -3.07
       objectReference: {fileID: 0}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Stage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 1613015482}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopup
+      value: 
+      objectReference: {fileID: 1492907616}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: DefeatPopupScript
+      value: 
+      objectReference: {fileID: 1492907618}
     - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: controller
       value: 
