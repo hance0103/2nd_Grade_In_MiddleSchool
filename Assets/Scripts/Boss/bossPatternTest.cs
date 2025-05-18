@@ -106,18 +106,15 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            //BossState.StrongPattern1,
-            //BossState.StrongPattern2
-        });
-        //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
-        //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
-        //patternDic.Add(0, new BossState[] { BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2, BossState.StrongPattern2 });
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern3 });
-
+        //patternDic.Add(0, new BossState[] {
+        //    BossState.WeakPattern1,
+        //    BossState.WeakPattern2,
+        //    BossState.WeakPattern3,
+        //    BossState.StrongPattern1,
+        //    BossState.StrongPattern2
+        //});
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2 });
         StartCoroutine(BeforeIdle());
     }
 
@@ -191,16 +188,16 @@ public class bossPatternTest : MonoBehaviour
         #endregion
 
     }
-    public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
+    public IEnumerator Idle() 
     {
         int patternNum = Random.Range(0, patternDic.Count);
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
+            yield return new WaitUntil(() => currentState == BossState.None);
             currentState = BossState.Idle;
-            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+            currentCoroutine = null;
         }
 
         yield return null;
@@ -209,10 +206,8 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator BeforeIdle()
     {
-        // ī��Ʈ�ٿ�
         for (float i = countDownBeforeStart; i > 0; i--)
         {
-            //Debug.Log("ī��Ʈ�ٿ�: " + i);
             yield return new WaitForSeconds(1f);
         }
         int patternNum = Random.Range(0, patternDic.Count);
@@ -220,9 +215,9 @@ public class bossPatternTest : MonoBehaviour
         for (int i = 0; i < currentPattern.Length; i++)
         {
             currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
+            yield return new WaitUntil(() => currentState == BossState.None);
             currentState = BossState.Idle;
-            currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
+            currentCoroutine = null;
         }
 
         yield return null;
