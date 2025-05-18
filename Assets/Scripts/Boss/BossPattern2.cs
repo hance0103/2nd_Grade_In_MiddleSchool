@@ -39,6 +39,8 @@ public class BossPattern2 : MonoBehaviour
     private Coroutine poisonRainCoroutine = null;
     public bool EndPattern = false;
 
+    private BossState[] currentBossStateArray = null;
+
     [Header("보스 기본 설정")]
     [Tooltip("광폭화 설정")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
@@ -184,7 +186,11 @@ public class BossPattern2 : MonoBehaviour
 
         if (currentState == BossState.Idle && currentCoroutine == null) // 패턴의 조합이 끝나면 다시 Idle()돌려서 패턴 실행하게 해주기
         {
-            StartCoroutine(Idle());
+            if (currentBossStateArray == null)
+            {
+                Debug.Log("새로운 패턴 리스트 배정");
+                StartCoroutine(Idle());
+            }
         }
         #endregion
 
@@ -224,36 +230,32 @@ public class BossPattern2 : MonoBehaviour
     public IEnumerator Idle() 
     {
         int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
+        currentBossStateArray = patternDic[patternNum];
+        for (int i = 0; i < currentBossStateArray.Length; i++)
         {
-            currentState = currentPattern[i];
+            currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
             currentCoroutine = null; // Idle 실행 조건
         }
-
-        yield return null;
+        currentBossStateArray = null;
     }
 
 
     public IEnumerator BeforeIdle() 
     {
-        for (float i = countDownBeforeStart; i > 0; i--)
-        {
-            yield return new WaitForSeconds(1f);
-        }
+        yield return new WaitForSeconds(countDownBeforeStart);
         int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
+        currentBossStateArray = patternDic[patternNum];
+        for (int i = 0; i < currentBossStateArray.Length; i++)
         {
-            currentState = currentPattern[i];
+            currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
             currentCoroutine = null; // Idle 실행 조건
         }
 
-        yield return null;
+        currentBossStateArray = null;
     }
     #region 패턴 1
     public IEnumerator WeakPattern1()
@@ -343,7 +345,7 @@ public class BossPattern2 : MonoBehaviour
 
         animator.SetBool("isLaser", false);
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion 
 
@@ -382,7 +384,7 @@ public class BossPattern2 : MonoBehaviour
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -449,7 +451,7 @@ public class BossPattern2 : MonoBehaviour
 
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -482,7 +484,7 @@ public class BossPattern2 : MonoBehaviour
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -544,7 +546,7 @@ public class BossPattern2 : MonoBehaviour
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -653,7 +655,7 @@ public class BossPattern2 : MonoBehaviour
         if (continuousRainCoroutine != null)
             StopCoroutine(continuousRainCoroutine);
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 

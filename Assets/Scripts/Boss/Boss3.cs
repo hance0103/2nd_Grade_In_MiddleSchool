@@ -42,6 +42,9 @@ public class Boss3 : MonoBehaviour
     private ProjectileController projectileController;
     public bool EndPattern = false;
 
+    [SerializeField]
+    private BossState[] currentBossStateArray = null;
+
     [Header("보스 기본 설정")]
     [Tooltip("광폭화 설정")]
     [SerializeField] private bool isEnraged = false; // Inspector에서 설정 가능
@@ -196,7 +199,11 @@ public class Boss3 : MonoBehaviour
         }
         if (currentState == BossState.Idle && currentCoroutine == null)
         {
-            StartCoroutine(Idle());
+            if (currentBossStateArray == null)
+            {
+                Debug.Log("새로운 패턴 리스트 배정");
+                StartCoroutine(Idle());
+            }
         }
         #endregion
 
@@ -237,37 +244,34 @@ public class Boss3 : MonoBehaviour
     public IEnumerator Idle()
     {
         int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
+        currentBossStateArray = patternDic[patternNum];
+        for (int i = 0; i < currentBossStateArray.Length; i++)
         {
             yield return new WaitForSeconds(PATTERN_GAP);
-            currentState = currentPattern[i];
+            currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
+
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
             currentCoroutine = null; // Idle 실행 조건
         }
-
-        yield return null;
+        currentBossStateArray = null;
     }
     public IEnumerator BeforeIdle()
     {
         // ī��Ʈ�ٿ�
-        for (float i = countDownBeforeStart; i > 0; i--)
-        {
-            //Debug.Log("ī��Ʈ�ٿ�: " + i);
-            yield return new WaitForSeconds(1f);
-        }
+        yield return new WaitForSeconds(countDownBeforeStart);
+
         int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
+        currentBossStateArray = patternDic[patternNum];
+        for (int i = 0; i < currentBossStateArray.Length; i++)
         {
-            currentState = currentPattern[i];
+            currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None); // currentState�� None�� �Ǳ� ������ ����
             currentState = BossState.Idle;
             currentCoroutine = null; // �̰� ������ �����ؼ� update������ ����� �����ϵ���
         }
 
-        yield return null;
+        currentBossStateArray = null;
     }
 
     #region 약공격1
@@ -394,7 +398,7 @@ public class Boss3 : MonoBehaviour
         }
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -559,7 +563,7 @@ public class Boss3 : MonoBehaviour
         }
         #endregion
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
     }
@@ -751,7 +755,7 @@ public class Boss3 : MonoBehaviour
         }
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -877,7 +881,7 @@ public class Boss3 : MonoBehaviour
         }
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -1237,7 +1241,7 @@ public class Boss3 : MonoBehaviour
         yield return new WaitUntil(() => weakPattern1Complete && weakPattern2Complete);
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -1301,7 +1305,6 @@ public class Boss3 : MonoBehaviour
 
         currentState = BossState.None;
         currentCoroutine = null;
-        yield return null;
     }
     #endregion
 
@@ -1360,7 +1363,7 @@ public class Boss3 : MonoBehaviour
         #endregion
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -1961,7 +1964,7 @@ public class Boss3 : MonoBehaviour
         yield return new WaitForSeconds(desperatePattern3Data.AfterAttackDelay);
 
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -2050,7 +2053,6 @@ public class Boss3 : MonoBehaviour
         // 보스 오브젝트 제거
         //Destroy(gameObject);
 
-        yield return null;
     }
 
     public void DeactivateAllLasers()

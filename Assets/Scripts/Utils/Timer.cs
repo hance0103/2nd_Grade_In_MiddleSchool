@@ -35,8 +35,8 @@ public class Timer : MonoBehaviour
 
             if (!TimeActive)
             {
-                Debug.Log("시간 종료");
-                Debug.Log(curTime);
+                
+                
                 curTime = 0;
                 yield break;
                 

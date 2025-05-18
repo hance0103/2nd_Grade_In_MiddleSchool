@@ -501,7 +501,7 @@ public class PlayerController : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < dashDuration)
         {
-            Debug.Log(elapsed);
+
             elapsed += Time.fixedDeltaTime;
             Vector2 nextPos = rb.position + dashSpeed*Time.fixedDeltaTime;
             rb.MovePosition(nextPos);
