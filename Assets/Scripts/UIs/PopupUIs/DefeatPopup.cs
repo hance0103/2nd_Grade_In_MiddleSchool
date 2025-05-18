@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
@@ -28,7 +30,7 @@ public class DefeatPopup : MonoBehaviour
         "믿을 수 없다..신호등 따위에 당하다니..",
         "방심했구나..다음 번엔 봐주지 않겠다 "
     };
-    [SerializeField] private TMP_Text displayText;
+    public TMP_Text ChatText;      // 패배 대사
     [Header("스테이지")]
     [SerializeField] private int Stage;
 
@@ -38,41 +40,34 @@ public class DefeatPopup : MonoBehaviour
         int randomIndex = Random.Range(0, Defeattexts1.Length);
 
         // 선택된 텍스트를 UI에 표시
-        if (displayText != null)
-        {
-            displayText.text = Defeattexts1[randomIndex];
-        }
+        StartCoroutine(NormalChat(Defeattexts1[randomIndex]));
     }
     public void ShowRandomText2()
     {
         // 배열 범위 내에서 무작위 인덱스 선택
         int randomIndex = Random.Range(0, Defeattexts2.Length);
 
-        // 선택된 텍스트를 UI에 표시
-        if (displayText != null)
-        {
-            displayText.text = Defeattexts2[randomIndex];
-        }
+        StartCoroutine(NormalChat(Defeattexts2[randomIndex]));
     }
     public void ShowRandomText3()
     {
         // 배열 범위 내에서 무작위 인덱스 선택
         int randomIndex = Random.Range(0, Defeattexts3.Length);
 
-        // 선택된 텍스트를 UI에 표시
-        if (displayText != null)
-        {
-            displayText.text = Defeattexts3[randomIndex];
-        }
+        StartCoroutine(NormalChat(Defeattexts3[randomIndex]));
     }
+    //컨트롤러 끄기
+    [SerializeField] public GameObject Controller;
     // 패배 시간을 출력하기 위한 텍스트 오브젝트들
     [SerializeField] private TMP_Text displayDefeatTime;
     [SerializeField] private float curTime;
     int minute;
     int second;
+    int hour;
     // 패배 팝업 열기 (게임 일시정지)
     public void OpenDefeat1()
     {
+        Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
         ShowRandomText1();
         gameObject.SetActive(true);
@@ -81,10 +76,12 @@ public class DefeatPopup : MonoBehaviour
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "분투한 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        hour = (int)curTime / 3600;
+        displayDefeatTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
     public void OpenDefeat2()
     {
+        Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
         ShowRandomText2();
         gameObject.SetActive(true);
@@ -93,10 +90,12 @@ public class DefeatPopup : MonoBehaviour
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "분투한 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        hour = (int)curTime / 3600;
+        displayDefeatTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
     public void OpenDefeat3()
     {
+        Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
         ShowRandomText3();
         gameObject.SetActive(true);
@@ -105,7 +104,8 @@ public class DefeatPopup : MonoBehaviour
         curTime = timer.curTime;
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayDefeatTime.text = "분투한 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        hour = (int)curTime / 3600;
+        displayDefeatTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
 
     // 패배 팝업 닫기 (게임 재개)
@@ -137,5 +137,30 @@ public class DefeatPopup : MonoBehaviour
         // 게임 재시작 로직 추가 (필요 시 장면 다시 로드 등)
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
-    
+    public float typingSpeed = 0.1f;
+    public bool isSkipping = false;
+    private bool isFullTextDisplayed = false;
+    public string writerText = "";
+    IEnumerator NormalChat(string narration)
+    {
+        isFullTextDisplayed = false;
+
+        int a = 0;
+        ChatText.text = "";
+        writerText = "";
+
+        // 텍스트 타이핑 효과
+        for (a = 0; a < narration.Length; a++)
+        {
+            if (isSkipping)
+            {
+                writerText = narration;
+                ChatText.text = writerText;
+                break;
+            }
+            writerText += narration[a];
+            ChatText.text = writerText;
+            yield return new WaitForSecondsRealtime(typingSpeed);
+        }
+    }
 }

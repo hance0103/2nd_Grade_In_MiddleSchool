@@ -50,17 +50,42 @@ public class BossHPManager : MonoBehaviour
         Enrageactive = true;
     }
 
+    bossPatternTest bs1;
+    BossPattern2 bs2;
+    Boss3 bs3;
+    private void Start()
+    {
+        bs1 = FindObjectOfType<bossPatternTest>();
+        bs2 = FindObjectOfType<BossPattern2>();
+        bs3 = FindObjectOfType<Boss3>();
+    }
+    private void Update()
+    {
+        if (Enrageactive && currentHP <= maxHP * 0.5f && bs1 != null && bs1.EndPattern && Stage == 1)
+        {
+            Debug.Log(bs1.EndPattern);
+            Enrageactive = false;
+            BossEnrage();
+        }
+        if (Enrageactive && currentHP <= maxHP * 0.5f && bs2 != null && bs2.EndPattern && Stage == 2)
+        {
+            Debug.Log(bs2.EndPattern);
+            Enrageactive = false;
+            BossEnrage();
+        }
+        if (Enrageactive && currentHP <= maxHP * 0.5f && bs3 != null && bs3.EndPattern && Stage == 3)
+        {
+            Debug.Log(bs3.EndPattern);
+            Enrageactive = false;
+            BossEnrage();
+        }
+
+    }
     private bool Enrageactive = true;
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
         Debug.Log($"보스가 {damage} 데미지를 받음. 남은 HP: {currentHP}");
-
-        if (Enrageactive && currentHP <= maxHP * 0.5f)
-        {
-            Enrageactive = false;
-            BossEnrage();
-        }
         if (currentHP <= 0&& Stage ==1)
         {
             currentHP = 0;

@@ -37,6 +37,7 @@ public class BossPattern2 : MonoBehaviour
     private ProjectileController projectileController; // ProjectileController 참조
     private bool isPattern6Active = false;
     private Coroutine poisonRainCoroutine = null;
+    public bool EndPattern = false;
 
     [Header("보스 기본 설정")]
     [Tooltip("광폭화 설정")]
@@ -196,6 +197,15 @@ public class BossPattern2 : MonoBehaviour
         }
         #endregion
     }
+    private const float PATTERN_GAP = 0.3f;
+    private IEnumerator FinishPattern()
+    {
+        EndPattern = true;
+        yield return new WaitForSeconds(PATTERN_GAP);
+
+        currentState = BossState.None;
+        currentCoroutine = null;
+    }
     public IEnumerator Idle() 
     {
         int patternNum = Random.Range(0, patternDic.Count);
@@ -233,6 +243,7 @@ public class BossPattern2 : MonoBehaviour
     #region 패턴 1
     public IEnumerator WeakPattern1()
     {
+        EndPattern = false;
         Debug.Log("약공격1");
         currentState = BossState.WeakPattern1;
 
@@ -316,15 +327,15 @@ public class BossPattern2 : MonoBehaviour
         yield return StartCoroutine(laser.FireLaser(bossStartPosition, fixedPlayerPos));
 
         animator.SetBool("isLaser", false);
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion 
 
     #region 패턴 2
     public IEnumerator WeakPattern2() 
     {
+        EndPattern = false;
         Debug.Log("약공격2");
         currentState = BossState.WeakPattern2;
 
@@ -355,15 +366,15 @@ public class BossPattern2 : MonoBehaviour
         yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 패턴 3
     public IEnumerator WeakPattern3()
     {
+        EndPattern = false;
         Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
         Vector2 bossStartPosition = transform.position - new Vector3(0, 0.8f, 0);
@@ -420,17 +431,17 @@ public class BossPattern2 : MonoBehaviour
                 yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
             }
         }
-        
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 패턴 4
     public IEnumerator WeakPattern4()
     {
+        EndPattern = false;
         Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
 
@@ -455,15 +466,15 @@ public class BossPattern2 : MonoBehaviour
 
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 패턴 5
     public IEnumerator WeakPattern5()
     {
+        EndPattern = false;
         Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
 
@@ -517,15 +528,15 @@ public class BossPattern2 : MonoBehaviour
         Debug.Log("약공격5 종료");
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 패턴 6
     public IEnumerator WeakPattern6()
     {
+        EndPattern = false;
         Debug.Log("약공격6");
         currentState = BossState.WeakPattern6;
         Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
@@ -627,9 +638,7 @@ public class BossPattern2 : MonoBehaviour
         if (continuousRainCoroutine != null)
             StopCoroutine(continuousRainCoroutine);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
