@@ -7,9 +7,9 @@ using TMPro;
 
 public class PlayerHPManager : MonoBehaviour
 {
-    //�÷��̾� hp�� �̱������� ����, �� �̵��� �ʱ�ȭ
     public static PlayerHPManager Instance { get; private set; }
-
+    [SerializeField]
+    private GameObject playerController;
     [Header("�÷��̾� HP ����")]
     [SerializeField] private float maxHP = 100f;
     [Header("�÷��̾� ������Ʈ")]
@@ -24,16 +24,12 @@ public class PlayerHPManager : MonoBehaviour
     public float GettingMaxHP() => maxHP;
     private void Awake()
     {
-        // �̱��� �⺻ ����
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-
-        // �� ��ȯ �� �ı��ǵ��� ���� 
-        // ���� �� HP �ʱ�ȭ
         currentHP = maxHP;
     }
     void Start()
@@ -46,30 +42,35 @@ public class PlayerHPManager : MonoBehaviour
         currentHP = maxHP;
     }
 
-    private void Update()
-    {
-        if (currentHP <= 0 && Stage == 1)
-        {
-            currentHP = 0;
-            PlayerDie1();
-        }
-        if (currentHP <= 0 && Stage == 2)
-        {
-            currentHP = 0;
-            PlayerDie2();
-        }
-        if (currentHP <= 0 && Stage == 3)
-        {
-            currentHP = 0;
-            PlayerDie3();
-        }
-    }
 
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
-        Debug.Log($"�÷��̾ {damage} �������� ����. ���� HP: {currentHP}");
-        
+        Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
+        if (currentHP < 0 )
+        {
+            currentHP = 0;
+            Debug.Log("플레이어 사망");
+            DefeatPopup.SetActive(true);
+            Player.SetActive(false);
+            playerController.SetActive(false);
+            switch (Stage)
+            {
+                case 1:
+                    DefeatPopupScript.OpenDefeat1();
+                    break;
+                case 2:
+                    DefeatPopupScript.OpenDefeat2();
+                    break;
+                case 3:
+                    DefeatPopupScript.OpenDefeat3();
+                    break;
+                default:
+                    UnityEngine.Debug.LogError("할당되지 않은 스테이지입니다.");
+                    break;
+            }
+            Time.timeScale = 0f;
+        }
     }
     public float GetCurrentHP()
     {
@@ -81,31 +82,5 @@ public class PlayerHPManager : MonoBehaviour
         return maxHP;
     }
     
-    private void PlayerDie1()
-    {
-        DefeatPopup.SetActive(true);
-        Player.SetActive(false);
-        DefeatPopupScript.OpenDefeat1();
-        Time.timeScale = 0f;
-    }
-    private void PlayerDie2()
-    {
-        Debug.Log("�÷��̾ ����߽��ϴ�.");
-        DefeatPopup.SetActive(true);
-        Player.SetActive(false);
-        DefeatPopupScript.OpenDefeat2();
-        Time.timeScale = 0f;
-        // ���� ��� ó�� ���� (�ִϸ��̼�, ��� ������ ��)
-        // ��) ���� ������Ʈ ��Ȱ��ȭ, ���� ��ƾ ���� ��
-    }
-    private void PlayerDie3()
-    {
-        Debug.Log("�÷��̾ ����߽��ϴ�.");
-        DefeatPopup.SetActive(true);
-        Player.SetActive(false);
-        DefeatPopupScript.OpenDefeat3();
-        Time.timeScale = 0f;
-        // ���� ��� ó�� ���� (�ִϸ��̼�, ��� ������ ��)
-        // ��) ���� ������Ʈ ��Ȱ��ȭ, ���� ��ƾ ���� ��
-    }
+
 }

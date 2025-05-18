@@ -1,12 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 public class DefeatPopup : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        Debug.Log("dd");
-    }
     [SerializeField]
     private string[] Defeattexts1 = {
         "네놈 때문에..오늘도 지각이구나..",
@@ -34,6 +31,7 @@ public class DefeatPopup : MonoBehaviour
     [SerializeField] private TMP_Text displayText;
     [Header("스테이지")]
     [SerializeField] private int Stage;
+
     public void ShowRandomText1()
     {
         // 배열 범위 내에서 무작위 인덱스 선택

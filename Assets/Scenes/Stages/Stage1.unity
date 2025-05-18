@@ -11080,6 +11080,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1439323141}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 760999042}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: DefeatPopupScript
       value: 
       objectReference: {fileID: 1439323143}
