@@ -3,6 +3,10 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class DefeatPopup : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Debug.Log("dd");
+    }
     [SerializeField]
     private string[] Defeattexts1 = {
         "네놈 때문에..오늘도 지각이구나..",

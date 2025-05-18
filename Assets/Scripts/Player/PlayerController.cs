@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public float _jumpAttack_dmg;
     public float _jumpAttackHitDelay;
+    public float _jumpAttackAfterDelay;
     [SerializeField]
     private GameObject _jumpAttackObject;
 
@@ -633,8 +634,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log("시간 정지");
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         Debug.Log("시간 복구");
+    }
+    public IEnumerator PlayerJumpAttackAfterDelay()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(_jumpAttackAfterDelay);
+        Time.timeScale = 1f;
+
     }
     public void EndJumpAttack()
     {

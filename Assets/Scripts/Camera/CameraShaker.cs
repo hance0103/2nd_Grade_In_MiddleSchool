@@ -26,7 +26,7 @@ public class CameraShaker : MonoBehaviour
         while(elapsedTime < duration)
         {
             transform.position = initPos + (Vector3)Random.insideUnitCircle * magnitude;
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             yield return new WaitForEndOfFrame();
         }
         transform.position = initPos;

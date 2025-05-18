@@ -69,8 +69,6 @@ public class PlayerHPManager : MonoBehaviour
     {
         currentHP -= damage;
         Debug.Log($"�÷��̾ {damage} �������� ����. ���� HP: {currentHP}");
-
-        
         
     }
     public float GetCurrentHP()
@@ -85,13 +83,10 @@ public class PlayerHPManager : MonoBehaviour
     
     private void PlayerDie1()
     {
-        Debug.Log("�÷��̾ ����߽��ϴ�.");
         DefeatPopup.SetActive(true);
         Player.SetActive(false);
         DefeatPopupScript.OpenDefeat1();
         Time.timeScale = 0f;
-        // ���� ��� ó�� ���� (�ִϸ��̼�, ��� ������ ��)
-        // ��) ���� ������Ʈ ��Ȱ��ȭ, ���� ��ƾ ���� ��
     }
     private void PlayerDie2()
     {
