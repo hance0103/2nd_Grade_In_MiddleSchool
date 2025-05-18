@@ -82,7 +82,8 @@ public class BossEnragePopup : MonoBehaviour
             Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
             SoundManager.Instance.EffectSoundOn("stage3scream");
         }
-       
+
+        CameraMove.Instance.EnrageBoss();
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화
         gameObject.SetActive(true);
         // 트리거(또는 처음부터) 발동 시 코루틴 실행

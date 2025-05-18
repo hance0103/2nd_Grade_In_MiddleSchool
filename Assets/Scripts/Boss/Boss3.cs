@@ -40,6 +40,7 @@ public class Boss3 : MonoBehaviour
     public GameObject player;
     private LaserController2 laserController;
     private ProjectileController projectileController;
+    public bool EndPattern = false;
 
     [Header("보스 기본 설정")]
     [Tooltip("광폭화 설정")]
@@ -210,7 +211,15 @@ public class Boss3 : MonoBehaviour
         #endregion
 
     }
+    private const float PATTERN_GAP = 0.3f;
+    private IEnumerator FinishPattern()
+    {
+        EndPattern = true;
+        yield return new WaitForSeconds(PATTERN_GAP);
 
+        currentState = BossState.None;
+        currentCoroutine = null;
+    }
     public IEnumerator Idle()
     {
         int patternNum = Random.Range(0, patternDic.Count);
@@ -249,6 +258,7 @@ public class Boss3 : MonoBehaviour
     #region 약공격1
     public IEnumerator WeakPattern1()
     {
+        EndPattern = false;
         Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
 
@@ -367,15 +377,15 @@ public class Boss3 : MonoBehaviour
             }
         }
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 약공격2
     public IEnumerator WeakPattern2()
     {
+        EndPattern = false;
         Debug.Log(isEnraged ? "약공격2 - 광폭화" : "약공격2");
         currentState = BossState.WeakPattern2;
 
@@ -533,15 +543,15 @@ public class Boss3 : MonoBehaviour
         #endregion
 
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 약공격3
     public IEnumerator WeakPattern3()
     {
+        EndPattern = false;
         Debug.Log(isEnraged ? "약공격3 - 광폭화" : "약공격3");
         currentState = BossState.WeakPattern3;
 
@@ -722,15 +732,15 @@ public class Boss3 : MonoBehaviour
             #endregion
         }
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 약공격4
     public IEnumerator WeakPattern4()
     {
+        EndPattern = false;
         Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
 
@@ -847,15 +857,15 @@ public class Boss3 : MonoBehaviour
             #endregion
         }
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 약공격5
     public IEnumerator WeakPattern5()
     {
+        EndPattern = false;
         Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
         #region 맵데이터
@@ -1032,9 +1042,8 @@ public class Boss3 : MonoBehaviour
         }
 
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -1175,6 +1184,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴1
     public IEnumerator DesperatePattern1()
     {
+        EndPattern = false;
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
 
@@ -1205,16 +1215,15 @@ public class Boss3 : MonoBehaviour
         // Wait until both patterns complete
         yield return new WaitUntil(() => weakPattern1Complete && weakPattern2Complete);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 발악1의 약공1
     public IEnumerator WeakPattern1Des()
     {
-
+        EndPattern = false;
         Debug.Log("약공격1 - 기본(발악1)");
         currentState = BossState.WeakPattern1;
 
@@ -1296,6 +1305,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴2
     public IEnumerator DesperatePattern2()
     {
+        EndPattern = false;
         Debug.Log("발악패턴2");
         currentState = BossState.DesperatePattern2;
 
@@ -1326,9 +1336,8 @@ public class Boss3 : MonoBehaviour
         yield return new WaitUntil(() => pattern4Complete && pattern5Complete);
         #endregion
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-        yield return null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -1831,6 +1840,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴3
     public IEnumerator DesperatePattern3()
     {
+        EndPattern = false;
         Debug.Log("발악패턴3");
         currentState = BossState.DesperatePattern3;
 
@@ -1926,8 +1936,8 @@ public class Boss3 : MonoBehaviour
         // 패턴 종료
         yield return new WaitForSeconds(desperatePattern3Data.AfterAttackDelay);
 
-        currentState = BossState.None;
-        currentCoroutine = null;
+
+        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    public static CameraMove Instance { get; private set; }
     [Header("Camera Follow")]
     [SerializeField] private float smoothing = 0.2f; // 부드럽게 따라가는 보간 상수
     [SerializeField] private Vector2 minCameraBoundary;
@@ -40,6 +41,7 @@ public class CameraMove : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         cam = GetComponent<Camera>();
         // 혹시 스크립트가 카메라와 별개 오브젝트에 붙어있다면 밑에처럼 대체할 수 있음
         if (cam == null)
@@ -69,12 +71,12 @@ public class CameraMove : MonoBehaviour
         }
 
         // ============ 보스 HP 50% 이하 체크 → 한 번만 이벤트 실행 ============
-        if (!isEnrageEventTriggered &&
-            BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        {
-            isEnrageEventTriggered = true;
-            StartCoroutine(ZoomToBossCoroutine());
-        }
+        //if (!isEnrageEventTriggered &&
+        //    BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        //{
+        //    isEnrageEventTriggered = true;
+        //    StartCoroutine(ZoomToBossCoroutine());
+        //}
         // ============ 보스 사망 체크 → 한 번만 이벤트 실행 ============
         //if (!isDieEventTriggered &&
         //    BossHPManager.Instance.GetCurrentHP() == BossHPManager.Instance.GetMaxHP() * 0f)
@@ -106,7 +108,10 @@ public class CameraMove : MonoBehaviour
         // 부드럽게 이동 (보간)
         transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
     }
-
+    public void EnrageBoss()
+    {
+        StartCoroutine(ZoomToBossCoroutine());
+    }
     private IEnumerator ZoomToBossCoroutine()
     {
         isZooming = true;  // 줌 이벤트 시작
