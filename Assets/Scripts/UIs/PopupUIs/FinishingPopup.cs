@@ -31,7 +31,7 @@ public class FinishingPopup : MonoBehaviour
 
     [Header("텍스트 연출")]
     public Vector3 startPosition = new Vector3(-4.0f, -2.5f, 0f);  // 출발 지점
-    public Vector3 endPosition = new Vector3(6.5f, -1.5f, 0f);   // 도착 지점
+    public Vector3 endPosition = new Vector3(6.5f, -2.5f, 0f);   // 도착 지점
     public GameObject letterPrefab;       // 텍스트 생성 인스턴스 프리팹
     public Canvas UI;                     // 텍스트 띄울 캔버스
 
@@ -91,7 +91,7 @@ public class FinishingPopup : MonoBehaviour
         Boss.SetActive(true);
         if (Boss != null)
         {
-            Boss.transform.position = new Vector3(6.5f, -3.5f, 0f);
+            Boss.transform.position = new Vector3(6.5f, -2.7f, 0f);
             Boss.SetActive(true);
         }
         // (필요하다면) 대사가 시작될 때 사운드 이펙트
