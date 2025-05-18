@@ -226,6 +226,7 @@ public class Boss3 : MonoBehaviour
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
         {
+            yield return new WaitForSeconds(PATTERN_GAP);
             currentState = currentPattern[i];
             yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
@@ -258,6 +259,7 @@ public class Boss3 : MonoBehaviour
     #region 약공격1
     public IEnumerator WeakPattern1()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
@@ -385,6 +387,7 @@ public class Boss3 : MonoBehaviour
     #region 약공격2
     public IEnumerator WeakPattern2()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log(isEnraged ? "약공격2 - 광폭화" : "약공격2");
         currentState = BossState.WeakPattern2;
@@ -542,15 +545,16 @@ public class Boss3 : MonoBehaviour
         }
         #endregion
 
+        yield return StartCoroutine(FinishPattern());
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
-        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
     #region 약공격3
     public IEnumerator WeakPattern3()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log(isEnraged ? "약공격3 - 광폭화" : "약공격3");
         currentState = BossState.WeakPattern3;
@@ -740,6 +744,7 @@ public class Boss3 : MonoBehaviour
     #region 약공격4
     public IEnumerator WeakPattern4()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
@@ -865,6 +870,7 @@ public class Boss3 : MonoBehaviour
     #region 약공격5
     public IEnumerator WeakPattern5()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
@@ -1184,6 +1190,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴1
     public IEnumerator DesperatePattern1()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
@@ -1223,6 +1230,7 @@ public class Boss3 : MonoBehaviour
     #region 발악1의 약공1
     public IEnumerator WeakPattern1Des()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("약공격1 - 기본(발악1)");
         currentState = BossState.WeakPattern1;
@@ -1305,6 +1313,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴2
     public IEnumerator DesperatePattern2()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("발악패턴2");
         currentState = BossState.DesperatePattern2;
@@ -1840,6 +1849,7 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴3
     public IEnumerator DesperatePattern3()
     {
+        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("발악패턴3");
         currentState = BossState.DesperatePattern3;
