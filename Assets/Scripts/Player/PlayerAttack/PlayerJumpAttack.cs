@@ -20,10 +20,12 @@ public class PlayerJumpAttack : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        Camera.main.GetComponent<CameraShaker>().StartShake(controller.camShakeDuration, controller.camShakeMagnitude);
         if (collision.gameObject.CompareTag("Boss"))
         {
             Debug.Log("점공 보스 타격");
            BossHPManager.Instance.TakeDamage(controller._jumpAttack_dmg);
+
            StartCoroutine(controller.PlayerJumpAttackDelay());
         }
     }

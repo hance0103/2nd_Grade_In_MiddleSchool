@@ -10,6 +10,9 @@ public class PlayerInputProxy : MonoBehaviour
 
     public bool DashPressed { get; private set; }
     public bool AttackPressed { get; private set; }
+    public bool AttackHeld { get; private set; }
+    public bool AttackReleased { get; private set; }
+
 
     private PlayerInputAction inputActions;
 
@@ -33,9 +36,19 @@ public class PlayerInputProxy : MonoBehaviour
         inputActions.Player.Jump.canceled += ctx => JumpReleased = !(JumpHeld = false);
 
         inputActions.Player.Dash.performed += ctx => DashPressed = true;
-        inputActions.Player.Attack.performed += ctx => AttackPressed = true;
+
+
+        //inputActions.Player.Attack.performed += ctx => AttackPressed = true;
+
+
+        inputActions.Player.Attack.started += ctx => OnAttackButtonUp();
+        inputActions.Player.Attack.canceled += ctx => OnAttackButtonDown();
     }
 
+    private void Attack_started(InputAction.CallbackContext obj)
+    {
+        throw new System.NotImplementedException();
+    }
 
     private void OnDisable()
     {
@@ -48,15 +61,11 @@ public class PlayerInputProxy : MonoBehaviour
         DashPressed = false;
         AttackPressed = false;
     }
-    public void ResetAttack()
-    {
-        AttackPressed = false;
-    }
     public void OnJumpButtonDown()
     {
         JumpPressed = true;
         JumpHeld = true;
-        //Debug.Log("Jump 버튼 눌림");
+        Debug.Log("Jump 버튼 눌림");
     }
 
     public void OnJumpButtonUp()
@@ -77,5 +86,25 @@ public class PlayerInputProxy : MonoBehaviour
         // JumpHeld는 누르고 있는 동안 유지
     }
     public void OnDashButton() => DashPressed = true;
-    public void OnAttackButton() => AttackPressed = true;
+
+    public void OnAttackButtonDown()
+    {
+        Debug.Log("공격 버튼 다운");
+        AttackReleased = false;
+        AttackPressed = true;
+        AttackHeld = true;
+    }
+    public void OnAttackButtonUp()
+    {
+        Debug.Log("공격버튼 업");
+        AttackReleased = true;
+        AttackHeld = false;
+        ResetAttackFlags();
+    }
+    public void ResetAttackFlags()
+    {
+        AttackPressed = false;
+        AttackHeld = false;
+        AttackReleased = true;
+    }
 }

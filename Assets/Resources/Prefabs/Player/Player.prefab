@@ -23,7 +23,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5949930095949123849
 Transform:
   m_ObjectHideFlags: 0
@@ -246,6 +246,7 @@ MonoBehaviour:
   _normalAttack_delay: 0.25
   _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
   _attackPoint: {fileID: 5949930095949123849}
+  isAttacking: 0
   _jumpAttack_diveVelocity: 30
   _jumpAttack_dmg: 30
   _jumpAttackHitDelay: 0.06

@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
     private GameObject _normalAttackPrefab;
     [SerializeField]
     private Transform _attackPoint;
+    public bool isAttacking = false;
 
     [Header("JumpAttack")]
     [SerializeField]
@@ -96,6 +97,9 @@ public class PlayerController : MonoBehaviour
     private float _jumpAttackObjX;
     private float _jumpAttackObjY;
 
+
+    public float camShakeDuration = 1f;
+    public float camShakeMagnitude = 0.5f;
 
     [Header("PlayerHit")]
     [SerializeField]
@@ -220,14 +224,21 @@ public class PlayerController : MonoBehaviour
                 direction == PlayerInputDirection.UpRight || 
                 direction == PlayerInputDirection.DownRight)
             {
-                looking = PlayerLookingDirection.Right;
+                if (!isAttacking)
+                {
+                    looking = PlayerLookingDirection.Right;
+                }
+                
                 moveInput = 1f;
             }
             else if (direction == PlayerInputDirection.Left ||
                     direction == PlayerInputDirection.UpLeft || 
                     direction == PlayerInputDirection.DownLeft)
             {
-                looking = PlayerLookingDirection.Left;
+                if (!isAttacking)
+                {
+                    looking = PlayerLookingDirection.Left;
+                }
                 moveInput = -1f;
             }
             else
@@ -543,14 +554,23 @@ public class PlayerController : MonoBehaviour
             return PlayerInputDirection.None;
         if (horizontal > 0)
         {
-            looking = PlayerLookingDirection.Right;
+            if (!isAttacking)
+            {
+                looking = PlayerLookingDirection.Right;
+            }
+            
             if (vertical > 0) return PlayerInputDirection.UpRight;
             else if (vertical < 0) return PlayerInputDirection.DownRight;
             else return PlayerInputDirection.Right;
         }
         else if (horizontal < 0)
         {
-            looking = PlayerLookingDirection.Left;
+            if (!isAttacking)
+            {
+                looking = PlayerLookingDirection.Left;
+            }
+
+            
             if (vertical > 0) return PlayerInputDirection.UpLeft;
             else if (vertical < 0) return PlayerInputDirection.DownLeft;
             else return PlayerInputDirection.Left;
@@ -587,7 +607,6 @@ public class PlayerController : MonoBehaviour
             GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
-            Debug.Log("투사체 발사");
         }
     }
 

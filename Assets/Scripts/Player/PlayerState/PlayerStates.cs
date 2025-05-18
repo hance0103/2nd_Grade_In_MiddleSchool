@@ -5,17 +5,18 @@ public class IdleState : IPlayerState
     private PlayerController player;
 
     public IdleState(PlayerController player) { this.player = player; }
-
+    private PlayerInputProxy input;
     public void Enter()
     { 
         Debug.Log("Idle 상태 시작");
         player.anim.PlayAnimation("Idle");
+        input = player.input;
         player.canJump = true;
+
     }
 
     public void Update()
     {
-        var input = player.input;
 
         float moveInput = player.GetMoveInput();
         
@@ -203,22 +204,24 @@ public class AttackState : IPlayerState
     private PlayerController player;
     private PlayerLookingDirection attackDirection;
     public AttackState(PlayerController player) { this.player = player; }
-    
+    private PlayerInputProxy input;
     public void Enter()
     {
         player.anim.PlayAnimationCrossFade("NormalAttack");
         attackDirection = player.GetLookingDirection();
+        player.isAttacking = true;
+        input = player.input;
+        input.OnAttackButtonDown();
         Debug.Log("Attack 상태 시작");
     }
 
     public void Update()
     {
-        var input = player.input;
 
         if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed) player.ChangeState(new JumpState(player));
         else if (Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) player.ChangeState(new DashState(player));
 
-        if (Input.GetKeyUp(KeyCode.A) || input.AttackPressed) player.ChangeState(new IdleState(player));
+        if (Input.GetKeyUp(KeyCode.A) || input.AttackReleased) player.ChangeState(new IdleState(player));
 
         player.PlayerNormalAttack(attackDirection);
 
@@ -227,7 +230,8 @@ public class AttackState : IPlayerState
     public void Exit()
     {
         var input = player.input;
-        input.ResetAttack();
+        player.isAttacking = false;
+        input.ResetAttackFlags();
         Debug.Log("Attack 상태 종료");
     }
     public override string ToString() => "Attack";

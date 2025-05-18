@@ -29,7 +29,7 @@ public class RainBehavior : MonoBehaviour
 
         if (collision.CompareTag("Player")) // 플레이어와 충돌
         {
-            Player player = collision.GetComponent<Player>();
+            PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)
             {
                 SoundManager.Instance.EffectSoundOn("21");
