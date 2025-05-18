@@ -1909,9 +1909,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _damageInnterval: 0.5
+  _damageInnterval: 1
   _isContacting: 0
   _hp: {fileID: 7487909770649839626}
+  _contactCounter: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

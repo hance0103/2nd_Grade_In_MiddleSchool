@@ -274,7 +274,6 @@ public class PlayerController : MonoBehaviour
             Collider2D hitCol = hitLeft.collider != null ? hitLeft.collider : hitright.collider;
             if (!isOnPlatform && !isDownJumping)
             {
-                Debug.Log("플랫폼 위에 올라감");
                 canJump = true;
                 isJumpingDash = false;
                 isOnPlatform = true;
@@ -354,7 +353,6 @@ public class PlayerController : MonoBehaviour
         // 점프 대시 이후 점프 초기화 안되게
         if (stateMachine.GetPreviousState() is DashState)
         {
-            Debug.Log("대시 후 점프 불가");
             isJumpingDash = true;
             isJumping = true;
             canJump = false;
@@ -681,26 +679,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    // void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Platform"))
-    //     {
-
-    //         if (rb.velocity.y < 0)
-    //         {
-
-
-    //             Debug.Log("플랫폼 위에 올라감");
-    //             isOnPlatform = true;
-    //             collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
-    //             nowPlatform = collision.gameObject;
-    //             ChangeState(new IdleState(this));
-                
-    //         }
-    //     }
-
-    // }
 
     private void OnCollisionExit2D(Collision2D collision)
     {

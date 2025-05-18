@@ -67,13 +67,13 @@ public class BossHPManager : MonoBehaviour
             Enrageactive = false;
             BossEnrage();
         }
-        if (Enrageactive && currentHP <= maxHP * 0.5f && bs2 != null && bs2.EndPattern && Stage == 2)
+        else if (Enrageactive && currentHP <= maxHP * 0.5f && bs2 != null && bs2.EndPattern && Stage == 2)
         {
             Debug.Log(bs2.EndPattern);
             Enrageactive = false;
             BossEnrage();
         }
-        if (Enrageactive && currentHP <= maxHP * 0.5f && bs3 != null && bs3.EndPattern && Stage == 3)
+        else if (Enrageactive && currentHP <= maxHP * 0.5f && bs3 != null && bs3.EndPattern && Stage == 3)
         {
             Debug.Log(bs3.EndPattern);
             Enrageactive = false;

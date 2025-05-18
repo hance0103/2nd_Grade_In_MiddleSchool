@@ -8,7 +8,6 @@ public class IdleState : IPlayerState
     private PlayerInputProxy input;
     public void Enter()
     { 
-        Debug.Log("Idle 상태 시작");
         player.anim.PlayAnimation("Idle");
         input = player.input;
         player.canJump = true;
@@ -29,7 +28,6 @@ public class IdleState : IPlayerState
             {
                 if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
                 {
-                    Debug.Log("하향점프");
                     player.isDownJumping = true;
                     player.isOnPlatform = false;
                     player.nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
@@ -60,7 +58,6 @@ public class MoveState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Move 상태 시작");
 
         player.anim.PlayAnimation("Move");
     }
@@ -113,7 +110,6 @@ public class JumpState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Jump 상태 시작");
         if (player.isDownJumping || player.isFallingFromPlatform ||player.GetJumpingDash())
             return;
             
@@ -183,7 +179,6 @@ public class DashState : IPlayerState
 
     public void Enter()
     {
-        Debug.Log("Dash 상태 시작");
         player.StartDash();
     }
 
@@ -194,7 +189,6 @@ public class DashState : IPlayerState
 
     public void Exit()
     {
-        Debug.Log("Dash 상태 종료");
     }
     public override string ToString() => "Dash";
 }
@@ -212,7 +206,6 @@ public class AttackState : IPlayerState
         player.isAttacking = true;
         input = player.input;
         input.OnAttackButtonDown();
-        Debug.Log("Attack 상태 시작");
     }
 
     public void Update()
@@ -232,7 +225,6 @@ public class AttackState : IPlayerState
         var input = player.input;
         player.isAttacking = false;
         input.ResetAttackFlags();
-        Debug.Log("Attack 상태 종료");
     }
     public override string ToString() => "Attack";
 }
@@ -246,7 +238,6 @@ public class JumpAttackState : IPlayerState
 
     public void Enter()
     {
-        //Debug.Log("JumpAttack 상태 시작");
         player.PlayerJumpAttack();
         player.anim.PlayAnimation("JumpAttack");
     }
@@ -258,7 +249,6 @@ public class JumpAttackState : IPlayerState
 
     public void Exit()
     {
-        //Debug.Log("JumpAttack 상태 종료");
         player.EndJumpAttack();
         player.ResetMovement();
     }
