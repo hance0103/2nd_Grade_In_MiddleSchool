@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 public class PopupVictory : MonoBehaviour
@@ -51,11 +53,12 @@ public class PopupVictory : MonoBehaviour
     public int Stage;
     [Header("시간 출력을 위한 참조 요소들")]
     [SerializeField] private TMP_Text displayClearTime;
-    [SerializeField] private TMP_Text displayText;
+    public TMP_Text ChatText;      // 승리 대사
     [Header("엔딩 팝업")]
     [SerializeField] private GameObject EndingPopup;
     private int minute;
     private int second;
+    private int hour;
     private float time;
     private float curTime;
 
@@ -71,7 +74,8 @@ public class PopupVictory : MonoBehaviour
         GameManager.isFinishBossZoominAllowed = false;
         SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts1.Length); // 배열 범위 내에서 무작위 인덱스 선택
-        displayText.text = Victorytexts1[randomIndex]; // 해당 무작위 인덱스 출력
+        
+        StartCoroutine(NormalChat(Victorytexts1[randomIndex]));
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         //manager.Action(scanObject);
@@ -83,14 +87,16 @@ public class PopupVictory : MonoBehaviour
         Debug.Log(savedTime1);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        hour = (int)curTime / 3600;
+        displayClearTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
     public void OpenVictory2() //스테이지 2
     {
         GameManager.isFinishBossZoominAllowed = false;
         SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts2.Length);
-        displayText.text = Victorytexts2[randomIndex];
+        StartCoroutine(NormalChat(Victorytexts2[randomIndex]));
+        // displayText.text = Victorytexts2[randomIndex];
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         //manager.Action(scanObject);
@@ -102,14 +108,15 @@ public class PopupVictory : MonoBehaviour
         Debug.Log(savedTime2);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayClearTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
     public void OpenVictory3() //스테이지 3
     {
         GameManager.isFinishBossZoominAllowed = false;
         SoundManager.Instance.winBgmOn();
         int randomIndex = Random.Range(0, Victorytexts3.Length);
-        displayText.text = Victorytexts3[randomIndex];
+        StartCoroutine(NormalChat(Victorytexts3[randomIndex]));
+        //displayText.text = Victorytexts3[randomIndex];
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         //manager.Action(scanObject);
@@ -121,7 +128,7 @@ public class PopupVictory : MonoBehaviour
         Debug.Log(savedTime3);
         minute = (int)curTime / 60;
         second = (int)curTime % 60;
-        displayClearTime.text = "클리어 시간 : " + minute.ToString("00") + ":" + second.ToString("00");
+        displayClearTime.text = hour.ToString("00") + " : " + minute.ToString("00") + " : " + second.ToString("00");
     }
     // 승리 팝업 닫기 (게임 재개)
     public void CloseVictory()
@@ -144,5 +151,32 @@ public class PopupVictory : MonoBehaviour
         Time.timeScale = 1f; // 시간 재개
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         
+    }
+    
+    public float typingSpeed = 0.02f;
+    public bool isSkipping = false;
+    private bool isFullTextDisplayed = false;
+    public string writerText = "";
+    IEnumerator NormalChat(string narration)
+    {
+        isFullTextDisplayed = false;
+        
+        int a = 0;
+        ChatText.text = "";
+        writerText = "";
+
+        // 텍스트 타이핑 효과
+        for (a = 0; a < narration.Length; a++)
+        {
+            if (isSkipping)
+            {
+                writerText = narration;
+                ChatText.text = writerText;
+                break;
+            }
+            writerText += narration[a];
+            ChatText.text = writerText;
+            yield return new WaitForSecondsRealtime(typingSpeed);
+        }
     }
 }
