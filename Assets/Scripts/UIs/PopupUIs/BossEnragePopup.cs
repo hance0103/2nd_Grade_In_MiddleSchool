@@ -130,6 +130,7 @@ public class BossEnragePopup : MonoBehaviour
         
         topTextRect.anchoredPosition = topTextStartPos + new Vector2(moveSlowRight1, 0f);
         bottomTextRect.anchoredPosition = bottomTextStartPos + new Vector2(moveSlowLeft1, 0f);
+        Debug.Log("광폭화 텍스트 코루틴 종료");
     }
     private IEnumerator BlinkText(Image targetImage, float blinkDuration, float blinkSpeed)
     {
@@ -270,5 +271,7 @@ public class BossEnragePopup : MonoBehaviour
         TopText.GetComponent<RectTransform>().anchoredPosition = initTopTextPos;
         BottomText.GetComponent<RectTransform>().anchoredPosition = initBottomTextPos;
         // 코루틴 종료
+
+        Player.GetComponent<PlayerController>().PlayerResume();
     }
 }

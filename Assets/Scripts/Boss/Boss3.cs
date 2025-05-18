@@ -142,6 +142,7 @@ public class Boss3 : MonoBehaviour
     private bool Enrageactive = true;
     private void BossEnrage()
     {
+        player.GetComponent<PlayerController>().PlayerStop();
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
     }

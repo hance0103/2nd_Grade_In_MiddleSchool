@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.Pool;
 using static DG.Tweening.DOTweenModuleUtils;
 
@@ -129,6 +130,7 @@ public class bossPatternTest : MonoBehaviour
     private bool Enrageactive = true;
     private void BossEnrage()
     {
+        player.GetComponent<PlayerController>().PlayerStop();
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
     }

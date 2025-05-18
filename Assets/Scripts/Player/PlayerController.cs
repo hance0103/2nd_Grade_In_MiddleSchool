@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private LayerMask platformMask;
 
+    private bool _canPlayerControll = true;
     
     private void Awake()
     {
@@ -160,6 +161,10 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if (!_canPlayerControll)
+        {
+            return;
+        }
         direction = GetInputDirection();
         stateMachine.Update();
 
@@ -409,9 +414,13 @@ public class PlayerController : MonoBehaviour
         spaceReleased = false;
     }
 
-    public void StopMovement()
+    public void PlayerStop()
     {
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        _canPlayerControll = false;
+    }
+    public void PlayerResume()
+    {
+        _canPlayerControll = true;
     }
 
     public void StartDash()
