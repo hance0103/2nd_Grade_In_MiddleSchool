@@ -119,7 +119,16 @@ public class bossPatternTest : MonoBehaviour
         patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2 });
         StartCoroutine(BeforeIdle());
     }
+    [Header("광폭화 팝업")]
+    [SerializeField] private GameObject BossEnragePopup;
+    [SerializeField] private BossEnragePopup BossEnragePopupScript;
 
+    private bool Enrageactive = true;
+    private void BossEnrage()
+    {
+        BossEnragePopup.SetActive(true);
+        BossEnragePopupScript.OnEnrage();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -132,6 +141,12 @@ public class bossPatternTest : MonoBehaviour
             return; // 다른 업데이트 로직 실행 방지
         }
 
+        if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
+        {
+            Debug.Log(EndPattern);
+            Enrageactive = false;
+            BossEnrage();
+        }
         #region 패턴 실행
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {

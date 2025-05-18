@@ -120,7 +120,16 @@ public class BossPattern2 : MonoBehaviour
         StartCoroutine(BeforeIdle());
     }
 
-   
+    [Header("광폭화 팝업")]
+    [SerializeField] private GameObject BossEnragePopup;
+    [SerializeField] private BossEnragePopup BossEnragePopupScript;
+
+    private bool Enrageactive = true;
+    private void BossEnrage()
+    {
+        BossEnragePopup.SetActive(true);
+        BossEnragePopupScript.OnEnrage();
+    }
     void Update()
     {
         // 사망 조건 체크 - 최우선으로 처리
@@ -129,6 +138,12 @@ public class BossPattern2 : MonoBehaviour
             isDead = true;
             StartCoroutine(DeathEffect());
             return; // 다른 업데이트 로직 실행 방지
+        }
+        if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
+        {
+            Debug.Log(EndPattern);
+            Enrageactive = false;
+            BossEnrage();
         }
 
         #region 보스 상태 체크

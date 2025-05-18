@@ -1261,6 +1261,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: BossEnragePopup
+      value: 
+      objectReference: {fileID: 360203573}
+    - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: EnrangedLaserData
       value: 
       objectReference: {fileID: 11400000, guid: ac8f76e62235d1544b61e10e6dceb5d9, type: 2}
@@ -1276,6 +1280,10 @@ PrefabInstance:
       propertyPath: countDownBeforeStart
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
+      propertyPath: BossEnragePopupScript
+      value: 
+      objectReference: {fileID: 360203578}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: strongPatternPositions.Array.size
       value: 2
@@ -10488,6 +10496,7 @@ MonoBehaviour:
   _damageInnterval: 1
   _isContacting: 0
   _hp: {fileID: 1953349572}
+  _contactCounter: 0
 --- !u!1 &1798042391
 GameObject:
   m_ObjectHideFlags: 0

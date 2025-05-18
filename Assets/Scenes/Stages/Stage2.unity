@@ -8855,9 +8855,17 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: BossEnragePopup
+      value: 
+      objectReference: {fileID: 1708688243}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: countDownBeforeStart
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: BossEnragePopupScript
+      value: 
+      objectReference: {fileID: 1708688245}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: mapWidthPositions.Array.data[0]
       value: 
