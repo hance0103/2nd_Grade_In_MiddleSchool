@@ -540,7 +540,10 @@ public class PlayerController : MonoBehaviour
         }
         canDash = true;
     }
-
+    public void CamShake()
+    {
+        Camera.main.GetComponent<CameraShaker>().StartShake(camShakeDuration, camShakeMagnitude);
+    }
     public void ChangeState(IPlayerState newState)
     {
         stateMachine.ChangeState(newState);

@@ -17,7 +17,7 @@ public class CameraShaker : MonoBehaviour
     public void StartShake(float duration, float magnitude)
     {
         initPos = transform.position;
-        StartCoroutine(Shake(shakeDuration, shakeMagitude));
+        StartCoroutine(Shake(duration, magnitude));
     }
     IEnumerator Shake(float duration, float magnitude)
 
