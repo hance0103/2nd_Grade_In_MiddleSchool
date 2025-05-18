@@ -107,11 +107,11 @@ public class bossPatternTest : MonoBehaviour
         }
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
             BossState.WeakPattern3,
-            BossState.StrongPattern1,
-            BossState.StrongPattern2
+            //BossState.StrongPattern1,
+            //BossState.StrongPattern2
         });
         //patternDic.Add(1, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
         //patternDic.Add(2, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1 });
@@ -499,7 +499,7 @@ public class bossPatternTest : MonoBehaviour
             // 플레이어 위치 텔포
             float targetX = player.transform.position.x;
             Vector3 teleportPosition = new Vector3(targetX,
-                player.transform.position.y + weakPattern3Data.TeleportOffset.y,
+                weakPattern3Data.TeleportOffset.y,
                 transform.position.z);
 
             SoundManager.Instance.EffectSoundOn("15");
@@ -514,7 +514,7 @@ public class bossPatternTest : MonoBehaviour
                 for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
                 {
                     Debug.Log("ī��Ʈ�ٿ�: " + i);
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.5f);
                 }
             }
 

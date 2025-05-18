@@ -8165,11 +8165,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.3665
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.3793
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.z
