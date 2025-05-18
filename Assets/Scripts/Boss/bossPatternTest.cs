@@ -40,6 +40,9 @@ public class bossPatternTest : MonoBehaviour
     private bool isEnrageTriggered = false;
     private bool isDead = false;
 
+    [SerializeField]
+    private BossState[] currentBossStateArray = null;
+
     public bool EndPattern = false;
 
     [Header("광폭화 T/F")]
@@ -175,7 +178,11 @@ public class bossPatternTest : MonoBehaviour
         
         if (currentState == BossState.Idle && currentCoroutine == null) // ������ ������ ������ �ٽ� Idle()������ ���� �����ϰ� ���ֱ�
         {
-            StartCoroutine(Idle());
+            if (currentBossStateArray == null)
+            {
+                StartCoroutine(Idle());
+            }
+            
         }
         #endregion
 
@@ -218,26 +225,25 @@ public class bossPatternTest : MonoBehaviour
     public IEnumerator Idle() // ������ �����ϰ� �����ؼ� �������ִ� �Լ�
     {
         int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
+        currentBossStateArray = patternDic[patternNum];
+        for (int i = 0; i < currentBossStateArray.Length; i++)
         {
-            currentState = currentPattern[i];
+            currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None);
         }
         currentState = BossState.Idle;
         currentCoroutine = null;
-        yield return null;
+
+
+        currentBossStateArray = null;
     }
 
 
     public IEnumerator BeforeIdle()
     {
-        for (float i = countDownBeforeStart; i > 0; i--)
-        {
-            yield return new WaitForSeconds(1f);
-        }
-        
-        yield return StartCoroutine(Idle());
+        yield return new WaitForSeconds(countDownBeforeStart);
+
+        StartCoroutine(Idle());
     }
 
     #region 약패턴 1
@@ -268,7 +274,6 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(beforeDelay);
 
         StartCoroutine(WeakPattern1PreAttack(playerPos)); // ���� �÷��̾� ��ġ ����
-        yield return null;
     }
 
     public IEnumerator WeakPattern1PreAttack(Vector3 targetPlayerPos)
@@ -352,7 +357,6 @@ public class bossPatternTest : MonoBehaviour
 
         transform.position = new Vector3(targetPosition.x, startPosition.y, startPosition.z);
         StartCoroutine(WeakPattern1PostAttack());
-        yield return null;
     }
 
     public IEnumerator WeakPattern1PostAttack()
