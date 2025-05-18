@@ -115,8 +115,8 @@ public class bossPatternTest : MonoBehaviour
         //    BossState.StrongPattern1,
         //    BossState.StrongPattern2
         //});
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern1 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern1 });
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
@@ -221,13 +221,11 @@ public class bossPatternTest : MonoBehaviour
         BossState[] currentPattern = patternDic[patternNum];
         for (int i = 0; i < currentPattern.Length; i++)
         {
-            yield return new WaitForSeconds(PATTERN_GAP);
             currentState = currentPattern[i];
             yield return new WaitUntil(() => currentState == BossState.None);
-            currentState = BossState.Idle;
-            currentCoroutine = null;
         }
-
+        currentState = BossState.Idle;
+        currentCoroutine = null;
         yield return null;
     }
 
@@ -238,17 +236,8 @@ public class bossPatternTest : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
         }
-        int patternNum = Random.Range(0, patternDic.Count);
-        BossState[] currentPattern = patternDic[patternNum];
-        for (int i = 0; i < currentPattern.Length; i++)
-        {
-            currentState = currentPattern[i];
-            yield return new WaitUntil(() => currentState == BossState.None);
-            currentState = BossState.Idle;
-            currentCoroutine = null;
-        }
-
-        yield return null;
+        
+        yield return StartCoroutine(Idle());
     }
 
     #region 약패턴 1
@@ -377,7 +366,7 @@ public class bossPatternTest : MonoBehaviour
         float afterDelay = isEnraged ? weakEnraged1Data.AfterAttackDelay : weakPattern1Data.AfterAttackDelay;
         yield return new WaitForSeconds(afterDelay);
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -482,7 +471,7 @@ public class bossPatternTest : MonoBehaviour
         Debug.Log("isWP2");
         animator.SetBool("isWP2", false);
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
 
     private IEnumerator ScaleUpSprite(Transform target, Vector3 targetScale, float duration)
@@ -642,7 +631,8 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(weakPattern3Data.AfterAttackDelay);
         //애니메이션 종료
         animator.SetBool("isWP3", false);
-        yield return StartCoroutine(FinishPattern());
+
+        StartCoroutine(FinishPattern());
 
     }
     #endregion
@@ -679,7 +669,7 @@ public class bossPatternTest : MonoBehaviour
 
         yield return new WaitForSeconds(strongPattern1Data.AfterAttackDelay);
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
     #endregion
 
@@ -710,7 +700,7 @@ public class bossPatternTest : MonoBehaviour
             bossPosition = bossPosition - new Vector2(-0.7f, 0);
         yield return StartCoroutine(NormalStrongPattern2(bossPosition, staticPlayerPosition));
 
-        yield return StartCoroutine(FinishPattern());
+        StartCoroutine(FinishPattern());
     }
 
     private IEnumerator NormalStrongPattern2(Vector2 bossPosition, Vector2 staticPlayerPosition)
