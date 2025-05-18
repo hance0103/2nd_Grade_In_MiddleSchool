@@ -1,8 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
-using Unity.PlasticSCM.Editor.WebApi;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour

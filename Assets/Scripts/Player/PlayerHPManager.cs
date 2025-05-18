@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+
 
 public class PlayerHPManager : MonoBehaviour
 {
@@ -47,7 +43,7 @@ public class PlayerHPManager : MonoBehaviour
     {
         currentHP -= damage;
         Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
-        if (currentHP < 0 )
+        if (currentHP <= 0 )
         {
             currentHP = 0;
             Debug.Log("플레이어 사망");
