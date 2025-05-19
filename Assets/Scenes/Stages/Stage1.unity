@@ -402,11 +402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &21331783
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,8 +726,8 @@ MonoBehaviour:
   explosionObject2: {fileID: 1488074386}
   explosionObject3: {fileID: 252328008}
   BossPose1: {fileID: 0}
-  startPosition: {x: -18, y: -10, z: 0}
-  endPosition: {x: -2, y: -7, z: 0}
+  startPosition: {x: -18, y: -8.5, z: 0}
+  endPosition: {x: -2, y: -8.5, z: 0}
   letterPrefab: {fileID: 4408722047587706453, guid: 2ee98c49cfd8f8148ac5990e82ad05cf, type: 3}
   UI: {fileID: 904183009}
   FinishTime: 10
@@ -1563,11 +1561,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 1072991238}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &237895781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,11 +1615,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 1072991238}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &237895784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2756,15 +2750,15 @@ RectTransform:
   m_GameObject: {fileID: 619915668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 120, y: 120, z: 120}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 196237603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 910, y: -394.99716}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 2.33, y: 0.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &619915670
 MonoBehaviour:
@@ -3987,11 +3981,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &790485826
 GameObject:
   m_ObjectHideFlags: 0
@@ -4860,15 +4852,15 @@ RectTransform:
   m_GameObject: {fileID: 938468380}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.3333333}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1439323142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2, y: 0}
-  m_SizeDelta: {x: 3, y: 3}
+  m_SizeDelta: {x: 8.3, y: 9.06}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &938468382
 MonoBehaviour:
@@ -4935,15 +4927,15 @@ RectTransform:
   m_GameObject: {fileID: 958190840}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.3333333}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 768407485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2, y: 0.1}
-  m_SizeDelta: {x: 3, y: 3}
+  m_SizeDelta: {x: 8.3, y: 9.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &958190842
 MonoBehaviour:
@@ -5445,15 +5437,15 @@ RectTransform:
   m_GameObject: {fileID: 1020538406}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1439323142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.7200003, y: -1.1500001}
-  m_SizeDelta: {x: 2.3, y: 2}
+  m_AnchoredPosition: {x: 2.758, y: -1.15}
+  m_SizeDelta: {x: 3.11, y: 1.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1020538409
 MonoBehaviour:
@@ -6177,11 +6169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 1072991238}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &1115052889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6514,15 +6504,15 @@ RectTransform:
   m_GameObject: {fileID: 1153216157}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 768407485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.277, y: -0.5}
-  m_SizeDelta: {x: 1.6, y: 1}
+  m_SizeDelta: {x: 4.16, y: 1.4}
   m_Pivot: {x: 0.048155993, y: 0.5}
 --- !u!114 &1153216160
 MonoBehaviour:
@@ -6809,15 +6799,15 @@ RectTransform:
   m_GameObject: {fileID: 1194456228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.6666666}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 768407485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.25, y: -1.149}
-  m_SizeDelta: {x: 2.2, y: 2}
+  m_SizeDelta: {x: 3.1, y: 1.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194456231
 MonoBehaviour:
@@ -6925,11 +6915,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &1222320856
 GameObject:
   m_ObjectHideFlags: 0
@@ -7365,11 +7353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 1072991238}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!114 &1254168925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7881,7 +7867,7 @@ RectTransform:
   m_GameObject: {fileID: 1371900860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 768407485}
@@ -7889,7 +7875,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.75, y: -1.149}
-  m_SizeDelta: {x: 2.2, y: 1}
+  m_SizeDelta: {x: 3.11, y: 1.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1371900863
 MonoBehaviour:
@@ -9570,11 +9556,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &1627974906
 GameObject:
   m_ObjectHideFlags: 0
@@ -10049,11 +10033,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &1761104110
 GameObject:
   m_ObjectHideFlags: 0
@@ -10629,15 +10611,15 @@ RectTransform:
   m_GameObject: {fileID: 1798042391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1439323142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.226, y: -1.15}
-  m_SizeDelta: {x: 2.3, y: 2}
+  m_AnchoredPosition: {x: 1.302, y: -1.15}
+  m_SizeDelta: {x: 3.1, y: 1.24}
   m_Pivot: {x: 0.50000006, y: 0.50000006}
 --- !u!114 &1798042394
 MonoBehaviour:
@@ -10878,11 +10860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1 &1810874511
 GameObject:
   m_ObjectHideFlags: 0
@@ -11361,11 +11341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 760999042}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 830886900}
   PausePopup: {fileID: 702155389}
-  TextPopup: {fileID: 0}
 --- !u!1001 &1953349571
 PrefabInstance:
   m_ObjectHideFlags: 0
