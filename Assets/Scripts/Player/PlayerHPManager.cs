@@ -71,7 +71,7 @@ public class PlayerHPManager : MonoBehaviour
             return;
         }
         currentHP -= damage;
-        //Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
+        Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();
         StartCoroutine(InvincibleCounter());
         StartCoroutine(player.InvincibleBlink());

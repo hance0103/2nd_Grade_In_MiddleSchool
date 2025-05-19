@@ -39,7 +39,7 @@ public class Stage2OpeningTextPopup : MonoBehaviour
     public static bool isFirstTime2 = true;
     void Start()
     {
-        Debug.Log(isFirstTime2);
+        //Debug.Log(isFirstTime2);
         if (!isFirstTime2)
         {
             OnSkipButtonClicked();

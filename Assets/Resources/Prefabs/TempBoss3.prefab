@@ -15,13 +15,15 @@ GameObject:
   - component: {fileID: 799909185546336657}
   - component: {fileID: 577966401618978629}
   - component: {fileID: 651182969775359220}
-  m_Layer: 0
+  - component: {fileID: 1429691242810751894}
+  - component: {fileID: 6716803279960937489}
+  m_Layer: 7
   m_Name: TempBoss3
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &58188418078762215
 Transform:
   m_ObjectHideFlags: 0
@@ -77,8 +79,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6a0bc6ae18208d148b6d8a6f4f092bbe, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: bfdc5cb5d1e6b50448735941a92f6740, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,18 +123,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.04512739, y: -0.032233596}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.857143, y: 2.857143}
+    oldSize: {x: 3, y: 3}
     newSize: {x: 10, y: 10}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.857143, y: 2.857143}
+  m_Size: {x: 2.251151, y: 2.7926757}
   m_EdgeRadius: 0
 --- !u!114 &6060334556971368982
 MonoBehaviour:
@@ -147,33 +149,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  EndPattern: 0
+  currentBossStateArray: 
   isEnraged: 0
   isDesperate: 0
   groggyTime: 5
+  countDownBeforeStart: 2
   mapWidthPositions:
   - {fileID: 0}
   - {fileID: 0}
-  pattern5Positions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  pattern51Positions: []
+  pattern52Positions: []
+  pattern53Positions: []
+  pattern54Positions: []
   weakPattern1Data: {fileID: 11400000, guid: 525f5c01fd881f540b084046de185588, type: 2}
   weak1LaserData: {fileID: 11400000, guid: 1e9810ae3c647d04096bb5b8e81881ee, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: 8dc2ad6ad358fd741913c27f3e35ad5f, type: 2}
@@ -194,6 +182,8 @@ MonoBehaviour:
   desperate2ProjData: {fileID: 11400000, guid: a61e901d0d43c194d82521f143cd33e1, type: 2}
   desperatePattern3Data: {fileID: 0}
   desperate3LaserData: {fileID: 11400000, guid: 52a31558a1152e74490ef4738a76df3f, type: 2}
+  BossEnragePopup: {fileID: 0}
+  BossEnragePopupScript: {fileID: 0}
 --- !u!114 &799909185546336657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,4 +234,46 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &1429691242810751894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f946e86f045ec8448959d33b6932f82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 1000
+  currentHP: 0
+  VictoryInputPopup: {fileID: 0}
+  victoryTextPopupScript: {fileID: 0}
+  BossEnragePopup: {fileID: 0}
+  BossEnragePopupScript: {fileID: 0}
+  Boss: {fileID: 534670401125777719}
+  Stage: 3
+  Timer: {fileID: 0}
+--- !u!95 &6716803279960937489
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534670401125777719}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 976d8dba6926eec4495f5f7a61f136d2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -183,7 +183,7 @@ MonoBehaviour:
   playerObject: {fileID: 3470539325071022635}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
-  Stage: 1
+  Stage: 2
   _InvincibleTime: 2
 --- !u!114 &7146377930768844338
 MonoBehaviour:
@@ -241,7 +241,7 @@ MonoBehaviour:
   camShakeMagnitude: 0.1
   bindTimer: 1
   enemy: {fileID: 0}
-  isKeyboardControll: 0
+  isKeyboardControll: 1
   controller: {fileID: 0}
   input: {fileID: 6994913468536392741}
   anim: {fileID: 2690200176240171712}

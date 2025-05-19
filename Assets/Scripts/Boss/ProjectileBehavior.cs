@@ -30,7 +30,6 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             // Player 컴포넌트 체크 없이 바로 데미지 적용
             SoundManager.Instance.EffectSoundOn("21");
-            Debug.Log($"플레이어 피격! 데미지: {damage}");
             PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
             ReleaseProjectile();
         }
@@ -51,7 +50,7 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         if (!isReleased && pool != null && gameObject != null) // 반환되지 않은 경우만 실행
         {
-            Debug.Log($"프로젝트 반환: {gameObject.name}");
+            //Debug.Log($"프로젝트 반환: {gameObject.name}");
             isReleased = true; // 반환 상태 설정
             gameObject.SetActive(false); // 비활성화 추가
             pool.Release(gameObject); // Object Pool로 반환
