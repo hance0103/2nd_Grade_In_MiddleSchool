@@ -11353,6 +11353,10 @@ PrefabInstance:
       propertyPath: _jumpAttackAfterDelay
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: jumpAttackMask.m_Bits
+      value: 4160
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

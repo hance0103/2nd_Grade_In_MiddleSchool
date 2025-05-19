@@ -90,6 +90,10 @@ public class PlayerController : MonoBehaviour
     public float _jumpAttackHitDelay;
     public float _jumpAttackAfterDelay;
     [SerializeField]
+    private float _jumpAttackMinHeight = 1f;
+    [SerializeField]
+    private bool _canJumpAttack;
+    [SerializeField]
     private GameObject _jumpAttackObject;
 
     private float _jumpAttackObjX;
@@ -124,7 +128,9 @@ public class PlayerController : MonoBehaviour
     private float colliderBottom;
     [SerializeField]
     private LayerMask platformMask;
-
+    [SerializeField]
+    private LayerMask jumpAttackMask;
+    [SerializeField]
     private bool _canPlayerControll = true;
     
     private void Awake()
@@ -266,13 +272,30 @@ public class PlayerController : MonoBehaviour
         Vector2 rayVecLeft = new Vector2(colliderLeft, colliderBottom);
         Vector2 rayVecRight = new Vector2(colliderRight, colliderBottom);
         Vector2 rayDirection = Vector2.down;
+
         float rayDistance = 0.1f;
 
         RaycastHit2D hitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, rayDistance, platformMask);
         RaycastHit2D hitright = Physics2D.Raycast(rayVecRight, rayDirection, rayDistance, platformMask);
 
-        Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection*rayDistance, Color.green);
-        Debug.DrawLine(rayVecRight, rayVecRight + rayDirection*rayDistance, Color.green);
+        RaycastHit2D jumpAttackHitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, _jumpAttackMinHeight, jumpAttackMask);
+        RaycastHit2D jumpAttackHitRight = Physics2D.Raycast(rayVecRight, rayDirection, _jumpAttackMinHeight, jumpAttackMask);
+
+        //Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection*rayDistance, Color.green);
+        //Debug.DrawLine(rayVecRight, rayVecRight + rayDirection*rayDistance, Color.green);
+
+        Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection * _jumpAttackMinHeight, Color.red);
+        Debug.DrawLine(rayVecRight, rayVecRight + rayDirection * _jumpAttackMinHeight, Color.red);
+
+        if (jumpAttackHitLeft.collider != null || jumpAttackHitRight.collider != null)
+        {
+            Collider2D hit = jumpAttackHitLeft.collider != null ? jumpAttackHitLeft.collider : jumpAttackHitRight.collider;
+            _canJumpAttack = false;
+        }
+        else
+        {
+            _canJumpAttack = true;
+        }
 
         if ((hitLeft.collider != null || hitright.collider != null))
         {
@@ -295,7 +318,7 @@ public class PlayerController : MonoBehaviour
                 isFallingFromPlatform = true;
                 ChangeState(new JumpState(this));
             }
-                
+
             isOnPlatform = false;
             if (nowPlatform != null)
             {
@@ -303,6 +326,8 @@ public class PlayerController : MonoBehaviour
                 nowPlatform = null;
             }
         }
+
+
     }
     private void ApplyMovement()
     {
@@ -427,7 +452,8 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerDefeat()
     {
-        
+        _canPlayerControll = false;
+        anim.PlayAnimation("Defeat");
     }
 
     public void StartDash()
@@ -674,6 +700,10 @@ public class PlayerController : MonoBehaviour
     public bool GetJumpingDash()
     {
         return isJumpingDash;
+    }
+    public bool CanJumpAttack()
+    {
+        return _canJumpAttack;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

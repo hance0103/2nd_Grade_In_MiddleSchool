@@ -126,7 +126,7 @@ public class JumpState : IPlayerState
             player.anim.PlayAnimation("JumpDown");
         }
 
-        if (Input.GetKeyDown(KeyCode.A) || input.AttackPressed)
+        if ((Input.GetKeyDown(KeyCode.A) || input.AttackPressed) && player.CanJumpAttack())
         {
             player.ChangeState(new JumpAttackState(player));
             return;

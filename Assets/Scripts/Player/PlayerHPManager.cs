@@ -9,7 +9,8 @@ public class PlayerHPManager : MonoBehaviour
     [Header("�÷��̾� HP ����")]
     [SerializeField] private float maxHP = 100f;
     [Header("�÷��̾� ������Ʈ")]
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject playerObject;
+    private PlayerController player;
     [Header("�й� �˾�")]
     [SerializeField] private GameObject DefeatPopup;
     [SerializeField] private DefeatPopup DefeatPopupScript;
@@ -30,7 +31,8 @@ public class PlayerHPManager : MonoBehaviour
     }
     void Start()
     {
-        Player = this.gameObject;
+        playerObject = this.gameObject;
+        player = GetComponent<PlayerController>();
     }
 
     public void RestartHP()
@@ -48,7 +50,7 @@ public class PlayerHPManager : MonoBehaviour
             currentHP = 0;
             Debug.Log("플레이어 사망");
             DefeatPopup.SetActive(true);
-            Player.SetActive(false);
+            player.PlayerDefeat();
             playerController.SetActive(false);
             switch (Stage)
             {
