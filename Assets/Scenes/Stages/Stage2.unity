@@ -2609,6 +2609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 0}
   settingsPopup: {fileID: 759913354}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -3863,6 +3864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 0}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -4087,6 +4089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 484374422}
   settingsPopup: {fileID: 759913354}
   creditsPopup: {fileID: 969912939}
   PausePopup: {fileID: 0}
@@ -6751,6 +6754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 484374422}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -7688,7 +7692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 1374706811}
   timer: {fileID: 0}
-  Controller: {fileID: 0}
+  Controller: {fileID: 484374422}
   FinishPanel: {fileID: 376783850}
   fadeImage: {fileID: 49493442}
   fadeDuration: 1
@@ -9941,6 +9945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 484374422}
   settingsPopup: {fileID: 759913354}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}

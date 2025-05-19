@@ -971,6 +971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 541900550}
   settingsPopup: {fileID: 1238620315}
   creditsPopup: {fileID: 31802939}
   PausePopup: {fileID: 0}
@@ -1582,6 +1583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 0}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -6554,6 +6556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 541900550}
   settingsPopup: {fileID: 1238620315}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -10845,6 +10848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 541900550}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
@@ -13179,6 +13183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerUI: {fileID: 541900550}
   settingsPopup: {fileID: 1238620315}
   creditsPopup: {fileID: 31802939}
   PausePopup: {fileID: 0}
