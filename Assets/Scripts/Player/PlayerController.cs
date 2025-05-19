@@ -753,7 +753,6 @@ public class PlayerController : MonoBehaviour
 
             if (moveInput != 0)
             {
-                Debug.Log("Move State일때 버그 발생할거임");
                 ChangeState(new MoveState(this));
             }
             else
