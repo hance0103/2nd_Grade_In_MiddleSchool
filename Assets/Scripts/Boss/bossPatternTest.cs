@@ -504,7 +504,7 @@ public class bossPatternTest : MonoBehaviour
     #region 약패턴 3
     public IEnumerator WeakPattern3()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         EndPattern = false;
         currentState = BossState.WeakPattern3;
 

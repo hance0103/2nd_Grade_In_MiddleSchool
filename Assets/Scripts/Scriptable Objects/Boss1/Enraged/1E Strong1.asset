@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1E Strong1
   m_EditorClassIdentifier: 
   patternName: Storng1
-  damage: 20
+  damage: 10
   beforeAttackDelay: 0.8
   attackRange: 5
   afterAttackDelay: 0.1
