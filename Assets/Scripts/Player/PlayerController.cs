@@ -689,6 +689,7 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(_jumpAttackAfterDelay);
+        Debug.Log("시간 복구");
         Time.timeScale = 1f;
 
     }
@@ -756,7 +757,11 @@ public class PlayerController : MonoBehaviour
             if (moveInput != 0)
                 ChangeState(new MoveState(this));
             else
+            {
+                Debug.Log("아이들 스테이트 전환");
                 ChangeState(new IdleState(this));
+
+            }
         }
     }
 

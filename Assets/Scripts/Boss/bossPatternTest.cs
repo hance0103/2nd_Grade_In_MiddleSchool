@@ -101,9 +101,18 @@ public class bossPatternTest : MonoBehaviour
     //[SerializeField] private float lastDamageTime = 0f;
     #endregion
 
-    [Header("BossCollider")]
-    [SerializeField]
-    private Vector2[] _bossColliderSizeArray;
+    struct ColliderSize
+    {
+        Vector2 offset;
+        Vector2 size;
+        ColliderSize (Vector2 offset, Vector2 size)
+        {
+            this.offset = offset;
+            this.size = size;
+        }
+    }
+    List<ColliderSize> colliderSizes = new List<ColliderSize> ();
+
     private void Awake()
     {
         _playerController = player.GetComponent<PlayerController>();

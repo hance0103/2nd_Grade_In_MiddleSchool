@@ -249,6 +249,7 @@ public class JumpAttackState : IPlayerState
 
     public void Exit()
     {
+        Debug.Log("점프공격 종료");
         player.EndJumpAttack();
         player.ResetMovement();
     }
