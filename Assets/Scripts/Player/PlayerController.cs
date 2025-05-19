@@ -738,6 +738,18 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(_blinkDelay);
         }
     }
+    public SpriteRenderer GetSpriteRenderer()
+    {
+        return sprite;
+    }
+    public void SetSpriteColor(Color color)
+    {
+        sprite.color = color;
+    }
+    public float GetBlinkDelay()
+    {
+        return _blinkDelay;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

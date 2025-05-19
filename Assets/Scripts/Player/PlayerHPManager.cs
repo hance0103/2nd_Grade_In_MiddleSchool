@@ -22,10 +22,11 @@ public class PlayerHPManager : MonoBehaviour
     [SerializeField]
     public float _InvincibleTime = 1f;
 
+    private Coroutine _blinkCoroutine;
     private bool _gameOver = false;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -56,10 +57,13 @@ public class PlayerHPManager : MonoBehaviour
         
         while (counter < _InvincibleTime)
         {
+
             counter += Time.deltaTime;
             yield return null;
         }
         //Debug.Log("무적 끝");
+        //StopCoroutine(_blinkCoroutine);
+
         player.DeactivateInvincible();
     }
 
@@ -74,7 +78,14 @@ public class PlayerHPManager : MonoBehaviour
         Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();
         StartCoroutine(InvincibleCounter());
-        StartCoroutine(player.InvincibleBlink());
+        if (_blinkCoroutine != null)
+        {
+            StopCoroutine(_blinkCoroutine);
+            _blinkCoroutine = null;
+        }
+        _blinkCoroutine = StartCoroutine(player.InvincibleBlink());
+
+
         if (currentHP <= 0 )
         {
             _gameOver = true;
