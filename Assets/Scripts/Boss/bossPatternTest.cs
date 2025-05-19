@@ -666,9 +666,9 @@ public class bossPatternTest : MonoBehaviour
     #region 강패턴 2
     public IEnumerator StrongPattern2() //ī��Ʈ �ٿ��� ������ �ð��� ���� �Ŀ� ������ ����
     {
+        Debug.Log("강패턴 2");
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        //Debug.Log("������2");
         currentState = BossState.StrongPattern2;
 
         // ������ ��ġ ����
@@ -740,7 +740,7 @@ public class bossPatternTest : MonoBehaviour
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
 
-        // 플레이어 멈추는 함수 넣는 위치
+        player.GetComponent<PlayerController>().PlayerStop();
         // 여기
         yield return new WaitForSecondsRealtime(2f);
 
@@ -751,6 +751,7 @@ public class bossPatternTest : MonoBehaviour
 
 
         Destroy(laserStart);
+        player.GetComponent<PlayerController>().PlayerResume();
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }
