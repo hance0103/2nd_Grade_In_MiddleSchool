@@ -15,6 +15,10 @@ public class ContactDamage : MonoBehaviour
 
     void Start()
     {
+        if (_hp == null)
+        {
+            _hp = PlayerHPManager.Instance;
+        }
     }
     private void Update()
     {

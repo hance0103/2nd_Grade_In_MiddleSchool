@@ -130,17 +130,17 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        //patternDic.Add(0, new BossState[] {
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
-        //    //BossState.StrongPattern1,
-        //    //BossState.StrongPattern2
-        //});
+        patternDic.Add(0, new BossState[] {
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.StrongPattern1,
+            BossState.StrongPattern2
+        });
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
-        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
 
         StartCoroutine(BeforeIdle());
     }
@@ -509,7 +509,14 @@ public class bossPatternTest : MonoBehaviour
             Destroy(laserStart);
 
         }
-
+        foreach (var vec in _colSizeList)
+        {
+            if (vec.name == "Idle")
+            {
+                _col.offset = vec.offset;
+                _col.size = vec.size;
+            }
+        }
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
         //�ִϸ��̼� ����
