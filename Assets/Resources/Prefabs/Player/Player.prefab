@@ -184,7 +184,7 @@ MonoBehaviour:
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
   Stage: 2
-  _InvincibleTime: 2
+  _InvincibleTime: 1
 --- !u!114 &7146377930768844338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,13 +232,13 @@ MonoBehaviour:
   isAttacking: 0
   _jumpAttack_diveVelocity: 30
   _jumpAttack_dmg: 20
-  _jumpAttackHitDelay: 0.06
-  _jumpAttackAfterDelay: 0.1
+  _jumpAttackHitDelay: 0.04
+  _jumpAttackAfterDelay: 0.06
   _jumpAttackMinHeight: 1
   _canJumpAttack: 0
   _jumpAttackObject: {fileID: 7060654203872380840}
-  camShakeDuration: 0.15
-  camShakeMagnitude: 0.1
+  camShakeDuration: 0.2
+  camShakeMagnitude: 0.2
   bindTimer: 1
   enemy: {fileID: 0}
   isKeyboardControll: 1
@@ -252,7 +252,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4160
   _canPlayerControll: 1
-  _blinkDelay: 0.1
+  _blinkDelay: 0.15
   _isInvincible: 0
 --- !u!114 &6994913468536392741
 MonoBehaviour:

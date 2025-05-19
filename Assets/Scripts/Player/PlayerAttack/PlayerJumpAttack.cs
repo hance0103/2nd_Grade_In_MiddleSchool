@@ -15,15 +15,15 @@ public class PlayerJumpAttack : MonoBehaviour
         {
             if (!isBossHit)
             {
-                controller.CamShake();
                 
             }
+            controller.CamShake();
             StartCoroutine(controller.PlayerJumpAttackAfterDelay());
             isBossHit = false;
         }
         if (collision.gameObject.CompareTag("Boss"))
         {
-            controller.CamShake();
+            //controller.CamShake();
             BossHPManager.Instance.TakeDamage(controller._jumpAttack_dmg);
             isBossHit = true;
            StartCoroutine(controller.PlayerJumpAttackDelay());

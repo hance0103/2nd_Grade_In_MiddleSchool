@@ -10875,6 +10875,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 598642042}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _InvincibleTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 484374422}
@@ -10886,6 +10890,22 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 484374424}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _blinkDelay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: camShakeDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: camShakeMagnitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _jumpAttackHitDelay
+      value: 0.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -733,7 +733,8 @@ public class PlayerController : MonoBehaviour
     {
         while (_isInvincible)
         {
-            sprite.color = Color.black;
+            sprite.color = new Color(70/255f,70/255f,70/255f);
+            //sprite.color = Color.red;
             yield return new WaitForSeconds(_blinkDelay);
             sprite.color = Color.white;
             yield return new WaitForSeconds(_blinkDelay);
