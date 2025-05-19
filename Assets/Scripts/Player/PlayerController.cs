@@ -417,6 +417,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerStop()
     {
         _canPlayerControll = false;
+        rb.velocity = Vector2.zero;
         rb.isKinematic = true;
     }
     public void PlayerResume()
