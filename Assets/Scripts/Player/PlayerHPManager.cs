@@ -59,7 +59,7 @@ public class PlayerHPManager : MonoBehaviour
             counter += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("무적 끝");
+        //Debug.Log("무적 끝");
         player.DeactivateInvincible();
     }
 
@@ -71,7 +71,7 @@ public class PlayerHPManager : MonoBehaviour
             return;
         }
         currentHP -= damage;
-        Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
+        Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();
         StartCoroutine(InvincibleCounter());
         StartCoroutine(player.InvincibleBlink());

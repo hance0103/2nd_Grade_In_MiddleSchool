@@ -105,10 +105,10 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
+            BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.WeakPattern6,
             //BossState.Groggy
@@ -189,7 +189,7 @@ public class BossPattern2 : MonoBehaviour
         {
             if (currentBossStateArray == null)
             {
-                Debug.Log("새로운 패턴 리스트 배정");
+                //Debug.Log("새로운 패턴 리스트 배정");
                 StartCoroutine(Idle());
             }
         }
@@ -265,18 +265,14 @@ public class BossPattern2 : MonoBehaviour
         Debug.Log("약공격1");
         currentState = BossState.WeakPattern1;
 
-        // 보스가 플레이어를 바라보도록 설정
-        //FacePlayer();
 
         // 카운트 다운
         for (float i = weakPattern1Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
         }
 
         // 1. 속박 탄환 방사형 발사
-        Debug.Log("속박 탄환 방사형 발사");
         SoundManager.Instance.EffectSoundOn("23-1");
         ProjectileController projectileController = ProjectileController.Create(
             projectileCapData,
@@ -294,7 +290,7 @@ public class BossPattern2 : MonoBehaviour
         animator.SetBool("isLaser", true);
 
         // 2. 레이저 경고선 표시 및 플레이어 추적
-        Debug.Log("추적 경고선");
+        //Debug.Log("추적 경고선");
         LineRenderer warningLine = CreateDangerZone(weak1LaserData);
         warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
         StartCoroutine(BlinkDangerZone(warningLine)); // 깜빡임 효과 시작
@@ -309,10 +305,13 @@ public class BossPattern2 : MonoBehaviour
         while (elapsed < weak1LaserData.LaserFollowDuration)
         {
             Vector2 currentPlayerPos = player.transform.position;
+            Vector2 dir = (currentPlayerPos - bossStartPosition).normalized;
 
+            float extendLength = 10f;
+            Vector2 extenedEndPos = currentPlayerPos + dir * extendLength;
             // 경고선 위치 업데이트 (보스에서 플레이어로)
             warningLine.SetPosition(0, bossStartPosition);
-            warningLine.SetPosition(1, currentPlayerPos);
+            warningLine.SetPosition(1, extenedEndPos);
 
             elapsed += Time.deltaTime;
             yield return null;
@@ -320,10 +319,14 @@ public class BossPattern2 : MonoBehaviour
 
         // 위치 고정 및 발사 준비
         fixedPlayerPos = player.transform.position;
-
+        Vector2 fixedDir = (fixedPlayerPos - bossStartPosition).normalized;
+        float fixedExtendLength = 10f;
+        Vector2 fixedExtenedEndPos = fixedPlayerPos + fixedDir * fixedExtendLength;
         // 경고선 최종 위치 고정
         warningLine.SetPosition(0, bossStartPosition);
-        warningLine.SetPosition(1, fixedPlayerPos);
+
+
+        warningLine.SetPosition(1, fixedExtenedEndPos);
 
         yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
 
@@ -466,7 +469,7 @@ public class BossPattern2 : MonoBehaviour
         // 카운트 다운
         for (float i = weakPattern4Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("카운트다운: " + i);
+            //Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
         }
 
@@ -505,7 +508,7 @@ public class BossPattern2 : MonoBehaviour
         // 카운트 다운
         for (float i = weakPattern5Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("카운트다운: " + i);
+            //Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
         }
 

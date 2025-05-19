@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 public class ProjectileBehaviour : MonoBehaviour
 {
+    [SerializeField]
     private float damage; // 투사체 데미지
     private ObjectPool<GameObject> pool; // Object Pool 참조
     private bool isReleased = false; // 반환 여부 확인용 플래그
     private int delProjWallLayer; // DelProjWall 레이어 캐싱
-
 
     public void Initialize(float damage, ObjectPool<GameObject> pool)
     {
@@ -21,7 +22,6 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         delProjWallLayer = LayerMask.NameToLayer("DelProjWall");
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isReleased) return; // 이미 반환된 경우 무시
@@ -30,6 +30,7 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             // Player 컴포넌트 체크 없이 바로 데미지 적용
             SoundManager.Instance.EffectSoundOn("21");
+            //Debug.Log($"{damage}데미지 받아야함");
             PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
             ReleaseProjectile();
         }

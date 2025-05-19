@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 public class ProjectileController : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class ProjectileController : MonoBehaviour
             behaviour = proj.AddComponent<ProjectileBehaviour>();
         }
         behaviour.Initialize(projectileData.Damage, projectilePool);
+        
         return proj;
     }
 
@@ -49,7 +51,7 @@ public class ProjectileController : MonoBehaviour
         return controller;
     }
 
-    private IEnumerator MoveProjectile(GameObject projectile, Vector2 direction)
+    private IEnumerator MoveProjectile(GameObject projectile, Vector2 direction, List<bool> flagList = null)
     {
         float timer = 0f;
 
@@ -59,6 +61,10 @@ public class ProjectileController : MonoBehaviour
             timer += Time.deltaTime;
 
             yield return null;
+        }
+        if (flagList != null)
+        {
+            flagList.Add(true);
         }
     }
 
@@ -137,6 +143,9 @@ public class ProjectileController : MonoBehaviour
         float actualProjectileCount = projectileData.ProjectileCount - countOffset; // countOffset으로 발사 개수 조정
         float radiusOffset = isSecondLayer ? 1.5f : 0f;
 
+        List<bool> coroutineFlagList = new();
+
+
         // 모든 탄환을 한번에 발사
         for (int i = 0; i < actualProjectileCount; i++)
         {
@@ -163,8 +172,17 @@ public class ProjectileController : MonoBehaviour
             projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
             projectile.transform.localScale = projectileData.ProjectileScale;
 
-            StartCoroutine(MoveProjectile(projectile, direction));
+            StartCoroutine(MoveProjectile(projectile, direction, coroutineFlagList));
+
         }
+        bool isAllCoroutineEnd = false;
+        while (!isAllCoroutineEnd)
+        {
+            if (coroutineFlagList.Count == actualProjectileCount)
+                isAllCoroutineEnd = true;
+            yield return null;
+        }
+
 
         //yield return StartCoroutine(WaitForProjectilesOffScreen());
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
@@ -176,8 +194,9 @@ public class ProjectileController : MonoBehaviour
         /*if (isWeak4 == false)
         {
             Destroy(gameObject);
-        }*/ 
-      
+        }*/
+
+
     }
 
     public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
@@ -194,6 +213,7 @@ public class ProjectileController : MonoBehaviour
 
         // 이후 패턴의 종료 지연 처리
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
+
         Destroy(gameObject);
     }
 

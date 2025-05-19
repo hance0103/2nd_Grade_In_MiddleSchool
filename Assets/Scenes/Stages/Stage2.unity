@@ -8980,7 +8980,7 @@ PrefabInstance:
       objectReference: {fileID: 1613015482}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: isEnraged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: rainSpaceWeak5

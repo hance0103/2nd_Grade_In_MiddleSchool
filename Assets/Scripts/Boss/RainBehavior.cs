@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 
 public class RainBehavior : MonoBehaviour
 {
+    [SerializeField]
     private float damage; // 투사체 데미지
     private ObjectPool<GameObject> pool; // Object Pool 참조
     private bool isReleased = false; // 반환 여부 확인용 플래그
@@ -33,7 +34,7 @@ public class RainBehavior : MonoBehaviour
             if (player != null)
             {
                 SoundManager.Instance.EffectSoundOn("21");
-                Debug.Log($"플레이어 피격! 데미지: {damage}");
+                //Debug.Log($"플레이어 피격! 데미지: {damage}");
                 PlayerHPManager.Instance.TakeDamage(damage); // 실제 데미지 적용 로직
             }
             ReleaseProjectile();
@@ -59,7 +60,7 @@ public class RainBehavior : MonoBehaviour
     {
         if (!isReleased && pool != null && gameObject != null) // 반환되지 않은 경우만 실행
         {
-            Debug.Log($"프로젝트 반환: {gameObject.name}");
+            //Debug.Log($"프로젝트 반환: {gameObject.name}");
             isReleased = true; // 반환 상태 설정
             gameObject.SetActive(false); // 비활성화 추가
             pool.Release(gameObject); // Object Pool로 반환

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8859672450972947599}
   - component: {fileID: 6301505606709168659}
   - component: {fileID: -6433463209014557246}
-  - component: {fileID: 9107652673414817149}
   - component: {fileID: 5941784515758839712}
   m_Layer: 0
   m_Name: RainProj
@@ -114,18 +113,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &9107652673414817149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3316179567270816736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47e076d17cfb564f95b48a2ca6e924b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &5941784515758839712
 CircleCollider2D:
   m_ObjectHideFlags: 0
