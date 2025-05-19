@@ -752,7 +752,6 @@ public class bossPatternTest : MonoBehaviour
 
 
         _playerController.PlayerStop();
-        _playerController.ActivateInvincible();
 
         // 여기
         yield return new WaitForSecondsRealtime(2f);
@@ -765,7 +764,6 @@ public class bossPatternTest : MonoBehaviour
 
         Destroy(laserStart);
         _playerController.PlayerResume();
-        _playerController.DeactivateInvincible();
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }
