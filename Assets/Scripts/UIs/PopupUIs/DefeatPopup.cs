@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections.Generic;
 public class DefeatPopup : MonoBehaviour
 {
     [SerializeField]
@@ -34,28 +33,6 @@ public class DefeatPopup : MonoBehaviour
     [Header("스테이지")]
     [SerializeField] private int Stage;
 
-    public void ShowRandomText1()
-    {
-        // 배열 범위 내에서 무작위 인덱스 선택
-        int randomIndex = Random.Range(0, Defeattexts1.Length);
-
-        // 선택된 텍스트를 UI에 표시
-        StartCoroutine(NormalChat(Defeattexts1[randomIndex]));
-    }
-    public void ShowRandomText2()
-    {
-        // 배열 범위 내에서 무작위 인덱스 선택
-        int randomIndex = Random.Range(0, Defeattexts2.Length);
-
-        StartCoroutine(NormalChat(Defeattexts2[randomIndex]));
-    }
-    public void ShowRandomText3()
-    {
-        // 배열 범위 내에서 무작위 인덱스 선택
-        int randomIndex = Random.Range(0, Defeattexts3.Length);
-
-        StartCoroutine(NormalChat(Defeattexts3[randomIndex]));
-    }
     //컨트롤러 끄기
     [SerializeField] public GameObject Controller;
     // 패배 시간을 출력하기 위한 텍스트 오브젝트들
@@ -69,7 +46,8 @@ public class DefeatPopup : MonoBehaviour
     {
         Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
-        ShowRandomText1();
+        int randomIndex = Random.Range(0, Defeattexts1.Length);
+        StartCoroutine(NormalChat(Defeattexts1[randomIndex]));
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         Timer timer = FindObjectOfType<Timer>(); //패배한 시간을 저장하지 않으므로 참조만 하기
@@ -83,7 +61,8 @@ public class DefeatPopup : MonoBehaviour
     {
         Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
-        ShowRandomText2();
+        int randomIndex = Random.Range(0, Defeattexts2.Length);
+        StartCoroutine(NormalChat(Defeattexts2[randomIndex]));
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         Timer timer = FindObjectOfType<Timer>(); //패배한 시간을 저장하지 않으므로 참조만 하기
@@ -97,7 +76,8 @@ public class DefeatPopup : MonoBehaviour
     {
         Controller.SetActive(false);
         SoundManager.Instance.loseBgmOn();
-        ShowRandomText3();
+        int randomIndex = Random.Range(0, Defeattexts3.Length);
+        StartCoroutine(NormalChat(Defeattexts3[randomIndex]));
         gameObject.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
         Timer timer = FindObjectOfType<Timer>(); //패배한 시간을 저장하지 않으므로 참조만 하기
