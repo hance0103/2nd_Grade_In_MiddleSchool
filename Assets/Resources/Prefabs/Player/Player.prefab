@@ -180,10 +180,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
   maxHP: 100
-  Player: {fileID: 3470539325071022635}
+  playerObject: {fileID: 3470539325071022635}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
   Stage: 1
+  _InvincibleTime: 2
 --- !u!114 &7146377930768844338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,11 +210,12 @@ MonoBehaviour:
   isOnPlatform: 0
   nowPlatform: {fileID: 0}
   isOnGround: 0
-  dashDistance: 5
   dashBeforeDelay: 0.07
   dashDuration: 0.1
   dashCooldown: 0.4
   dashTime: 0
+  verticalDashDistance: 5
+  horizontalDashDistance: 5
   diagonalDashX: 4
   diagonalDashY: 3
   dashEffect: {fileID: 5859108131183404584}
@@ -232,18 +234,26 @@ MonoBehaviour:
   _jumpAttack_dmg: 20
   _jumpAttackHitDelay: 0.06
   _jumpAttackAfterDelay: 0.1
+  _jumpAttackMinHeight: 1
+  _canJumpAttack: 0
   _jumpAttackObject: {fileID: 7060654203872380840}
   camShakeDuration: 0.15
   camShakeMagnitude: 0.1
   bindTimer: 1
   enemy: {fileID: 0}
-  isKeyboardControll: 1
+  isKeyboardControll: 0
   controller: {fileID: 0}
-  input: {fileID: 0}
-  anim: {fileID: 0}
+  input: {fileID: 6994913468536392741}
+  anim: {fileID: 2690200176240171712}
   platformMask:
     serializedVersion: 2
     m_Bits: 4096
+  jumpAttackMask:
+    serializedVersion: 2
+    m_Bits: 4160
+  _canPlayerControll: 1
+  _blinkDelay: 0.1
+  _isInvincible: 0
 --- !u!114 &6994913468536392741
 MonoBehaviour:
   m_ObjectHideFlags: 0

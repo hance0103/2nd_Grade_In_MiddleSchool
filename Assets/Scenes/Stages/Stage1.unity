@@ -11378,10 +11378,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.2
@@ -11427,14 +11423,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1439323141}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: playerObject
-      value: 
-      objectReference: {fileID: 104924279}
-    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: _InvincibleTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 760999042}
@@ -11443,37 +11431,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1439323143}
     - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 1953349574}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: input
-      value: 
-      objectReference: {fileID: 1953349575}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: bindTimer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 1473805729}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: _canPlayerControll
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: isKeyboardControll
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: _jumpAttackAfterDelay
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: jumpAttackMask.m_Bits
-      value: 4160
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11488,17 +11448,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba3fe430d9774be49856b827ad27bdc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1953349574 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2690200176240171712, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1953349571}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104924279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba3136bf5097d341b9c8820bd132b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1953349575 stripped
