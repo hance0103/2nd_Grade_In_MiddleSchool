@@ -54,7 +54,7 @@ public class BossHPManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
-        Debug.Log($"보스가 {damage} 데미지를 받음. 남은 HP: {currentHP}");
+        //Debug.Log($"보스가 {damage} 데미지를 받음. 남은 HP: {currentHP}");
         if (currentHP <= 0&& Stage ==1)
         {
             currentHP = 0;

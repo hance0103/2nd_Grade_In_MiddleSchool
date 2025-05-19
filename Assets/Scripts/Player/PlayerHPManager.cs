@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.U2D;
 
 
 public class PlayerHPManager : MonoBehaviour
@@ -17,8 +19,13 @@ public class PlayerHPManager : MonoBehaviour
     [Header("��������")]
     [SerializeField] private int Stage;
     private float currentHP;
+    [SerializeField]
+    public float _InvincibleTime = 1f;
+
+    private bool _gameOver = false;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,6 +35,10 @@ public class PlayerHPManager : MonoBehaviour
         }
         Instance = this;
         currentHP = maxHP;
+    }
+    private void Update()
+    {
+
     }
     void Start()
     {
@@ -39,18 +50,39 @@ public class PlayerHPManager : MonoBehaviour
     {
         currentHP = maxHP;
     }
+    private IEnumerator InvincibleCounter()
+    {
+        float counter = 0;
+        
+        while (counter < _InvincibleTime)
+        {
+            counter += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("무적 끝");
+        player.DeactivateInvincible();
+    }
 
 
     public void TakeDamage(float damage)
     {
+        if (player.IsInvincible() || _gameOver)
+        {
+            return;
+        }
         currentHP -= damage;
-        Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
+        //Debug.Log($"{damage}데미지 히트. 남은 HP: {currentHP}");
+        player.ActivateInvincible();
+        StartCoroutine(InvincibleCounter());
+        StartCoroutine(player.InvincibleBlink());
         if (currentHP <= 0 )
         {
+            _gameOver = true;
             currentHP = 0;
             Debug.Log("플레이어 사망");
             DefeatPopup.SetActive(true);
             player.PlayerDefeat();
+            player.ActivateInvincible();
             playerController.SetActive(false);
             switch (Stage)
             {

@@ -88,14 +88,14 @@ public class PlayerInputProxy : MonoBehaviour
 
     public void OnAttackButtonDown()
     {
-        Debug.Log("공격 버튼 다운");
+        //Debug.Log("공격 버튼 다운");
         AttackReleased = false;
         AttackPressed = true;
         AttackHeld = true;
     }
     public void OnAttackButtonUp()
     {
-        Debug.Log("공격버튼 업");
+        //Debug.Log("공격버튼 업");
         AttackReleased = true;
         AttackHeld = false;
         ResetAttackFlags();

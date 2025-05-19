@@ -42,7 +42,7 @@ public class PlayerNormalAttack : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.CompareTag("Boss"))
         {
             BossHPManager.Instance.TakeDamage(_damage);

@@ -151,7 +151,7 @@ public class bossPatternTest : MonoBehaviour
 
         if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
         {
-            Debug.Log(EndPattern);
+            //Debug.Log(EndPattern);
             Enrageactive = false;
             BossEnrage();
         }
@@ -205,7 +205,7 @@ public class bossPatternTest : MonoBehaviour
             currentState = BossState.Idle;
             isEnrageTriggered = true; // 한 번만 트리거되도록 설정
             shouldTriggerEnrage = true;
-            Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
+            //ebug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
         }
 
         // 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
@@ -256,7 +256,7 @@ public class bossPatternTest : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("약공격1 텔레포트");
+        //Debug.Log("약공격1 텔레포트");
         currentState = BossState.WeakPattern1;
 
         // ������ ��ġ ���
@@ -283,7 +283,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1PreAttack(Vector3 targetPlayerPos)
     {
-        Debug.Log("약공격1 Pre");
+        //Debug.Log("약공격1 Pre");
         currentState = BossState.WeakPattern1;
 
         // ���� �������θ� ����
@@ -304,7 +304,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1Attacking(Vector3 targetPosition) //�÷��̾� �ֺ����� �ڷ���Ʈ �� ��������
     {
-        Debug.Log("약공격1 실행");
+        //Debug.Log("약공격1 실행");
         currentState = BossState.WeakPattern1;
 
         //�ִϸ��̼� ����
@@ -347,7 +347,7 @@ public class bossPatternTest : MonoBehaviour
                     {
                         // ����ȭ ���¿��� ������ ��� ����
                         float damage = isEnraged ? weakEnraged1Data.Damage : weakPattern1Data.Damage;
-                        Debug.Log($"���� ���� ��Ʈ! ������: {damage}");
+                        //Debug.Log($"���� ���� ��Ʈ! ������: {damage}");
                         PlayerHPManager.Instance.TakeDamage(damage);
 
                         // �������� �� �� �� �ڿ��� �ߺ����� ���� �ʵ��� ó��
@@ -366,7 +366,7 @@ public class bossPatternTest : MonoBehaviour
 
     public IEnumerator WeakPattern1PostAttack()
     {
-        Debug.Log("약공격1 Post");
+        //Debug.Log("약공격1 Post");
 
         //�ִϸ��̼� ����
         animator.SetBool("isWP1", false);
@@ -384,7 +384,7 @@ public class bossPatternTest : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("약공격2");
+        //Debug.Log("약공격2");
         currentState = BossState.WeakPattern2;
 
         // �ڷ���Ʈ
@@ -416,12 +416,12 @@ public class bossPatternTest : MonoBehaviour
             if (direction == Vector2.right)
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - rightPositionMover, Quaternion.identity);
-                Debug.Log(direction);
+                //Debug.Log(direction);
             }
             else
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart"), transform.position - leftPositionMover, Quaternion.identity);
-                Debug.Log(direction);
+                //Debug.Log(direction);
             }
             laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
             //레이저 시작부분 크기 증가
@@ -441,12 +441,12 @@ public class bossPatternTest : MonoBehaviour
             if (direction == Vector2.right)
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - rightPositionMover, Quaternion.identity);
-                Debug.Log(direction);
+                //Debug.Log(direction);
             }
             else
             {
                 laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
-                Debug.Log(direction);
+                //Debug.Log(direction);
             }
             laserStart.GetComponent<SpriteRenderer>().sortingOrder = -1;
             //레이저 시작부분 크기 증가
@@ -477,7 +477,7 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
         //�ִϸ��̼� ����
-        Debug.Log("isWP2");
+        //Debug.Log("isWP2");
         animator.SetBool("isWP2", false);
 
         StartCoroutine(FinishPattern());
@@ -668,7 +668,7 @@ public class bossPatternTest : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("������2");
+        //Debug.Log("������2");
         currentState = BossState.StrongPattern2;
 
         // ������ ��ġ ����
@@ -710,7 +710,7 @@ public class bossPatternTest : MonoBehaviour
         Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));
 
         // ī��Ʈ�ٿ�
-        Debug.Log("ī��Ʈ�ٿ� ����");
+        //Debug.Log("ī��Ʈ�ٿ� ����");
         animator.SetBool("isSP2", true);
         animator.SetBool("isPre", true);
         SoundManager.Instance.EffectSoundOn("16-1");
@@ -724,12 +724,12 @@ public class bossPatternTest : MonoBehaviour
         if (direction == Vector2.right)
         {
             laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - rightPositionMover, Quaternion.identity);
-            Debug.Log(direction);
+            //Debug.Log(direction);
         }
         else
         {
             laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
-            Debug.Log(direction);
+            //Debug.Log(direction);
         }
         laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
         SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
@@ -794,7 +794,7 @@ public class bossPatternTest : MonoBehaviour
         // ī��Ʈ�ٿ�
         for (float i = strongEnraged2Data.BeforeAttackDelay; i > 0; i--)
         {
-            Debug.Log("����ȭ ī��Ʈ�ٿ�: " + i);
+            //Debug.Log("����ȭ ī��Ʈ�ٿ�: " + i);
             yield return new WaitForSeconds(1f);
         }
 
@@ -890,7 +890,7 @@ public class bossPatternTest : MonoBehaviour
     #region 광폭화 연출
     private IEnumerator EnrageEffect(Vector2 bossPosition, Vector2 staticPlayerPosition)
     {
-        Debug.Log("보스 광폭화 효과 시작!");
+        //Debug.Log("보스 광폭화 효과 시작!");
 
         // 보스 상태를 None으로 설정하여 다른 패턴이 시작되지 않도록 함
         currentState = BossState.None;
@@ -906,7 +906,7 @@ public class bossPatternTest : MonoBehaviour
         // 광폭화 연출 시간 동안 대기
         //yield return new WaitForSeconds(3.0f); // 필요에 따라 시간 조정
 
-        Debug.Log("보스 광폭화 효과 완료!");
+        //Debug.Log("보스 광폭화 효과 완료!");
 
         // 광폭화 효과 후 Idle 상태로 전환
         currentState = BossState.Idle;
@@ -918,7 +918,7 @@ public class bossPatternTest : MonoBehaviour
     #region 데스 연출
     private IEnumerator DeathEffect()
     {
-        Debug.Log("보스 사망 효과 시작!");
+        //Debug.Log("보스 사망 효과 시작!");
 
         // 진행 중인 모든 코루틴 중지
         if (currentCoroutine != null)
@@ -1159,11 +1159,11 @@ public class bossPatternTest : MonoBehaviour
         if (hit.collider != null)
         {
             leftSafe = true;
-            Debug.Log($"왼쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
+            //Debug.Log($"왼쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
         }
         else
         {
-            Debug.Log("왼쪽 레이캐스트 미스");
+            //Debug.Log("왼쪽 레이캐스트 미스");
         }
         // 오른쪽 위치 체크
         Vector2 rightRayStart = new Vector2(rightPosition.x, checkHeight);
@@ -1171,31 +1171,31 @@ public class bossPatternTest : MonoBehaviour
         if (hit.collider != null)
         {
             rightSafe = true;
-            Debug.Log($"오른쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
+            //Debug.Log($"오른쪽 레이캐스트 히트: {hit.collider.name}, 레이어: {hit.collider.gameObject.layer}");
         }
         else
         {
-            Debug.Log("오른쪽 레이캐스트 미스");
+            //Debug.Log("오른쪽 레이캐스트 미스");
         }
         // 결과 반환
         if (leftSafe && rightSafe)
         {
-            Debug.Log("양쪽 모두 안전, 랜덤 선택");
+            //Debug.Log("양쪽 모두 안전, 랜덤 선택");
             return Random.value > 0.5f ? rightPosition : leftPosition;
         }
         else if (leftSafe)
         {
-            Debug.Log("왼쪽만 안전");
+            //D/ebug.Log("왼쪽만 안전");
             return leftPosition;
         }
         else if (rightSafe)
         {
-            Debug.Log("오른쪽만 안전");
+            //Debug.Log("오른쪽만 안전");
             return rightPosition;
         }
         else
         {
-            Debug.Log("안전한 위치 없음, 플레이어 주변으로 이동");
+            //Debug.Log("안전한 위치 없음, 플레이어 주변으로 이동");
             float safeOffset = 2f;
             return new Vector3(
                 playerPos.x + (Random.value > 0.5f ? safeOffset : -safeOffset),

@@ -10577,10 +10577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _damageInnterval: 2
   _isContacting: 0
   _hp: {fileID: 1953349572}
-  _contactCounter: 0
 --- !u!1 &1798042391
 GameObject:
   m_ObjectHideFlags: 0
@@ -11421,6 +11419,10 @@ PrefabInstance:
       propertyPath: DefeatPopup
       value: 
       objectReference: {fileID: 1439323141}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _InvincibleTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: playerController
       value: 

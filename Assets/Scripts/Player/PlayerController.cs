@@ -132,7 +132,13 @@ public class PlayerController : MonoBehaviour
     private LayerMask jumpAttackMask;
     [SerializeField]
     private bool _canPlayerControll = true;
-    
+
+    [Header("Player Invincible")]
+    [SerializeField]
+    private float _blinkDelay = 0.1f;
+    [SerializeField]
+    private bool _isInvincible = false;
+
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
@@ -668,11 +674,11 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator PlayerJumpAttackDelay()
     {
-        Debug.Log("시간 정지");
+        //Debug.Log("시간 정지");
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
         Time.timeScale = 1f;
-        Debug.Log("시간 복구");
+        //Debug.Log("시간 복구");
     }
     public IEnumerator PlayerJumpAttackAfterDelay()
     {
@@ -704,6 +710,29 @@ public class PlayerController : MonoBehaviour
     public bool CanJumpAttack()
     {
         return _canJumpAttack;
+    }
+    public bool IsInvincible()
+    {
+        return _isInvincible;
+    }
+    public void ActivateInvincible()
+    {
+        _isInvincible = true;
+    }
+    public void DeactivateInvincible()
+    {
+        sprite.color = Color.white;
+        _isInvincible = false;
+    }
+    public IEnumerator InvincibleBlink()
+    {
+        while (_isInvincible)
+        {
+            sprite.color = Color.black;
+            yield return new WaitForSeconds(_blinkDelay);
+            sprite.color = Color.white;
+            yield return new WaitForSeconds(_blinkDelay);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
