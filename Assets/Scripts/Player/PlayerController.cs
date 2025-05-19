@@ -422,6 +422,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerResume()
     {
         _canPlayerControll = true;
+        rb.isKinematic = false;
     }
     public void PlayerDefeat()
     {
