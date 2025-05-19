@@ -8917,6 +8917,7 @@ MonoBehaviour:
   zoomSizeBossF: 3
   zoomDurationBossF: 0.4
   pauseDurationBossF: 4
+  FinishBossSprite: {fileID: 1463315024}
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 764313889}
