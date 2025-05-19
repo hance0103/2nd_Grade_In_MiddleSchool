@@ -230,7 +230,7 @@ MonoBehaviour:
   _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
   _attackPoint: {fileID: 5949930095949123849}
   isAttacking: 0
-  _jumpAttack_diveVelocity: 30
+  _jumpAttack_diveVelocity: 40
   _jumpAttack_dmg: 20
   _jumpAttackHitDelay: 0.04
   _jumpAttackAfterDelay: 0.06
