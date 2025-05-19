@@ -26,6 +26,20 @@ public class GameManager : MonoBehaviour
     SoundManager _sound = new SoundManager();
     SaveLoadManager _saveLoad = new SaveLoadManager();
 
+    [SerializeField]
+    private PlayerController _playerController;
+    public PlayerController player
+    {
+        get
+        {
+            if (_playerController == null)
+            {
+                _playerController = FindObjectOfType<PlayerController>();
+            }
+            return _playerController;
+        }
+    }
+
     public static InputManager Input { get { return Inst._input; } }
     public static ResourceManager Resource { get { return Inst._resource; } }
     public static UIManager UI { get { return Inst._ui_manager; } }
