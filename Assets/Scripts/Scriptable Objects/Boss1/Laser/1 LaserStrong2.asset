@@ -16,7 +16,7 @@ MonoBehaviour:
   damage: 35
   laserSpeed: 90
   laserDuration: 2
-  laserSprite: Sprites/Laser/WP2_laser_E
+  laserSprite: Sprites/Laser/Laser_beam(r)_0007
   laserWidth: 2.6
   laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
