@@ -119,9 +119,11 @@ public class bossPatternTest : MonoBehaviour
         //    BossState.StrongPattern1,
         //    BossState.StrongPattern2
         //});
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern3, BossState.StrongPattern1 });
-        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
-        patternDic.Add(0, new BossState[] { BossState.StrongPattern2 });
+
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
+        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
@@ -502,7 +504,7 @@ public class bossPatternTest : MonoBehaviour
     #region 약패턴 3
     public IEnumerator WeakPattern3()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         EndPattern = false;
         currentState = BossState.WeakPattern3;
 
@@ -638,32 +640,22 @@ public class bossPatternTest : MonoBehaviour
     #region 강패턴 1
     public IEnumerator StrongPattern1() //�� ���̵�� �ڷ���Ʈ �� ����ü ����
     {
-        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("������1");
         currentState = BossState.StrongPattern1;
 
-        // ������ ��ġ ����
         Transform selectedPosition = strongPatternPositions[Random.Range(0, strongPatternPositions.Length)];
 
-        // ���õ� ��ġ�� �ڷ���Ʈ
-        Debug.Log("������1 �ڷ���Ʈ");
         SoundManager.Instance.EffectSoundOn("18");
         transform.position = selectedPosition.position;
         FacePlayer();
         float beforeDelay = isEnraged ? strongEnraged1Data.BeforeAttackDelay : strongPattern1Data.BeforeAttackDelay;
         yield return new WaitForSeconds(beforeDelay);
 
-        // ����ü ���� ����
-        Debug.Log("����ü ���� ����");
-
-        // ����ȭ ���¿� ���� �ٸ� �����Ϳ� ������ ���
         ProjectileScriptableObject currentProjectileData = isEnraged ? projectileEData : projectileData;
         GameObject currentPrefab = isEnraged ? projectileEPrefab : projectilePrefab;
 
         ProjectileController projectileController = ProjectileController.Create(currentProjectileData, transform, player.transform, currentPrefab, isEnraged);
         yield return StartCoroutine(projectileController.ExecutePattern(transform));
-        Debug.Log("����ü ���� �Ϸ�");
 
         yield return new WaitForSeconds(strongPattern1Data.AfterAttackDelay);
 
