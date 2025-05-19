@@ -119,8 +119,9 @@ public class bossPatternTest : MonoBehaviour
         //    BossState.StrongPattern1,
         //    BossState.StrongPattern2
         //});
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern2, BossState.WeakPattern1 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern3, BossState.WeakPattern3, BossState.WeakPattern1 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
+        patternDic.Add(0, new BossState[] { BossState.StrongPattern2 });
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
@@ -214,7 +215,7 @@ public class bossPatternTest : MonoBehaviour
         #endregion
 
     }
-    private const float PATTERN_GAP = 0.2f;
+    private const float PATTERN_GAP = 0.0001f;
     private IEnumerator FinishPattern()
     {
         EndPattern = true;
@@ -503,7 +504,6 @@ public class bossPatternTest : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("�����3");
         currentState = BossState.WeakPattern3;
 
         // 중력 설정 제거 및 속도 초기화
@@ -530,12 +530,7 @@ public class bossPatternTest : MonoBehaviour
 
             if (strike == 0)
             {
-                // 카운트다운
-                for (float i = weakPattern3Data.BeforeAttackDelay; i > 0; i--)
-                {
-                    Debug.Log("ī��Ʈ�ٿ�: " + i);
-                    yield return new WaitForSeconds(0.5f);
-                }
+                yield return new WaitForSeconds(weakPattern3Data.BeforeAttackDelay);
             }
 
             // 광폭화 상태일 때 대기시간 감소
@@ -569,7 +564,7 @@ public class bossPatternTest : MonoBehaviour
             {
                 elapsedTime += Time.deltaTime;
                 float progress = elapsedTime / weakPattern3AttackDuration;
-                float easedProgress = 1 - Mathf.Pow(1 - progress, 3);  // ��¡ �������� �ڿ������� ���
+                float easedProgress = 1 - Mathf.Pow(1 - progress, 3);
 
                 // 이징 함수로 자연스러운 하강 표현
                 float currentY = Mathf.Lerp(startPosition.y, groundY, easedProgress);
@@ -577,19 +572,16 @@ public class bossPatternTest : MonoBehaviour
                     Mathf.Max(currentY, groundY),
                     transform.position.z);
 
-                // �÷��̾���� ���� �浹 üũ
                 if (!hasDealtDamage)
                 {
                     ContactFilter2D filter = new ContactFilter2D();
                     filter.SetLayerMask(LayerMask.GetMask("Player"));
                     Collider2D[] results = new Collider2D[1];
 
-                    // ������ �ݶ��̴��� �÷��̾� �ݶ��̴��� ��ġ�� ������ ����
                     if (GetComponent<Collider2D>().OverlapCollider(filter, results) > 0)
                     {
                         if (results[0].CompareTag("Player"))
                         {
-                            Debug.Log($"������� ���� ��Ʈ! ������: {weakPattern3Data.Damage}");
                             PlayerHPManager.Instance.TakeDamage(weakPattern3Data.Damage);
                             hasDealtDamage = true;
                         }
@@ -749,7 +741,7 @@ public class bossPatternTest : MonoBehaviour
         }
         laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
         SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
-        yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(5.2f, 5.2f, 1f), weakPattern2Data.BeforeAttackDelay));
+        yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(5.2f, 5.2f, 1f), strongPattern2Data.BeforeAttackDelay));
         laserStartSR.sortingOrder = -1;
 
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
@@ -758,17 +750,13 @@ public class bossPatternTest : MonoBehaviour
 
         // 플레이어 멈추는 함수 넣는 위치
         // 여기
-
-        animator.SetBool("isPre", false);
         yield return new WaitForSecondsRealtime(2f);
 
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
-
-        Debug.Log($"약공격 2 실행: {weakPattern2Data.PatternName}, 약공격2데미지: {weakPattern2Data.Damage}");
         animator.SetBool("isPre", false);
         SoundManager.Instance.EffectSoundOn("16-2");
-
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
+
 
         Destroy(laserStart);
         animator.SetBool("isSP2", false);
@@ -1018,12 +1006,12 @@ public class bossPatternTest : MonoBehaviour
         StartCoroutine(ShakeMainCamera(0.2f, 0.2f));
 
         // 잠시 대기
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
         // 추가 약한 흔들림으로 여진 효과 생성
         StartCoroutine(ShakeMainCamera(0.1f, 0.1f));
 
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
     }
 
     // 간단한 카메라 흔들림 구현

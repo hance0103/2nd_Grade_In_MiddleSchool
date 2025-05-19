@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 1 Weak2
   m_EditorClassIdentifier: 
   patternName: Weak2
-  damage: 15
-  beforeAttackDelay: 2
+  damage: 10
+  beforeAttackDelay: 1.5
   attackRange: 1
   afterAttackDelay: 0.8
   teleportOffset: {x: 10, y: 0, z: 0}

@@ -10493,7 +10493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _damageInnterval: 1
+  _damageInnterval: 2
   _isContacting: 0
   _hp: {fileID: 1953349572}
   _contactCounter: 0
@@ -11341,6 +11341,10 @@ PrefabInstance:
       propertyPath: DefeatPopupScript
       value: 
       objectReference: {fileID: 1439323143}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: bindTimer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

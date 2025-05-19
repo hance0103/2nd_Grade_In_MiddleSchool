@@ -16,6 +16,6 @@ MonoBehaviour:
   damage: 15
   beforeAttackDelay: 0.7
   attackRange: 2
-  afterAttackDelay: 0.7
+  afterAttackDelay: 0.3
   teleportOffset: {x: 6, y: 0, z: 0}
   teleportWaitTime: 0
