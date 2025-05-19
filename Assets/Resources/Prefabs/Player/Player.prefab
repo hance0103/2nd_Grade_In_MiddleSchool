@@ -23,7 +23,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5949930095949123849
 Transform:
   m_ObjectHideFlags: 0
@@ -229,9 +229,9 @@ MonoBehaviour:
   _attackPoint: {fileID: 5949930095949123849}
   isAttacking: 0
   _jumpAttack_diveVelocity: 30
-  _jumpAttack_dmg: 30
+  _jumpAttack_dmg: 20
   _jumpAttackHitDelay: 0.06
-  _jumpAttackAfterDelay: 0
+  _jumpAttackAfterDelay: 0.1
   _jumpAttackObject: {fileID: 7060654203872380840}
   camShakeDuration: 0.15
   camShakeMagnitude: 0.1

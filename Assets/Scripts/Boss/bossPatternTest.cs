@@ -113,17 +113,17 @@ public class bossPatternTest : MonoBehaviour
         }
 
         //patternDic.Add(0, new BossState[] {
-        //    BossState.WeakPattern1,
+        //    //BossState.WeakPattern1,
         //    BossState.WeakPattern2,
-        //    BossState.WeakPattern3,
-        //    BossState.StrongPattern1,
-        //    BossState.StrongPattern2
+        //    //BossState.WeakPattern3,
+        //    //BossState.StrongPattern1,
+        //    //BossState.StrongPattern2
         //});
 
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
         patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
         patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
-        
+
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
@@ -399,14 +399,14 @@ public class bossPatternTest : MonoBehaviour
         animator.SetBool("isPre", true);
 
         // �ڷ���Ʈ ���� ������ �÷��̾��� ��ġ�� ���� (��� �������� �� ��ġ�� ���)
-        Vector2 bossPosition = transform.position - new Vector3(0, 0.5f,0);
+        Vector2 bossPosition = transform.position - new Vector3(0, 0.7f,0);
         Vector2 savedPlayerPosition = new Vector2(
             player.transform.position.x,
             bossPosition.y  // ������ y���� ����Ͽ� ���� ����
         );
         Vector2 direction = (bossPosition - savedPlayerPosition).normalized;
-        Vector3 rightPositionMover = new Vector3(1.9f, 0.5f, 0);
-        Vector3 leftPositionMover = new Vector3(-1.9f, 0.5f, 0);
+        Vector3 rightPositionMover = new Vector3(1.9f, 0.7f, 0);
+        Vector3 leftPositionMover = new Vector3(-1.9f, 0.7f, 0);
         GameObject laserStart;
         LaserController2 laser;
 
