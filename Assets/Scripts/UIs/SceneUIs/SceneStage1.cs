@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneStage1 : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject controllerUI;
     public void LoadMain()
     {
         SoundManager.Instance.EffectSoundOn("3");
@@ -34,7 +32,6 @@ public class SceneStage1 : MonoBehaviour
     public GameObject settingsPopup; // 설정 팝업
     public GameObject creditsPopup; // 크레딧 팝업
     public GameObject PausePopup; // 일시정지 팝업
-    public GameObject TextPopup;
     // 설정 팝업 열기
     public void OpenSettings()
     {
@@ -62,16 +59,7 @@ public class SceneStage1 : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         creditsPopup.SetActive(false);
     }
-    public void OpenText()
-    {
-        SoundManager.Instance.EffectSoundOn("3");
-        TextPopup.SetActive(true);
-    }
-    public void CloseText()
-    {
-        SoundManager.Instance.EffectSoundOn("3");
-        TextPopup.SetActive(false);
-    }
+    
 
     // 일시정지 팝업 열기 (게임 일시정지)
     public void OpenPause()

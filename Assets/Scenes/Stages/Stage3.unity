@@ -315,8 +315,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneStage1, Assembly-CSharp
+      - m_Target: {fileID: 51294560}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
@@ -932,7 +932,7 @@ GameObject:
   - component: {fileID: 136198745}
   - component: {fileID: 136198744}
   - component: {fileID: 136198743}
-  - component: {fileID: 136198742}
+  - component: {fileID: 136198746}
   m_Layer: 5
   m_Name: TouchingOutside
   m_TagString: Untagged
@@ -959,23 +959,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.14999998}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &136198742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136198740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerUI: {fileID: 541900550}
-  settingsPopup: {fileID: 1238620315}
-  creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &136198743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,8 +1003,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 136198742}
-        m_TargetAssemblyTypeName: SceneStage1, Assembly-CSharp
+      - m_Target: {fileID: 136198746}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -1070,6 +1053,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 136198740}
   m_CullTransparentMesh: 0
+--- !u!114 &136198746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136198740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPopup: {fileID: 1238620315}
+  creditsPopup: {fileID: 31802939}
+  PausePopup: {fileID: 1171910445}
 --- !u!1001 &257190181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1583,11 +1581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerUI: {fileID: 0}
   settingsPopup: {fileID: 0}
   creditsPopup: {fileID: 0}
   PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &304005730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2849,7 +2845,7 @@ GameObject:
   - component: {fileID: 626856260}
   - component: {fileID: 626856259}
   - component: {fileID: 626856258}
-  - component: {fileID: 626856257}
+  - component: {fileID: 626856261}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -2876,21 +2872,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1086, y: 400}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &626856257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626856255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d639a2c6664b94a94e3c9c563a157e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 0}
-  creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 1171910445}
 --- !u!114 &626856258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2935,8 +2916,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 626856257}
-        m_TargetAssemblyTypeName: SceneStage2, Assembly-CSharp
+      - m_Target: {fileID: 626856261}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: OpenPause
         m_Mode: 1
         m_Arguments:
@@ -2985,6 +2966,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626856255}
   m_CullTransparentMesh: 1
+--- !u!114 &626856261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626856255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPopup: {fileID: 1238620315}
+  creditsPopup: {fileID: 31802939}
+  PausePopup: {fileID: 1171910445}
 --- !u!1 &631078683
 GameObject:
   m_ObjectHideFlags: 0
@@ -6517,7 +6513,7 @@ GameObject:
   - component: {fileID: 1125952066}
   - component: {fileID: 1125952065}
   - component: {fileID: 1125952064}
-  - component: {fileID: 1125952063}
+  - component: {fileID: 1125952067}
   m_Layer: 5
   m_Name: SettingsCloseButton
   m_TagString: Untagged
@@ -6544,23 +6540,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.9, y: 0.9}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1125952063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125952061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerUI: {fileID: 541900550}
-  settingsPopup: {fileID: 1238620315}
-  creditsPopup: {fileID: 0}
-  PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &1125952064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6605,8 +6584,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1125952063}
-        m_TargetAssemblyTypeName: SceneStage1, Assembly-CSharp
+      - m_Target: {fileID: 1125952067}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -6655,6 +6634,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125952061}
   m_CullTransparentMesh: 1
+--- !u!114 &1125952067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125952061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPopup: {fileID: 1238620315}
+  creditsPopup: {fileID: 31802939}
+  PausePopup: {fileID: 1171910445}
 --- !u!1001 &1129969029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7320,9 +7314,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 0}
+  settingsPopup: {fileID: 1238620315}
   creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 0}
+  PausePopup: {fileID: 1171910445}
 --- !u!114 &1152741994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8967,9 +8961,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsPopup: {fileID: 0}
+  settingsPopup: {fileID: 1238620315}
   creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 0}
+  PausePopup: {fileID: 1171910445}
 --- !u!114 &1377690426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10809,7 +10803,7 @@ GameObject:
   - component: {fileID: 1673373921}
   - component: {fileID: 1673373920}
   - component: {fileID: 1673373919}
-  - component: {fileID: 1673373918}
+  - component: {fileID: 1673373922}
   m_Layer: 5
   m_Name: MainMenuButton
   m_TagString: Untagged
@@ -10836,23 +10830,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.226, y: -1.15}
   m_SizeDelta: {x: 2.3, y: 2}
   m_Pivot: {x: 0.50000006, y: 0.50000006}
---- !u!114 &1673373918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673373916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerUI: {fileID: 541900550}
-  settingsPopup: {fileID: 0}
-  creditsPopup: {fileID: 0}
-  PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &1673373919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10897,8 +10874,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1673373918}
-        m_TargetAssemblyTypeName: SceneStage1, Assembly-CSharp
+      - m_Target: {fileID: 1673373922}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: LoadMain
         m_Mode: 1
         m_Arguments:
@@ -10947,6 +10924,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673373916}
   m_CullTransparentMesh: 1
+--- !u!114 &1673373922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673373916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPopup: {fileID: 0}
+  creditsPopup: {fileID: 0}
+  PausePopup: {fileID: 0}
 --- !u!1 &1681140422
 GameObject:
   m_ObjectHideFlags: 0
@@ -13144,7 +13136,7 @@ GameObject:
   - component: {fileID: 2094390201}
   - component: {fileID: 2094390200}
   - component: {fileID: 2094390199}
-  - component: {fileID: 2094390198}
+  - component: {fileID: 2094390202}
   m_Layer: 5
   m_Name: CreditOpenButton
   m_TagString: Untagged
@@ -13171,23 +13163,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5, y: -1.1}
   m_SizeDelta: {x: 1, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2094390198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094390196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc931cc684a79c54fbf218c02ff064f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerUI: {fileID: 541900550}
-  settingsPopup: {fileID: 1238620315}
-  creditsPopup: {fileID: 31802939}
-  PausePopup: {fileID: 0}
-  TextPopup: {fileID: 0}
 --- !u!114 &2094390199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13232,8 +13207,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2094390198}
-        m_TargetAssemblyTypeName: SceneStage1, Assembly-CSharp
+      - m_Target: {fileID: 2094390202}
+        m_TargetAssemblyTypeName: SceneStage3, Assembly-CSharp
         m_MethodName: OpenCredits
         m_Mode: 1
         m_Arguments:
@@ -13282,6 +13257,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094390196}
   m_CullTransparentMesh: 1
+--- !u!114 &2094390202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094390196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8703f1ffa6ceb294395509a18cf9058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPopup: {fileID: 1238620315}
+  creditsPopup: {fileID: 31802939}
+  PausePopup: {fileID: 1171910445}
 --- !u!1 &2097548409
 GameObject:
   m_ObjectHideFlags: 0
