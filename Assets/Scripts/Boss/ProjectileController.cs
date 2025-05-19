@@ -135,7 +135,7 @@ public class ProjectileController : MonoBehaviour
     public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f, bool isWeak4 = false)
     {
         // 발사 각도 제한 (양쪽 끝 제외)
-        float angleStart = isSecondLayer ? 205f : 192f; ; // 시작 각도
+        float angleStart = isSecondLayer ? 160f : 130f; ; // 시작 각도
         float angleEnd = isSecondLayer ? 335f : 348f;   // 끝 각도
         float angleRange = angleEnd - angleStart;
         float angleStep = angleRange / (projectileData.ProjectileCount - 1);
@@ -199,17 +199,36 @@ public class ProjectileController : MonoBehaviour
 
     }
 
-    public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform)
+    public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform, Animator animator)
     {
         // 두 패턴을 병렬로 실행
+        animator.SetTrigger("isSpike");
         SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, 0f, true)); // 첫 번째 층
+        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, -2f, true)); // 첫 번째 층
+
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
         SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, 0f, true)); // 두 번째 층
+        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, -2f, true)); // 두 번째 층
+
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine thirdLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, -2f, true)); // 첫 번째 층
+
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine fourthLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, -2f, true)); // 두 번째 층
 
         // 두 코루틴이 모두 끝날 때까지 대기
         yield return firstLayer;
         yield return secondLayer;
+        yield return thirdLayer;    
+        yield return fourthLayer;
 
         // 이후 패턴의 종료 지연 처리
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
@@ -421,7 +440,7 @@ public class ProjectileController : MonoBehaviour
                         {
                             float offsetY = Random.Range(-1f, 1f);
                             projectile.SetActive(true);
-                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f + offsetY, 0);
+                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 3f + offsetY, 0);
                             projectile.transform.position = spawnPosition;
                             projectile.transform.rotation = Quaternion.identity;
                             projectile.transform.localScale = projectileData.ProjectileScale;

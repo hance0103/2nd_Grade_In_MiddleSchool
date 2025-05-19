@@ -105,11 +105,11 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            BossState.WeakPattern5,
             //BossState.WeakPattern6,
             //BossState.Groggy
         });
@@ -481,9 +481,9 @@ public class BossPattern2 : MonoBehaviour
             isEnraged
         );
 
-        //animator.SetTrigger("isSpike");
+        animator.SetTrigger("isSpike");
 
-        yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform));
+        yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform, animator));
 
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
 
