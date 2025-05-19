@@ -8,6 +8,15 @@ using static DG.Tweening.DOTweenModuleUtils;
 
 public class bossPatternTest : MonoBehaviour
 {
+    [System.Serializable]
+    public struct ColliderSize
+    {
+        public string name;
+        public Vector2 offset;
+        public Vector2 size;
+    }
+    [SerializeField]
+    private List<ColliderSize> _colSizeList = new();
     #region enum 선언
     public enum BossState
     {
@@ -92,6 +101,7 @@ public class bossPatternTest : MonoBehaviour
     [SerializeField] private GameObject projectileEPrefab; 
 
     private Animator animator; // �ִϸ����� ���� �߰�
+    private BoxCollider2D _col;
     //[SerializeField] private float rotationSpeed = 5f; // ������ �÷��̾ �ٶ󺸴� ȸ�� �ӵ�
 
     //// ������ ���� ������ ���� ����
@@ -101,17 +111,6 @@ public class bossPatternTest : MonoBehaviour
     //[SerializeField] private float lastDamageTime = 0f;
     #endregion
 
-    struct ColliderSize
-    {
-        Vector2 offset;
-        Vector2 size;
-        ColliderSize (Vector2 offset, Vector2 size)
-        {
-            this.offset = offset;
-            this.size = size;
-        }
-    }
-    List<ColliderSize> colliderSizes = new List<ColliderSize> ();
 
     private void Awake()
     {
@@ -121,6 +120,7 @@ public class bossPatternTest : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
+        _col = GetComponent<BoxCollider2D>();
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
         
@@ -417,6 +417,14 @@ public class bossPatternTest : MonoBehaviour
         //�ִϸ��̼� ����
         animator.SetTrigger("isWP2");
         animator.SetBool("isPre", true);
+        foreach(var vec in _colSizeList)
+        {
+            if (vec.name == "WP2")
+            {
+                _col.offset = vec.offset;
+                _col.size = vec.size;
+            }
+        }
 
         // �ڷ���Ʈ ���� ������ �÷��̾��� ��ġ�� ���� (��� �������� �� ��ġ�� ���)
         Vector2 bossPosition = transform.position - new Vector3(0, 0.7f,0);
@@ -490,6 +498,14 @@ public class bossPatternTest : MonoBehaviour
             yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
             
             animator.SetBool("isSecond", false);
+            foreach (var vec in _colSizeList)
+            {
+                if (vec.name == "Idle")
+                {
+                    _col.offset = vec.offset;
+                    _col.size = vec.size;
+                }
+            }
             Destroy(laserStart);
 
         }
@@ -549,6 +565,14 @@ public class bossPatternTest : MonoBehaviour
             FacePlayer();
             //애니메이션 재생
             animator.SetBool("isWP3", true);
+            foreach (var vec in _colSizeList)
+            {
+                if (vec.name == "WP3")
+                {
+                    _col.offset = vec.offset;
+                    _col.size = vec.size;
+                }
+            }
 
             if (strike == 0)
             {
@@ -651,6 +675,14 @@ public class bossPatternTest : MonoBehaviour
         yield return new WaitForSeconds(weakPattern3Data.AfterAttackDelay);
         //애니메이션 종료
         animator.SetBool("isWP3", false);
+        foreach (var vec in _colSizeList)
+        {
+            if (vec.name == "Idle")
+            {
+                _col.offset = vec.offset;
+                _col.size = vec.size;
+            }
+        }
 
         StartCoroutine(FinishPattern());
 
