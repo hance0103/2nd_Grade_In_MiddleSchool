@@ -66,7 +66,7 @@ public class BossEnragePopup : MonoBehaviour
     }
     public void OnEnrage() 
     {
-        Player.transform.position = new Vector3(-4.0f, -2.5f, 0f);
+        Player.transform.position = new Vector3(-4.0f, -2.946f, 0f);
         if (Stage == 1) 
         { 
             Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
