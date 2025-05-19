@@ -94,19 +94,19 @@ public class LaserController2 : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.deltaTime;
             float scale = Mathf.Lerp(0, laserData.LaserWidth, elapsed / fadeInTime);
             laserTransform.localScale = new Vector3(distance, scale, 1);
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(laserData.LaserDuration);
+        yield return new WaitForSeconds(laserData.LaserDuration);
 
         // 페이드 아웃
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.deltaTime;
             float scale = Mathf.Lerp(laserData.LaserWidth, 0, elapsed / fadeOutTime);
             laserTransform.localScale = new Vector3(distance, scale, 1);
             yield return null;
