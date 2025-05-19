@@ -679,17 +679,14 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator PlayerJumpAttackDelay()
     {
-        //Debug.Log("시간 정지");
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(_jumpAttackHitDelay);
         Time.timeScale = 1f;
-        //Debug.Log("시간 복구");
     }
     public IEnumerator PlayerJumpAttackAfterDelay()
     {
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(_jumpAttackAfterDelay);
-        Debug.Log("시간 복구");
         Time.timeScale = 1f;
 
     }
@@ -755,10 +752,12 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
             if (moveInput != 0)
+            {
+                Debug.Log("Move State일때 버그 발생할거임");
                 ChangeState(new MoveState(this));
+            }
             else
             {
-                Debug.Log("아이들 스테이트 전환");
                 ChangeState(new IdleState(this));
 
             }
