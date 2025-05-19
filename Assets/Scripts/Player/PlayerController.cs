@@ -36,12 +36,15 @@ public class PlayerController : MonoBehaviour
     private bool isOnGround;
 
     [Header("Dash")]
-    [SerializeField] private float dashDistance = 5f;
+    
+    
     [SerializeField] private float dashBeforeDelay = 0.1f;
     [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
     [SerializeField] private float dashTime;
 
+    [SerializeField] private float verticalDashDistance = 5f;
+    [SerializeField] private float horizontalDashDistance = 5f;
     [SerializeField] private float diagonalDashX;
     [SerializeField] private float diagonalDashY;
     [SerializeField] private GameObject dashEffect;
@@ -447,12 +450,14 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerStop()
     {
+        anim.PauseAnimation();
         _canPlayerControll = false;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
     }
     public void PlayerResume()
     {
+        anim.ResumeAnimation();
         _canPlayerControll = true;
         rb.isKinematic = false;
     }
@@ -479,16 +484,16 @@ public class PlayerController : MonoBehaviour
         switch (direction)
         {
             case PlayerInputDirection.Up:
-                dashDirection = new Vector2(0, dashDistance);
+                dashDirection = new Vector2(0, verticalDashDistance);
                 break;
             case PlayerInputDirection.Down:
-                dashDirection = new Vector2(0, -dashDistance);
+                dashDirection = new Vector2(0, -verticalDashDistance);
                 break;
             case PlayerInputDirection.Right:
-                dashDirection = new Vector2(dashDistance, 0);
+                dashDirection = new Vector2(horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.Left:
-                dashDirection = new Vector2(-dashDistance, 0);
+                dashDirection = new Vector2(-horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.UpRight:
                 dashDirection = new Vector2(diagonalDashX, diagonalDashY);
@@ -506,10 +511,10 @@ public class PlayerController : MonoBehaviour
                 switch (looking)
                 {
                     case PlayerLookingDirection.Right:
-                        dashDirection = new Vector2(dashDistance, 0);
+                        dashDirection = new Vector2(horizontalDashDistance, 0);
                         break;
                     case PlayerLookingDirection.Left:
-                        dashDirection = new Vector2(-dashDistance, 0);
+                        dashDirection = new Vector2(-horizontalDashDistance, 0);
                         break;
                 }
                 break;

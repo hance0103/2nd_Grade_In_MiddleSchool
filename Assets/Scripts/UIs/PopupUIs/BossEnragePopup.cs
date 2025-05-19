@@ -10,6 +10,7 @@ public class BossEnragePopup : MonoBehaviour
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Boss;
+    private PlayerController _playerController;
     
     [Header("이동시킬 이미지 오브젝트")]
     [SerializeField] private GameObject TopBar;
@@ -53,9 +54,13 @@ public class BossEnragePopup : MonoBehaviour
     private Vector2 initBottomBarPos;
     private Vector2 initTopTextPos;
     private Vector2 initBottomTextPos;
-
+    private void Awake()
+    {
+        _playerController = Player.GetComponent<PlayerController>();
+    }
     private void Start()
     {
+       
         // 시작 시, RectTransform들의 원본 위치를 기억
         initTopBarPos = TopBar.GetComponent<RectTransform>().anchoredPosition;
         initMiddleBarPos = MiddleBar.GetComponent<RectTransform>().anchoredPosition;
@@ -272,6 +277,7 @@ public class BossEnragePopup : MonoBehaviour
         BottomText.GetComponent<RectTransform>().anchoredPosition = initBottomTextPos;
         // 코루틴 종료
 
-        Player.GetComponent<PlayerController>().PlayerResume();
+        _playerController.PlayerResume();
+        _playerController.DeactivateInvincible();
     }
 }

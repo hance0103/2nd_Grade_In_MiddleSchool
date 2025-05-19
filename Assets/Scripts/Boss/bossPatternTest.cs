@@ -34,6 +34,7 @@ public class bossPatternTest : MonoBehaviour
     private Dictionary<int, BossState[]> patternDic = new();
     public BossState currentState;
     public GameObject player; // Player Ÿ���� ������ ������ ���� ��������
+    private PlayerController _playerController;
     private LaserController laserController; // LaserController ����
     private ProjectileController projectileController; // ProjectileController ����
     private BossHPManager bossHPManager; // BossHPManager ����
@@ -100,6 +101,14 @@ public class bossPatternTest : MonoBehaviour
     //[SerializeField] private float lastDamageTime = 0f;
     #endregion
 
+    [Header("BossCollider")]
+    [SerializeField]
+    private Vector2[] _bossColliderSizeArray;
+    private void Awake()
+    {
+        _playerController = player.GetComponent<PlayerController>();
+    }
+
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -133,7 +142,9 @@ public class bossPatternTest : MonoBehaviour
     private bool Enrageactive = true;
     private void BossEnrage()
     {
-        player.GetComponent<PlayerController>().PlayerStop();
+        _playerController.PlayerStop();
+        _playerController.ActivateInvincible();
+
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
     }
@@ -740,7 +751,9 @@ public class bossPatternTest : MonoBehaviour
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
 
-        player.GetComponent<PlayerController>().PlayerStop();
+        _playerController.PlayerStop();
+        _playerController.ActivateInvincible();
+
         // 여기
         yield return new WaitForSecondsRealtime(2f);
 
@@ -751,7 +764,8 @@ public class bossPatternTest : MonoBehaviour
 
 
         Destroy(laserStart);
-        player.GetComponent<PlayerController>().PlayerResume();
+        _playerController.PlayerResume();
+        _playerController.DeactivateInvincible();
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }

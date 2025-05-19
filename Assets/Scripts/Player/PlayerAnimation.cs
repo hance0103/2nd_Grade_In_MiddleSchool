@@ -21,7 +21,14 @@ public class PlayerAnimation : MonoBehaviour
         animCache["JumpAttack"] = Animator.StringToHash("JumpAttack");
         animCache["Defeat"] = Animator.StringToHash("Defeat");
     }
-
+    public void PauseAnimation()
+    {
+        animator.speed = 0f;
+    }
+    public void ResumeAnimation()
+    {
+        animator.speed = 1f;
+    }
     public void PlayAnimation(string name)
     {
         if (animCache.TryGetValue(name, out int hash))
