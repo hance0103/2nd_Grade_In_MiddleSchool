@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneStage1 : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject controllerUI;
     public void LoadMain()
     {
         SoundManager.Instance.EffectSoundOn("3");
@@ -75,6 +77,7 @@ public class SceneStage1 : MonoBehaviour
     public void OpenPause()
     {
         SoundManager.Instance.EffectSoundOn("3");
+        controllerUI.SetActive(false);
         PausePopup.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
     }
@@ -83,7 +86,9 @@ public class SceneStage1 : MonoBehaviour
     public void ClosePause()
     {
         SoundManager.Instance.EffectSoundOn("3");
+        
         PausePopup.SetActive(false);
+        controllerUI.SetActive(true);
         Time.timeScale = 1f; // 시간 재개
     }
 
