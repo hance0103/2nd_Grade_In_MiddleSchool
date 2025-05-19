@@ -23,5 +23,5 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  laserFollowDuration: 1.5
+  laserFollowDuration: 1
   laserLockDuration: 0.7
