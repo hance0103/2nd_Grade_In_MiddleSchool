@@ -19,6 +19,7 @@ public class PlayerAnimation : MonoBehaviour
         animCache["NormalAttack"] = Animator.StringToHash("NormalAttack");
         animCache["Dash"] = Animator.StringToHash("Dash");
         animCache["JumpAttack"] = Animator.StringToHash("JumpAttack");
+        animCache["Defeat"] = Animator.StringToHash("Defeat");
     }
 
     public void PlayAnimation(string name)

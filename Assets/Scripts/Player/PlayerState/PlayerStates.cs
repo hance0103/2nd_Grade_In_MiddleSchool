@@ -211,8 +211,8 @@ public class AttackState : IPlayerState
     public void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed) player.ChangeState(new JumpState(player));
-        else if (Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) player.ChangeState(new DashState(player));
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) player.ChangeState(new DashState(player));
 
         if (Input.GetKeyUp(KeyCode.A) || input.AttackReleased) player.ChangeState(new IdleState(player));
 

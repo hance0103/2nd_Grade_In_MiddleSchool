@@ -417,10 +417,15 @@ public class PlayerController : MonoBehaviour
     public void PlayerStop()
     {
         _canPlayerControll = false;
+        rb.isKinematic = true;
     }
     public void PlayerResume()
     {
         _canPlayerControll = true;
+    }
+    public void PlayerDefeat()
+    {
+        
     }
 
     public void StartDash()
