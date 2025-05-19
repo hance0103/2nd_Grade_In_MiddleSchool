@@ -133,7 +133,9 @@ public class FinishingPopup : MonoBehaviour
         StartCoroutine(ExplosionRoutine());
         // 글자 총 길이에 따라 각 글자 생성 간격
         float timePerChar = duration / narration.Length;
+        if (Boss == null) Boss = GameObject.FindGameObjectWithTag("Boss");
 
+ 
         for (int i = 0; i < narration.Length; i++)
         {
             // 글자를 하나 생성해서 날리는 코루틴
@@ -143,6 +145,7 @@ public class FinishingPopup : MonoBehaviour
             yield return new WaitForSeconds(timePerChar);
         }
     }
+  
     IEnumerator SpawnAndMoveLetter(string letter)
     {
         // 글자 프리팹 생성 (플레이어 위치에서)

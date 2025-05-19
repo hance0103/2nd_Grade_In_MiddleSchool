@@ -20,7 +20,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private float zoomSizeBossF = 3f;    // 보스에게 줌인할 때의 Orthographic Size
     [SerializeField] private float zoomDurationBossF = 0.4f;// 줌인/아웃에 걸리는 시간(초)
     [SerializeField] private float pauseDurationBossF = 4f;// 줌인 상태로 멈춰있는 시간(초)
-
+    [SerializeField] private GameObject FinishBossSprite;
     [Header("카메라 흔들기 옵션")]
     public float shakeMagnitude = 0.1f;   // 흔들림 정도
     public float shakeFrequency = 20f;    // 흔들림 빈도(1초당 진동 횟수 정도)
@@ -271,10 +271,10 @@ public class CameraMove : MonoBehaviour
             transform.position = Vector3.Lerp(originalPos, bossPos, t);
             yield return null;
         }
-
+        if (FinishBossSprite != null)
+            StartCoroutine(FadeOutSprite(FinishBossSprite, 2f));
         // 줌된 상태로 잠시 대기(pauseDuration 초) 이 동안 보스 쓰러지는 애니메이션 재생
         yield return new WaitForSecondsRealtime(pauseDurationBossF);
-        
         // 카메라 원상 복귀 (줌 아웃)
         t = 0f;
         while (t < 1f)
@@ -288,5 +288,31 @@ public class CameraMove : MonoBehaviour
 
         // 줌 이벤트 종료
 
+    }
+    IEnumerator FadeOutSprite(GameObject target, float duration)
+    {
+        
+        var sprites = target.GetComponentsInChildren<SpriteRenderer>();
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+
+            foreach (var sr in sprites)
+            {
+                Color c = sr.color;
+                sr.color = new Color(c.r, c.g, c.b, alpha);
+            }
+
+            yield return null;
+        }
+
+        // 완전히 0으로 맞춰주고 비활성화까지
+        foreach (var sr in sprites)
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
+
+        target.SetActive(false);
     }
 }
