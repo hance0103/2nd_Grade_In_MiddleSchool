@@ -6567,6 +6567,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1613015482}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 4219906739377575671, guid: 4c3144a7b4f50a34dbac723c922d4b3a, type: 3}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 2067811844}
