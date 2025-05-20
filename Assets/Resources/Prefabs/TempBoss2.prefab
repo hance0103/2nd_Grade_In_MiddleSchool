@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7195187473222272353
 Transform:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 905277ef89fba5e468b9de5a713c93a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1db682713a615a149acb7ab1eaeb6087, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,18 +121,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.016389966, y: 0.049169958}
+  m_Offset: {x: -0.0799098, y: 0.12327719}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.12, y: 6.12}
+    oldSize: {x: 7.5, y: 7.5}
     newSize: {x: 6.12, y: 6.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.9893072, y: 2.678112}
+  m_Size: {x: 3.438799, y: 4.39316}
   m_EdgeRadius: 0
 --- !u!114 &7231450267254571419
 MonoBehaviour:
@@ -153,22 +153,28 @@ MonoBehaviour:
   mapWidthPositions:
   - {fileID: 0}
   - {fileID: 0}
-  countDownBeforeStart: 0
+  countDownBeforeStart: 2
   weakPattern1Data: {fileID: 11400000, guid: a0ff66290c0a4ee4a81b5ab531b80677, type: 2}
   weak1LaserData: {fileID: 11400000, guid: 5f910439764ea09409a52cd90d8988d6, type: 2}
+  weak1StartAngle: 165
+  weak1EndAngle: 375
+  weak1projectileData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
+  weak2StartAngle: 150
+  weak2EndAngle: 390
+  weak2projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
   weakPattern3Data: {fileID: 11400000, guid: a0d049d16ca2c4444a92a2a40bf1421d, type: 2}
   weak3LaserData: {fileID: 11400000, guid: 527f7cf88679a894a915d9fef44cd4a4, type: 2}
-  weak3AttackCount: 4
+  weak3AttackCount: 3
   weakPattern4Data: {fileID: 11400000, guid: 4360d457d25441e4eb8c5ae36eeb618d, type: 2}
+  weak4FStartAngle: 150
+  weak4FEndAngle: 390
+  weak4SStartAngle: 135
+  weak4SEndAngle: 405
+  weak4projectileData: {fileID: 11400000, guid: 2e99c8bdf125ad1449700ee7caea9915, type: 2}
   weakPattern5Data: {fileID: 11400000, guid: 46f5d4a4f57720f498310a8fa7a9ddf3, type: 2}
-  rainSpaceWeak5: 1.5
-  weakPattern6Data: {fileID: 11400000, guid: 44db3164d7cdc564da6d51f6544b729c, type: 2}
-  weak6LaserData: {fileID: 11400000, guid: bfa65eb38beb278409dea0d97fb52b28, type: 2}
-  poisonRainDuration: 15
+  rainSpaceWeak5: 2
   poisonRainSpacing: 4
-  projectileCapData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
-  projectileData: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
   projectileRainData: {fileID: 11400000, guid: e4fb23ec7a6a63442b331a7a18e1b2c2, type: 2}
   captureProjectile: {fileID: 5731918378402269697, guid: 688d5bf9c2bac6b48b7c8d1eaea1299c, type: 3}
   Projectile: {fileID: 4219906739377575671, guid: b0fc26e5d3b156745aabe4b39b63759f, type: 3}
