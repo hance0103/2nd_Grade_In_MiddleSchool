@@ -7183,7 +7183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7241,6 +7241,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1473805729}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: _jumpAttackBeforeDelay
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
