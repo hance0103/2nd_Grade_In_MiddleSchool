@@ -91,7 +91,14 @@ public class FinishingPopup : MonoBehaviour
         Boss.SetActive(true);
         if (Boss != null)
         {
-            Boss.transform.position = new Vector3(6.5f, -2.7f, 0f);
+            if (Stage == 2)
+            {
+                Boss.transform.position = new Vector3(6.5f, 1.67f, 0f);
+            }
+            else
+            {
+                Boss.transform.position = new Vector3(6.5f, -2.7f, 0f);
+            }
             Boss.SetActive(true);
         }
         // (필요하다면) 대사가 시작될 때 사운드 이펙트
@@ -106,13 +113,11 @@ public class FinishingPopup : MonoBehaviour
         TextBox.gameObject.SetActive(false);
         CharacterPose.gameObject.SetActive(false);
        
-        bool isAtk = true;
-        Playeranimator.SetBool("IsNormalAttack", isAtk);
+        Playeranimator.Play("NormalAttack");
         //StartCoroutine(ExplosionRoutine());
         StartCoroutine(SendFlyingText(narration, totalTypingDuration));
         yield return new WaitForSeconds(5.2f);
-        isAtk = false;
-        Playeranimator.SetBool("IsNormalAttack", isAtk);
+        Playeranimator.Play("Idle");
 
 
         // 특수 이펙트(이펙트 오브젝트 활성화, 사운드 재생 등)
@@ -220,6 +225,11 @@ public class FinishingPopup : MonoBehaviour
     {
         float randX = Random.Range(1300f, 1100f);
         float randY = Random.Range(300f, 100f);
+        if (Stage == 2)
+        {
+            randY = Random.Range(600f, 400f);
+        }
+        
         return new Vector3(randX, randY, 0f);
     }
     IEnumerator TypingText(string narration, float duration)
