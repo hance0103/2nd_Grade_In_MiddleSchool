@@ -60,6 +60,7 @@ public class MoveState : IPlayerState
     {
 
         player.anim.PlayAnimation("Move");
+        SoundManager.Instance.Play("PlayerSound/PlayerMove", Sound.LoopEffect);
     }
 
     public void Update()
@@ -97,6 +98,7 @@ public class MoveState : IPlayerState
     public void Exit()
     {
         //Debug.Log("Move 상태 종료");
+        SoundManager.Instance.StopLoopEffect();
     }
 
     public override string ToString() => "Move";
@@ -115,6 +117,7 @@ public class JumpState : IPlayerState
             
         player.StartJump();
         player.anim.PlayAnimation("JumpUp");
+        SoundManager.Instance.Play("PlayerSound/PlayerJump");
     }
 
     public void Update()
@@ -240,6 +243,7 @@ public class JumpAttackState : IPlayerState
     {
         player.PlayerJumpAttack();
         player.anim.PlayAnimation("JumpAttack");
+        SoundManager.Instance.Play("PlayerSound/PlayerJumpAttack");
     }
 
     public void Update()

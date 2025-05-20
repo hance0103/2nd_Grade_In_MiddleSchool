@@ -24,6 +24,7 @@ public class PlayerJumpAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Boss"))
         {
             //controller.CamShake();
+            SoundManager.Instance.Play("PlayerSound/PlayerJumpAttackHit");
             BossHPManager.Instance.TakeDamage(controller._jumpAttack_dmg);
             isBossHit = true;
            StartCoroutine(controller.PlayerJumpAttackDelay());

@@ -13,6 +13,7 @@ public enum Sound
 {
     Bgm,
     Effect,
+    LoopEffect,
     MaxCount
 }
 public enum PlayerInputDirection

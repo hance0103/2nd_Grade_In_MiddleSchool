@@ -74,6 +74,7 @@ public class PlayerHPManager : MonoBehaviour
         {
             return;
         }
+        player.CamShake(player.playerHitShakeMagnitude, player.playerHitShakeDuration);
         currentHP -= damage;
         Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();

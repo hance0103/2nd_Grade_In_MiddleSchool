@@ -142,6 +142,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool _isInvincible = false;
 
+    [Header("Player Hit")]
+    public float playerHitShakeMagnitude = 0.2f;
+    public float playerHitShakeDuration = 0.2f;
+
+
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
@@ -528,7 +533,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCoroutine(Vector2 direction)
     {
         anim.PlayAnimation("Dash");
-
+        SoundManager.Instance.Play("PlayerSound/PlayerDash");
         dashEffect.SetActive(true);
         if (looking == PlayerLookingDirection.Right)
         {
@@ -592,6 +597,10 @@ public class PlayerController : MonoBehaviour
     public void CamShake()
     {
         Camera.main.GetComponent<CameraShaker>().StartShake(camShakeDuration, camShakeMagnitude);
+    }
+    public void CamShake(float duration, float Magnitude)
+    {
+        Camera.main.GetComponent<CameraShaker>().StartShake(duration, Magnitude);
     }
     public void ChangeState(IPlayerState newState)
     {
@@ -659,6 +668,9 @@ public class PlayerController : MonoBehaviour
             GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
+
+            int rand = Random.Range(1, 5);
+            SoundManager.Instance.Play($"PlayerSound/PlayerNormalAttack{rand}");
         }
     }
 

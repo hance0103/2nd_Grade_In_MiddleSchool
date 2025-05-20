@@ -45,7 +45,7 @@ public class PlayerNormalAttack : MonoBehaviour
         //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.CompareTag("Boss"))
         {
-            //Debug.Log("보스 타격");
+            SoundManager.Instance.Play("PlayerSound/PlayerNormalAttackHit");
             BossHPManager.Instance.TakeDamage(_damage);
             Destroy(gameObject);
         }
