@@ -6498,58 +6498,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_Size.x
-      value: 3.438799
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_Size.y
-      value: 4.39316
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0799098
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.12327719
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -903806034222056499, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 7.5
-      objectReference: {fileID: 0}
     - target: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_Name
       value: TempBoss2
-      objectReference: {fileID: 0}
-    - target: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6134767581251065260, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1db682713a615a149acb7ab1eaeb6087, type: 3}
-    - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: Stage
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: Timer
       value: 
       objectReference: {fileID: 778579323}
-    - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: TimerScript
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopup
       value: 
@@ -6611,25 +6567,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1613015482}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: isEnraged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: rainSpaceWeak5
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 4219906739377575671, guid: 4c3144a7b4f50a34dbac723c922d4b3a, type: 3}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 2067811844}
-    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: weak3AttackCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
-      propertyPath: countDownBeforeStart
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopupScript
       value: 
@@ -8539,6 +8483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9713372fdc8fde438f82e038e49d5cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

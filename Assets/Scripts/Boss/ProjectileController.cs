@@ -132,17 +132,13 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator ExecuteRadialPattern(Transform bossTransform, bool isSecondLayer = false, float countOffset = 0f, bool isWeak4 = false)
+    public IEnumerator ExecuteRadialPattern(Transform bossTransform, float startAngle, float endAngle, int countOffset = 0)
     {
-        // 발사 각도 제한 (양쪽 끝 제외)
-        float angleStart = isSecondLayer ? 160f : 130f; ; // 시작 각도
-        float angleEnd = isSecondLayer ? 335f : 348f;   // 끝 각도
-        float angleRange = angleEnd - angleStart;
-        float angleStep = angleRange / (projectileData.ProjectileCount - 1);
+        float angleRange = endAngle - startAngle;
+        float actualProjectileCount = projectileData.ProjectileCount + countOffset; // countOffset으로 발사 개수 조정
+        float angleStep = angleRange / (actualProjectileCount - 1);
 
-        float actualProjectileCount = projectileData.ProjectileCount - countOffset; // countOffset으로 발사 개수 조정
-        float radiusOffset = isSecondLayer ? 1.5f : 0f;
-
+        
         List<bool> coroutineFlagList = new();
 
 
@@ -150,22 +146,13 @@ public class ProjectileController : MonoBehaviour
         for (int i = 0; i < actualProjectileCount; i++)
         {
             Vector3 basePosition = bossTransform.position;
-            float angle = angleStart + (i * angleStep); // 200도에서 340도 사이로 발사
+            float angle = startAngle + (i * angleStep); // 200도에서 340도 사이로 발사
             float radians = angle * Mathf.Deg2Rad;
 
             Vector2 direction = new Vector2(
                 Mathf.Cos(radians),
                 Mathf.Sin(radians)
             );
-
-            if (isSecondLayer)
-            {
-                basePosition += new Vector3(
-                    radiusOffset * Mathf.Cos(radians),
-                    radiusOffset * Mathf.Sin(radians),
-                    0
-                );
-            }
 
             GameObject projectile = projectilePool.Get();
             projectile.transform.position = basePosition;
@@ -183,163 +170,9 @@ public class ProjectileController : MonoBehaviour
             yield return null;
         }
 
-
-        //yield return StartCoroutine(WaitForProjectilesOffScreen());
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
-        if (isSecondLayer)
-        {
-            yield return new WaitForSeconds(projectileData.AfterFireDelay);
-        }
-
-        /*if (isWeak4 == false)
-        {
-            Destroy(gameObject);
-        }*/
-
 
     }
-
-    public IEnumerator ExecuteParallelRadialPattern(Transform bossTransform, Animator animator)
-    {
-        // 두 패턴을 병렬로 실행
-        animator.SetTrigger("isSpike");
-        SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine firstLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, -2f, true)); // 첫 번째 층
-
-        yield return new WaitForSeconds(1.3f);
-
-        animator.SetTrigger("isSpike");
-        SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine secondLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, -2f, true)); // 두 번째 층
-
-        yield return new WaitForSeconds(1.3f);
-
-        animator.SetTrigger("isSpike");
-        SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine thirdLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, false, -2f, true)); // 첫 번째 층
-
-        yield return new WaitForSeconds(1.3f);
-
-        animator.SetTrigger("isSpike");
-        SoundManager.Instance.EffectSoundOn("23-1");
-        Coroutine fourthLayer = StartCoroutine(ExecuteRadialPattern(bossTransform, true, -2f, true)); // 두 번째 층
-
-        // 두 코루틴이 모두 끝날 때까지 대기
-        yield return firstLayer;
-        yield return secondLayer;
-        yield return thirdLayer;    
-        yield return fourthLayer;
-
-        // 이후 패턴의 종료 지연 처리
-        yield return new WaitForSeconds(projectileData.AfterFireDelay);
-
-        Destroy(gameObject);
-    }
-
-    #region 안쓰는 ExecuteWeakPattern5Rain
-    /*public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
-    {
-        // 맵을 14등분
-        int divisions = 14;
-        float sectionWidth = mapWidth / divisions;
-        List<GameObject> activeProjectiles = new List<GameObject>();
-
-        // 5회 반복
-        for (int iteration = 0; iteration < 5; iteration++)
-        {
-            // 이전 프로젝타일 정리
-            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-
-            // 왼쪽/오른쪽 랜덤 선택
-            bool isLeftSide = Random.value > 0.5f;
-            float sideStart = isLeftSide ? leftBound : mapCenter;
-            float sideEnd = isLeftSide ? mapCenter : rightBound;
-
-            // 선택된 방향에서 가능한 안전구역 위치들 계산
-            List<float> possibleSafeZones = new List<float>();
-            int sideSections = divisions / 2;
-
-            for (int i = 0; i < sideSections; i++)
-            {
-                float xPos = isLeftSide ?
-                    leftBound + (i * sectionWidth) :
-                    mapCenter + (i * sectionWidth);
-                possibleSafeZones.Add(xPos);
-            }
-
-            // 2개의 안전구역 랜덤 선택 (최소 간격 보장)
-            List<float> selectedSafeZones = new List<float>();
-            if (possibleSafeZones.Count >= 2)
-            {
-                // 첫 번째 안전구역 선택
-                int firstIndex = Random.Range(0, possibleSafeZones.Count);
-                selectedSafeZones.Add(possibleSafeZones[firstIndex]);
-                float firstZone = possibleSafeZones[firstIndex];
-
-                // 첫 번째 안전구역과 인접한 위치 제거
-                possibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
-
-                // 두 번째 안전구역 선택
-                if (possibleSafeZones.Count > 0)
-                {
-                    int secondIndex = Random.Range(0, possibleSafeZones.Count);
-                    selectedSafeZones.Add(possibleSafeZones[secondIndex]);
-                }
-            }
-
-            // 비 발사
-            for (float x = leftBound; x <= rightBound; x += safeZoneWidth)
-            {
-                // 선택된 방향의 안전구역이 아닌 곳에만 발사
-                bool isInSafeZone = false;
-                if (isLeftSide && x < mapCenter)
-                {
-                    isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
-                }
-                else if (!isLeftSide && x >= mapCenter)
-                {
-                    isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
-                }
-
-                if (!isInSafeZone)
-                {
-                    try
-                    {
-                        GameObject projectile = projectilePool.Get();
-                        if (projectile != null)
-                        {
-                            projectile.SetActive(true);
-                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
-                            projectile.transform.position = spawnPosition;
-                            projectile.transform.rotation = Quaternion.identity;
-                            projectile.transform.localScale = projectileData.ProjectileScale;
-
-                            activeProjectiles.Add(projectile);
-                            StartCoroutine(MoveRainProjectile(projectile));
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
-                    }
-                }
-            }
-
-            yield return new WaitForSeconds(projectileData.FireRate);
-        }
-
-        // 모든 프로젝타일이 사라질 때까지 대기
-        while (activeProjectiles.Count > 0)
-        {
-            activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        yield return new WaitForSeconds(projectileData.AfterFireDelay);
-        yield return new WaitForSeconds(1f); // 모든 프로젝타일이 사라질 때까지 추가 대기
-        Destroy(gameObject); // 컨트롤러 제거
-    }*/
-    #endregion
 
     #region 보스2 패턴5 독비 패턴
     public IEnumerator ExecuteWeakPattern5Rain(Transform bossTransform, float mapWidth, float mapCenter, float safeZoneWidth, float leftBound, float rightBound)
@@ -438,9 +271,9 @@ public class ProjectileController : MonoBehaviour
                         GameObject projectile = projectilePool.Get();
                         if (projectile != null)
                         {
-                            float offsetY = Random.Range(-1f, 1f);
+                            float offsetY = Random.Range(-1.5f, 1.5f);
                             projectile.SetActive(true);
-                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 3f + offsetY, 0);
+                            Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 4f + offsetY, 0);
                             projectile.transform.position = spawnPosition;
                             projectile.transform.rotation = Quaternion.identity;
                             projectile.transform.localScale = projectileData.ProjectileScale;
@@ -468,138 +301,6 @@ public class ProjectileController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
-    #endregion
-
-    #region 지속독비 패턴
-    //public IEnumerator ExecuteContinuousRainPattern(Transform bossTransform, float mapWidth, float startX, float endX, float safeZoneWidth, System.Func<bool> shouldContinue)
-    //{
-
-    //    float spawnSpacing = safeZoneWidth * 1.5f;
-    //    List<GameObject> activeProjectiles = new List<GameObject>();
-
-    //    while (shouldContinue())  // 함수를 호출하여 bool 값 확인
-    //    {
-    //        // 이전 프로젝타일 정리
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-
-    //        // 독비 발사
-    //        for (float x = startX; x <= endX; x += spawnSpacing)
-    //        {
-    //            if (projectilePool != null)
-    //            {
-    //                try
-    //                {
-    //                    GameObject projectile = projectilePool.Get();
-    //                    if (projectile != null)
-    //                    {
-    //                        projectile.SetActive(true);
-    //                        Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
-    //                        projectile.transform.position = spawnPosition;
-    //                        projectile.transform.rotation = Quaternion.identity;
-    //                        projectile.transform.localScale = projectileData.ProjectileScale;
-
-    //                        activeProjectiles.Add(projectile);
-    //                        StartCoroutine(MoveRainProjectile(projectile));
-    //                    }
-    //                }
-    //                catch (System.Exception e)
-    //                {
-    //                    Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
-    //                }
-    //            }
-    //        }
-
-    //        yield return new WaitForSeconds(projectileData.FireRate);
-    //    }
-
-    //    // 모든 프로젝타일이 사라질 때까지 대기
-    //    while (activeProjectiles.Count > 0)
-    //    {
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //}
-    #endregion
-
-    #region 지속독비 교차 내리기
-    //public IEnumerator ExecuteContinuousRainPattern(Transform bossTransform, float mapWidth, float startX, float endX, float safeZoneWidth, System.Func<bool> shouldContinue)
-    //{
-    //    // 맵 너비를 8등분하여 각 구간의 너비 계산
-    //    float segmentWidth = (endX - startX) / 7f;  // 7등분으로 계산
-
-    //    // 맵 너비를 8등분한 리스트 (각각의 X 좌표)
-    //    List<float> segmentPositions = new List<float>();
-
-    //    // startX는 0으로 설정
-    //    segmentPositions.Add(startX);
-
-    //    // 1~6 인덱스는 startX와 endX 사이에 일정 간격으로 분배
-    //    for (int i = 1; i < 7; i++)
-    //    {
-    //        segmentPositions.Add(startX + i * segmentWidth);
-    //    }
-
-    //    // endX는 7번째 인덱스에 설정
-    //    segmentPositions.Add(endX);
-
-    //    // 발사 패턴: (0, 2, 4, 6) (1, 3, 5, 7) 번갈아가며 발사
-    //    List<int> spawnPattern1 = new List<int> { 0, 2, 4, 6 };  // 첫 번째 패턴
-    //    List<int> spawnPattern2 = new List<int> { 1, 3, 5, 7 };  // 두 번째 패턴
-
-    //    List<GameObject> activeProjectiles = new List<GameObject>();
-
-    //    bool usePattern1 = true; // 첫 번째 패턴을 사용하려면 true
-
-    //    while (shouldContinue())  // 함수를 호출하여 bool 값 확인
-    //    {
-    //        // 이전 프로젝타일 정리
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-
-    //        // 패턴에 맞춰서 프로젝타일 발사
-    //        List<int> currentPattern = usePattern1 ? spawnPattern1 : spawnPattern2;
-
-    //        // 패턴에 맞는 X 좌표에서 발사
-    //        foreach (int patternIndex in currentPattern)
-    //        {
-    //            float spawnX = segmentPositions[patternIndex];  // 해당 패턴에 맞는 X 좌표
-    //            if (projectilePool != null)
-    //            {
-    //                try
-    //                {
-    //                    GameObject projectile = projectilePool.Get();
-    //                    if (projectile != null)
-    //                    {
-    //                        projectile.SetActive(true);
-    //                        Vector3 spawnPosition = new Vector3(spawnX, bossTransform.position.y + 10f, 0);
-    //                        projectile.transform.position = spawnPosition;
-    //                        projectile.transform.rotation = Quaternion.identity;
-    //                        projectile.transform.localScale = projectileData.ProjectileScale;
-
-    //                        activeProjectiles.Add(projectile);
-    //                        StartCoroutine(MoveRainProjectile(projectile));
-    //                    }
-    //                }
-    //                catch (System.Exception e)
-    //                {
-    //                    Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
-    //                }
-    //            }
-    //        }
-
-    //        // 패턴 교체: 첫 번째 패턴 후 두 번째 패턴으로, 두 번째 패턴 후 첫 번째 패턴으로 교차
-    //        usePattern1 = !usePattern1;
-
-    //        // 다음 발사를 위해 대기
-    //        yield return new WaitForSeconds(projectileData.FireRate);
-    //    }
-
-    //    // 모든 프로젝타일이 사라질 때까지 대기
-    //    while (activeProjectiles.Count > 0)
-    //    {
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //}
     #endregion
 
     public IEnumerator ExecuteContinuousRainPattern(Transform bossTransform, float mapWidth, float startX, float endX, float safeZoneWidth, System.Func<bool> shouldContinue)
@@ -694,10 +395,10 @@ public class ProjectileController : MonoBehaviour
                         GameObject projectile = projectilePool.Get();
                         if (projectile != null)
                         {
-                            float offsetX = Random.Range(-2f, 2f);
-                            float offsetY = Random.Range(-3f, 3f);
+                            float offsetX = Random.Range(-1.5f, 1.5f);
+                            float offsetY = Random.Range(-1.5f, 1.5f);
                             projectile.SetActive(true);
-                            Vector3 spawnPosition = new Vector3(x + offsetX, bossTransform.position.y + 10f + offsetY, 0);
+                            Vector3 spawnPosition = new Vector3(x + offsetX, bossTransform.position.y + 4f + offsetY, 0);
                             projectile.transform.position = spawnPosition;
                             projectile.transform.rotation = Quaternion.identity;
                             projectile.transform.localScale = projectileData.ProjectileScale;
@@ -800,108 +501,4 @@ public class ProjectileController : MonoBehaviour
             projectilePool.Clear();
         }
     }
-    //public IEnumerator ExecuteRainPattern(Transform bossTransform, float mapWidth, float safeZoneWidth, Transform[] safePositions)
-    //{
-    //    float playerWidth = safeZoneWidth / 1.5f;
-    //    float spawnSpacing = playerWidth * 1.5f;
-
-    //    float startX = -mapWidth / 2;
-    //    float endX = mapWidth / 2;
-    //    float centerX = 0f;
-
-    //    List<GameObject> activeProjectiles = new List<GameObject>();
-
-    //    // 5번 반복
-    //    for (int iteration = 0; iteration < 5; iteration++)
-    //    {
-    //        // 이전 프로젝타일 정리
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-
-    //        // 왼쪽 또는 오른쪽 랜덤 선택
-    //        bool isLeftSide = Random.value > 0.5f;
-    //        float sideStartX = isLeftSide ? startX : centerX;
-    //        float sideEndX = isLeftSide ? centerX : endX;
-
-    //        // 선택된 방향에서 가능한 안전구역 위치들 수집
-    //        List<float> possibleSafeZones = new List<float>();
-    //        for (float x = sideStartX; x <= sideEndX; x += spawnSpacing)
-    //        {
-    //            possibleSafeZones.Add(x);
-    //        }
-
-    //        // 2개의 안전구역 랜덤 선택 (최소 간격 보장)
-    //        List<float> selectedSafeZones = new List<float>();
-    //        if (possibleSafeZones.Count >= 2)
-    //        {
-    //            // 첫 번째 안전구역 선택
-    //            int firstIndex = Random.Range(0, possibleSafeZones.Count);
-    //            selectedSafeZones.Add(possibleSafeZones[firstIndex]);
-    //            float firstZone = possibleSafeZones[firstIndex];
-
-    //            // 첫 번째 안전구역과 너무 가까운 위치 제거
-    //            possibleSafeZones.RemoveAll(x => Mathf.Abs(x - firstZone) <= safeZoneWidth * 2);
-
-    //            // 남은 위치 중에서 두 번째 안전구역 선택
-    //            if (possibleSafeZones.Count > 0)
-    //            {
-    //                int secondIndex = Random.Range(0, possibleSafeZones.Count);
-    //                selectedSafeZones.Add(possibleSafeZones[secondIndex]);
-    //            }
-    //        }
-
-    //        Debug.Log($"Iteration {iteration + 1}: Safe zones on {(isLeftSide ? "Left" : "Right")} side at positions: {string.Join(", ", selectedSafeZones)}");
-
-    //        // 비 발사
-    //        for (float x = startX; x <= endX; x += spawnSpacing)
-    //        {
-    //            bool isInSafeZone = false;
-
-    //            // 현재 x가 선택된 방향의 안전구역에 있는지 확인
-    //            if (isLeftSide && x < centerX) // 왼쪽이 선택된 경우
-    //            {
-    //                isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
-    //            }
-    //            else if (!isLeftSide && x > centerX) // 오른쪽이 선택된 경우
-    //            {
-    //                isInSafeZone = selectedSafeZones.Exists(zone => Mathf.Abs(x - zone) <= safeZoneWidth);
-    //            }
-
-    //            if (!isInSafeZone)
-    //            {
-    //                try
-    //                {
-    //                    GameObject projectile = projectilePool.Get();
-    //                    if (projectile != null)
-    //                    {
-    //                        projectile.SetActive(true);  // 명시적으로 활성화
-    //                        Vector3 spawnPosition = new Vector3(x, bossTransform.position.y + 10f, 0);
-    //                        projectile.transform.position = spawnPosition;
-    //                        projectile.transform.rotation = Quaternion.identity;
-    //                        projectile.transform.localScale = projectileData.ProjectileScale;
-
-    //                        activeProjectiles.Add(projectile);
-    //                        StartCoroutine(MoveRainProjectile(projectile));
-    //                    }
-    //                }
-    //                catch (System.Exception e)
-    //                {
-    //                    Debug.LogWarning($"Failed to spawn projectile: {e.Message}");
-    //                }
-    //            }
-    //        }
-
-    //        yield return new WaitForSeconds(projectileData.FireRate);
-    //    }
-
-    //    // 모든 프로젝타일이 사라질 때까지 대기
-    //    while (activeProjectiles.Count > 0)
-    //    {
-    //        activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-
-    //    yield return new WaitForSeconds(projectileData.AfterFireDelay);
-    //    yield return new WaitForSeconds(1f); // 모든 프로젝타일이 사라질 때까지 추가 대기
-    //    Destroy(gameObject); // 컨트롤러 제거
-    //}
 }

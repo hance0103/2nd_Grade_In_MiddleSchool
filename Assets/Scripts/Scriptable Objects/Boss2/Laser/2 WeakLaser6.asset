@@ -16,8 +16,9 @@ MonoBehaviour:
   damage: 10
   laserSpeed: 0
   laserDuration: 0.2
+  laserSprite: Sprites/Laser/Web_Laser
   laserWidth: 0.2
-  laserColor: {r: 0.745283, g: 1, b: 0.8023899, a: 1}
+  laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2

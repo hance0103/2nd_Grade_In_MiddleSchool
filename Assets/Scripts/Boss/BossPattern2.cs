@@ -15,7 +15,6 @@ public class BossPattern2 : MonoBehaviour
         WeakPattern3,
         WeakPattern4,
         WeakPattern5,
-        WeakPattern6,
         Groggy,
     }
 
@@ -55,10 +54,16 @@ public class BossPattern2 : MonoBehaviour
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private LaserScriptableObject weak1LaserData;
+    [SerializeField] private float weak1StartAngle;
+    [SerializeField] private float weak1EndAngle;
+    [SerializeField] private ProjectileScriptableObject weak1projectileData;
 
     [Header("약공격2 데이터")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
-    
+    [SerializeField] private float weak2StartAngle;
+    [SerializeField] private float weak2EndAngle;
+    [SerializeField] private ProjectileScriptableObject weak2projectileData;
+
     [Header("약공격3 데이터")]
     [SerializeField] private BossScriptableObject weakPattern3Data;
     [SerializeField] private LaserScriptableObject weak3LaserData;
@@ -66,24 +71,20 @@ public class BossPattern2 : MonoBehaviour
 
     [Header("약공격4 데이터")]
     [SerializeField] private BossScriptableObject weakPattern4Data;
-    
+    [SerializeField] private float weak4FStartAngle;
+    [SerializeField] private float weak4FEndAngle;
+    [SerializeField] private float weak4SStartAngle;
+    [SerializeField] private float weak4SEndAngle;
+    [SerializeField] private ProjectileScriptableObject weak4projectileData;
+
     [Header("약공격5 데이터")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
+
     [Tooltip("독비 간격")]
     [SerializeField] private float rainSpaceWeak5 = 1.5f;
-    
-    [Header("약공격6 (체력패턴) 데이터")]
-    [SerializeField] private BossScriptableObject weakPattern6Data;
-    [SerializeField] private LaserScriptableObject weak6LaserData;
-    [Tooltip("독비 지속 시간")]
-    [SerializeField] private float poisonRainDuration = 15f;
-    [Tooltip("독비 간격")]
     [SerializeField] private float poisonRainSpacing = 4f;
 
     [Header("투사체 데이터")]
-    [Tooltip("약공1 투사체 데이터")]
-    [SerializeField] private ProjectileScriptableObject projectileCapData;
-    [SerializeField] private ProjectileScriptableObject projectileData;
     [SerializeField] private ProjectileScriptableObject projectileRainData;
     [SerializeField] private GameObject captureProjectile; // 속박 투사체 프리팹
     [SerializeField] private GameObject Projectile; // 일반 투사체 프리팹
@@ -105,12 +106,11 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
+            BossState.WeakPattern1,
+            BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
-            BossState.WeakPattern5,
-            //BossState.WeakPattern6,
+            BossState.WeakPattern4,
+            //BossState.WeakPattern5,
             //BossState.Groggy
         });
 
@@ -175,11 +175,6 @@ public class BossPattern2 : MonoBehaviour
             currentCoroutine = StartCoroutine(WeakPattern5());
         }
 
-        if (currentState == BossState.WeakPattern6 && currentCoroutine == null)
-        {
-            currentCoroutine = StartCoroutine(WeakPattern6());
-        }
-
         if (currentState == BossState.Groggy && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(GroggyState());
@@ -219,7 +214,7 @@ public class BossPattern2 : MonoBehaviour
         }
         #endregion
     }
-    private const float PATTERN_GAP = 0.3f;
+    private const float PATTERN_GAP = 0.001f;
     private IEnumerator FinishPattern()
     {
         EndPattern = true;
@@ -275,7 +270,7 @@ public class BossPattern2 : MonoBehaviour
         // 1. 속박 탄환 방사형 발사
         SoundManager.Instance.EffectSoundOn("23-1");
         ProjectileController projectileController = ProjectileController.Create(
-            projectileCapData,
+            weak1projectileData,
             transform,
             player.transform,
             captureProjectile,
@@ -284,7 +279,7 @@ public class BossPattern2 : MonoBehaviour
 
         // 애니메이션 관련
         animator.SetTrigger("isSpike");
-        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
+        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak1StartAngle, weak1EndAngle));
 
         animator.SetBool("isPre", true);
         animator.SetBool("isLaser", true);
@@ -375,7 +370,7 @@ public class BossPattern2 : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("23-2");
 
         ProjectileController projectileController = ProjectileController.Create(
-            projectileData,
+            weak2projectileData,
             transform,
             player.transform,
             Projectile,
@@ -384,8 +379,9 @@ public class BossPattern2 : MonoBehaviour
 
         animator.SetTrigger("isSpike");
 
-        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform));
+        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak2StartAngle, weak2EndAngle));
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
+        Destroy(projectileController.gameObject);
 
 
         StartCoroutine(FinishPattern());
@@ -474,7 +470,7 @@ public class BossPattern2 : MonoBehaviour
         }
 
         ProjectileController Controller = ProjectileController.Create(
-            projectileData,
+            weak4projectileData,
             transform,
             player.transform,
             Projectile,
@@ -482,11 +478,33 @@ public class BossPattern2 : MonoBehaviour
         );
 
         animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine firstLayer = StartCoroutine(Controller.ExecuteRadialPattern(transform, weak4FStartAngle, weak4FEndAngle)); // 첫 번째 층
 
-        yield return StartCoroutine(Controller.ExecuteParallelRadialPattern(transform, animator));
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine secondLayer = StartCoroutine(Controller.ExecuteRadialPattern(transform, weak4SStartAngle, weak4SEndAngle,1)); // 두 번째 층
+
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine thirdLayer = StartCoroutine(Controller.ExecuteRadialPattern(transform, weak4FStartAngle, weak4FEndAngle)); // 첫 번째 층
+        yield return new WaitForSeconds(1.3f);
+
+        animator.SetTrigger("isSpike");
+        SoundManager.Instance.EffectSoundOn("23-1");
+        Coroutine fourthLayer = StartCoroutine(Controller.ExecuteRadialPattern(transform, weak4SStartAngle, weak4SEndAngle,1)); // 네 번째 층
+
+        // 두 코루틴이 모두 끝날 때까지 대기
+        yield return firstLayer;
+        yield return secondLayer;
+        yield return thirdLayer;
+        yield return fourthLayer;
 
         yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
-
 
         StartCoroutine(FinishPattern());
     }
@@ -554,114 +572,6 @@ public class BossPattern2 : MonoBehaviour
     }
     #endregion
 
-    #region 패턴 6
-    public IEnumerator WeakPattern6()
-    {
-        EndPattern = false;
-        Debug.Log("약공격6");
-        currentState = BossState.WeakPattern6;
-        Vector2 bossStartPosition = transform.position - new Vector3(0, 1, 0);
-        isPattern6Active = true;  // 패턴 시작
-
-        float mapLeft = mapWidthPositions[0].position.x + 1f;
-        float mapRight = mapWidthPositions[1].position.x + 1f;
-        float mapWidth = mapRight - mapLeft;
-
-        // 독비 컨트롤러 생성
-        ProjectileController poisonRainController = ProjectileController.Create(
-            projectileRainData,
-            transform,
-            player.transform,
-            rainProjectile,
-            isEnraged
-        );
-
-        // 독비와 레이저 공격 동시 실행
-        Coroutine poisonRainCoroutine = StartCoroutine(ExecutePoisonRain(poisonRainController));
-
-        // 독비 패턴 시작
-        Coroutine continuousRainCoroutine = StartCoroutine(poisonRainController.ExecuteContinuousRainPattern(
-            transform,
-            mapWidth,
-            mapLeft,
-            mapRight,
-            poisonRainSpacing,
-            new System.Func<bool>(() => isPattern6Active)
-        ));
-
-        // 레이저 5회 공격
-        LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-        StartCoroutine(BlinkDangerZone(warningLine));
-
-        Debug.Log("플레이어 추적 시작");
-        float trackingTime = 0f;
-
-        while (trackingTime < weak3LaserData.LaserFollowDuration)
-        {
-            Vector2 playerPosition = player.transform.position;
-            warningLine.SetPosition(0, bossStartPosition);
-            warningLine.SetPosition(1, playerPosition);
-            trackingTime += Time.deltaTime;
-            yield return null;
-        }
-        Vector2 playerPos = player.transform.position;
-
-        yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
-        Destroy(warningLine.gameObject);
-
-        // 5회 연속 발사
-        for (int attack = 0; attack < 5; attack++)
-        {
-            Debug.Log($"레이저 {attack + 1}회 발사!");
-            LaserController2 laser = LaserController2.Create(
-                  weak6LaserData,
-                  bossStartPosition,
-                  player.transform
-            );
-            laser.SetTargetLayer(weak6LaserData.TargetLayer);
-
-            if (attack == 0)
-            {
-                SoundManager.Instance.EffectSoundOn("24");
-                yield return StartCoroutine(laser.FireLaser(bossStartPosition, playerPos));
-            }
-            else
-            {
-                Vector2 targetPos = player.transform.position;
-                yield return new WaitForSeconds(0.3f);
-                SoundManager.Instance.EffectSoundOn("24");
-                yield return StartCoroutine(laser.FireLaser(bossStartPosition, targetPos));
-            }
-
-            if (attack < 4)
-            {
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-
-        // 레이저 패턴 종료 후 독비 중단
-        isPattern6Active = false;  // 패턴 종료
-
-        // 마지막 독비가 모두 떨어질 때까지 대기
-        if (poisonRainController != null)
-        {
-            float remainingRainTime = projectileData.ProjectileSpeed > 0
-                ? 10f / projectileData.ProjectileSpeed  // 화면 높이를 투사체 속도로 나눔
-                : 2f;  // 기본 대기 시간
-
-            yield return new WaitForSeconds(remainingRainTime);
-            Destroy(poisonRainController.gameObject);
-        }
-
-        // 코루틴 정리
-        if (poisonRainCoroutine != null)
-            StopCoroutine(poisonRainCoroutine);
-        if (continuousRainCoroutine != null)
-            StopCoroutine(continuousRainCoroutine);
-
-        StartCoroutine(FinishPattern());
-    }
-    #endregion
 
     #region 광폭화 연출
     private IEnumerator EnrageEffect(Vector2 bossPosition, Vector2 staticPlayerPosition)
@@ -766,17 +676,6 @@ public class BossPattern2 : MonoBehaviour
         }
     }
     #endregion
-
-    private IEnumerator ExecutePoisonRain(ProjectileController poisonRainController)
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < poisonRainDuration && isPattern6Active)
-        {
-            yield return new WaitForSeconds(poisonRainSpacing);
-            elapsedTime += poisonRainSpacing;
-        }
-    }
 
     #region 그로기 상태
     public IEnumerator GroggyState()
