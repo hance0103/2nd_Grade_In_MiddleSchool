@@ -799,7 +799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 306969461706554809, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Size.y
-      value: 11.765585
+      value: 11.71536
       objectReference: {fileID: 0}
     - target: {fileID: 306969461706554809, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Offset.x
@@ -807,7 +807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 306969461706554809, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_Offset.y
-      value: 0.029984474
+      value: 0.05509591
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.x
@@ -827,7 +827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7642
+      value: -1.42
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalPosition.z
@@ -943,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[0].size.y
-      value: 11.76558
+      value: 11.71536
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[1].size.x
@@ -959,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[2].size.y
-      value: 8.877109
+      value: 8.83904
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: strongPatternPositions.Array.size
@@ -995,7 +995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[0].offset.y
-      value: 0.02998447
+      value: 0.05509591
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[1].offset.x
@@ -1011,7 +1011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _colSizeList.Array.data[2].offset.y
-      value: -1.414254
+      value: -1.395219
       objectReference: {fileID: 0}
     - target: {fileID: 8359884391278669174, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: colliderSizes.Array.data[0].offset.x
@@ -2232,7 +2232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &723528556
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5872,7 +5872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1086, y: 400}
+  m_AnchoredPosition: {x: 1104.9, y: 444.9}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1623571889
@@ -7173,10 +7173,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3576758083249799280, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.2
@@ -7218,10 +7214,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: Stage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: DefeatPopup
       value: 
       objectReference: {fileID: 1439323141}
@@ -7237,14 +7229,6 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1473805729}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: isKeyboardControll
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: _jumpAttack_diveVelocity
-      value: 40
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8054,6 +8038,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VictoryTextInputPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 1630513290546324358, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5043665583073251643, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: boss
       value: 
@@ -8170,6 +8158,10 @@ PrefabInstance:
     - target: {fileID: 1901023293921856499, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
       propertyPath: m_Name
       value: VictoryPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1901023293921856499, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4306077683724166376, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
       propertyPath: PausePopup
@@ -8376,6 +8368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinishingPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6077842330806068022, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8501,6 +8497,10 @@ PrefabInstance:
     - target: {fileID: 2540538669094884848, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
       propertyPath: m_Name
       value: DefeatPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2540538669094884848, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5355538280389529432, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
       propertyPath: m_Pivot.x

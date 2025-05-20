@@ -183,7 +183,7 @@ MonoBehaviour:
   playerObject: {fileID: 3470539325071022635}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
-  Stage: 2
+  Stage: 1
   _InvincibleTime: 1
 --- !u!114 &7146377930768844338
 MonoBehaviour:
@@ -226,7 +226,7 @@ MonoBehaviour:
   _normalAttackDmg: 5
   _normalAttackSpeed: 13
   _normalAttackRange: 1.2
-  _normalAttack_delay: 0.2
+  _normalAttack_delay: 0.4
   _normalAttackPrefab: {fileID: 4370198129014767615, guid: e4e9670e9e8d68749b723f5e5fbe61a1, type: 3}
   _attackPoint: {fileID: 5949930095949123849}
   isAttacking: 0
@@ -254,6 +254,8 @@ MonoBehaviour:
   _canPlayerControll: 1
   _blinkDelay: 0.15
   _isInvincible: 0
+  playerHitShakeMagnitude: 0.2
+  playerHitShakeDuration: 0.2
 --- !u!114 &6994913468536392741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6020451732659679773}
   - component: {fileID: 3413741197682053332}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerContactDamageTrigger
   m_TagString: PlayerContact
   m_Icon: {fileID: 0}
