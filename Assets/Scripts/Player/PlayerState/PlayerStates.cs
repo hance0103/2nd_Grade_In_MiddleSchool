@@ -241,9 +241,7 @@ public class JumpAttackState : IPlayerState
 
     public void Enter()
     {
-        player.PlayerJumpAttack();
-        player.anim.PlayAnimation("JumpAttack");
-        SoundManager.Instance.Play("PlayerSound/PlayerJumpAttack");
+        player.StartJumpAttack();
     }
 
     public void Update()

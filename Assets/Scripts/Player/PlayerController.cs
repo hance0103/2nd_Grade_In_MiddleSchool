@@ -84,12 +84,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform _attackPoint;
     public bool isAttacking = false;
+    [SerializeField]
+    private Vector2 _projectileStartPos;
+
 
     [Header("JumpAttack")]
     [SerializeField]
     private float _jumpAttack_diveVelocity;
     [SerializeField]
     public float _jumpAttack_dmg;
+    [SerializeField]
+    private float _jumpAttackBeforeDelay = 0.01f;
     public float _jumpAttackHitDelay;
     public float _jumpAttackAfterDelay;
     [SerializeField]
@@ -657,15 +662,20 @@ public class PlayerController : MonoBehaviour
         if (_normalAttackPrefab != null && _attackPoint != null)
         {
             bool atttackDirection;
+            Vector2 attackStartPos;
             if (attackDirection == PlayerLookingDirection.Right)
             {
+                attackStartPos = _projectileStartPos;
                 atttackDirection = true;
             }
             else
             {
+                attackStartPos = new Vector2(-_projectileStartPos.x, _projectileStartPos.y);
                 atttackDirection = false;
             }
-            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
+            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation, this.transform);
+            instance.transform.localPosition = attackStartPos;
+
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
 
@@ -674,8 +684,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlayerJumpAttack()
+    private void PlayerJumpAttack()
     {
+        SoundManager.Instance.Play("PlayerSound/PlayerJumpAttack");
+        anim.PlayAnimation("JumpAttack");
         _jumpAttackObject.SetActive(true);
         if (looking == PlayerLookingDirection.Right)
         {
@@ -688,6 +700,17 @@ public class PlayerController : MonoBehaviour
             _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
         }
         rb.velocity = new Vector2(0, -_jumpAttack_diveVelocity);
+    }
+    private IEnumerator PlayerJumpAttackBeforeDelay()
+    {
+        PlayerStop();
+        yield return new WaitForSeconds(_jumpAttackBeforeDelay);
+        PlayerResume();
+        PlayerJumpAttack();
+    }
+    public void StartJumpAttack()
+    {
+        StartCoroutine(PlayerJumpAttackBeforeDelay());
     }
     public IEnumerator PlayerJumpAttackDelay()
     {
