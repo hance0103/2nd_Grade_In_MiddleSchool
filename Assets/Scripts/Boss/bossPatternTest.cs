@@ -495,7 +495,7 @@ public class bossPatternTest : MonoBehaviour
             // ����� ������ ��ġ�� �� ��° ������ �߻�
             laser = LaserController2.Create(EnragedWeakLaserData, bossPosition, player.transform);
             SoundManager.Instance.EffectSoundOn("16-2");
-            yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition));
+            yield return StartCoroutine(laser.FireLaser(bossPosition, savedPlayerPosition, -1));
             
             animator.SetBool("isSecond", false);
             foreach (var vec in _colSizeList)

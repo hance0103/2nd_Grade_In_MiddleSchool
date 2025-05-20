@@ -44,10 +44,12 @@ public class LaserController2 : MonoBehaviour
         boxCollider2D.isTrigger = true;
     }
 
-    public IEnumerator FireLaser(Vector2 startPosition, Vector2 playerPosition)
+    public IEnumerator FireLaser(Vector2 startPosition, Vector2 playerPosition, int sortingOrder = 0)
     {
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
+
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
 
         // 방향 및 거리 설정
         Vector2 direction = (playerPosition - startPosition).normalized;
@@ -87,6 +89,8 @@ public class LaserController2 : MonoBehaviour
 
         Vector2 direction = GetHorizontalDirection(startPosition, staticPlayerPosition);
         float distance = 15f; // 맵 끝까지 길이 설정
+
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
         transform.position = startPosition;
         transform.right = direction;
