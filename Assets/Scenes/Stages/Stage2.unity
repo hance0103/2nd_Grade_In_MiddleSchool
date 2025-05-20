@@ -2339,7 +2339,7 @@ Transform:
   m_GameObject: {fileID: 488882008}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.66, y: -5.7, z: 0.20644721}
+  m_LocalPosition: {x: 27.66, y: -3.8126001, z: 0.20644721}
   m_LocalScale: {x: 1, y: 16.70859, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4910,7 +4910,7 @@ Transform:
   m_GameObject: {fileID: 1163609043}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2.9292, y: 2.8926, z: 0.20644721}
+  m_LocalPosition: {x: 2.9292, y: 4.7799997, z: 0.20644721}
   m_LocalScale: {x: 1, y: 50.3758, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5815,7 +5815,7 @@ Transform:
   m_GameObject: {fileID: 1342901569}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.11, y: -5.7874, z: 0.20644721}
+  m_LocalPosition: {x: -22.11, y: -3.9, z: 0.20644721}
   m_LocalScale: {x: 1, y: 16.533836, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6570,6 +6570,10 @@ PrefabInstance:
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 4219906739377575671, guid: 4c3144a7b4f50a34dbac723c922d4b3a, type: 3}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: rainSpaceWeak5
+      value: 1.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopup
       value: 
@@ -7638,7 +7642,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8201,7 +8205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1086, y: 400}
+  m_AnchoredPosition: {x: 1104.9, y: 444.9}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092204328
@@ -8431,7 +8435,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
