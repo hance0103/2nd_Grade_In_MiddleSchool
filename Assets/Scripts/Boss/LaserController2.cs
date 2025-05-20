@@ -30,6 +30,7 @@ public class LaserController2 : MonoBehaviour
         gameObject.transform.SetParent(transform);
         spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = Resources.Load<Sprite>(laserData.LaserSprite);
+        spriteRenderer.sortingOrder = -1;
         spriteRenderer.color = laserData.LaserColor;
 
         // 크기 조절을 위한 Transform 저장
