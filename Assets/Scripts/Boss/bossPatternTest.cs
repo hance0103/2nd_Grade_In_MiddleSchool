@@ -131,11 +131,11 @@ public class bossPatternTest : MonoBehaviour
         }
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.StrongPattern1,
-            //BossState.StrongPattern2
+            BossState.StrongPattern2
         });
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
@@ -798,9 +798,8 @@ public class bossPatternTest : MonoBehaviour
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
-
         _playerController.PlayerStop();
-
+        PlayerHPManager.Instance.Stage1_SP2_Bind();
         // 여기
         yield return new WaitForSeconds(2f);
 
@@ -815,7 +814,10 @@ public class bossPatternTest : MonoBehaviour
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }
+    private void StrongPatternContactDamage()
+    {
 
+    }
     private IEnumerator EnragedStrongPattern2(Vector2 bossPosition)
     {
         int numberOfLasers = Random.Range(10,16);

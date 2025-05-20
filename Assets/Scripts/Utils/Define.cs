@@ -42,3 +42,8 @@ public enum PlayerState
     Attack,
     JumpAttack
 }
+public enum PlayerDamagedType
+{
+    NormalDamage,
+    ContactDamage
+}

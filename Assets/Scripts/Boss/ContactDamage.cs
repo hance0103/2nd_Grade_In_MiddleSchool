@@ -13,6 +13,7 @@ public class ContactDamage : MonoBehaviour
     [SerializeField]
     private PlayerHPManager _hp;
 
+
     void Start()
     {
         if (_hp == null)
@@ -24,11 +25,10 @@ public class ContactDamage : MonoBehaviour
     {
         if (_isContacting)
         {
-            _hp.TakeDamage(_damage);
+            _hp.TakeDamage(_damage, PlayerDamagedType.ContactDamage);
         }
 
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerContact"))

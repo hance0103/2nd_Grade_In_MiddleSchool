@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.U2D;
 
 
 public class PlayerHPManager : MonoBehaviour
@@ -26,6 +25,9 @@ public class PlayerHPManager : MonoBehaviour
     private bool _gameOver = false;
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
+
+    private bool isBinded = false;
+    private bool duringBindContactDamaged = false;
 
     private void Awake()
     {
@@ -68,13 +70,22 @@ public class PlayerHPManager : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, PlayerDamagedType type = PlayerDamagedType.NormalDamage)
     {
-        if (player.IsInvincible() || _gameOver)
+        if (player.IsInvincible() || _gameOver || duringBindContactDamaged)
         {
             return;
         }
-        player.CamShake(player.playerHitShakeMagnitude, player.playerHitShakeDuration);
+        // 몸박뎀을 받았는데
+        if (type == PlayerDamagedType.ContactDamage)
+        {
+            // 스테이지1 바인드 걸려 있는 상태라면
+            if (isBinded)
+            {
+                // 바인드동안 몸박뎀 받았다고 표시
+                duringBindContactDamaged = true;
+            }
+        }
         currentHP -= damage;
         Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();
@@ -84,7 +95,9 @@ public class PlayerHPManager : MonoBehaviour
             StopCoroutine(_blinkCoroutine);
             _blinkCoroutine = null;
         }
+
         _blinkCoroutine = StartCoroutine(player.InvincibleBlink());
+        player.CamShake(player.playerHitShakeMagnitude, player.playerHitShakeDuration);
 
 
         if (currentHP <= 0 )
@@ -108,7 +121,7 @@ public class PlayerHPManager : MonoBehaviour
                     DefeatPopupScript.OpenDefeat3();
                     break;
                 default:
-                    UnityEngine.Debug.LogError("할당되지 않은 스테이지입니다.");
+                    Debug.LogError("할당되지 않은 스테이지입니다.");
                     break;
             }
             Time.timeScale = 0f;
@@ -123,6 +136,13 @@ public class PlayerHPManager : MonoBehaviour
     {
         return maxHP;
     }
-    
-
+    public void ResetBindContactDamageFlag()
+    {
+        isBinded = false;
+        duringBindContactDamaged = false;
+    }
+    public void Stage1_SP2_Bind()
+    {
+        isBinded = true;
+    }
 }
