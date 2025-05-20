@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class BossPattern2 : MonoBehaviour
@@ -30,6 +31,7 @@ public class BossPattern2 : MonoBehaviour
     #region 변수 영역
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
+    [SerializeField]
     private BossState currentState;
     public GameObject player; // Player 타입의 변수를 선언해 참조 가져오기
     private LaserController2 laserController; // LaserController 참조
@@ -57,6 +59,7 @@ public class BossPattern2 : MonoBehaviour
     [SerializeField] private float weak1StartAngle;
     [SerializeField] private float weak1EndAngle;
     [SerializeField] private ProjectileScriptableObject weak1projectileData;
+    [SerializeField] private float weak1MiddleDelay;
 
     [Header("약공격2 데이터")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
@@ -106,11 +109,11 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            //BossState.WeakPattern4,
+            BossState.WeakPattern5,
             //BossState.Groggy
         });
 
@@ -279,7 +282,12 @@ public class BossPattern2 : MonoBehaviour
 
         // 애니메이션 관련
         animator.SetTrigger("isSpike");
-        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak1StartAngle, weak1EndAngle));
+
+        StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak1StartAngle, weak1EndAngle));
+
+        yield return new WaitForSeconds(weak1MiddleDelay);
+
+       
 
         animator.SetBool("isPre", true);
         animator.SetBool("isLaser", true);
@@ -379,12 +387,21 @@ public class BossPattern2 : MonoBehaviour
 
         animator.SetTrigger("isSpike");
 
-        yield return StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak2StartAngle, weak2EndAngle));
-        yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
-        Destroy(projectileController.gameObject);
+        List<bool> coroutineFlagList = new();
 
+        StartCoroutine(projectileController.ExecuteRadialPattern(transform, weak2StartAngle, weak2EndAngle, 0,coroutineFlagList));
+
+        yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
         StartCoroutine(FinishPattern());
+
+        while (!coroutineFlagList.Contains(true))
+        {
+            yield return null;
+        }
+        
+        Destroy(projectileController.gameObject);
+
     }
     #endregion
 
@@ -414,8 +431,13 @@ public class BossPattern2 : MonoBehaviour
             while (trackingTime < weak3LaserData.LaserFollowDuration)
             {
                 Vector2 playerPosition = player.transform.position;
+                Vector2 dir = (playerPosition - bossStartPosition).normalized;
+
+                float extendLength = 10f;
+                Vector2 extendedEndPos = playerPosition + dir * extendLength;
+
                 warningLine.SetPosition(0, bossStartPosition);
-                warningLine.SetPosition(1, playerPosition);
+                warningLine.SetPosition(1, extendedEndPos);
                 trackingTime += Time.deltaTime;
                 yield return null;
             }
@@ -497,6 +519,9 @@ public class BossPattern2 : MonoBehaviour
         animator.SetTrigger("isSpike");
         SoundManager.Instance.EffectSoundOn("23-1");
         Coroutine fourthLayer = StartCoroutine(Controller.ExecuteRadialPattern(transform, weak4SStartAngle, weak4SEndAngle,1)); // 네 번째 층
+        
+        yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
+        StartCoroutine(FinishPattern());
 
         // 두 코루틴이 모두 끝날 때까지 대기
         yield return firstLayer;
@@ -504,9 +529,7 @@ public class BossPattern2 : MonoBehaviour
         yield return thirdLayer;
         yield return fourthLayer;
 
-        yield return new WaitForSeconds(weakPattern4Data.AfterAttackDelay);
-
-        StartCoroutine(FinishPattern());
+        
     }
     #endregion
 
@@ -554,6 +577,7 @@ public class BossPattern2 : MonoBehaviour
 
         float safeZoneWidth = rainSpaceWeak5;
 
+        List<bool> coroutineFlagList = new();
 
         yield return StartCoroutine(rainController.ExecuteWeakPattern5Rain(
         transform,
@@ -564,11 +588,12 @@ public class BossPattern2 : MonoBehaviour
             rightBound
         ));
 
-        Debug.Log("약공격5 종료");
+        
+
         yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
-
-
+        Debug.Log("약공격5 종료");
         StartCoroutine(FinishPattern());
+
     }
     #endregion
 

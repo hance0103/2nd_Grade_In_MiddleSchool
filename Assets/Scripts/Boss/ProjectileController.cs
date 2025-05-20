@@ -132,7 +132,7 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator ExecuteRadialPattern(Transform bossTransform, float startAngle, float endAngle, int countOffset = 0)
+    public IEnumerator ExecuteRadialPattern(Transform bossTransform, float startAngle, float endAngle, int countOffset = 0, List<bool> flagList = null)
     {
         float angleRange = endAngle - startAngle;
         float actualProjectileCount = projectileData.ProjectileCount + countOffset; // countOffset으로 발사 개수 조정
@@ -155,6 +155,7 @@ public class ProjectileController : MonoBehaviour
             );
 
             GameObject projectile = projectilePool.Get();
+            projectile.transform.parent = bossTransform;
             projectile.transform.position = basePosition;
             projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
             projectile.transform.localScale = projectileData.ProjectileScale;
@@ -169,6 +170,8 @@ public class ProjectileController : MonoBehaviour
                 isAllCoroutineEnd = true;
             yield return null;
         }
+        if (flagList != null)
+            flagList.Add(true);
 
         yield return new WaitForSeconds(projectileData.AfterFireDelay);
 
@@ -269,6 +272,7 @@ public class ProjectileController : MonoBehaviour
                     try
                     {
                         GameObject projectile = projectilePool.Get();
+                        projectile.transform.parent = bossTransform;
                         if (projectile != null)
                         {
                             float offsetY = Random.Range(-1.5f, 1.5f);
