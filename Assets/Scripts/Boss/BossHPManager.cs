@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.U2D;
 
 public class BossHPManager : MonoBehaviour
 {
@@ -26,6 +28,11 @@ public class BossHPManager : MonoBehaviour
     [SerializeField] private int Stage;
     [Header("타이머")]
     [SerializeField] private GameObject Timer;
+    [Header("보스 피격시")]
+    [SerializeField] private float _blinkInterval = 0.15f;
+    [SerializeField] private int _blinkCount = 1;
+
+    private SpriteRenderer _sprite;
     
     public float GetttingCurrentHP() => currentHP;
     public float GettingMaxHP() => maxHP;
@@ -42,6 +49,8 @@ public class BossHPManager : MonoBehaviour
         // 씬 전환 시 파괴되도록 설정 
         // 시작 시 HP 초기화
         currentHP = maxHP;
+
+        _sprite = GetComponent<SpriteRenderer>();
     }
 
     public void RestartHP()
@@ -53,6 +62,8 @@ public class BossHPManager : MonoBehaviour
     private bool Enrageactive = true;
     public void TakeDamage(float damage)
     {
+        // 보스 피격시 스프라이트 깜박임
+        StartCoroutine(BossHitBlink());
         currentHP -= damage;
         //Debug.Log($"보스 {damage} 데미지. 남은 HP: {currentHP}");
         if (currentHP <= 0&& Stage ==1)
@@ -69,6 +80,16 @@ public class BossHPManager : MonoBehaviour
         {
             currentHP = 0;
             BossDie3();
+        }
+    }
+    private IEnumerator BossHitBlink()
+    {
+        for (int i = 0; i < _blinkCount; i++)
+        {
+            _sprite.color = new Color(70 / 255f, 70 / 255f, 70 / 255f);
+            yield return new WaitForSeconds(_blinkInterval);
+            _sprite.color = Color.white;
+            yield return new WaitForSeconds(_blinkInterval);
         }
     }
     public float GetCurrentHP()

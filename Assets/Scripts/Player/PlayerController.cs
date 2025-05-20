@@ -84,6 +84,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform _attackPoint;
     public bool isAttacking = false;
+    [SerializeField]
+    private Vector2 _projectileStartPos;
+
 
     [Header("JumpAttack")]
     [SerializeField]
@@ -657,15 +660,20 @@ public class PlayerController : MonoBehaviour
         if (_normalAttackPrefab != null && _attackPoint != null)
         {
             bool atttackDirection;
+            Vector2 attackStartPos;
             if (attackDirection == PlayerLookingDirection.Right)
             {
+                attackStartPos = _projectileStartPos;
                 atttackDirection = true;
             }
             else
             {
+                attackStartPos = new Vector2(-_projectileStartPos.x, _projectileStartPos.y);
                 atttackDirection = false;
             }
-            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation);
+            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation, this.transform);
+            instance.transform.localPosition = attackStartPos;
+
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
 

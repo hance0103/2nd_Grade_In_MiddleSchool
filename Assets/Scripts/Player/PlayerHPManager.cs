@@ -90,6 +90,7 @@ public class PlayerHPManager : MonoBehaviour
         Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
         player.ActivateInvincible();
         StartCoroutine(InvincibleCounter());
+
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
