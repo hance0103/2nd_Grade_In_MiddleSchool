@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternName: 
   damage: 0
-  beforeAttackDelay: 1
+  beforeAttackDelay: 0.3
   attackRange: 0
   afterAttackDelay: 1
   teleportOffset: {x: 0, y: 0, z: 0}

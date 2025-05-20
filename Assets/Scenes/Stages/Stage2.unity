@@ -6615,17 +6615,61 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak1EndAngle
+      value: 375
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak2EndAngle
+      value: 390
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: rainSpaceWeak5
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak4FEndAngle
+      value: 390
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak4SEndAngle
+      value: 405
       objectReference: {fileID: 0}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 2067811844}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak1StartAngle
+      value: 165
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak2StartAngle
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: weak3AttackCount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak4FStartAngle
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak4SStartAngle
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak1projectileData
+      value: 
+      objectReference: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak2projectileData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5635167821235e145a80d3bb81bd2fd9, type: 2}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: weak4projectileData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e99c8bdf125ad1449700ee7caea9915, type: 2}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: countDownBeforeStart
       value: 2
@@ -8539,6 +8583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9713372fdc8fde438f82e038e49d5cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
