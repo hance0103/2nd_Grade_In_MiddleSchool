@@ -8,8 +8,8 @@ public class BossEnragePopup : MonoBehaviour
     [Header("스테이지")]
     [SerializeField] private int Stage;
     [Header("플레이어/보스 오브젝트")]
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject Boss;
+    private GameObject player;
+    private GameObject boss;
     private PlayerController _playerController;
     
     [Header("이동시킬 이미지 오브젝트")]
@@ -56,7 +56,14 @@ public class BossEnragePopup : MonoBehaviour
     private Vector2 initBottomTextPos;
     private void Awake()
     {
-        _playerController = Player.GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+            Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        boss = GameObject.FindGameObjectWithTag("Boss");
+        if (boss == null)
+            Debug.LogError("Boss 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        _playerController = player.GetComponent<PlayerController>();
+        
     }
     private void Start()
     {
@@ -71,20 +78,20 @@ public class BossEnragePopup : MonoBehaviour
     }
     public void OnEnrage() 
     {
-        Player.transform.position = new Vector3(-4.0f, -2.946f, 0f);
+        player.transform.position = new Vector3(-4.0f, -2.946f, 0f);
         if (Stage == 1) 
         { 
-            Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
+            boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
             SoundManager.Instance.EffectSoundOn("stage1scream");
         }
         if (Stage == 2) 
         { 
-            Boss.transform.position = new Vector3(6.0f, 1.7f, 0f);
+            boss.transform.position = new Vector3(6.0f, 1.7f, 0f);
             SoundManager.Instance.EffectSoundOn("stage2scream");
         }
         if (Stage == 3) 
         { 
-            Boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
+            boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
             SoundManager.Instance.EffectSoundOn("stage3scream");
         }
 

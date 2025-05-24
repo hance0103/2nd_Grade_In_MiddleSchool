@@ -13,7 +13,7 @@ public class FinishingPopup : MonoBehaviour
     public GameObject Timer;
 
     [Header("플레이어/보스 오브젝트")]
-    [SerializeField] private GameObject Player;
+    private GameObject player;
     [SerializeField] private GameObject Boss;
 
     [Header("기존 보스 오브젝트")]
@@ -54,11 +54,18 @@ public class FinishingPopup : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+            Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+
+    }
     void Open()
     {
         // 대화창 활성화
         ChatText.gameObject.SetActive(true);
-        Playeranimator = Player.GetComponent<Animator>();
+        Playeranimator = player.GetComponent<Animator>();
         Bossanimator = Boss.GetComponent<Animator>();
         
         // 스테이지별 대사 불러오기(PlayerPrefs에서)
@@ -253,7 +260,7 @@ public class FinishingPopup : MonoBehaviour
         ClosingTextPanel.SetActive(true);
 
         // 플레이어, 보스 오브젝트 비활성화
-        Player.SetActive(false);
+        player.SetActive(false);
         Boss.SetActive(false);
     }
 }

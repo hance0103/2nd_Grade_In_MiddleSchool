@@ -562,6 +562,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempBoss2Finish
       objectReference: {fileID: 0}
+    - target: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: m_TagString
+      value: FinishBoss
+      objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4

@@ -1176,8 +1176,6 @@ MonoBehaviour:
   SkipButton: {fileID: 619915670}
   OpenClosingText: {fileID: 0}
   Timer: {fileID: 1239949766}
-  Player: {fileID: 104924279}
-  Boss: {fileID: 1793914935}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
@@ -8379,6 +8377,10 @@ PrefabInstance:
     - target: {fileID: 1640132069235199032, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438875937288233486, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_TagString
+      value: FinishBoss
       objectReference: {fileID: 0}
     - target: {fileID: 6077842330806068022, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_Name

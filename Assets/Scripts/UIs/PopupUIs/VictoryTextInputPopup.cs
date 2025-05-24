@@ -7,7 +7,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TMP_InputField inputField; // TextMeshPro 버전
     [SerializeField] private Timer timer;
-    [SerializeField] public GameObject Controller;
+    private GameObject Controller;
     public GameObject FinishPanel;
     private string savedData;
 
@@ -18,11 +18,22 @@ public class VictoryTextInputPopup : MonoBehaviour
     [SerializeField] private float fadeDuration = 2f; // 페이드에 걸릴 시간
 
     [Header("Player & Boss")]
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject boss;
+    private GameObject player;
+    private GameObject boss;
     /// <summary>
     /// 외부 버튼(메인 버튼)에서 이 함수를 연결하여 패널을 열도록 함
     /// </summary>
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+            Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        boss = GameObject.FindGameObjectWithTag("Boss");
+        Controller = GameObject.FindGameObjectWithTag("Controller");
+        if (Controller == null)
+            Debug.LogError("Controller 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+    }
     public void Stage1OpenInputPanel()
     {
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
@@ -60,7 +71,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
         PlayerPrefs.Save();
-        boss.SetActive(true);
+        //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
         ClosePanel();
     }
@@ -70,7 +81,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
         PlayerPrefs.Save();
-        boss.SetActive(true);
+        //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         ClosePanel();
@@ -82,7 +93,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         PlayerPrefs.SetString("FinalText3", savedData);
         
         PlayerPrefs.Save();
-        boss.SetActive(true);
+        //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         ClosePanel();

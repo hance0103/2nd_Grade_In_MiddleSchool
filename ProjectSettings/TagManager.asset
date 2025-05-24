@@ -9,6 +9,8 @@ TagManager:
   - Platform
   - DraggableButton
   - PlayerContact
+  - FinishBoss
+  - Controller
   layers:
   - Default
   - TransparentFX

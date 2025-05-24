@@ -34,7 +34,7 @@ public class DefeatPopup : MonoBehaviour
     [SerializeField] private int Stage;
 
     //컨트롤러 끄기
-    [SerializeField] public GameObject Controller;
+    private GameObject Controller;
     // 패배 시간을 출력하기 위한 텍스트 오브젝트들
     [SerializeField] private TMP_Text displayDefeatTime;
     [SerializeField] private float curTime;
@@ -42,6 +42,12 @@ public class DefeatPopup : MonoBehaviour
     int second;
     int hour;
     // 패배 팝업 열기 (게임 일시정지)
+    private void Awake()
+    {
+        Controller = GameObject.FindGameObjectWithTag("Controller");
+        if (Controller == null)
+            Debug.LogError("Controller 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+    }
     public void OpenDefeat1()
     {
         Controller.SetActive(false);

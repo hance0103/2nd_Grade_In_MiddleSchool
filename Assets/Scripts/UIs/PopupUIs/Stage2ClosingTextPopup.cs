@@ -17,8 +17,8 @@ public class Stage2ClosingTextPopup : MonoBehaviour
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
     [Header("플레이어/보스 오브젝트")]
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject Boss;
+    private GameObject Player;
+    private GameObject Boss;
 
     //변경 필요
     [Header("클로징 스크립트 캐릭터/보스 스프라이트")]
@@ -35,10 +35,16 @@ public class Stage2ClosingTextPopup : MonoBehaviour
     {
         OnClosingText();
     }
+    private void Awake()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        if (Player == null)
+            Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        
+    }
     public void OnClosingText() // 다음 스테이지 버튼을 눌렀을 때 실행되는 패널
     {
         Player.SetActive(false);
-        Boss.SetActive(false);
         Timer.SetActive(false);
         NextButton.onClick.AddListener(OnNextButtonClicked);
         StartCoroutine(ClosingTextStage2());

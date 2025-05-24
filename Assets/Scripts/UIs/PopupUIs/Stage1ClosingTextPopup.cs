@@ -18,8 +18,8 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     [SerializeField] private GameObject Timer; // 타이머 활성화/비활성화 용도
 
     [Header("플레이어/보스 오브젝트")]
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject Boss;
+    private GameObject Player;
+    private GameObject Boss;
 
     [Header("클로징 스크립트 캐릭터/보스 스프라이트")]
     public GameObject CharacterPose1; // 손가락 포즈, 비웃는 표정
@@ -35,10 +35,16 @@ public class Stage1ClosingTextPopup : MonoBehaviour
     {
         OnClosingText();
     }
+    private void Awake()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        if (Player == null)
+            Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        
+    }
     public void OnClosingText() // 실행되자마자 실행
     {
         Player.SetActive(false);
-        Boss.SetActive(false);
         Timer.SetActive(false);
         
         NextButton.onClick.AddListener(OnNextButtonClicked);

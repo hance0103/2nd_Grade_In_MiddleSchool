@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af91216ea9f87548a5f0f23f83259b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   player: {fileID: 0}
   EndPattern: 0
   isEnraged: 0
@@ -159,6 +160,7 @@ MonoBehaviour:
   weak1StartAngle: 165
   weak1EndAngle: 375
   weak1projectileData: {fileID: 11400000, guid: 20a29e8e2b78f754094f4603ce9f4a53, type: 2}
+  weak1MiddleDelay: 0
   weakPattern2Data: {fileID: 11400000, guid: afb57cf5fee88c345a58cd58bcff3d78, type: 2}
   weak2StartAngle: 150
   weak2EndAngle: 390
@@ -214,6 +216,8 @@ MonoBehaviour:
   Boss: {fileID: 484509623436859966}
   Stage: 2
   Timer: {fileID: 0}
+  _blinkInterval: 0.15
+  _blinkCount: 1
 --- !u!95 &2653110115698760582
 Animator:
   serializedVersion: 5
