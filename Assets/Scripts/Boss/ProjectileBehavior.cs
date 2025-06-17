@@ -26,8 +26,13 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         if (isReleased) return; // 이미 반환된 경우 무시
 
+
         if (collision.CompareTag("Player")) // 플레이어와 충돌
-        {
+        {   
+            if (GameManager.Inst.player.IsInvincible())
+            {
+                return;
+            }
             // Player 컴포넌트 체크 없이 바로 데미지 적용
             SoundManager.Instance.EffectSoundOn("21");
             //Debug.Log($"{damage}데미지 받아야함");
