@@ -15,13 +15,13 @@ MonoBehaviour:
   laserType: "\uC57D\uACF5 1"
   damage: 10
   laserSpeed: 1
-  laserDuration: 1
-  laserSprite: Sprites/Laser/WP2_laser_B3
+  laserDuration: 0.75
+  laserSprite: Sprites/Laser/Laser_beam_0007
   laserWidth: 1
   laserColor: {r: 1, g: 1, b: 1, a: 1}
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  laserFollowDuration: 3
-  laserLockDuration: 2
+  laserFollowDuration: 0.5
+  laserLockDuration: 1.2

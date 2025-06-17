@@ -125,8 +125,8 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            BossState.WeakPattern2,
+            BossState.WeakPattern1,
+            //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
@@ -308,10 +308,10 @@ public class Boss3 : MonoBehaviour
             layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
         }
 
-        Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 1, 0);
-        Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 1, 0);
+        Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 15, 0);
+        Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
 
-        int attackCount = isEnraged ? 6 : 5;
+        int attackCount = isEnraged ? 4 : 3;
         if (isDesEnr == true)
         {
             attackCount = 7;
@@ -400,11 +400,7 @@ public class Boss3 : MonoBehaviour
                 yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
             }
             #endregion
-
-            if (i < attackCount - 1)
-            {
-                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
-            }
+            yield return new WaitForSeconds(weak1LaserData.LaserFollowDuration);
         }
 
 

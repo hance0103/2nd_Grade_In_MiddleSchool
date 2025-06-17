@@ -214,7 +214,7 @@ MonoBehaviour:
   dashDuration: 0.1
   dashCooldown: 0.4
   dashTime: 0
-  verticalDashDistance: 5
+  verticalDashDistance: 3.5
   horizontalDashDistance: 5
   diagonalDashX: 4
   diagonalDashY: 3
