@@ -230,11 +230,11 @@ public class FinishingPopup : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        float randX = Random.Range(1300f, 1100f);
-        float randY = Random.Range(300f, 100f);
+        float randX = Random.Range(2000f, 1800f);
+        float randY = Random.Range(400f, 200f);
         if (Stage == 2)
         {
-            randY = Random.Range(600f, 400f);
+            randY = Random.Range(800f, 600f);
         }
         
         return new Vector3(randX, randY, 0f);
