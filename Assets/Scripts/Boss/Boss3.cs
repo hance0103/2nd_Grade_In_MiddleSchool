@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -72,6 +73,8 @@ public class Boss3 : MonoBehaviour
     [Header("약공격2 데이터")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private LaserScriptableObject weak2LaserData;
+    [SerializeField]
+    private float _wp2LaserDelay;
 
     [Header("약공격3 데이터")]
     [SerializeField] private BossScriptableObject weakPattern3Data;
@@ -122,8 +125,8 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            //BossState.WeakPattern2,
+            //BossState.WeakPattern1,
+            BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
@@ -504,29 +507,6 @@ public class Boss3 : MonoBehaviour
             bool startFrom = Random.value > 0.5f;
             float startX = startFrom ? rightBound : leftBound;
 
-            // 첫 번째 레이저 경고 및 발사
-            //LineRenderer firstWarningLine = CreateDangerZone(weak2LaserData);
-            //StartCoroutine(BlinkDangerZone(firstWarningLine));
-
-            //firstWarningLine.SetPosition(0, new Vector2(startX, topBound));
-            //firstWarningLine.SetPosition(1, new Vector2(startX, bottomBound));
-
-            //yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
-
-            //// 첫 번째 레이저 발사
-            //LaserController2 firstLaser = LaserController2.Create(
-            //    weak2LaserData,
-            //    new Vector2(startX, topBound),
-            //    null
-            //);
-            //firstLaser.SetTargetLayer(weak2LaserData.TargetLayer);
-            //yield return StartCoroutine(firstLaser.FireLaser(
-            //    new Vector2(startX, topBound),
-            //    new Vector2(startX, bottomBound)
-            //));
-
-            //Destroy(firstWarningLine.gameObject);
-
             // 7개의 경고선 순차 생성
             List<LineRenderer> warningLines = new List<LineRenderer>();
             for (int i = 0; i < 7; i++)
@@ -563,9 +543,8 @@ public class Boss3 : MonoBehaviour
                     new Vector2(sectionPositions[i], bottomBound)
                 ));
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(_wp2LaserDelay);
             }
-
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
         }
         #endregion
