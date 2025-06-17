@@ -83,7 +83,9 @@ public class Boss3 : MonoBehaviour
 
     [Header("약공격4 데이터")]
     [SerializeField] private BossScriptableObject weakPattern4Data;
-   
+    [SerializeField] private float _wp4NormalDelay;
+    [SerializeField] private float _wp4EnranageDelay;
+
     [Header("약공격5 데이터")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
     [SerializeField] private LaserScriptableObject weak5LaserData;
@@ -128,8 +130,8 @@ public class Boss3 : MonoBehaviour
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            //BossState.WeakPattern4,
+            //BossState.WeakPattern3,
+            BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
@@ -767,106 +769,106 @@ public class Boss3 : MonoBehaviour
         int totalAttack = isEnraged ? 8 : 4;
         for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
-            Debug.Log($"폭발 {attackCount + 1}회 공격 시작");
-
-            // 현재 플레이어 위치 저장
-            Vector2 targetPosition = player.transform.position;
-
-            // 경고 표시 생성
-            GameObject warningObj = new GameObject($"Warning_{attackCount}");
-            SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
-
-            #region 원형 스프라이트 직접 생성
-            Texture2D circleTexture = new Texture2D(128, 128);
-            for (int y = 0; y < circleTexture.height; y++)
-            {
-                for (int x = 0; x < circleTexture.width; x++)
-                {
-                    float dx = x - circleTexture.width / 2;
-                    float dy = y - circleTexture.height / 2;
-                    float distance = Mathf.Sqrt(dx * dx + dy * dy);
-                    float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
-                    circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
-                }
-            }
-            circleTexture.Apply();
-
-            Sprite circleSprite = Sprite.Create(circleTexture,
-                new Rect(0, 0, circleTexture.width, circleTexture.height),
-                new Vector2(0.5f, 0.5f));
-            #endregion
-
-            #region 경고 관련
-            // 경고 표시 설정
-            warningRenderer.sprite = circleSprite;
-            warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
-            warningRenderer.transform.position = targetPosition;
-            warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
-            warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
-
-            // 경고 표시 깜빡임
-            float warningDuration = isEnraged ? 0.5f : 0.7f;
-            float currentTime = 0f;
-
-            while (currentTime < warningDuration)
-            {
-                float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f; // 최소 알파값 증가
-                warningRenderer.color = new Color(1f, 0f, 0f, alpha);
-                currentTime += Time.deltaTime;
-                yield return null;
-            }
-
-            Destroy(warningObj);
-            #endregion
-            animator.SetTrigger("isNormal");
-            #region 폭발 프로젝타일 생성
-            ProjectileController projectileController = ProjectileController.Create(
-                weak4ProjData,
-                transform,
-                player.transform,
-                MusicProjectile,
-                false
-            );
-
-            GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
-            ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
-            if (behaviour == null)
-            {
-                behaviour = projectile.AddComponent<ProjectileBehaviour>();
-            }
-            behaviour.Initialize(weak4ProjData.Damage, null);
-
-            float explosionDuration = isEnraged ? 0.25f : 0.5f;
-            float startScale = 0.5f;
-            float endScale = isEnraged ? 3f: 3f;
-            float elapsed = 0f;
-
-            while (elapsed < explosionDuration)
-            {
-                float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
-                projectile.transform.localScale = new Vector3(scale, scale, 1f);
-                float alpha = 1f - (elapsed / explosionDuration);
-                SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
-                if (projRenderer != null)
-                {
-                    projRenderer.color = new Color(1f, 1f, 1f, alpha);
-                }
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-            
-            Destroy(projectile);
-
-            if (attackCount < totalAttack - 1)
-            {
-                float timeBetweenAttacks = isEnraged ? 0.5f : 1f;
-                yield return new WaitForSeconds(timeBetweenAttacks);
-            }
-            #endregion
+            StartCoroutine(WeakPattern4Execute(attackCount));
+            float timeBetweenAttacks = isEnraged ? _wp4EnranageDelay : _wp4NormalDelay;
+            yield return new WaitForSeconds(timeBetweenAttacks);
         }
 
 
         StartCoroutine(FinishPattern());
+    }
+    private IEnumerator WeakPattern4Execute(int attackCount)
+    {            // 현재 플레이어 위치 저장
+        Vector2 targetPosition = player.transform.position;
+
+        // 경고 표시 생성
+        GameObject warningObj = new GameObject($"Warning_{attackCount}");
+        SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+        #region 원형 스프라이트 직접 생성
+        Texture2D circleTexture = new Texture2D(128, 128);
+        for (int y = 0; y < circleTexture.height; y++)
+        {
+            for (int x = 0; x < circleTexture.width; x++)
+            {
+                float dx = x - circleTexture.width / 2;
+                float dy = y - circleTexture.height / 2;
+                float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+            }
+        }
+        circleTexture.Apply();
+
+        Sprite circleSprite = Sprite.Create(circleTexture,
+            new Rect(0, 0, circleTexture.width, circleTexture.height),
+            new Vector2(0.5f, 0.5f));
+        #endregion
+
+        #region 경고 관련
+        // 경고 표시 설정
+        warningRenderer.sprite = circleSprite;
+        warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
+        warningRenderer.transform.position = targetPosition;
+        warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
+        warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
+
+        // 경고 표시 깜빡임
+        float warningDuration = isEnraged ? 0.5f : 0.7f;
+        float currentTime = 0f;
+
+        while (currentTime < warningDuration)
+        {
+            float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f; // 최소 알파값 증가
+            warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(warningObj);
+        #endregion
+        animator.SetTrigger("isNormal");
+        #region 폭발 프로젝타일 생성
+        ProjectileController projectileController = ProjectileController.Create(
+            weak4ProjData,
+            transform,
+            player.transform,
+            MusicProjectile,
+            false
+        );
+
+        GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
+        ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+        if (behaviour == null)
+        {
+            behaviour = projectile.AddComponent<ProjectileBehaviour>();
+        }
+        behaviour.Initialize(weak4ProjData.Damage, null);
+
+        float explosionDuration = isEnraged ? 0.25f : 0.5f;
+        //float startScale = 0.5f;
+        float endScale = isEnraged ? 3f : 3f;
+        float elapsed = 0f;
+
+        while (elapsed < explosionDuration)
+        {
+            //float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+            //projectile.transform.localScale = new Vector3(scale, scale, 1f);
+            float alpha = 1f - (elapsed / explosionDuration);
+            SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+            if (projRenderer != null)
+            {
+                projRenderer.color = new Color(1f, 1f, 1f, alpha);
+            }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(projectile);
+        Destroy(projectileController.gameObject);
+        #endregion
+
+        
     }
     #endregion
 
