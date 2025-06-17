@@ -588,7 +588,7 @@ public class Boss3 : MonoBehaviour
 
                     // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
                     List<LineRenderer> warningLines = new List<LineRenderer>();
-                    float offset = 2f; // 오프셋 거리
+                    float offset = 2.5f; // 오프셋 거리
 
                     // 경고선 생성
                     for (int i = 0; i < 4; i++)
@@ -599,9 +599,8 @@ public class Boss3 : MonoBehaviour
                     }
 
                     float trackingTime = 0f;
-                    float trackingDuration = weak3LaserData.LaserFollowDuration * 0.8f;
 
-                    while (trackingTime < trackingDuration)
+                    while (trackingTime < selectedData.LaserFollowDuration)
                     {
                         Vector2 playerPos = (Vector2)player.transform.position;
 
@@ -623,6 +622,10 @@ public class Boss3 : MonoBehaviour
                         yield return null;
                     }
 
+                    // 쏠 때까지의 딜레이
+                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
+
+
                     // 경고선 제거
                     foreach (var line in warningLines)
                     {
@@ -641,7 +644,7 @@ public class Boss3 : MonoBehaviour
                             startPos,
                             null
                         );
-                        laser.SetTargetLayer(weak3LaserData.TargetLayer);
+                        laser.SetTargetLayer(selectedData.TargetLayer);
                         animator.SetTrigger("isNormal");
                         StartCoroutine(laser.FireLaser(
                             startPos,
@@ -650,14 +653,11 @@ public class Boss3 : MonoBehaviour
                     }
 
                     // 다음 공격 전 대기
-                    yield return new WaitForSeconds(weak3LaserData.LaserLockDuration * 0.8f);
+                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
                 }
                 else
                 {
                     Debug.Log($"십자 레이저");
-
-                    // 랜덤 레이저
-                    bool isPenetratingCross = Random.value > 0.5f;
                     List<LineRenderer> warningLines = new List<LineRenderer>();
                     for (int i = 0; i < 4; i++)
                     {
@@ -667,7 +667,7 @@ public class Boss3 : MonoBehaviour
                     }
 
                     float trackingTime = 0f;
-                    float trackingDuration = weak3LaserData.LaserFollowDuration;
+                    float trackingDuration = selectedData.LaserFollowDuration;
                     Vector2 fixedPosition = Vector2.zero;
                     bool isPositionFixed = false; // 위치 고정 상태를 추적하는 변수 추가
 
@@ -691,16 +691,13 @@ public class Boss3 : MonoBehaviour
                         warningLines[3].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
                         warningLines[3].SetPosition(1, new Vector2(currentPosition.x - 50f, currentPosition.y));
 
-                        // 발사 0.45초 전에 위치 고정
-                        if (trackingTime >= trackingDuration - 0.45f && !isPositionFixed)
-                        {
-                            fixedPosition = (Vector2)player.transform.position;
-                            isPositionFixed = true;
-                        }
-
                         trackingTime += Time.deltaTime;
                         yield return null;
                     }
+
+                    fixedPosition = (Vector2)player.transform.position;
+                    isPositionFixed = true;
+                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
 
                     // 먼저 경고선 위치 정보를 저장
                     List<Vector2[]> laserPaths = new List<Vector2[]>();
@@ -726,7 +723,7 @@ public class Boss3 : MonoBehaviour
                             exactStartPos,
                             null
                         );
-                        laser.SetTargetLayer(weak3LaserData.TargetLayer);
+                        laser.SetTargetLayer(selectedData.TargetLayer);
                         animator.SetTrigger("isNormal");
                         StartCoroutine(laser.FireLaser(
                             exactStartPos,
@@ -734,7 +731,7 @@ public class Boss3 : MonoBehaviour
                         ));
                     }
                     // 다음 공격 전 대기
-                    yield return new WaitForSeconds(weak3LaserData.LaserLockDuration);
+                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
                 }
             }
         }
