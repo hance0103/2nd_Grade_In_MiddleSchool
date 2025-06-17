@@ -126,8 +126,8 @@ public class Boss3 : MonoBehaviour
 
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
-            BossState.WeakPattern2,
-            //BossState.WeakPattern3,
+            //BossState.WeakPattern2,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.EnragedPattern,
@@ -761,7 +761,7 @@ public class Boss3 : MonoBehaviour
         FacePlayer();
 
         // 공격 반복
-        int totalAttack = isEnraged ? 8 : 6;
+        int totalAttack = isEnraged ? 8 : 4;
         for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
             Debug.Log($"폭발 {attackCount + 1}회 공격 시작");
@@ -798,11 +798,11 @@ public class Boss3 : MonoBehaviour
             warningRenderer.sprite = circleSprite;
             warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
             warningRenderer.transform.position = targetPosition;
-            warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f); // 더 큰 경고 크기
+            warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
             warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
 
             // 경고 표시 깜빡임
-            float warningDuration = isEnraged ? 0.7f : 1f;
+            float warningDuration = isEnraged ? 0.5f : 0.7f;
             float currentTime = 0f;
 
             while (currentTime < warningDuration)
@@ -835,7 +835,7 @@ public class Boss3 : MonoBehaviour
 
             float explosionDuration = isEnraged ? 0.25f : 0.5f;
             float startScale = 0.5f;
-            float endScale = isEnraged ? 3f: 2f;
+            float endScale = isEnraged ? 3f: 3f;
             float elapsed = 0f;
 
             while (elapsed < explosionDuration)
