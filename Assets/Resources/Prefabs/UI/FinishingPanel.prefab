@@ -577,7 +577,6 @@ MonoBehaviour:
   TextBox: {fileID: 4794397676353232686}
   ClosingTextPanel: {fileID: 0}
   Timer: {fileID: 0}
-  Player: {fileID: 0}
   Boss: {fileID: 5438875937288233486}
   oldBoss: {fileID: 0}
   CharacterPose: {fileID: 3120050735093011618}
@@ -585,8 +584,8 @@ MonoBehaviour:
   explosionObject2: {fileID: 7633104056145804871}
   explosionObject3: {fileID: 4036460271834609627}
   BossPose1: {fileID: 0}
-  startPosition: {x: -18, y: -8.5, z: 0}
-  endPosition: {x: -2, y: -8.5, z: 0}
+  startPosition: {x: -15, y: -7, z: 0}
+  endPosition: {x: -4, y: -7, z: 0}
   letterPrefab: {fileID: 4408722047587706453, guid: 2ee98c49cfd8f8148ac5990e82ad05cf, type: 3}
   UI: {fileID: 0}
   FinishTime: 10
