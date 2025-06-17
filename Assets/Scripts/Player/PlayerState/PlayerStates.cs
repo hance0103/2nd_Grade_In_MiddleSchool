@@ -254,6 +254,7 @@ public class JumpAttackState : IPlayerState
         Time.timeScale = 1f;
         player.EndJumpAttack();
         player.ResetMovement();
+        player.PlayerJumpAttackObjectDisable();
     }
     public override string ToString() => "JumpAttack";
 }

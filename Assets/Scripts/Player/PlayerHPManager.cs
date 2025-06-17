@@ -63,9 +63,9 @@ public class PlayerHPManager : MonoBehaviour
             counter += Time.deltaTime;
             yield return null;
         }
-        //Debug.Log("무적 끝");
-        //StopCoroutine(_blinkCoroutine);
 
+        //StopCoroutine(_blinkCoroutine);
+        Debug.Log("무적 끝");
         player.DeactivateInvincible();
     }
 

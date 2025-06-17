@@ -683,7 +683,10 @@ public class PlayerController : MonoBehaviour
             SoundManager.Instance.Play($"PlayerSound/PlayerNormalAttack{rand}");
         }
     }
-
+    public void PlayerJumpAttackObjectDisable()
+    {
+        _jumpAttackObject.SetActive(false);
+    }
     private void PlayerJumpAttack()
     {
         SoundManager.Instance.Play("PlayerSound/PlayerJumpAttack");
@@ -755,6 +758,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ActivateInvincible()
     {
+        Debug.Log("무적");
         _isInvincible = true;
     }
     public void DeactivateInvincible()

@@ -798,6 +798,7 @@ public class bossPatternTest : MonoBehaviour
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
+        // 플레이어 바인드
         _playerController.PlayerStop();
         PlayerHPManager.Instance.Stage1_SP2_Bind();
         // 여기
@@ -811,6 +812,7 @@ public class bossPatternTest : MonoBehaviour
 
         Destroy(laserStart);
         _playerController.PlayerResume();
+        PlayerHPManager.Instance.ResetBindContactDamageFlag();
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }

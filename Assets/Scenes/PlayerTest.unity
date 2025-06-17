@@ -375,6 +375,7 @@ MonoBehaviour:
   zoomSizeBossF: 3
   zoomDurationBossF: 0.4
   pauseDurationBossF: 4
+  FinishBossSprite: {fileID: 0}
   shakeMagnitude: 0.1
   shakeFrequency: 20
   Player: {fileID: 7487909770649839616}
@@ -394,6 +395,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakeDuration: 1
   shakeMagitude: 0.5
+--- !u!1 &538917992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538917994}
+  - component: {fileID: 538917993}
+  m_Layer: 0
+  m_Name: '@Sound'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &538917993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538917992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9713372fdc8fde438f82e038e49d5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
+--- !u!4 &538917994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538917992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 673, y: 317, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &541393234
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &743126594
 Transform:
   m_ObjectHideFlags: 0
@@ -1318,6 +1364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba06152134275f4e8e8f3008229cd14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 0}
 --- !u!1 &1842821042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,17 +1811,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3899080805333057914 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2336235251767884576, guid: b66959733d510634c984bcf5b04cd68f, type: 3}
-  m_PrefabInstance: {fileID: 4850708748041647401}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f59bfb7168f8dd49a350780e1e96a2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4650908959991297917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1796,6 +1832,8 @@ MonoBehaviour:
   Boss: {fileID: 0}
   Stage: 0
   Timer: {fileID: 0}
+  _blinkInterval: 0.15
+  _blinkCount: 1
 --- !u!1001 &4850708748041647401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2109,10 +2147,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 3899080805333057914}
+    - target: {fileID: 6491629525550302922, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4288
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2132,11 +2170,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7201586855376654361, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.14
+      value: -3.97
       objectReference: {fileID: 0}
     - target: {fileID: 7201586855376654361, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.67
+      value: -1.44
       objectReference: {fileID: 0}
     - target: {fileID: 7201586855376654361, guid: 4fd544a7b3f63d34bad934b33c48b13a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2188,10 +2226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _damageInnterval: 1
   _isContacting: 0
   _hp: {fileID: 7487909770649839626}
-  _contactCounter: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2209,3 +2245,4 @@ SceneRoots:
   - {fileID: 1525221705}
   - {fileID: 1449937302}
   - {fileID: 3624025542128268439}
+  - {fileID: 538917994}

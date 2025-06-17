@@ -10,7 +10,7 @@ public class PlayerJumpAttack : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        Debug.Log("플랫폼에좀 부딛혀라");
         if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             if (!isBossHit)
