@@ -7,7 +7,8 @@ public class IdleState : IPlayerState
     public IdleState(PlayerController player) { this.player = player; }
     private PlayerInputProxy input;
     public void Enter()
-    { 
+    {
+        Debug.Log("Idle");
         player.anim.PlayAnimation("Idle");
         input = player.input;
         player.canJump = true;
@@ -112,6 +113,8 @@ public class JumpState : IPlayerState
 
     public void Enter()
     {
+        Debug.Log("Jump");
+
         if (player.isDownJumping || player.isFallingFromPlatform ||player.GetJumpingDash())
         {
             Debug.Log("점프 초기화  x");
@@ -186,6 +189,7 @@ public class DashState : IPlayerState
 
     public void Enter()
     {
+        Debug.Log("Dash");
         player.StartDash();
     }
 

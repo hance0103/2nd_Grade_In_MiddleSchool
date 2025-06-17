@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isFallingFromPlatform = false;
 
+    private bool isDashing = false;
+
     private Vector2 dashBeforeVelocity;
 
     [Header("Direction")]
@@ -373,7 +375,7 @@ public class PlayerController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (!isOnPlatform && !isDownJumping)
+            if (!isOnPlatform && !isDownJumping && !isDashing)
             {
                 canJump = true;
                 isJumpingDash = false;
@@ -533,6 +535,9 @@ public class PlayerController : MonoBehaviour
     public void StartDash()
     {
         if (!canDash) return;
+
+        isDashing = true;
+
         canDash = false;
         canJump = false;
         jumpTimer = 0f;
@@ -652,8 +657,8 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(new IdleState(this));
         }
-            
 
+        isDashing = false;
 
     }
 
