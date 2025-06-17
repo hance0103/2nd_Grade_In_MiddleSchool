@@ -125,8 +125,8 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            //BossState.WeakPattern2,
+            //BossState.WeakPattern1,
+            BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
@@ -424,7 +424,7 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, bottomBound + 1);
+        transform.position = new Vector2(centerBound, bottomBound + 9.3f);
         FacePlayer();
 
         #region 강화약공2
@@ -457,7 +457,7 @@ public class Boss3 : MonoBehaviour
                     warning.SetPosition(1, new Vector2(sectionPositions[pos], bottomBound));
                     allWarnings.Add(warning);
                 }
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.3f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
@@ -483,7 +483,7 @@ public class Boss3 : MonoBehaviour
                         new Vector2(sectionPositions[pos], bottomBound)
                     ));
                 }
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(_wp2LaserDelay);
             }
         }
         #endregion
@@ -514,7 +514,7 @@ public class Boss3 : MonoBehaviour
                 warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
 
                 warningLines.Add(warningLine);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.3f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);

@@ -24,4 +24,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   laserFollowDuration: 3
-  laserLockDuration: 2
+  laserLockDuration: 0

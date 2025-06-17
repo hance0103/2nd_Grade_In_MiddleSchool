@@ -5187,6 +5187,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1439999889}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: isEnraged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: _wp2LaserDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 1984763623}
@@ -6355,7 +6363,7 @@ Transform:
   m_GameObject: {fileID: 1327325018}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.9, y: -2.9, z: -1.3625748}
+  m_LocalPosition: {x: -10.9, y: 5.01, z: -1.3625748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9367,8 +9375,8 @@ Transform:
   m_GameObject: {fileID: 2048989183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9274, y: 0.0345, z: 0}
-  m_LocalScale: {x: 0.97965723, y: 0.96092254, z: 1}
+  m_LocalPosition: {x: 5.9274, y: -0.0131, z: 0}
+  m_LocalScale: {x: 0.97965723, y: 0.969763, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
