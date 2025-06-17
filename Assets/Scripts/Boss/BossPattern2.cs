@@ -108,15 +108,16 @@ public class BossPattern2 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
-        patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            BossState.WeakPattern5,
-            BossState.Groggy
-        });
+        //patternDic.Add(0, new BossState[] {
+        //    BossState.WeakPattern1,
+        //    BossState.WeakPattern2,
+        //    BossState.WeakPattern3,
+        //    BossState.WeakPattern4,
+        //    BossState.WeakPattern5,
+        //    BossState.Groggy
+        //});
 
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5, BossState.WeakPattern3, BossState.Groggy });
         if (isEnraged)
         {
             StartContinuousPoisonRain();
@@ -570,19 +571,6 @@ public class BossPattern2 : MonoBehaviour
             rainProjectile,
             isEnraged
         );
-
-        #region  (안씀)Player의 너비를 컴포넌트에서 직접 가져오기
-        /*float playerWidth = 1f;  // 기본값
-        if (player.TryGetComponent<Collider2D>(out Collider2D collider))
-        {
-            playerWidth = collider.bounds.size.x;
-        }
-        else if (player.TryGetComponent<SpriteRenderer>(out SpriteRenderer renderer))
-        {
-            playerWidth = renderer.bounds.size.x;
-        }
-        float safeZoneWidth = playerWidth * 1.5f;*/
-        #endregion
 
         float safeZoneWidth = rainSpaceWeak5;
 
