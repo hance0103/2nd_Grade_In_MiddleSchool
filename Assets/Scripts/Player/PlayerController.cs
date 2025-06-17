@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviour
     public float playerHitShakeMagnitude = 0.2f;
     public float playerHitShakeDuration = 0.2f;
 
+    Collider2D hitCol;
 
     private void Awake()
     {
@@ -178,7 +179,7 @@ public class PlayerController : MonoBehaviour
         dashEffectPosY = dashEffect.transform.localPosition.y;
         dashEffect.SetActive(false);
 
-
+        hitCol = null;
     }
     void Start()
     {
@@ -336,7 +337,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumpAttackHitLeft.collider != null || jumpAttackHitRight.collider != null)
         {
-            Collider2D hitCol = jumpAttackHitLeft.collider != null ? jumpAttackHitLeft.collider : jumpAttackHitRight.collider;
+            Collider2D jumnpHitCol = jumpAttackHitLeft.collider != null ? jumpAttackHitLeft.collider : jumpAttackHitRight.collider;
             _canJumpAttack = false;
         }
         else
@@ -352,6 +353,13 @@ public class PlayerController : MonoBehaviour
         float boxCastDistance = 0.05f;
 
         RaycastHit2D hit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, boxCastDistance, platformMask);
+
+        RaycastHit2D jumpInitHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, boxCastDistance, jumpAttackMask);
+        if (jumpInitHit.collider != null)
+        {
+            hitCol = jumpInitHit.collider;
+        }
+
         Color debugColor = hit.collider != null ? Color.green : Color.red;
         Vector2 topLeft = new Vector2(boxCastOrigin.x - boxCastSize.x / 2, boxCastOrigin.y + boxCastSize.y / 2);
         Vector2 topRight = new Vector2(boxCastOrigin.x + boxCastSize.x / 2, boxCastOrigin.y + boxCastSize.y / 2);
@@ -582,6 +590,8 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator DashCoroutine(Vector2 direction)
     {
+        bool wasOnPlatform = isOnPlatform;
+
         anim.PlayAnimation("Dash");
         SoundManager.Instance.Play("PlayerSound/PlayerDash");
         dashEffect.SetActive(true);
@@ -625,10 +635,24 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(PlayerDashCoolDown());
         canJump = false;
 
+        yield return new WaitForFixedUpdate();
+
         if ((dashEndPos.y > dashStartPos.y) || stateMachine.GetPreviousState() is JumpState)
+        {
             ChangeState(new JumpState(this));
+        }
+        else if(wasOnPlatform && rb.velocity.y < 0)
+        {
+            isJumpingDash = true;
+            isJumping = true;
+            canJump = false;
+            ChangeState(new JumpState(this));
+        }
         else
+        {
             ChangeState(new IdleState(this));
+        }
+            
 
 
     }

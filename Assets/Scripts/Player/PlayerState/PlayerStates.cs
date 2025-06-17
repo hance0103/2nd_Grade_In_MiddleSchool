@@ -113,7 +113,11 @@ public class JumpState : IPlayerState
     public void Enter()
     {
         if (player.isDownJumping || player.isFallingFromPlatform ||player.GetJumpingDash())
+        {
+            Debug.Log("점프 초기화  x");
             return;
+        }
+            
             
         player.StartJump();
         player.anim.PlayAnimation("JumpUp");
