@@ -5203,6 +5203,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1984763623}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak3Laser_E_Data
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c4cd794daed3394c838e3ebe7a25a95, type: 2}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: BossEnragePopupScript
       value: 
       objectReference: {fileID: 1984763622}
