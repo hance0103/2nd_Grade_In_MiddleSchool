@@ -424,7 +424,7 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, bottomBound + 9.3f);
+        transform.position = new Vector2(centerBound, bottomBound + 8.9f);
         FacePlayer();
 
         #region 강화약공2

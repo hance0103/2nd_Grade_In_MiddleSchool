@@ -237,7 +237,7 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     }
     void CloseOpeningText()
     {
-        targetObject.position = targetPosition;
+        //targetObject.position = targetPosition;
         OpeningTextPanel.SetActive(false); // 패널 비활성화
         ControllerPanel.SetActive(true);
         isFirstTime3 = false;
