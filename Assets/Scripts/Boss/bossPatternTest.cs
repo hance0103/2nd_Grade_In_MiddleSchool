@@ -255,6 +255,10 @@ public class bossPatternTest : MonoBehaviour
         {
             currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None);
+            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP())
+            {
+                yield return new WaitForSeconds(2f);
+            }
         }
         currentState = BossState.Idle;
         currentCoroutine = null;
