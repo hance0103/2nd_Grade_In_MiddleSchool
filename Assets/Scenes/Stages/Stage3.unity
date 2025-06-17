@@ -2158,8 +2158,6 @@ MonoBehaviour:
   NextButton: {fileID: 336639120}
   SkipButton: {fileID: 1293484087}
   Timer: {fileID: 1101572429}
-  Player: {fileID: 1439999889}
-  Boss: {fileID: 1009866276}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
@@ -6158,8 +6156,6 @@ MonoBehaviour:
   NextButton: {fileID: 336639120}
   SkipButton: {fileID: 1293484087}
   Timer: {fileID: 1101572429}
-  Player: {fileID: 1439999889}
-  Boss: {fileID: 1009866276}
   CharacterPose1: {fileID: 0}
   CharacterPose2: {fileID: 0}
   CharacterPose3: {fileID: 0}
@@ -7138,6 +7134,7 @@ GameObject:
   - component: {fileID: 1529864655}
   - component: {fileID: 1529864660}
   - component: {fileID: 1529864661}
+  - component: {fileID: 1529864662}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7264,6 +7261,20 @@ MonoBehaviour:
   Player: {fileID: 1439999898}
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
+--- !u!114 &1529864662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529864654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9f15b1da2a6434ab5143c91b180bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 1
+  shakeMagitude: 0.5
 --- !u!1 &1535193753
 GameObject:
   m_ObjectHideFlags: 0

@@ -292,23 +292,51 @@ public class PlayerController : MonoBehaviour
         Vector2 rayVecRight = new Vector2(colliderRight, colliderBottom);
         Vector2 rayDirection = Vector2.down;
 
-        float rayDistance = 0.1f;
+        //float rayDistance = 0.2f;
 
-        RaycastHit2D hitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, rayDistance, platformMask);
-        RaycastHit2D hitright = Physics2D.Raycast(rayVecRight, rayDirection, rayDistance, platformMask);
+        //RaycastHit2D hitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, rayDistance, platformMask);
+        //RaycastHit2D hitright = Physics2D.Raycast(rayVecRight, rayDirection, rayDistance, platformMask);
+
+        //if ((hitLeft.collider != null || hitright.collider != null))
+        //{
+        //    Collider2D hitCol = hitLeft.collider != null ? hitLeft.collider : hitright.collider;
+        //    if (!isOnPlatform && !isDownJumping)
+        //    {
+        //        canJump = true;
+        //        isJumpingDash = false;
+        //        isOnPlatform = true;
+        //        isFallingFromPlatform = false;
+        //        nowPlatform = hitCol.gameObject;
+        //        hitCol.isTrigger = false;
+        //        ChangeState(new IdleState(this));
+        //    }
+        //}
+        //else if (hitLeft.collider == null && hitright.collider == null)
+        //{
+        //    if (isOnPlatform && !isJumping && !(stateMachine.GetCurrentState() is DashState))
+        //    {
+        //        isFallingFromPlatform = true;
+        //        ChangeState(new JumpState(this));
+        //    }
+
+        //    isOnPlatform = false;
+        //    if (nowPlatform != null)
+        //    {
+        //        nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
+        //        nowPlatform = null;
+        //    }
+        //}
+        
 
         RaycastHit2D jumpAttackHitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, _jumpAttackMinHeight, jumpAttackMask);
         RaycastHit2D jumpAttackHitRight = Physics2D.Raycast(rayVecRight, rayDirection, _jumpAttackMinHeight, jumpAttackMask);
-
-        //Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection*rayDistance, Color.green);
-        //Debug.DrawLine(rayVecRight, rayVecRight + rayDirection*rayDistance, Color.green);
 
         Debug.DrawLine(rayVecLeft, rayVecLeft + rayDirection * _jumpAttackMinHeight, Color.red);
         Debug.DrawLine(rayVecRight, rayVecRight + rayDirection * _jumpAttackMinHeight, Color.red);
 
         if (jumpAttackHitLeft.collider != null || jumpAttackHitRight.collider != null)
         {
-            Collider2D hit = jumpAttackHitLeft.collider != null ? jumpAttackHitLeft.collider : jumpAttackHitRight.collider;
+            Collider2D hitCol = jumpAttackHitLeft.collider != null ? jumpAttackHitLeft.collider : jumpAttackHitRight.collider;
             _canJumpAttack = false;
         }
         else
@@ -316,21 +344,39 @@ public class PlayerController : MonoBehaviour
             _canJumpAttack = true;
         }
 
-        if ((hitLeft.collider != null || hitright.collider != null))
+
+
+        // boxcast
+        Vector2 boxCastSize = new Vector2(collider2d.bounds.size.x, 0.1f);
+        Vector2 boxCastOrigin = new Vector2(collider2d.bounds.center.x, collider2d.bounds.min.y- boxCastSize.y * 0.5f);
+        float boxCastDistance = 0.05f;
+
+        RaycastHit2D hit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, boxCastDistance, platformMask);
+        Color debugColor = hit.collider != null ? Color.green : Color.red;
+        Vector2 topLeft = new Vector2(boxCastOrigin.x - boxCastSize.x / 2, boxCastOrigin.y + boxCastSize.y / 2);
+        Vector2 topRight = new Vector2(boxCastOrigin.x + boxCastSize.x / 2, boxCastOrigin.y + boxCastSize.y / 2);
+        Vector2 bottomLeft = topLeft + Vector2.down * boxCastDistance;
+        Vector2 bottomRight = topRight + Vector2.down * boxCastDistance;
+
+        Debug.DrawLine(topLeft, topRight, debugColor);
+        Debug.DrawLine(bottomLeft, bottomRight, debugColor);
+        Debug.DrawLine(topLeft, bottomLeft, debugColor);
+        Debug.DrawLine(topRight, bottomRight, debugColor);
+
+        if (hit.collider != null)
         {
-            Collider2D hitCol = hitLeft.collider != null ? hitLeft.collider : hitright.collider;
             if (!isOnPlatform && !isDownJumping)
             {
                 canJump = true;
                 isJumpingDash = false;
                 isOnPlatform = true;
                 isFallingFromPlatform = false;
-                nowPlatform = hitCol.gameObject;
-                hitCol.isTrigger = false;
+                nowPlatform = hit.collider.gameObject;
+                hit.collider.isTrigger = false;
                 ChangeState(new IdleState(this));
             }
         }
-        else if (hitLeft.collider == null && hitright.collider == null)
+        else
         {
             if (isOnPlatform && !isJumping && !(stateMachine.GetCurrentState() is DashState))
             {
@@ -345,7 +391,6 @@ public class PlayerController : MonoBehaviour
                 nowPlatform = null;
             }
         }
-
 
     }
     private void ApplyMovement()
