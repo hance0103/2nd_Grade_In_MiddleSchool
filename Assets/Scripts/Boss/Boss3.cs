@@ -254,6 +254,10 @@ public class Boss3 : MonoBehaviour
 
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
             currentCoroutine = null; // Idle 실행 조건
+            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP())
+            {
+                yield return new WaitForSeconds(2f);
+            }
         }
         currentBossStateArray = null;
     }
