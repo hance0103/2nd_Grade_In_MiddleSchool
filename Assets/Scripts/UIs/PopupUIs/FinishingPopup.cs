@@ -1,8 +1,9 @@
 using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class FinishingPopup : MonoBehaviour
 {
@@ -19,10 +20,14 @@ public class FinishingPopup : MonoBehaviour
     [Header("기존 보스 오브젝트")]
     [SerializeField] private GameObject oldBoss; // 기존 보스 지우기용
 
-    [Header("캐릭터 스프라이트")]
-    public GameObject CharacterPose;
+    [Header("글자 대기 범위(말풍선 주변)")]
+    private float waitRangeX = 500f;   // 가로 ±500 px
+    private float waitRangeY = 200f;   // 세로 ±200 px
+    public float waitHoldTime = 0.15f; // 대기 시간(원하면 0으로)
 
-    
+    // 모든 글자를 모아 두었다가 한꺼번에 날리기 위해
+    private readonly List<RectTransform> readyRects = new();
+
     [Header("폭발 오브젝트들 (스프라이트 애니메이션 포함)")]
     public GameObject explosionObject1;
     public GameObject explosionObject2;
@@ -88,9 +93,8 @@ public class FinishingPopup : MonoBehaviour
         // 대사를 차례로 출력하는 코루틴 시작
         StartCoroutine(OpenText(finalChat));
     }
-
     
-    private float totalTypingDuration = 5f; // 대사가 완전히 출력되는 데 걸리는 시간 (5초)
+    private float totalTypingDuration = 0.5f; // 대사가 완전히 출력되는 데 걸리는 시간 (5초)
     IEnumerator OpenText(string narration)
     {
         Timer.SetActive(false);
@@ -111,19 +115,24 @@ public class FinishingPopup : MonoBehaviour
         // (필요하다면) 대사가 시작될 때 사운드 이펙트
         // SoundManager.Instance.EffectSoundOn("18"); // 예시
 
-        // 대사를 3초에 걸쳐 천천히 타이핑
-        //yield return StartCoroutine(TypingText(narration, totalTypingDuration));
-        //yield return StartCoroutine(SendFlyingText(narration, totalTypingDuration));
+        // 대사를 3초에 걸쳐 천천히 타이핑;
 
-        // 대화창 비활성화
-        ChatText.gameObject.SetActive(false);
-        TextBox.gameObject.SetActive(false);
-        CharacterPose.gameObject.SetActive(false);
+
+        TextBox.SetActive(true);          // 말풍선 박스
+        ChatText.gameObject.SetActive(true);
+
+        /* -- 원하는 ‘빠르기’로 조절 --
+           (글자 수 × 0.03초 ≈ 30 ms/글자, 최소 0.5 초 보장)                  */
+        float typingDuration = Mathf.Max(0.5f, narration.Length * 0.1f);
+        yield return StartCoroutine(TypingText(narration, typingDuration));
+        // 잠깐 여운
+        yield return new WaitForSeconds(1f);
+
        
         Playeranimator.Play("NormalAttack");
         //StartCoroutine(ExplosionRoutine());
         StartCoroutine(SendFlyingText(narration, totalTypingDuration));
-        yield return new WaitForSeconds(5.2f);
+        yield return new WaitForSeconds(4.5f);
         Playeranimator.Play("Idle");
 
 
@@ -140,60 +149,96 @@ public class FinishingPopup : MonoBehaviour
         // 마지막으로 연출이 끝났을 때 화면 전환 또는 오브젝트 비활성화
         CloseFinishing();
     }
-    IEnumerator SendFlyingText(string narration, float duration)
+    private int lettersWaiting;
+    IEnumerator SendFlyingText(string narration, float totalTypingDuration)
     {
-        StartCoroutine(ExplosionRoutine());
-        // 글자 총 길이에 따라 각 글자 생성 간격
-        float timePerChar = duration / narration.Length;
-        if (Boss == null) Boss = GameObject.FindGameObjectWithTag("Boss");
+        float dt = totalTypingDuration / narration.Length;
+        ChatText.text = narration;
+        lettersWaiting = narration.Length;
 
- 
-        for (int i = 0; i < narration.Length; i++)
+        foreach (char c in narration)
         {
-            // 글자를 하나 생성해서 날리는 코루틴
-            StartCoroutine(SpawnAndMoveLetter(narration[i].ToString()));
-
-            // 다음 글자까지 대기 (타이핑 효과)
-            yield return new WaitForSeconds(timePerChar);
+            StartCoroutine(SpawnAndWaitLetter(c.ToString()));
+            if (ChatText.text.Length > 0)
+                ChatText.text = ChatText.text.Substring(1);
+            yield return new WaitForSeconds(dt);
         }
+
+        // 모든 글자가 대기 위치에 도착할 때까지 대기
+        yield return new WaitUntil(() => lettersWaiting == 0);
+
+        // 대기 풍선 숨김
+        ChatText.gameObject.SetActive(false);
+        TextBox.SetActive(false);
+
+        // 집단 돌진 & 폭발
+        yield return StartCoroutine(LaunchLettersToBoss());
     }
-  
-    IEnumerator SpawnAndMoveLetter(string letter)
+    private float launchInterval = 0.1f;
+    IEnumerator LaunchLettersToBoss()
     {
-        // 글자 프리팹 생성 (플레이어 위치에서)
-        GameObject letterObj = Instantiate(letterPrefab, UI.transform);
-        letterObj.transform.SetParent(UI.transform, false);
-        RectTransform letterRect = letterObj.GetComponent<RectTransform>();
-        Vector3 startScreenPos = Camera.main.WorldToScreenPoint(startPosition);
-        Vector3 endScreenPos = Camera.main.WorldToScreenPoint(endPosition);
+        StartCoroutine(ExplosionRoutine());      // 폭발 이펙트 병행 실행
 
-        // 초기 위치 지정
-        letterRect.anchoredPosition = startScreenPos;
+        Vector2 bossPos = Camera.main.WorldToScreenPoint(endPosition);
+        float moveTime = 0.25f;                // 한 글자 이동 시간
 
-        // 텍스트 설정
-        TMP_Text letterTMP = letterObj.GetComponentInChildren<TMP_Text>();
-        if (letterTMP != null)
+        foreach (RectTransform rect in readyRects)
         {
-            letterTMP.text = letter;
+            // 글자 하나 이동 시작
+            StartCoroutine(MoveUI(rect, rect.anchoredPosition, bossPos, moveTime));
+
+            // 다음 글자까지 대기 → 0.1초 간격 “다다다닥”
+            yield return new WaitForSeconds(launchInterval);
         }
 
-        float moveTime = 0.8f;
-        float elapsed = 0f;
-        while (elapsed < moveTime)
+        // 마지막 글자가 도착할 때까지 안전 대기
+        yield return new WaitForSeconds(moveTime);
+
+        // 정리
+        foreach (RectTransform rect in readyRects)
+            rect.gameObject.SetActive(false);
+        readyRects.Clear();
+    }
+    IEnumerator SpawnAndWaitLetter(string letter)
+    {
+        GameObject obj = Instantiate(letterPrefab, UI.transform, false);
+        RectTransform rect = obj.GetComponent<RectTransform>();
+
+        Vector2 startPos = Camera.main.WorldToScreenPoint(startPosition);
+        Vector2 endPosBubble = TextBox.GetComponent<RectTransform>().anchoredPosition +
+                               new Vector2(Random.Range(-waitRangeX, waitRangeX),
+                                           Random.Range(-waitRangeY, waitRangeY));
+
+        rect.anchoredPosition = startPos;
+
+        TMP_Text tmp = obj.GetComponentInChildren<TMP_Text>();
+        if (tmp) tmp.text = letter;
+
+        // 시작 → 랜덤 대기
+        yield return MoveUI(rect, startPos, endPosBubble, 0.15f);
+        yield return new WaitForSeconds(waitHoldTime);
+
+        // 대기 완료 등록
+        readyRects.Add(rect);
+        lettersWaiting--;
+    }
+ 
+
+    // 공통 보간 함수
+    IEnumerator MoveUI(RectTransform rect, Vector2 from, Vector2 to, float time)
+    {
+        float t = 0f;
+        while (t < 1f)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / moveTime;
-            // 시작~끝 스크린좌표를 Lerp, 그리고 RectTransform의 anchoredPosition에 대입
-            Vector3 currentPos = Vector3.Lerp(startScreenPos, endScreenPos, t);
-            letterRect.anchoredPosition = currentPos;
+            t += Time.deltaTime / time;
+            rect.anchoredPosition = Vector2.Lerp(from, to, t);
             yield return null;
         }
-        letterObj.SetActive(false);
     }
 
     IEnumerator ExplosionRoutine()
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 5; i++)
         {
             // 폭발 오브젝트들을 각각 랜덤 위치에 배치
             explosionObject1.transform.position = GetRandomPosition();
