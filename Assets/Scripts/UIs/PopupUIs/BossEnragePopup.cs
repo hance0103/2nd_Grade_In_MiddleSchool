@@ -101,6 +101,9 @@ public class BossEnragePopup : MonoBehaviour
         // 트리거(또는 처음부터) 발동 시 코루틴 실행
         StartCoroutine(MoveFirst());
         StartCoroutine(MoveText());
+
+
+        
     }
 
     private IEnumerator MoveText()

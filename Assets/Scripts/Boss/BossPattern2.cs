@@ -136,6 +136,7 @@ public class BossPattern2 : MonoBehaviour
         player.GetComponent<PlayerController>().PlayerStop();
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
+        
     }
     void Update()
     {
@@ -151,8 +152,10 @@ public class BossPattern2 : MonoBehaviour
             Debug.Log(EndPattern);
             Enrageactive = false;
             BossEnrage();
-        }
 
+            Invoke("StartContinuousPoisonRain", 1f);
+            //StartContinuousPoisonRain();
+        }
         #region 보스 상태 체크
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
@@ -786,6 +789,7 @@ public class BossPattern2 : MonoBehaviour
     #endregion
     private void StartContinuousPoisonRain()
     {
+        Debug.Log("맵패턴 독비");
         float mapLeft = mapWidthPositions[0].position.x + 1f;
         float mapRight = mapWidthPositions[1].position.x + 1f;
         float mapWidth = mapRight - mapLeft;
