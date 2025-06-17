@@ -65,7 +65,7 @@ public class PlayerHPManager : MonoBehaviour
         }
 
         //StopCoroutine(_blinkCoroutine);
-        Debug.Log("무적 끝");
+        //Debug.Log("무적 끝");
         player.DeactivateInvincible();
     }
 

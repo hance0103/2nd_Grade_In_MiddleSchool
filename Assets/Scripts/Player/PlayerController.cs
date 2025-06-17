@@ -758,7 +758,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ActivateInvincible()
     {
-        Debug.Log("무적");
+        //Debug.Log("무적");
         _isInvincible = true;
     }
     public void DeactivateInvincible()

@@ -7,10 +7,13 @@ public class PlayerJumpAttack : MonoBehaviour
     private bool isBossHit = false;
     public float _delay { get; set; }
     // Start is called before the first frame update
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("콜리전 엔터");
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("플랫폼에좀 부딛혀라");
+        Debug.Log("트리거 엔터");
         if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             if (!isBossHit)

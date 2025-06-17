@@ -11,6 +11,7 @@ TagManager:
   - PlayerContact
   - FinishBoss
   - Controller
+  - BossPattern
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - DelProjWall
   - PlayerAttack
   - Platform
-  - 
+  - BossPattern
   - 
   - 
   - 
