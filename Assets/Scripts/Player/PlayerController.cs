@@ -673,13 +673,17 @@ public class PlayerController : MonoBehaviour
                 attackStartPos = new Vector2(-_projectileStartPos.x, _projectileStartPos.y);
                 atttackDirection = false;
             }
-            GameObject instance = Instantiate(_normalAttackPrefab, _attackPoint.position, _attackPoint.rotation, this.transform);
-            instance.transform.localPosition = attackStartPos;
+            Vector3 shootPos = new Vector3(transform.position.x + attackStartPos.x, transform.position.y + attackStartPos.y, transform.position.z);
+
+            GameObject instance = Instantiate(_normalAttackPrefab, shootPos, _attackPoint.rotation);
+
+            //instance.transform.localPosition = attackStartPos;
 
             PlayerNormalAttack attack = instance.GetComponent<PlayerNormalAttack>();
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
 
             int rand = Random.Range(1, 5);
+            Debug.Log(rand);
             SoundManager.Instance.Play($"PlayerSound/PlayerNormalAttack{rand}");
         }
     }
