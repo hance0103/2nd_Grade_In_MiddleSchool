@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class FinishingPopup : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class FinishingPopup : MonoBehaviour
     public GameObject explosionObject1;
     public GameObject explosionObject2;
     public GameObject explosionObject3;
+    public GameObject bigexplosion;
     public GameObject BossPose1;
 
     [Header("텍스트 연출")]
@@ -123,16 +125,15 @@ public class FinishingPopup : MonoBehaviour
 
         /* -- 원하는 ‘빠르기’로 조절 --
            (글자 수 × 0.03초 ≈ 30 ms/글자, 최소 0.5 초 보장)                  */
-        float typingDuration = Mathf.Max(0.5f, narration.Length * 0.1f);
+        float typingDuration = Mathf.Max(0.5f, narration.Length * 0.05f);
         yield return StartCoroutine(TypingText(narration, typingDuration));
         // 잠깐 여운
         yield return new WaitForSeconds(1f);
 
-       
+        float SendingDuration = narration.Length * 0.06f + 2f;
         Playeranimator.Play("NormalAttack");
-        //StartCoroutine(ExplosionRoutine());
         StartCoroutine(SendFlyingText(narration, totalTypingDuration));
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(SendingDuration);
         Playeranimator.Play("Idle");
 
 
@@ -143,19 +144,26 @@ public class FinishingPopup : MonoBehaviour
         // 보스 쓰러지는 애니메이터 추가 예정
         // 예: bossAnimator.SetTrigger("Death");
         GameManager.isFinishBossZoominAllowed = true;
-        yield return new WaitForSeconds(FinishTime - 6f);
+        yield return new WaitForSeconds(1.5f);
+        bigexplosion.transform.position = new Vector3(1150, 500, 0f);
+        if (Stage == 2) { bigexplosion.transform.position = new Vector3(1150, 500, 0f); }
+        bigexplosion.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        bigexplosion.SetActive(false);
 
-
+        yield return new WaitForSeconds(1.5f);
         // 마지막으로 연출이 끝났을 때 화면 전환 또는 오브젝트 비활성화
         CloseFinishing();
     }
+    
     private int lettersWaiting;
+    private int letterslength;
     IEnumerator SendFlyingText(string narration, float totalTypingDuration)
     {
         float dt = totalTypingDuration / narration.Length;
         ChatText.text = narration;
         lettersWaiting = narration.Length;
-
+        letterslength = narration.Length;
         foreach (char c in narration)
         {
             StartCoroutine(SpawnAndWaitLetter(c.ToString()));
@@ -174,7 +182,7 @@ public class FinishingPopup : MonoBehaviour
         // 집단 돌진 & 폭발
         yield return StartCoroutine(LaunchLettersToBoss());
     }
-    private float launchInterval = 0.1f;
+    private float launchInterval = 0.06f;
     IEnumerator LaunchLettersToBoss()
     {
         StartCoroutine(ExplosionRoutine());      // 폭발 이펙트 병행 실행
@@ -238,21 +246,27 @@ public class FinishingPopup : MonoBehaviour
 
     IEnumerator ExplosionRoutine()
     {
-        for (int i = 0; i < 5; i++)
-        {
-            // 폭발 오브젝트들을 각각 랜덤 위치에 배치
-            explosionObject1.transform.position = GetRandomPosition();
-            explosionObject2.transform.position = GetRandomPosition();
-            explosionObject3.transform.position = GetRandomPosition();
+        int Cycles = 1;
+        if (letterslength < 10) { Cycles = 1; }
+        else if (letterslength < 20) { Cycles = 2; }
+        else if (letterslength < 30) { Cycles = 3; }
+        else if (letterslength < 40) { Cycles = 4; }
 
-            // 활성화(애니메이션 시작)
-            StartCoroutine(Explosion1());
-            yield return new WaitForSeconds(0.2f);
-            StartCoroutine(Explosion2());
-            yield return new WaitForSeconds(0.2f);
-            StartCoroutine(Explosion3());
-            yield return new WaitForSeconds(0.2f);
-        }
+        for (int i = 0; i < Cycles; i++)
+            {
+                // 폭발 오브젝트들을 각각 랜덤 위치에 배치
+                explosionObject1.transform.position = GetRandomPosition();
+                explosionObject2.transform.position = GetRandomPosition();
+                explosionObject3.transform.position = GetRandomPosition();
+
+                // 활성화(애니메이션 시작)
+                StartCoroutine(Explosion1());
+                yield return new WaitForSeconds(0.2f);
+                StartCoroutine(Explosion2());
+                yield return new WaitForSeconds(0.2f);
+                StartCoroutine(Explosion3());
+                yield return new WaitForSeconds(0.2f);
+            }
     }
     IEnumerator Explosion1()
     {

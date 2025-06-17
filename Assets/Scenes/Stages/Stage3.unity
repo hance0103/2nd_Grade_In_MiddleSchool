@@ -7281,7 +7281,7 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1129969038}
-  zoomSizeBoss: 1
+  zoomSizeBoss: 3
   zoomDurationBoss: 1
   pauseDurationBoss: 5
   Finishboss: {fileID: 1009866283}
