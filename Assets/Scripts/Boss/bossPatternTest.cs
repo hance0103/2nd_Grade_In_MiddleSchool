@@ -131,11 +131,11 @@ public class bossPatternTest : MonoBehaviour
         }
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            BossState.StrongPattern1,
-            //BossState.StrongPattern2
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.StrongPattern1,
+            BossState.StrongPattern2
         });
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
@@ -800,15 +800,21 @@ public class bossPatternTest : MonoBehaviour
         SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
         yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(5.2f, 5.2f, 1f), strongPattern2Data.BeforeAttackDelay));
         laserStartSR.sortingOrder = -1;
-
+        
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (dangerZone != null) Destroy(dangerZone.gameObject);
+
+        //화면 흑백
+        ScreenGrayscale.SetGrayscale(true, 0.1f);
 
         // 플레이어 바인드
         _playerController.PlayerStop();
         PlayerHPManager.Instance.Stage1_SP2_Bind();
+        
         // 여기
         yield return new WaitForSeconds(2f);
+
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
 
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         animator.SetBool("isPre", false);
