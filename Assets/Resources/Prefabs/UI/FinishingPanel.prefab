@@ -304,8 +304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 322}
-  m_SizeDelta: {x: 5, y: 1.5}
+  m_AnchoredPosition: {x: -100, y: 200}
+  m_SizeDelta: {x: 4, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1095063994075384641
 CanvasRenderer:
@@ -328,14 +328,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.03773582, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 71d79bf573254f644a28e7c73e416105, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1aa7ca7cbb7704c4884b70ab430b66a3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -412,7 +412,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8eac491122c1146429c8848f828d4a71, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
   m_sharedMaterial: {fileID: 6445929676871110110, guid: 8eac491122c1146429c8848f828d4a71, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1
+  m_fontSize: 0.3
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
@@ -579,12 +579,12 @@ MonoBehaviour:
   Timer: {fileID: 0}
   Boss: {fileID: 5438875937288233486}
   oldBoss: {fileID: 0}
-  CharacterPose: {fileID: 3120050735093011618}
+  waitHoldTime: 0.15
   explosionObject1: {fileID: 3109906578594940293}
   explosionObject2: {fileID: 7633104056145804871}
   explosionObject3: {fileID: 4036460271834609627}
   BossPose1: {fileID: 0}
-  startPosition: {x: -15, y: -7, z: 0}
+  startPosition: {x: -12, y: -2.5, z: 0}
   endPosition: {x: -4, y: -7, z: 0}
   letterPrefab: {fileID: 4408722047587706453, guid: 2ee98c49cfd8f8148ac5990e82ad05cf, type: 3}
   UI: {fileID: 0}

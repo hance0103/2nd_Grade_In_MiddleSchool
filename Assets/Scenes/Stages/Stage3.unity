@@ -3956,9 +3956,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5438875937288233486, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+    - {fileID: 3120050735093011618, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1640132069235199032, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
-      insertIndex: 2
+      insertIndex: 1
       addedObject: {fileID: 1009866283}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
@@ -7272,7 +7273,7 @@ MonoBehaviour:
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 11, y: 0}
   boss: {fileID: 1129969038}
-  zoomSizeBoss: 3
+  zoomSizeBoss: 1
   zoomDurationBoss: 1
   pauseDurationBoss: 5
   Finishboss: {fileID: 1009866283}
