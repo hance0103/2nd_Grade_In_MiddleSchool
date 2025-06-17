@@ -218,6 +218,7 @@ public class BossPattern2 : MonoBehaviour
         #endregion
     }
     private const float PATTERN_GAP = 0.001f;
+    private bool isDelayed = false;
     private IEnumerator FinishPattern()
     {
         EndPattern = true;
@@ -236,9 +237,10 @@ public class BossPattern2 : MonoBehaviour
             yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
             currentState = BossState.Idle; // Idle에서 다시 새로운 패턴 받아오기
             currentCoroutine = null; // Idle 실행 조건
-            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP())
+            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && !isDelayed)
             {
                 yield return new WaitForSeconds(2f);
+                isDelayed = true;
             }
         }
         currentBossStateArray = null;

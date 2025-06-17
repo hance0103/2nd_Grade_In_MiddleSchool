@@ -131,11 +131,11 @@ public class bossPatternTest : MonoBehaviour
         }
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
             BossState.WeakPattern3,
             BossState.StrongPattern1,
-            BossState.StrongPattern2
+            //BossState.StrongPattern2
         });
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
@@ -238,6 +238,7 @@ public class bossPatternTest : MonoBehaviour
 
     }
     private const float PATTERN_GAP = 0.0001f;
+    private bool isDelayed = false;
     private IEnumerator FinishPattern()
     {
         EndPattern = true;
@@ -255,9 +256,10 @@ public class bossPatternTest : MonoBehaviour
         {
             currentState = currentBossStateArray[i];
             yield return new WaitUntil(() => currentState == BossState.None);
-            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP())
+            if (BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && !isDelayed)
             {
                 yield return new WaitForSeconds(2f);
+                isDelayed = true;
             }
         }
         currentState = BossState.Idle;
