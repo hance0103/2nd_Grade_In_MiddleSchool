@@ -101,6 +101,7 @@ public class Boss3 : MonoBehaviour
     [Header("약공 4, 5 공용 데이터")]
     [SerializeField] private ProjectileScriptableObject weak4ProjData;
     [SerializeField] private GameObject MusicProjectile;
+    [SerializeField] private float musicProjectileHitTime;
 
     [Header("광폭화 패턴 데이터")]
     [SerializeField] private BossScriptableObject enragedPatternData;
@@ -871,6 +872,7 @@ public class Boss3 : MonoBehaviour
         );
 
         GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
+        StartCoroutine(weak5HitRemove(projectile));
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
         if (behaviour == null)
         {
@@ -979,6 +981,7 @@ public class Boss3 : MonoBehaviour
         );
 
         GameObject projectile = Instantiate(MusicProjectile, vec, Quaternion.identity);
+        StartCoroutine(weak5HitRemove(projectile));
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
         if (behaviour == null)
         {
@@ -1008,6 +1011,14 @@ public class Boss3 : MonoBehaviour
         Destroy(projectileController.gameObject);
         #endregion
 
+    }
+
+    private IEnumerator weak5HitRemove(GameObject projectileObject)
+    {
+        
+        yield return new WaitForSeconds(musicProjectileHitTime);
+        projectileObject.GetComponent<CircleCollider2D>().enabled = false;
+        Debug.Log("피격 판정 제거");
     }
     #endregion
 

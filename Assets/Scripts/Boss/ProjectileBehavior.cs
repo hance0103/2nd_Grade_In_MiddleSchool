@@ -57,6 +57,7 @@ public class ProjectileBehaviour : MonoBehaviour
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                  collision.gameObject.layer == delProjWallLayer) // Ground 또는 DelProjWall과 충돌
         {
+            Debug.Log("회수");
             ReleaseProjectile();
         }
     }
@@ -75,10 +76,10 @@ public class ProjectileBehaviour : MonoBehaviour
             isReleased = true; // 반환 상태 설정
             gameObject.SetActive(false); // 비활성화 추가
             pool.Release(gameObject); // Object Pool로 반환
-            //if (!gameObject.activeInHierarchy)
-            //{
-            //    Destroy(gameObject);
-            //}
+            if (!gameObject.activeInHierarchy)
+            {
+                Destroy(gameObject);
+            }
         }
     }
     private void OnDisable()
