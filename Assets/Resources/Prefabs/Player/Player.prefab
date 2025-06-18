@@ -242,7 +242,7 @@ MonoBehaviour:
   camShakeDuration: 0.2
   camShakeMagnitude: 0.2
   bindTimer: 1
-  _hitOjbect: {fileID: 3576758083249799280}
+  _hitCollider: {fileID: 3413741197682053332}
   enemy: {fileID: 0}
   isKeyboardControll: 1
   controller: {fileID: 0}

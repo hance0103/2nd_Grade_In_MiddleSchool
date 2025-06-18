@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -284,6 +288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -354,6 +362,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -574,6 +586,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -780,6 +796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -850,6 +870,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -1214,6 +1238,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1273,6 +1301,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
   m_PrefabInstance: {fileID: 110621461}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &126756723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 126756724}
+  m_Layer: 0
+  m_Name: WP5_Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &126756724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126756723}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 548611909}
+  - {fileID: 1669035847}
+  - {fileID: 2112311685}
+  - {fileID: 863242638}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &128768944
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,6 +1639,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1646,6 +1713,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -1718,6 +1789,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1789,6 +1864,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1859,6 +1938,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -2036,6 +2119,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -2106,6 +2193,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -2178,6 +2269,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -2248,6 +2343,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -2602,6 +2701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (24)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -2672,6 +2775,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -2744,6 +2851,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -2814,6 +2925,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -2886,6 +3001,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -2956,6 +3075,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -3160,6 +3283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3231,6 +3358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3301,6 +3432,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -3503,6 +3638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3573,6 +3712,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -3645,6 +3788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3715,6 +3862,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -3787,6 +3938,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3857,6 +4012,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -4059,6 +4218,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -4129,6 +4292,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -4234,7 +4401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548611908}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4261,7 +4428,7 @@ Transform:
   - {fileID: 1368636925}
   - {fileID: 688486493}
   - {fileID: 279107901}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 126756724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565311671
 GameObject:
@@ -4349,6 +4516,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -4751,6 +4922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -4896,6 +5071,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -5253,6 +5432,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -5511,6 +5694,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -5758,6 +5945,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -5828,6 +6019,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -5912,7 +6107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863242637}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5942,7 +6137,7 @@ Transform:
   - {fileID: 1061547316}
   - {fileID: 322933492}
   - {fileID: 643074757}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 126756724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &870250280
 PrefabInstance:
@@ -5955,6 +6150,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -6027,6 +6226,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -6097,6 +6300,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -6373,6 +6580,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -7121,6 +7332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7191,6 +7406,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -7369,6 +7588,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7439,6 +7662,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -7679,6 +7906,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7783,6 +8014,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7853,6 +8088,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -7925,6 +8164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7995,6 +8238,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -8168,6 +8415,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -8478,11 +8729,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111619027}
   m_CullTransparentMesh: 0
---- !u!61 &1124232179 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 3413741197682053332, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-  m_PrefabInstance: {fileID: 1953349571}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1125952061
 GameObject:
   m_ObjectHideFlags: 0
@@ -8720,6 +8966,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak5Delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak5Object
+      value: 
+      objectReference: {fileID: 126756723}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: _wp2LaserDelay
       value: 1
       objectReference: {fileID: 0}
@@ -8777,6 +9031,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -9362,6 +9620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -9432,6 +9694,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -9773,6 +10039,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -9843,6 +10113,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -9991,6 +10265,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -10061,6 +10339,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -10326,6 +10608,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -10396,6 +10682,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -10468,6 +10758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -10538,6 +10832,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -10641,6 +10939,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -10711,6 +11013,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -11150,6 +11456,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -11444,6 +11754,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -11525,6 +11839,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -11596,6 +11914,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -11666,6 +11988,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -11812,6 +12138,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -12218,6 +12548,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -12422,6 +12756,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -12640,6 +12978,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -12710,6 +13052,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -12794,7 +13140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669035846}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12822,7 +13168,7 @@ Transform:
   - {fileID: 57890463}
   - {fileID: 1021306598}
   - {fileID: 1499007090}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 126756724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1701716984 stripped
 GameObject:
@@ -12975,6 +13321,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -13061,8 +13411,8 @@ Transform:
   m_GameObject: {fileID: 1761104110}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.66, y: -2.24, z: 0.060115114}
-  m_LocalScale: {x: 1, y: 9.817607, z: 1}
+  m_LocalPosition: {x: 25.8872, y: -3.0973, z: 0.060115114}
+  m_LocalScale: {x: 3.4545, y: 11.531761, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1046336146}
@@ -13306,6 +13656,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -13377,6 +13731,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -13447,6 +13805,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -13625,6 +13987,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -13695,6 +14061,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -14008,6 +14378,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -14079,6 +14453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -14149,6 +14527,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -14353,6 +14735,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -14424,10 +14810,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.55
@@ -14468,10 +14850,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6020451732659679773, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: DefeatPopup
       value: 
@@ -14488,10 +14866,6 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 541900552}
-    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
-      propertyPath: _hitCollider
-      value: 
-      objectReference: {fileID: 1124232179}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14638,6 +15012,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -14830,6 +15208,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -14900,6 +15282,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -15051,7 +15437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2048989184
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15130,6 +15516,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -15314,8 +15704,8 @@ Transform:
   m_GameObject: {fileID: 2061387918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9093, y: -4.8879, z: 0}
-  m_LocalScale: {x: 34.12478, y: 0.99548155, z: 1}
+  m_LocalPosition: {x: 5.9093, y: -5.5528, z: 0}
+  m_LocalScale: {x: 34.12478, y: 2.3253455, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -15605,8 +15995,8 @@ Transform:
   m_GameObject: {fileID: 2097548409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.56, y: -2.19, z: 0.060115114}
-  m_LocalScale: {x: 1, y: 10.093507, z: 1}
+  m_LocalPosition: {x: -10.7287, y: -3.0077, z: 0.060115114}
+  m_LocalScale: {x: 3.3373, y: 11.729565, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1046336146}
@@ -15825,6 +16215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -15895,6 +16289,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -15979,7 +16377,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112311684}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16009,7 +16407,7 @@ Transform:
   - {fileID: 1078895189}
   - {fileID: 1924070785}
   - {fileID: 287876975}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 126756724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2116096715
 GameObject:
@@ -16067,6 +16465,10 @@ PrefabInstance:
     - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_Name
       value: MusicProj (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
@@ -16214,6 +16616,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicProj (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 4219906739377575671, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8907851999574300548, guid: fa4f7eb7d20774c4f803d70a1e8cc578, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -16295,7 +16701,4 @@ SceneRoots:
   - {fileID: 1917125289}
   - {fileID: 962102726}
   - {fileID: 1774764253}
-  - {fileID: 548611909}
-  - {fileID: 1669035847}
-  - {fileID: 2112311685}
-  - {fileID: 863242638}
+  - {fileID: 126756724}

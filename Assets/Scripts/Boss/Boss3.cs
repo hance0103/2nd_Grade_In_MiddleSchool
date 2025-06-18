@@ -1,9 +1,11 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Boss3 : MonoBehaviour
 {
@@ -89,6 +91,12 @@ public class Boss3 : MonoBehaviour
     [Header("약공격5 데이터")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
     [SerializeField] private LaserScriptableObject weak5LaserData;
+    [SerializeField] private GameObject weak5Object;
+    [SerializeField] private GameObject warningPrefab;
+    private List<GameObject> weak5ObjectList;
+    private Dictionary<int, List<Vector3>> weak5PosDict;
+
+    [SerializeField] private float weak5Delay;
 
     [Header("약공 4, 5 공용 데이터")]
     [SerializeField] private ProjectileScriptableObject weak4ProjData;
@@ -120,6 +128,33 @@ public class Boss3 : MonoBehaviour
     Animator animator;
     #endregion
 
+    private void Awake()
+    {
+        weak5ObjectList = new();
+        foreach (Transform child in weak5Object.transform)
+        {
+            weak5ObjectList.Add(child.gameObject);
+        }
+
+        weak5PosDict = new();
+        int dictIndex = 1;
+        foreach (GameObject weak5 in weak5ObjectList)
+        {
+            List<Vector3> vecList = new();
+
+            foreach (Transform child in weak5.transform)
+            {
+                vecList.Add(child.position);
+            }
+            weak5PosDict.Add(dictIndex, vecList);
+            dictIndex++;
+        }
+
+        foreach( var list in weak5PosDict)
+        {
+            Debug.Log($"{list.Key} : {list.Value.Count}");
+        }
+    }
 
     void Start()
     {
@@ -888,12 +923,111 @@ public class Boss3 : MonoBehaviour
         transform.position = new Vector2(rightBound - 10, bottomBound + 4);
         FacePlayer();
 
-        // 기본 3회 광폭화 4회
-        int totalPatternCount = isEnraged ? 4 : 3;
-        for (int i = 0; i < totalPatternCount; i++)
-        {
 
+        //List<Vector3> vectorList = new();
+        //weak5PosDict.TryGetValue(1, out vectorList);
+
+        foreach (var list in weak5PosDict.Values)
+        {
+            foreach (var vec in list)
+            {
+                StartCoroutine(warningCoroutine(vec));
+
+            }
+            yield return new WaitForSeconds(weak5Delay);
         }
+
+
+        
+        StartCoroutine(FinishPattern());
+    }
+    private IEnumerator warningCoroutine(Vector3 vec)
+    {
+        // 경고 표시 생성
+        GameObject warningObj = Instantiate(warningPrefab);
+        SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
+
+        //#region 원형 스프라이트 직접 생성
+        //Texture2D circleTexture = new Texture2D(128, 128);
+        //for (int y = 0; y < circleTexture.height; y++)
+        //{
+        //    for (int x = 0; x < circleTexture.width; x++)
+        //    {
+        //        float dx = x - circleTexture.width / 2;
+        //        float dy = y - circleTexture.height / 2;
+        //        float distance = Mathf.Sqrt(dx * dx + dy * dy);
+        //        float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+        //        circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+        //    }
+        //}
+        //circleTexture.Apply();
+
+        //Sprite circleSprite = Sprite.Create(circleTexture,
+        //    new Rect(0, 0, circleTexture.width, circleTexture.height),
+        //    new Vector2(0.5f, 0.5f));
+        //#endregion
+        #region 경고 관련
+        // 경고 표시 설정
+        //warningRenderer.sprite = circleSprite;
+        warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
+        warningRenderer.transform.position = vec;
+        //warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
+        warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
+
+        // 경고 표시 깜빡임
+        float warningDuration = isEnraged ? 0.5f : 0.7f;
+        float currentTime = 0f;
+
+        while (currentTime < warningDuration)
+        {
+            float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f; // 최소 알파값 증가
+            warningRenderer.color = new Color(1f, 0f, 0f, alpha);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(warningObj);
+        #endregion
+
+        #region 폭발 프로젝타일 생성
+        ProjectileController projectileController = ProjectileController.Create(
+            weak4ProjData,
+            transform,
+            player.transform,
+            MusicProjectile,
+            false
+        );
+
+        GameObject projectile = Instantiate(MusicProjectile, vec, Quaternion.identity);
+        ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+        if (behaviour == null)
+        {
+            behaviour = projectile.AddComponent<ProjectileBehaviour>();
+        }
+        behaviour.Initialize(weak4ProjData.Damage, null);
+
+        float explosionDuration = isEnraged ? 0.25f : 0.5f;
+        //float startScale = 0.5f;
+        float endScale = isEnraged ? 3f : 3f;
+        float elapsed = 0f;
+
+        while (elapsed < explosionDuration)
+        {
+            //float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
+            projectile.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+            float alpha = 1f - (elapsed / explosionDuration);
+            SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
+            if (projRenderer != null)
+            {
+                projRenderer.color = new Color(1f, 1f, 1f, alpha);
+            }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(projectile);
+        Destroy(projectileController.gameObject);
+        #endregion
 
     }
     #endregion
