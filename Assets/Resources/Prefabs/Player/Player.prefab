@@ -23,7 +23,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5949930095949123849
 Transform:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   playerObject: {fileID: 3470539325071022635}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
-  Stage: 1
+  Stage: 3
   _InvincibleTime: 1
 --- !u!114 &7146377930768844338
 MonoBehaviour:
@@ -242,6 +242,7 @@ MonoBehaviour:
   camShakeDuration: 0.2
   camShakeMagnitude: 0.2
   bindTimer: 1
+  _hitOjbect: {fileID: 3576758083249799280}
   enemy: {fileID: 0}
   isKeyboardControll: 1
   controller: {fileID: 0}

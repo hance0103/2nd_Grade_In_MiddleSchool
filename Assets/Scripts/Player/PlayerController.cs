@@ -116,6 +116,9 @@ public class PlayerController : MonoBehaviour
     [Header("PlayerHit")]
     [SerializeField]
     private float bindTimer = 1f;
+    [SerializeField]
+    private BoxCollider2D _hitCollider;
+    private Vector2 _hitColliderOffset;
 
     public GameObject enemy;
 
@@ -180,6 +183,8 @@ public class PlayerController : MonoBehaviour
         dashEffectPosX = dashEffect.transform.localPosition.x;
         dashEffectPosY = dashEffect.transform.localPosition.y;
         dashEffect.SetActive(false);
+
+        _hitColliderOffset = _hitCollider.offset;
 
         hitCol = null;
     }
@@ -418,10 +423,13 @@ public class PlayerController : MonoBehaviour
             if (moveInput > 0)
             {
                 collider2d.offset = colliderOffset;
+                _hitCollider.offset = _hitColliderOffset;
             }
             else if (moveInput < 0)
             {
                 collider2d.offset = new Vector2(-colliderOffset.x, colliderOffset.y);
+
+                _hitCollider.offset = new Vector2 (-_hitColliderOffset.x, _hitColliderOffset.y);
             }
         }
         else if (currentState is MoveState)

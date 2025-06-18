@@ -131,8 +131,8 @@ public class Boss3 : MonoBehaviour
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            //BossState.WeakPattern4,
+            BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -884,174 +884,17 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
+        // 보스 위치 조정
         transform.position = new Vector2(rightBound - 10, bottomBound + 4);
         FacePlayer();
 
-        // 3번의 공격 패턴 실행
-        int totalPatternCount = 3;
-        for (int patternCount = 0; patternCount < totalPatternCount; patternCount++)
+        // 기본 3회 광폭화 4회
+        int totalPatternCount = isEnraged ? 4 : 3;
+        for (int i = 0; i < totalPatternCount; i++)
         {
-            Debug.Log($"약공격5 - {patternCount + 1}번째 패턴");
 
-            // 4개의 패턴 위치 배열 중 하나를 선택
-            Transform[] patternPositions;
-            int randomPatternIndex = Random.Range(0, 4);
-
-            switch (randomPatternIndex)
-            {
-                case 0:
-                    patternPositions = pattern51Positions;
-                    break;
-                case 1:
-                    patternPositions = pattern52Positions;
-                    break;
-                case 2:
-                    patternPositions = pattern53Positions;
-                    break;
-                case 3:
-                default:
-                    patternPositions = pattern54Positions;
-                    break;
-            }
-
-            // 선택한 패턴 위치 배열 사용
-            List<Transform> selectedPositions = new List<Transform>(patternPositions);
-
-            // 모든 위치에 대한 경고 표시 동시 생성
-            List<GameObject> warningObjects = new List<GameObject>();
-            foreach (Transform position in selectedPositions)
-            {
-                GameObject warningObj = new GameObject($"Warning_{patternCount}_{selectedPositions.IndexOf(position)}");
-                SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
-
-                #region 원형 스프라이트 생성
-
-                Texture2D circleTexture = new Texture2D(128, 128);
-                for (int y = 0; y < circleTexture.height; y++)
-                {
-                    for (int x = 0; x < circleTexture.width; x++)
-                    {
-                        float dx = x - circleTexture.width / 2;
-                        float dy = y - circleTexture.height / 2;
-                        float distance = Mathf.Sqrt(dx * dx + dy * dy);
-                        float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
-                        circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
-                    }
-                }
-                circleTexture.Apply();
-
-                Sprite circleSprite = Sprite.Create(circleTexture,
-                    new Rect(0, 0, circleTexture.width, circleTexture.height),
-                    new Vector2(0.5f, 0.5f));
-                #endregion
-
-                // 경고 표시 설정
-                warningRenderer.sprite = circleSprite;
-                warningRenderer.color = new Color(1f, 0f, 0f, 0.7f);
-                warningRenderer.transform.position = position.position;
-                warningRenderer.transform.localScale = new Vector3(4f, 4f, 1f);
-                warningRenderer.sortingOrder = 10;
-
-                warningObjects.Add(warningObj);
-            }
-
-            // 경고 표시 깜빡임
-            float warningDuration = isEnraged ? 0.7f : 1f;
-            float currentTime = 0f;
-
-            while (currentTime < warningDuration)
-            {
-                float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f;
-                foreach (GameObject warningObj in warningObjects)
-                {
-                    SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
-                    warningRenderer.color = new Color(1f, 0f, 0f, alpha);
-                }
-                currentTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // 경고 표시 제거
-            foreach (GameObject warningObj in warningObjects)
-            {
-                Destroy(warningObj);
-            }
-
-            // 모든 위치에 동시에 폭발 생성
-            List<GameObject> projectiles = new List<GameObject>();
-            List<ProjectileController> projectileControllers = new List<ProjectileController>();
-
-            foreach (Transform position in selectedPositions)
-            {
-                ProjectileController projectileController = ProjectileController.Create(
-                    weak4ProjData,
-                    transform,
-                    player.transform,
-                    MusicProjectile,
-                    false
-                );
-                projectileControllers.Add(projectileController);
-
-                GameObject projectile = Instantiate(MusicProjectile, position.position, Quaternion.identity);
-                ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
-                if (behaviour == null)
-                {
-                    behaviour = projectile.AddComponent<ProjectileBehaviour>();
-                }
-                behaviour.Initialize(weak4ProjData.Damage, null);
-                projectiles.Add(projectile);
-            }
-
-            // 폭발 애니메이션
-            float explosionDuration = isEnraged ? 0.25f : 0.5f;
-            float startScale = 0.5f;
-            float endScale = isEnraged ? 3f : 2f;
-            float elapsed = 0f;
-
-            while (elapsed < explosionDuration)
-            {
-                float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
-                float alpha = 1f - (elapsed / explosionDuration);
-
-                foreach (GameObject projectile in projectiles)
-                {
-                    projectile.transform.localScale = new Vector3(scale, scale, 1f);
-                    SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
-                    if (projRenderer != null)
-                    {
-                        projRenderer.color = new Color(1f, 1f, 1f, alpha);
-                    }
-                }
-
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            // 프로젝타일과 ProjectileController 정리
-            foreach (GameObject projectile in projectiles)
-            {
-                Destroy(projectile);
-            }
-
-            foreach (ProjectileController controller in projectileControllers)
-            {
-                if (controller != null && controller.gameObject != null)
-                {
-                    Destroy(controller.gameObject);
-                }
-            }
-
-            // 다음 패턴 전 대기
-            if (patternCount < totalPatternCount - 1)
-            {
-                float timeBetweenPatterns = isEnraged ? 1f : 1.5f;
-                yield return new WaitForSeconds(timeBetweenPatterns);
-            }
         }
 
-        yield return new WaitForSeconds(weakPattern5Data.AfterAttackDelay);
-
-        yield return StartCoroutine(FinishPattern());
     }
     #endregion
 
