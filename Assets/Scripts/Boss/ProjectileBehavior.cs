@@ -11,11 +11,16 @@ public class ProjectileBehaviour : MonoBehaviour
     private bool isReleased = false; // 반환 여부 확인용 플래그
     private int delProjWallLayer; // DelProjWall 레이어 캐싱
 
-    public void Initialize(float damage, ObjectPool<GameObject> pool)
+    private BossProjectileEffect effect;
+
+    public void Initialize(float damage, ObjectPool<GameObject> pool, BossProjectileEffect effect = null)
     {
         this.damage = damage;
         this.pool = pool;
         isReleased = false; // 반환 상태 초기화
+
+        this.effect = effect;
+
     }
 
     private void Awake()
@@ -37,6 +42,16 @@ public class ProjectileBehaviour : MonoBehaviour
             SoundManager.Instance.EffectSoundOn("21");
             //Debug.Log($"{damage}데미지 받아야함");
             PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
+
+            if (effect != null)
+            {
+                Debug.Log($"지속시간 {effect.time} 최대속도 {effect.maxSpeed}");
+
+                GameManager.Inst.player.PlayerSlow(effect.time, effect.maxSpeed, effect.accel);
+                
+            }
+
+
             ReleaseProjectile();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") ||

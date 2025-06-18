@@ -1,45 +1,65 @@
+using JetBrains.Annotations;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProjectileScriptableObject", menuName = "Scriptable Object/ProjectileScriptableObject", order = int.MaxValue)]
 
 public class ProjectileScriptableObject : ScriptableObject
 {
-    [Header("Åõ»çÃ¼ °ü·Ã ¼³Á¤")]
-    // µ¥¹ÌÁö
+    [Header("íˆ¬ì‚¬ì²´ ê´€ë ¨ ì„¤ì •")]
+    // ë°ë¯¸ì§€
     [SerializeField] private float damage;
     public float Damage { get { return damage; } }
     
-    //Åõ»çÃ¼¼Óµµ
+    //íˆ¬ì‚¬ì²´ì†ë„
     [SerializeField] private float projectileSpeed;
     public float ProjectileSpeed { get { return projectileSpeed; } }
     
-    //Åõ»çÃ¼ °³¼ö
+    //íˆ¬ì‚¬ì²´ ê°œìˆ˜
     [SerializeField] private float projectileCount;
     public float ProjectileCount { get { return projectileCount; } }
 
-    // ¹ß»çÃ¼ Å©±â
+    // ë°œì‚¬ì²´ í¬ê¸°
     [SerializeField] private Vector3 projectileScale;
     public Vector3 ProjectileScale { get { return projectileScale; } }
 
-    // ¼öÁ÷ °£°İ
+    // ìˆ˜ì§ ê°„ê²©
     [SerializeField] private float verticalSpacing = 1f;
     public float VerticalSpacing { get { return verticalSpacing; } }
 
 
-    [Header("½Ã°£ °ü·Ã ¼³Á¤")]
-    // ¹ß»ç ¼Óµµ (ÃÊ´ç ¹ß»çÃ¼ ¼ö)
+    [Header("ì‹œê°„ ê´€ë ¨ ì„¤ì •")]
+    // ë°œì‚¬ ì†ë„ (ì´ˆë‹¹ ë°œì‚¬ì²´ ìˆ˜)
     [SerializeField] private float fireRate;
     public float FireRate { get { return fireRate; } }
 
-    //// Áö¼Ó½Ã°£
+    //// ì§€ì†ì‹œê°„
     //[SerializeField] private float patternDuration;
     //public float PatternDuration { get { return patternDuration; } }
 
-    //// ÆĞÅÏ ¹İº¹ °£°İ
+    //// íŒ¨í„´ ë°˜ë³µ ê°„ê²©
     //[SerializeField] private float patternRepeatDelay = 0.5f;
     //public float PatternRepeatDelay { get { return patternRepeatDelay; } }
 
-    // Åõ»çÃ¼°¡ È­¸éÀ» ¿ÏÀüÈ÷ ¹ş¾î³¯ ¶§±îÁöÀÇ ¿¹»ó ½Ã°£
+    // íˆ¬ì‚¬ì²´ê°€ í™”ë©´ì„ ì™„ì „íˆ ë²—ì–´ë‚  ë•Œê¹Œì§€ì˜ ì˜ˆìƒ ì‹œê°„
     [SerializeField] private float afterFireDelay = 0.5f;
     public float AfterFireDelay { get { return afterFireDelay; } }
+
+    public BossProjectileEffect effect;
+}
+
+[Serializable]
+public class BossProjectileEffect
+{
+    public float time;
+    public float maxSpeed;
+    public float accel;
+
+    public BossProjectileEffect(float time, float maxSpeed, float accel)
+    {
+        this.time = time;
+        this.maxSpeed = maxSpeed;
+        this.accel = accel;
+    }
 }

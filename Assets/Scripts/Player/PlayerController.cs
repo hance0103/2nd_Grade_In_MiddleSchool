@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -157,6 +158,7 @@ public class PlayerController : MonoBehaviour
     public float playerHitShakeDuration = 0.2f;
 
     Collider2D hitCol;
+
 
     private void Awake()
     {
@@ -876,6 +878,25 @@ public class PlayerController : MonoBehaviour
         return _blinkDelay;
     }
 
+    public void PlayerSlow(float time, float speedLimit, float accelLimit)
+    {
+        StartCoroutine(PlayerSlowCoroutine(time, speedLimit, accelLimit)); ;
+    }
+    private IEnumerator PlayerSlowCoroutine(float time, float speedLimit, float accelLimit)
+    {
+       
+
+        float originMaxSpeed = maxSpeed;
+
+        maxSpeed = speedLimit;
+        nowSpeed = maxSpeed;
+
+
+        yield return new WaitForSeconds(time);
+
+        Debug.Log($"원래속도 {originMaxSpeed}로 속도 복구");
+        maxSpeed = originMaxSpeed;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

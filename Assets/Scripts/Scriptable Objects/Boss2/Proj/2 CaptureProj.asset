@@ -19,3 +19,7 @@ MonoBehaviour:
   verticalSpacing: 0
   fireRate: 1
   afterFireDelay: 0.5
+  effect:
+    time: 0.5
+    maxSpeed: 5
+    accel: 0

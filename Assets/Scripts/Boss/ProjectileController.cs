@@ -34,7 +34,7 @@ public class ProjectileController : MonoBehaviour
         {
             behaviour = proj.AddComponent<ProjectileBehaviour>();
         }
-        behaviour.Initialize(projectileData.Damage, projectilePool);
+        behaviour.Initialize(projectileData.Damage, projectilePool, projectileData.effect);
         
         return proj;
     }
@@ -48,6 +48,9 @@ public class ProjectileController : MonoBehaviour
         controller.projectilePrefab = prefab;
         controller.isEnraged = enraged;
         controllerObj.transform.position = bossTransform.position;
+
+
+
         return controller;
     }
 
