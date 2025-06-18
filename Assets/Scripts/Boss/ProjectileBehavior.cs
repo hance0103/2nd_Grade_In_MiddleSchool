@@ -44,7 +44,9 @@ public class ProjectileBehaviour : MonoBehaviour
             //Debug.Log($"{damage}데미지 받아야함");
             PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
 
-            if (effect.effectActive)
+
+            
+            if (effect != null && effect.effectActive)
             {
                 Debug.Log($"지속시간 {effect.time} 최대속도 {effect.maxSpeed}");
 

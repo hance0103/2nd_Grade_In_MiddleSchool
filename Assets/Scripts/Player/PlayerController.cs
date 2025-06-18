@@ -538,6 +538,7 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerDefeat()
     {
+        ChangeState(new IdleState(this));
         _canPlayerControll = false;
         anim.PlayAnimation("Defeat");
     }
