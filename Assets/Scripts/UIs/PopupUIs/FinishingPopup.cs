@@ -142,7 +142,7 @@ public class FinishingPopup : MonoBehaviour
         // 보스 쓰러지는 애니메이터 추가 예정
         // 예: bossAnimator.SetTrigger("Death");
         GameManager.isFinishBossZoominAllowed = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         bigexplosion.transform.position = new Vector3(1150, 500, 0f);
         if (Stage == 2) { bigexplosion.transform.position = new Vector3(1150, 500, 0f); }
         bigexplosion.SetActive(true);
