@@ -23,9 +23,10 @@ public class LaserController2 : MonoBehaviour
 
     public void Initialize(LaserScriptableObject data, Transform target)
     {
+        int laserLayer = LayerMask.NameToLayer("ColorOnly");
         playerTransform = target;
         laserData = data;
-
+        gameObject.layer = laserLayer;
         // SpriteRenderer 추가 및 설정
         gameObject.transform.SetParent(transform);
         spriteRenderer = gameObject.AddComponent<SpriteRenderer>();

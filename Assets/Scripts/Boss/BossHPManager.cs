@@ -126,6 +126,7 @@ public class BossHPManager : MonoBehaviour
         }
         Debug.Log("스테이지 1 보스가 사망했습니다.");
         Boss.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage1OpenInputPanel();
         
@@ -152,6 +153,7 @@ public class BossHPManager : MonoBehaviour
         }
         Debug.Log("스테이지 2 보스가 사망했습니다.");
         Boss.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage2OpenInputPanel();
         
@@ -178,6 +180,7 @@ public class BossHPManager : MonoBehaviour
         }
         Debug.Log("스테이지 3 보스가 사망했습니다.");
         Boss.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         VictoryInputPopup.SetActive(true);
         victoryTextPopupScript.Stage3OpenInputPanel();
         

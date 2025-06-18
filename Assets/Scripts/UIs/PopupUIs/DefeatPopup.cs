@@ -51,6 +51,7 @@ public class DefeatPopup : MonoBehaviour
     public void OpenDefeat1()
     {
         Controller.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts1.Length);
         StartCoroutine(NormalChat(Defeattexts1[randomIndex]));
@@ -66,6 +67,7 @@ public class DefeatPopup : MonoBehaviour
     public void OpenDefeat2()
     {
         Controller.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts2.Length);
         StartCoroutine(NormalChat(Defeattexts2[randomIndex]));
@@ -81,6 +83,7 @@ public class DefeatPopup : MonoBehaviour
     public void OpenDefeat3()
     {
         Controller.SetActive(false);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts3.Length);
         StartCoroutine(NormalChat(Defeattexts3[randomIndex]));
