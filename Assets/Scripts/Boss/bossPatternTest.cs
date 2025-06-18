@@ -806,21 +806,22 @@ public class bossPatternTest : MonoBehaviour
 
         //화면 흑백
         ScreenGrayscale.SetGrayscale(true, 0.1f);
-
         // 플레이어 바인드
         _playerController.PlayerStop();
         PlayerHPManager.Instance.Stage1_SP2_Bind();
         
         // 여기
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
 
         ScreenGrayscale.SetGrayscale(false, 0.1f);
 
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         animator.SetBool("isPre", false);
         SoundManager.Instance.EffectSoundOn("16-2");
-        yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
 
+        yield return new WaitForSeconds(0.1f);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
+        yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
 
         Destroy(laserStart);
         _playerController.PlayerResume();

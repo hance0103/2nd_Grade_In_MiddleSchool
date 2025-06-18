@@ -22,6 +22,6 @@ MonoBehaviour:
   maxDistance: 100
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   laserFollowDuration: 2
   laserLockDuration: 1
