@@ -12,6 +12,7 @@ TagManager:
   - FinishBoss
   - Controller
   - BossPattern
+  - NoGray
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - PlayerAttack
   - Platform
   - BossPattern
-  - 
+  - ColorOnly
   - 
   - 
   - 

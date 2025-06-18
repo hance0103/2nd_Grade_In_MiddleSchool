@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1186353309928912431}
   - component: {fileID: -6951697581698296038}
   - component: {fileID: 5346643104654612035}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LaserStart_E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
