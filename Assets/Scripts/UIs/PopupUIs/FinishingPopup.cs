@@ -14,6 +14,7 @@ public class FinishingPopup : MonoBehaviour
     public GameObject ClosingTextPanel;
     public GameObject Timer;
 
+
     [Header("플레이어/보스 오브젝트")]
     private GameObject player;
     [SerializeField] private GameObject Boss;
@@ -80,12 +81,10 @@ public class FinishingPopup : MonoBehaviour
         if (Stage == 1)
         {
             finalChat = PlayerPrefs.GetString("FinalText1", "죽어라!");
-            Bossanimator.SetBool("isEnraged", true);
         }
         else if (Stage == 2)
         {
             finalChat = PlayerPrefs.GetString("FinalText2", "죽어라!");
-            Bossanimator.SetBool("isEnraged", true);
         }
         else if (Stage == 3)
         {
@@ -99,9 +98,8 @@ public class FinishingPopup : MonoBehaviour
     private float totalTypingDuration = 0.5f; // 대사가 완전히 출력되는 데 걸리는 시간 (5초)
     IEnumerator OpenText(string narration)
     {
-        Timer.SetActive(false);
         oldBoss.SetActive(false);
-        Boss.SetActive(true);
+        //Boss.SetActive(true);
         if (Boss != null)
         {
             if (Stage == 2)

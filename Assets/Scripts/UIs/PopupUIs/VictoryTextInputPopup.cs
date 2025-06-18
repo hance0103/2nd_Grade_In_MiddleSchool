@@ -1,6 +1,7 @@
+using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI; // 일반 UI를 쓴다면
-using TMPro;
 
 public class VictoryTextInputPopup : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class VictoryTextInputPopup : MonoBehaviour
     public GameObject FinishPanel;
     private string savedData;
 
+    [Header("비활성화용 UI")]
+    public GameObject PlayerHP;
+    public GameObject BossHP;
+    public GameObject timer1;
+    public GameObject timerBG;
+
     [Header("Fade Image (화면 전체 덮는 Image)")]
     [SerializeField] private Image fadeImage; // 검은색 이미지
 
@@ -20,10 +27,31 @@ public class VictoryTextInputPopup : MonoBehaviour
     [Header("Player & Boss")]
     private GameObject player;
     private GameObject boss;
+
+    [Header("연출용 Boss")]
+    [SerializeField] private GameObject FinishBoss;
+    [Header("스테이지")]
+    public int Stage;
     /// <summary>
     /// 외부 버튼(메인 버튼)에서 이 함수를 연결하여 패널을 열도록 함
     /// </summary>
-
+    private void Start()
+    {
+        PlayerHP.SetActive(false); BossHP.SetActive(false); timer1.SetActive(false); timerBG.SetActive(false);
+        FinishBoss.SetActive(true);
+        if (FinishBoss != null)
+        {
+            if (Stage == 2)
+            {
+                FinishBoss.transform.position = new Vector3(6.5f, 1.67f, 0f);
+            }
+            else
+            {
+                FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
+            }
+            FinishBoss.SetActive(true);
+        }
+    }
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");

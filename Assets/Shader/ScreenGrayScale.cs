@@ -25,8 +25,6 @@ public class ScreenGrayscale : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
 
-        if (!Application.isPlaying) return;      // 에디터 모드면 아래 코드 건너뜀
-        DontDestroyOnLoad(gameObject);           // 이제 예외 안 남
 
         if (grayscaleMat == null)
         {

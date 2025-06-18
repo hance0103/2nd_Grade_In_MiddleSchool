@@ -41,24 +41,6 @@ public class ColorCamera : MonoBehaviour
             return;
         }
 
-        // ============ 보스 HP 50% 이하 체크 → 한 번만 이벤트 실행 ============
-        //if (!isEnrageEventTriggered &&
-        //    BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        //{
-        //    isEnrageEventTriggered = true;
-        //    StartCoroutine(ZoomToBossCoroutine());
-        //}
-        // ============ 보스 사망 체크 → 한 번만 이벤트 실행 ============
-        //if (!isDieEventTriggered &&
-        //    BossHPManager.Instance.GetCurrentHP() == BossHPManager.Instance.GetMaxHP() * 0f)
-        //{
-        //    isDieEventTriggered = true;
-        //    StartCoroutine(ZoomToPlayerCoroutine());
-        //}
-        // 이벤트 중이면(줌 연출 코루틴 진행중) 평소의 카메라 따라가기 로직 중단
-        
-        // ============ 평상시 카메라 이동(플레이어 추적) ============
-        //광폭화 연출로 줌 이벤트가 끝나면 다시 여기로 돌아오게 됨
         Vector3 targetPos = new Vector3(
             player.transform.position.x,
             player.transform.position.y,
