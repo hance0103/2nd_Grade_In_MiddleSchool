@@ -21,6 +21,6 @@ MonoBehaviour:
   afterFireDelay: 0.5
   effect:
     effectActive: 1
-    time: 0.5
-    maxSpeed: 5
+    time: 5
+    maxSpeed: 10
     accel: 0
