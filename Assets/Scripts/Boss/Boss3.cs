@@ -614,7 +614,7 @@ public class Boss3 : MonoBehaviour
         FacePlayer();
 
         // 레이저 나오는 횟수
-        int rand = Random.Range(1, 5);
+        int rand = Random.Range(3, 5);
         Debug.Log(rand);
 
 
