@@ -165,9 +165,9 @@ public class Boss3 : MonoBehaviour
         patternDic.Add(0, new BossState[] {
             //BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
-            BossState.WeakPattern5,
+            BossState.WeakPattern3,
+            BossState.WeakPattern4,
+            //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -601,13 +601,14 @@ public class Boss3 : MonoBehaviour
         Debug.Log(selectedData);
 
         #region 맵데이터
+        float bottomBound = mapWidthPositions[0].position.y - 1;
         float topBound = mapWidthPositions[1].position.y + 1;
         float leftBound = mapWidthPositions[0].position.x;
         float rightBound = mapWidthPositions[1].position.x;
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, topBound - 4);
+        transform.position = new Vector2(centerBound, bottomBound + 8.9f);
         FacePlayer();
 
         // 총 4번 반복
@@ -625,7 +626,7 @@ public class Boss3 : MonoBehaviour
 
                     // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
                     List<LineRenderer> warningLines = new List<LineRenderer>();
-                    float offset = 2.5f; // 오프셋 거리
+                    float offset = 3f; // 오프셋 거리
 
                     // 경고선 생성
                     for (int i = 0; i < 4; i++)
@@ -920,7 +921,7 @@ public class Boss3 : MonoBehaviour
         #endregion
 
         // 보스 위치 조정
-        transform.position = new Vector2(rightBound - 10, bottomBound + 4);
+        transform.position = new Vector2(rightBound - 16, bottomBound + 4);
         FacePlayer();
 
 
@@ -947,40 +948,19 @@ public class Boss3 : MonoBehaviour
         GameObject warningObj = Instantiate(warningPrefab);
         SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
 
-        //#region 원형 스프라이트 직접 생성
-        //Texture2D circleTexture = new Texture2D(128, 128);
-        //for (int y = 0; y < circleTexture.height; y++)
-        //{
-        //    for (int x = 0; x < circleTexture.width; x++)
-        //    {
-        //        float dx = x - circleTexture.width / 2;
-        //        float dy = y - circleTexture.height / 2;
-        //        float distance = Mathf.Sqrt(dx * dx + dy * dy);
-        //        float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
-        //        circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
-        //    }
-        //}
-        //circleTexture.Apply();
-
-        //Sprite circleSprite = Sprite.Create(circleTexture,
-        //    new Rect(0, 0, circleTexture.width, circleTexture.height),
-        //    new Vector2(0.5f, 0.5f));
-        //#endregion
         #region 경고 관련
         // 경고 표시 설정
-        //warningRenderer.sprite = circleSprite;
         warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
         warningRenderer.transform.position = vec;
-        //warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
         warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
 
         // 경고 표시 깜빡임
-        float warningDuration = isEnraged ? 0.5f : 0.7f;
+        float warningDuration = isEnraged ? 1.5f : 1.7f;
         float currentTime = 0f;
 
         while (currentTime < warningDuration)
         {
-            float alpha = Mathf.PingPong(currentTime * 5f, 0.7f) + 0.3f; // 최소 알파값 증가
+            float alpha = Mathf.PingPong(currentTime * 3f, 0.7f) + 0.3f; // 최소 알파값 증가
             warningRenderer.color = new Color(1f, 0f, 0f, alpha);
             currentTime += Time.deltaTime;
             yield return null;
@@ -1006,9 +986,8 @@ public class Boss3 : MonoBehaviour
         }
         behaviour.Initialize(weak4ProjData.Damage, null);
 
-        float explosionDuration = isEnraged ? 0.25f : 0.5f;
-        //float startScale = 0.5f;
-        float endScale = isEnraged ? 3f : 3f;
+        float explosionDuration = isEnraged ? 0.25f : 0.25f;
+
         float elapsed = 0f;
 
         while (elapsed < explosionDuration)
