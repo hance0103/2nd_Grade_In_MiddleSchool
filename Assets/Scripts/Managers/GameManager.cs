@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
     public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
     public static bool isPlayerZoomOutAllowed = false;
     public static bool isFinishBossZoominAllowed = false;
+
+    public static bool isStage1Cleared = false;
+    public static bool isStage2Cleared = false;
+    public static bool isStage3Cleared = false;
+
     private void Awake()
     {
         Init();

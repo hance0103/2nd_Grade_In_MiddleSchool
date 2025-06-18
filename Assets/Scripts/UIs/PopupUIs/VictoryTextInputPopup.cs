@@ -99,6 +99,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText1", savedData);
+        PlayerPrefs.SetInt("Stage1Clear", 1);
         PlayerPrefs.Save();
         //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
@@ -109,6 +110,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText2", savedData);
+        PlayerPrefs.SetInt("Stage2Clear", 1);
         PlayerPrefs.Save();
         //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
@@ -120,7 +122,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         savedData = inputField.text;
         PlayerPrefs.SetString("FinalText3", savedData);
-        
+        PlayerPrefs.SetInt("Stage3Clear", 1);
         PlayerPrefs.Save();
         //boss.SetActive(true);
         GameManager.isPlayerZoomOutAllowed = true;
