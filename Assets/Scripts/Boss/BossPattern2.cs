@@ -110,10 +110,10 @@ public class BossPattern2 : MonoBehaviour
 
         //패턴 조합 영역
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
+            BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.Groggy
         });
@@ -137,9 +137,19 @@ public class BossPattern2 : MonoBehaviour
     private bool Enrageactive = true;
     private void BossEnrage()
     {
+        if (this.transform.childCount != 0)
+        {
+            foreach (Transform child in this.transform)
+            {
+                child.gameObject.GetComponent<ProjectileBehaviour>().ReleaseProjectile();
+            }
+        }
+
         player.GetComponent<PlayerController>().PlayerStop();
         BossEnragePopup.SetActive(true);
         BossEnragePopupScript.OnEnrage();
+
+
         
     }
     void Update()
@@ -434,6 +444,7 @@ public class BossPattern2 : MonoBehaviour
 
             // 1. 경고선 생성 및 플레이어 추적
             LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+            warningLine.transform.SetParent(this.transform);
             warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
             StartCoroutine(BlinkDangerZone(warningLine));
 
@@ -543,7 +554,8 @@ public class BossPattern2 : MonoBehaviour
         yield return thirdLayer;
         yield return fourthLayer;
 
-        
+        Debug.Log("패턴 종료");
+        Destroy(Controller.gameObject);
     }
     #endregion
 

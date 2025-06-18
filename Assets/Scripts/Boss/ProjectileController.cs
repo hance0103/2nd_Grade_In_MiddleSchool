@@ -158,6 +158,7 @@ public class ProjectileController : MonoBehaviour
             );
 
             GameObject projectile = projectilePool.Get();
+
             projectile.transform.parent = bossTransform;
             projectile.transform.position = basePosition;
             projectile.transform.rotation = Quaternion.Euler(0, 0, angle);

@@ -11,6 +11,7 @@ public class ProjectileBehaviour : MonoBehaviour
     private bool isReleased = false; // 반환 여부 확인용 플래그
     private int delProjWallLayer; // DelProjWall 레이어 캐싱
 
+    
     private BossProjectileEffect effect;
 
     public void Initialize(float damage, ObjectPool<GameObject> pool, BossProjectileEffect effect = null)
@@ -43,7 +44,7 @@ public class ProjectileBehaviour : MonoBehaviour
             //Debug.Log($"{damage}데미지 받아야함");
             PlayerHPManager.Instance.TakeDamage(damage); // 플레이어 HP 직접 감소
 
-            if (effect != null)
+            if (effect.effectActive)
             {
                 Debug.Log($"지속시간 {effect.time} 최대속도 {effect.maxSpeed}");
 
@@ -68,7 +69,7 @@ public class ProjectileBehaviour : MonoBehaviour
         ReleaseProjectile();
     }
 
-    private void ReleaseProjectile()
+    public void ReleaseProjectile()
     {
         if (!isReleased && pool != null && gameObject != null) // 반환되지 않은 경우만 실행
         {
@@ -76,10 +77,12 @@ public class ProjectileBehaviour : MonoBehaviour
             isReleased = true; // 반환 상태 설정
             gameObject.SetActive(false); // 비활성화 추가
             pool.Release(gameObject); // Object Pool로 반환
-            if (!gameObject.activeInHierarchy)
-            {
-                Destroy(gameObject);
-            }
+
+            //if (!gameObject.activeInHierarchy)
+            //{
+            //    Debug.Log("destroy");
+            //    Destroy(gameObject);
+            //}
         }
     }
     private void OnDisable()

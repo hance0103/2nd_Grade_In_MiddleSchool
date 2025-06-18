@@ -52,14 +52,16 @@ public class ProjectileScriptableObject : ScriptableObject
 [Serializable]
 public class BossProjectileEffect
 {
+    public bool effectActive;
     public float time;
     public float maxSpeed;
     public float accel;
 
-    public BossProjectileEffect(float time, float maxSpeed, float accel)
+    public BossProjectileEffect(float time, float maxSpeed, float accel, bool effectActive)
     {
         this.time = time;
         this.maxSpeed = maxSpeed;
         this.accel = accel;
+        this.effectActive = effectActive;
     }
 }

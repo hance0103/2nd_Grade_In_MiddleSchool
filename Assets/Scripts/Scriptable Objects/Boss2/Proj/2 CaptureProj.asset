@@ -20,6 +20,7 @@ MonoBehaviour:
   fireRate: 1
   afterFireDelay: 0.5
   effect:
+    effectActive: 1
     time: 0.5
     maxSpeed: 5
     accel: 0
