@@ -595,6 +595,7 @@ public class Boss3 : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
+
         Debug.Log(isEnraged ? "약공격3 - 광폭화" : "약공격3");
         currentState = BossState.WeakPattern3;
 
@@ -612,166 +613,164 @@ public class Boss3 : MonoBehaviour
         transform.position = new Vector2(centerBound, bottomBound + 8.9f);
         FacePlayer();
 
-        // 총 4번 반복
-        for (int attackCount = 0; attackCount < 4; attackCount++)
+        // 레이저 나오는 횟수
+        int rand = Random.Range(1, 5);
+        Debug.Log(rand);
+
+
+        for (int j = 0; j < rand; j++)
         {
-            int rand = Random.Range(1, 5);
-            Debug.Log(rand);
-
-
-            for (int j = 0; j < rand; j++)
+            // 짝수번째 우물정자 레이저
+            if (j % 2 == 1)
             {
-                if (j % 2 == 1)
+                Debug.Log($"우물정자 레이저");
+
+                // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
+                List<LineRenderer> warningLines = new List<LineRenderer>();
+                float offset = 3f; // 오프셋 거리
+
+                // 경고선 생성
+                for (int i = 0; i < 4; i++)
                 {
-                    Debug.Log($"우물정자 레이저");
-
-                    // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
-                    List<LineRenderer> warningLines = new List<LineRenderer>();
-                    float offset = 3f; // 오프셋 거리
-
-                    // 경고선 생성
-                    for (int i = 0; i < 4; i++)
-                    {
-                        LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-                        StartCoroutine(BlinkDangerZone(warningLine));
-                        warningLines.Add(warningLine);
-                    }
-
-                    float trackingTime = 0f;
-
-                    while (trackingTime < selectedData.LaserFollowDuration)
-                    {
-                        Vector2 playerPos = (Vector2)player.transform.position;
-
-                        // 세로 레이저 경고선 (왼쪽, 오른쪽)
-                        warningLines[0].SetPosition(0, new Vector2(playerPos.x + offset, topBound));
-                        warningLines[0].SetPosition(1, new Vector2(playerPos.x + offset, leftBound));
-
-                        warningLines[1].SetPosition(0, new Vector2(playerPos.x - offset, topBound));
-                        warningLines[1].SetPosition(1, new Vector2(playerPos.x - offset, leftBound));
-
-                        // 수평 레이저 경고선 (위, 아래)
-                        warningLines[2].SetPosition(0, new Vector2(leftBound, playerPos.y + offset));
-                        warningLines[2].SetPosition(1, new Vector2(rightBound, playerPos.y + offset));
-
-                        warningLines[3].SetPosition(0, new Vector2(leftBound, playerPos.y - offset));
-                        warningLines[3].SetPosition(1, new Vector2(rightBound, playerPos.y - offset));
-
-                        trackingTime += Time.deltaTime;
-                        yield return null;
-                    }
-
-                    // 쏠 때까지의 딜레이
-                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
-
-
-                    // 경고선 제거
-                    foreach (var line in warningLines)
-                    {
-                        Destroy(line.gameObject);
-                    }
-
-                    // 우물 정자 패턴 레이저 발사
-                    // 경고선 위치에 맞춰 레이저 발사
-                    foreach (var warningLine in warningLines)
-                    {
-                        Vector2 startPos = warningLine.GetPosition(0); // 경고선의 시작 위치를 가져옵니다.
-                        Vector2 endPos = warningLine.GetPosition(1); // 경고선의 끝 위치를 가져옵니다.
-
-                        LaserController2 laser = LaserController2.Create(
-                            weak3LaserData,
-                            startPos,
-                            null
-                        );
-                        laser.SetTargetLayer(selectedData.TargetLayer);
-                        animator.SetTrigger("isNormal");
-                        StartCoroutine(laser.FireLaser(
-                            startPos,
-                            endPos // 경고선의 끝 위치로 발사
-                        ));
-                    }
-
-                    // 다음 공격 전 대기
-                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
+                    LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
                 }
-                else
+
+                float trackingTime = 0f;
+
+                while (trackingTime < selectedData.LaserFollowDuration)
                 {
-                    Debug.Log($"십자 레이저");
-                    List<LineRenderer> warningLines = new List<LineRenderer>();
-                    for (int i = 0; i < 4; i++)
-                    {
-                        LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-                        StartCoroutine(BlinkDangerZone(warningLine));
-                        warningLines.Add(warningLine);
-                    }
+                    Vector2 playerPos = (Vector2)player.transform.position;
 
-                    float trackingTime = 0f;
-                    float trackingDuration = selectedData.LaserFollowDuration;
-                    Vector2 fixedPosition = Vector2.zero;
-                    bool isPositionFixed = false; // 위치 고정 상태를 추적하는 변수 추가
+                    // 세로 레이저 경고선 (왼쪽, 오른쪽)
+                    warningLines[0].SetPosition(0, new Vector2(playerPos.x + offset, topBound));
+                    warningLines[0].SetPosition(1, new Vector2(playerPos.x + offset, leftBound));
 
-                    while (trackingTime < trackingDuration)
-                    {
-                        // 추적 중일 때만 플레이어 위치 업데이트
-                        Vector2 currentPosition = isPositionFixed ? fixedPosition : (Vector2)player.transform.position;
-                        //float offset = isPenetratingCross ? 0f : 2f;
-                        float offset = 0f;
-                        // 수직 레이저 경고선 (위, 아래)
-                        warningLines[0].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
-                        warningLines[0].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y + 50f));
+                    warningLines[1].SetPosition(0, new Vector2(playerPos.x - offset, topBound));
+                    warningLines[1].SetPosition(1, new Vector2(playerPos.x - offset, leftBound));
 
-                        warningLines[1].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
-                        warningLines[1].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y - 50f));
+                    // 수평 레이저 경고선 (위, 아래)
+                    warningLines[2].SetPosition(0, new Vector2(leftBound, playerPos.y + offset));
+                    warningLines[2].SetPosition(1, new Vector2(rightBound, playerPos.y + offset));
 
-                        // 수평 레이저 경고선 (왼쪽, 오른쪽)
-                        warningLines[2].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
-                        warningLines[2].SetPosition(1, new Vector2(currentPosition.x + 50f, currentPosition.y));
+                    warningLines[3].SetPosition(0, new Vector2(leftBound, playerPos.y - offset));
+                    warningLines[3].SetPosition(1, new Vector2(rightBound, playerPos.y - offset));
 
-                        warningLines[3].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
-                        warningLines[3].SetPosition(1, new Vector2(currentPosition.x - 50f, currentPosition.y));
-
-                        trackingTime += Time.deltaTime;
-                        yield return null;
-                    }
-
-                    fixedPosition = (Vector2)player.transform.position;
-                    isPositionFixed = true;
-                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
-
-                    // 먼저 경고선 위치 정보를 저장
-                    List<Vector2[]> laserPaths = new List<Vector2[]>();
-                    foreach (var line in warningLines)
-                    {
-                        laserPaths.Add(new Vector2[] { line.GetPosition(0), line.GetPosition(1) });
-                    }
-
-                    // 경고선 제거
-                    foreach (var line in warningLines)
-                    {
-                        Destroy(line.gameObject);
-                    }
-
-                    // 저장된 정확한 위치로 레이저 발사
-                    for (int i = 0; i < laserPaths.Count; i++)
-                    {
-                        Vector2 exactStartPos = laserPaths[i][0];
-                        Vector2 exactEndPos = laserPaths[i][1];
-
-                        LaserController2 laser = LaserController2.Create(
-                            weak3LaserData,
-                            exactStartPos,
-                            null
-                        );
-                        laser.SetTargetLayer(selectedData.TargetLayer);
-                        animator.SetTrigger("isNormal");
-                        StartCoroutine(laser.FireLaser(
-                            exactStartPos,
-                            exactEndPos
-                        ));
-                    }
-                    // 다음 공격 전 대기
-                    yield return new WaitForSeconds(selectedData.LaserLockDuration);
+                    trackingTime += Time.deltaTime;
+                    yield return null;
                 }
+
+                // 쏠 때까지의 딜레이
+                yield return new WaitForSeconds(selectedData.LaserLockDuration);
+
+
+                // 경고선 제거
+                foreach (var line in warningLines)
+                {
+                    Destroy(line.gameObject);
+                }
+
+                // 우물 정자 패턴 레이저 발사
+                // 경고선 위치에 맞춰 레이저 발사
+                foreach (var warningLine in warningLines)
+                {
+                    Vector2 startPos = warningLine.GetPosition(0); // 경고선의 시작 위치를 가져옵니다.
+                    Vector2 endPos = warningLine.GetPosition(1); // 경고선의 끝 위치를 가져옵니다.
+
+                    LaserController2 laser = LaserController2.Create(
+                        weak3LaserData,
+                        startPos,
+                        null
+                    );
+                    laser.SetTargetLayer(selectedData.TargetLayer);
+                    animator.SetTrigger("isNormal");
+                    StartCoroutine(laser.FireLaser(
+                        startPos,
+                        endPos // 경고선의 끝 위치로 발사
+                    ));
+                }
+
+                // 다음 공격 전 대기
+                yield return new WaitForSeconds(selectedData.LaserLockDuration);
+            }
+            else    // 홀수번째 십자 레이저
+            {
+                Debug.Log($"십자 레이저");
+                List<LineRenderer> warningLines = new List<LineRenderer>();
+                for (int i = 0; i < 4; i++)
+                {
+                    LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
+                }
+
+                float trackingTime = 0f;
+                float trackingDuration = selectedData.LaserFollowDuration;
+                Vector2 fixedPosition = Vector2.zero;
+                bool isPositionFixed = false; // 위치 고정 상태를 추적하는 변수 추가
+
+                while (trackingTime < trackingDuration)
+                {
+                    // 추적 중일 때만 플레이어 위치 업데이트
+                    Vector2 currentPosition = isPositionFixed ? fixedPosition : (Vector2)player.transform.position;
+                    //float offset = isPenetratingCross ? 0f : 2f;
+                    float offset = 0f;
+                    // 수직 레이저 경고선 (위, 아래)
+                    warningLines[0].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
+                    warningLines[0].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y + 50f));
+
+                    warningLines[1].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
+                    warningLines[1].SetPosition(1, new Vector2(currentPosition.x, currentPosition.y - 50f));
+
+                    // 수평 레이저 경고선 (왼쪽, 오른쪽)
+                    warningLines[2].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
+                    warningLines[2].SetPosition(1, new Vector2(currentPosition.x + 50f, currentPosition.y));
+
+                    warningLines[3].SetPosition(0, new Vector2(currentPosition.x, currentPosition.y));
+                    warningLines[3].SetPosition(1, new Vector2(currentPosition.x - 50f, currentPosition.y));
+
+                    trackingTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                fixedPosition = (Vector2)player.transform.position;
+                isPositionFixed = true;
+                yield return new WaitForSeconds(selectedData.LaserLockDuration);
+
+                // 먼저 경고선 위치 정보를 저장
+                List<Vector2[]> laserPaths = new List<Vector2[]>();
+                foreach (var line in warningLines)
+                {
+                    laserPaths.Add(new Vector2[] { line.GetPosition(0), line.GetPosition(1) });
+                }
+
+                // 경고선 제거
+                foreach (var line in warningLines)
+                {
+                    Destroy(line.gameObject);
+                }
+
+                // 저장된 정확한 위치로 레이저 발사
+                for (int i = 0; i < laserPaths.Count; i++)
+                {
+                    Vector2 exactStartPos = laserPaths[i][0];
+                    Vector2 exactEndPos = laserPaths[i][1];
+
+                    LaserController2 laser = LaserController2.Create(
+                        weak3LaserData,
+                        exactStartPos,
+                        null
+                    );
+                    laser.SetTargetLayer(selectedData.TargetLayer);
+                    animator.SetTrigger("isNormal");
+                    StartCoroutine(laser.FireLaser(
+                        exactStartPos,
+                        exactEndPos
+                    ));
+                }
+                // 다음 공격 전 대기
+                yield return new WaitForSeconds(selectedData.LaserLockDuration);
             }
         }
 
