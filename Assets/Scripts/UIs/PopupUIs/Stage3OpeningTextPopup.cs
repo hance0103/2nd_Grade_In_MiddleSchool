@@ -22,13 +22,12 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     public GameObject controller;
 
     [Header("오프닝 스크립트 캐릭터/보스 스프라이트")]
-    public GameObject CharacterPose1; // 손가락 포즈, 신난 표정
-    public GameObject CharacterPose2; // 머리에 손 포즈, 눈 감고 미소
-    public GameObject CharacterPose3; // 손가락 포즈, 화난 표정(이글이글)
-    public GameObject CharacterPose4; // 머리에 손 포즈, 어둡고 째려보는 표정(분노를 억누르는 듯한)
-    public GameObject CharacterPose5; // 젖히고 웃는 포즈
-    public GameObject CharacterPose6; // 머리에 손 포즈, 진지한 표정
-    public GameObject CharacterPose7; // 눈에 붉은기운이 돈다
+    public Image character1; // 손가락 포즈, 비웃는 표정
+    public Image character2; // 손가락 포즈, 진지한 표정
+    public Image character3; // 머리에 손 포즈, 기본표정
+    public Image character4; // 머리에 손 포즈, 놀란 표정
+    public Image character5; // 머리에 손 포즈, 비웃는 표정
+    public Image boss1;
 
     [Header("플레이어/보스 오브젝트")]
     [SerializeField] private GameObject Player;
@@ -64,41 +63,52 @@ public class Stage3OpeningTextPopup : MonoBehaviour
         var timer = FindObjectOfType<Timer>();
         StartCoroutine(OpeningTextStage3());
         Timer.SetActive(false);
-        Time.timeScale = 0;
     }
     IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
     {
-        yield return StartCoroutine(NormalChat("", "(지루한 수업시간...)"));
-        SoundManager.Instance.EffectSoundOn("28");
-        yield return StartCoroutine(NormalChat("", "(딩동댕동~)"));
-        yield return StartCoroutine(NormalChat("주인공", "드디어..!"));
-        yield return StartCoroutine(NormalChat("", "(후다닥 뛰쳐 나간다)"));
-        SoundManager.Instance.EffectSoundOn("running");
-        StartCoroutine(MoveToPosition(targetObject, targetPosition, moveDuration));
-        yield return StartCoroutine(NormalChat("주인공", "두근거린다.."));
-        yield return StartCoroutine(NormalChat("주인공", "하루종일 기다렸던 무대..."));
-        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
-        yield return StartCoroutine(NormalChat("주인공", "밴드의 선율이 온몸을 감싼다"));
-        yield return StartCoroutine(NormalChat("주인공", "짜릿해 ! 즐거워 !"));
-        yield return StartCoroutine(NormalChat("주인공", "이 순간이 영원했으면.."));
-        yield return StartCoroutine(NormalChat("주인공", "알 수 없는 이 떨림"));
+        yield return StartCoroutine(FadeInImageFromRight(character5, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "여기서 한발만 내딛으면... 분명 이 몸에 어울리는 동료를 많이..."));
+        character5.gameObject.SetActive(false);
 
-        yield return StartCoroutine(NormalChat("최종보스", "즐겁니?"));
+        yield return StartCoroutine(NormalChat("", "..."));
+        yield return StartCoroutine(NormalChat("???", "( 고작 공연 따위를 잘한다고 동료가 생길까..?)"));
 
-        yield return StartCoroutine(NormalChat("주인공", "너..너는??"));
-        yield return StartCoroutine(NormalChat("주인공", "내 숙원의 적이자 라이벌.."));
-        yield return StartCoroutine(NormalChat("주인공", "하필 이런 곳에서 이 타이밍에.."));
-        yield return StartCoroutine(NormalChat("주인공", "네놈은 항상 날 방해하는군.."));
+        yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "... "));
+        yield return StartCoroutine(NormalChat("주인공", "분명..."));
+        character3.gameObject.SetActive(false);
 
-        yield return StartCoroutine(NormalChat("최종보스", "후후.."));
-        yield return StartCoroutine(NormalChat("최종보스", "무대를 망치러 왔다 !"));
-        yield return StartCoroutine(NormalChat("최종보스", "함께 놀아 볼까?"));
+        yield return StartCoroutine(NormalChat("???", "( 그럼 너의 그 1년 반은 뭐였지? )"));
+        yield return StartCoroutine(NormalChat("", "..."));
+        yield return StartCoroutine(NormalChat("???", "( 이 현실을 그냥 외면하고 있던 것 아닌가? )"));
 
-        yield return StartCoroutine(NormalChat("주인공", "인정하기 싫지만 네놈은 나와 견줄 만한 [힘]을 갖고 있다"));
-        yield return StartCoroutine(NormalChat("주인공", "승리를 장담할 수는 없지만.."));
-        yield return StartCoroutine(NormalChat("주인공", "네놈이 원하는 대로 흘러가도록 둘 수 없다"));
-        yield return StartCoroutine(NormalChat("주인공", "덤벼라"));
-        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
+        yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "알아... "));
+        yield return StartCoroutine(NormalChat("주인공", "안다고...! "));
+        yield return StartCoroutine(NormalChat("주인공", "이 이상한 성격 때문인 거 잘 안다고..."));
+        yield return StartCoroutine(NormalChat("주인공", "그렇지만 두렵다고..! "));
+        yield return StartCoroutine(NormalChat("주인공", "사람들이랑 대화하는 것도..."));
+        yield return StartCoroutine(NormalChat("주인공", "누군가와 관계를 맺는 것도..."));
+        character3.gameObject.SetActive(false);
+
+        yield return StartCoroutine(NormalChat("???", "( 분명 실수 하게 될 것이다. )"));
+
+        yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "...아니야!"));
+        yield return StartCoroutine(NormalChat("주인공", "두 손을 벌벌 떨면서 공연 신청을 할 때도...!"));
+        yield return StartCoroutine(NormalChat("주인공", "실수 하지 않으려고 수 백 수 천 번을 연습할 때도...! "));
+        yield return StartCoroutine(NormalChat("주인공", "난 내 자신을 바꾸기 위해서 선택했고"));
+        yield return StartCoroutine(NormalChat("주인공", "여기까지 온거라고...!."));
+        character2.gameObject.SetActive(false);
+
+        yield return StartCoroutine(NormalChat("???", "( 그렇다면 증명해라. )"));
+
+        yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "..."));
+        yield return StartCoroutine(NormalChat("주인공", "그래... "));
+        yield return StartCoroutine(NormalChat("주인공", "들어줘... 나의 시작의 광시곡을..."));
+        character3.gameObject.SetActive(false);
+
         CloseOpeningText();
     }
     void OnNextButtonClicked()

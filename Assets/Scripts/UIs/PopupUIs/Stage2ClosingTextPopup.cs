@@ -22,11 +22,12 @@ public class Stage2ClosingTextPopup : MonoBehaviour
 
     //변경 필요
     [Header("클로징 스크립트 캐릭터/보스 스프라이트")]
-    public GameObject CharacterPose1; // 손가락 포즈, 비웃는 표정
-    public GameObject CharacterPose2; // 머리에 손 포즈, 진지한 표정
-    public GameObject CharacterPose3; // 자지러지게 웃는 표정
-    public GameObject CharacterPose4; // 머리에 손 포즈, 신난 표정
-    public GameObject BossPose;
+    public Image character1; // 손가락 포즈, 비웃는 표정
+    public Image character2; // 손가락 포즈, 진지한 표정
+    public Image character3; // 머리에 손 포즈, 기본표정
+    public Image character4; // 머리에 손 포즈, 놀란 표정
+    public Image character5; // 머리에 손 포즈, 비웃는 표정
+    public Image boss1;
 
     private bool isFullTextDisplayed = false;
     private bool isNextButtonClicked = false;
@@ -51,18 +52,22 @@ public class Stage2ClosingTextPopup : MonoBehaviour
     }
     IEnumerator ClosingTextStage2() //("등장인물", "대사")로 입력 
     {
-
-        yield return StartCoroutine(NormalChat("주인공", "이 몸을 가뒀던 더러운 기운이 이제야 사라졌군.."));
-        yield return StartCoroutine(NormalChat("주인공", "거미 주제에 날 성가시게 하다니.."));
-        yield return StartCoroutine(NormalChat("주인공", "다시 마주치는 날엔 잘근잘근 밟아 주마"));
-        yield return StartCoroutine(NormalChat("거미", "오만한 자여.."));
-        yield return StartCoroutine(NormalChat("거미", "승리도 너의 착각이다.."));
+        yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "잘가라 [정념의 잔존물]이여...! 이걸로 끝이다!"));
+        character2.gameObject.SetActive(false);
+        yield return StartCoroutine(NormalChat("", "(소녀는 청심환을 삼켰다.)"));
+        //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
+        yield return StartCoroutine(NormalChat("거미", "큭... 승리도 너의 착각이다.."));
         yield return StartCoroutine(NormalChat("거미", "내 저주는 널 따라다닐 것이다.."));
+        //boss1.gameObject.SetActive(false);
+        yield return StartCoroutine(FadeInImageFromRight(character5, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "흥, 어디 한 번 실컷 저주해 보거라 !"));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸 털끝 하나 건드리지 못할 것이다"));
-        yield return StartCoroutine(NormalChat("주인공", "약골 같으니.."));
-        yield return StartCoroutine(NormalChat("주인공", "다시는 교실의 평화를 깨뜨리지 말아라"));
-        yield return StartCoroutine(NormalChat("", "3스테이지에 진입합니다"));
+        character5.gameObject.SetActive(false);
+        yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "이 몸의 숙원을 막을 수 있다고 생각한 너의 그 [오만]..."));
+        yield return StartCoroutine(NormalChat("주인공", "그것이 너의 패착이다.."));
+        yield return StartCoroutine(NormalChat("주인공", "소음의 저편으로 사라져라."));
+        character2.gameObject.SetActive(false);
         CloseClosingText();
     }
     void Update()

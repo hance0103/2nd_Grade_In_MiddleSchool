@@ -39,18 +39,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     {
         PlayerHP.SetActive(false); BossHP.SetActive(false); timer1.SetActive(false); timerBG.SetActive(false);
         FinishBoss.SetActive(true);
-        if (FinishBoss != null)
-        {
-            if (Stage == 2)
-            {
-                FinishBoss.transform.position = new Vector3(6.5f, 1.67f, 0f);
-            }
-            else
-            {
-                FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
-            }
-            FinishBoss.SetActive(true);
-        }
+        
     }
     private void Awake()
     {
@@ -64,6 +53,10 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage1OpenInputPanel()
     {
+        if (FinishBoss != null)
+        {
+            FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
+        }
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
@@ -73,7 +66,11 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     public void Stage2OpenInputPanel()
     {
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        if (FinishBoss != null)
+        {
+            FinishBoss.transform.position = new Vector3(6.5f, 2f, 0f);
+        }
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, 2f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
@@ -83,6 +80,10 @@ public class VictoryTextInputPopup : MonoBehaviour
 
     public void Stage3OpenInputPanel()
     {
+        if (FinishBoss != null)
+        {
+            FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
+        }
         StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();

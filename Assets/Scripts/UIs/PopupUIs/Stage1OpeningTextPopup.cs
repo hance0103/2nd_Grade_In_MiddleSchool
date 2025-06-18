@@ -67,33 +67,39 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     }
     IEnumerator OpeningTextStage1() //("등장인물", "대사")로 입력
     {
-        yield return StartCoroutine(FadeInImageFromRight(character1, 0.5f, 100f));
+        yield return StartCoroutine(FadeInImageFromRight(character1, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "오늘은 이 몸이 문화재에 공연을 하러 가는 초-스페셜한 날 !!"));
-        yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭"));
-        yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 자비를 베풀어 인간놈들과 어울려 주겠다 !"));
-        yield return StartCoroutine(NormalChat("주인공", "나타났구나."));
+        yield return StartCoroutine(NormalChat("주인공", "벌써 1년 반 째 이 몸에 어울리는 동료를 찾지 못했지만... "));
+        yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 이 몸이 자비를 베풀어"));
+        yield return StartCoroutine(NormalChat("주인공", "기필코!! 인간놈들과 어울려 주겠다!"));
+        yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭."));
         character1.gameObject.SetActive(false);
-        yield return StartCoroutine(FadeInImageFromRight(character2, 0.5f, 100f));
+        //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
+        yield return StartCoroutine(NormalChat("???", "거기까지다 소녀여..."));
+        //boss1.gameObject.SetActive(false);
+        yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
+        yield return StartCoroutine(NormalChat("주인공", "나타났구나."));
         yield return StartCoroutine(NormalChat("주인공", "엉겁의 세월 동안 [오 레 사 마]를 잡아두고"));
         yield return StartCoroutine(NormalChat("주인공", "지각이라는 치욕스러운 경험을 하게 했던..."));
-        yield return StartCoroutine(NormalChat("주인공", "신호등 !!!"));
+        yield return StartCoroutine(NormalChat("주인공", "[멈춤을 속삭이는 자]...!"));
         yield return StartCoroutine(NormalChat("주인공", "오늘만큼은 네게 허비할 시간이 없다"));
         yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..사라져라."));
         yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
         character2.gameObject.SetActive(false);
-        yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
-        yield return StartCoroutine(NormalChat("신호등", "연약한 [소녀]여"));
-        yield return StartCoroutine(NormalChat("신호등", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
-        yield return StartCoroutine(NormalChat("신호등", "안타깝지만 오늘도 [패배]를 안겨 주마."));
-        boss1.gameObject.SetActive(false);
-        yield return StartCoroutine(FadeInImageFromRight(character3, 0.5f, 100f));
+        //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
+        yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "연약한 [소녀]여"));
+        yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
+        yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "모든 사물은 내 앞에서 멈춘다."));
+        yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "예외는 없다 소녀여..."));
+        //boss1.gameObject.SetActive(false);
+        yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "아-? 하찮구나 고작 속세의 [미물] 따위가-"));
-        yield return StartCoroutine(NormalChat("주인공", "감히 [마왕]에게 도전장을 던진다는 것이냐?"));
-        yield return StartCoroutine(NormalChat("주인공", "뭐 그렇게 나온다면 할 수 없지.."));
-        yield return StartCoroutine(NormalChat("주인공", "정의를 위해"));
-        yield return StartCoroutine(NormalChat("주인공", "[처리한다.]"));
+        yield return StartCoroutine(NormalChat("주인공", "감히 나... ?"));
+        yield return StartCoroutine(NormalChat("주인공", "[적혈의 서약자(bloody valentine)]에게 도전장을 던진다는 것이냐?"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "뭐 그렇게 나온다면 할 수 없지.."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "정의를 위해"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "[처리한다.]"));
         character3.gameObject.SetActive(false);
-        yield return StartCoroutine(NormalChat("", "전투에 진입합니다"));
         CloseOpeningText();
     }
 
