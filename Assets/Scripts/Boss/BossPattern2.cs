@@ -109,18 +109,18 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         //패턴 조합 영역
-        patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            //BossState.WeakPattern5,
-            //BossState.Groggy
-        });
+        //patternDic.Add(0, new BossState[] {
+        //    //BossState.WeakPattern1,
+        //    //BossState.WeakPattern2,
+        //    //BossState.WeakPattern3,
+        //    BossState.WeakPattern4,
+        //    //BossState.WeakPattern5,
+        //    //BossState.Groggy
+        //});
 
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.Groggy });
-        //patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern2, BossState.Groggy });
-        //patternDic.Add(2, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.Groggy });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.Groggy });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern2, BossState.Groggy });
+        patternDic.Add(2, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.Groggy });
 
         if (isEnraged)
         {
@@ -164,7 +164,9 @@ public class BossPattern2 : MonoBehaviour
         if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
         {
             Debug.Log(EndPattern);
-            Enrageactive = false;
+            Enrageactive = false; 
+            isEnraged = true;
+            animator.SetBool("isEnraged", true);
             BossEnrage();
 
             Invoke("StartContinuousPoisonRain", 1f);
@@ -208,30 +210,6 @@ public class BossPattern2 : MonoBehaviour
                 //Debug.Log("새로운 패턴 리스트 배정");
                 StartCoroutine(Idle());
             }
-        }
-        #endregion
-
-        #region 광폭화 체크
-        if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        {
-            isEnraged = true;
-            animator.SetBool("isEnraged", true);
-            // ����ȭ ȿ��
-        }
-        
-        // 광폭화 조건 확인 - 체력이 50% 이하일 때
-        if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        {
-            isEnrageTriggered = true; // 한 번만 트리거되도록 설정
-            shouldTriggerEnrage = true;
-            Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
-        }
-
-        // 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
-        if (shouldTriggerEnrage && currentState == BossState.None && currentCoroutine == null)
-        {
-            shouldTriggerEnrage = false;
-            StartCoroutine(EnrageEffect(transform.position, player.transform.position));
         }
         #endregion
     }
