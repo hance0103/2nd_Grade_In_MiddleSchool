@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7596088807446460626}
   - component: {fileID: -1075810070933197721}
   - component: {fileID: 2619227699546373057}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Projectile_E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42f8a16509bcb24c9c83358168878c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
 --- !u!60 &2619227699546373057
 PolygonCollider2D:
   m_ObjectHideFlags: 0
