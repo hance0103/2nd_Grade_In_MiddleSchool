@@ -223,7 +223,7 @@ MonoBehaviour:
   isFallingFromPlatform: 0
   direction: 8
   looking: 0
-  _normalAttackDmg: 8
+  _normalAttackDmg: 10
   _normalAttackSpeed: 13
   _normalAttackRange: 1.2
   _normalAttack_delay: 0.4
@@ -232,7 +232,7 @@ MonoBehaviour:
   isAttacking: 0
   _projectileStartPos: {x: 2.07, y: -0.16}
   _jumpAttack_diveVelocity: 40
-  _jumpAttack_dmg: 20
+  _jumpAttack_dmg: 15
   _jumpAttackBeforeDelay: 0.04
   _jumpAttackHitDelay: 0.04
   _jumpAttackAfterDelay: 0.06

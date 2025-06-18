@@ -108,6 +108,7 @@ public class BossPattern2 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
+        //패턴 조합 영역
         //patternDic.Add(0, new BossState[] {
         //    BossState.WeakPattern1,
         //    BossState.WeakPattern2,
@@ -117,7 +118,10 @@ public class BossPattern2 : MonoBehaviour
         //    BossState.Groggy
         //});
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5, BossState.WeakPattern3, BossState.Groggy });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.Groggy });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern2, BossState.Groggy });
+        patternDic.Add(2, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.Groggy });
+
         if (isEnraged)
         {
             StartContinuousPoisonRain();
@@ -703,12 +707,10 @@ public class BossPattern2 : MonoBehaviour
     public IEnumerator GroggyState()
     {
         animator.SetTrigger("isGroggy");
-        Debug.Log("그로기 상태");
         currentState = BossState.Groggy;
 
         for (float i = groggyTime - 1; i > 0; i--)
         {
-            Debug.Log("카운트다운: " + i);
             yield return new WaitForSeconds(1f);
         }
         animator.SetTrigger("isRecovery");

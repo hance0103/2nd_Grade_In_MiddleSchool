@@ -185,7 +185,7 @@ public class ProjectileController : MonoBehaviour
         float sectionWidth = mapWidth / divisions;
         List<GameObject> activeProjectiles = new List<GameObject>();
 
-        for (int iteration = 0; iteration < 5; iteration++)
+        for (int iteration = 0; iteration < 3; iteration++)
         {
             // 비활성화된 투사체 제거
             activeProjectiles.RemoveAll(p => p == null || !p.activeInHierarchy);
