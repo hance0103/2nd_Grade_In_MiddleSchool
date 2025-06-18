@@ -536,12 +536,39 @@ public class bossPatternTest : MonoBehaviour
     {
         Vector3 startScale = target.localScale;
         float elapsedTime = 0f;
-
+        float flashTimer = 0f;          // Flash 호출용 타이머
+        bool flashPhase = false;        // t ≥ 0.5 에 진입했는지 체크
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
             target.localScale = Vector3.Lerp(startScale, targetScale, t);
+
+            if (!flashPhase && t >= 0.5f && duration == strongPattern2Data.BeforeAttackDelay)
+            {
+                flashPhase = true;
+                flashTimer = 0f;        // 타이머 초기화
+            }
+
+            // Flash Phase 동안 0.2초마다 Flash 실행
+            if (flashPhase)
+            {
+                // 0.8에 도달하면 종료
+                if (t >= 0.9f)
+                {
+                    flashPhase = false;   // 더 이상 Flash 호출 안 함
+                }
+                else
+                {
+                    flashTimer += Time.deltaTime;
+                    if (flashTimer >= 0.2f)
+                    {
+                        ScreenGrayscale.Flash(0.2f, 0.1f, 0.1f);
+                        flashTimer = 0f;  // 간격 리셋
+                    }
+                }
+            }
+
             yield return null;
         }
 
@@ -805,6 +832,7 @@ public class bossPatternTest : MonoBehaviour
         if (dangerZone != null) Destroy(dangerZone.gameObject);
 
         //화면 흑백
+
         ScreenGrayscale.SetGrayscale(true, 0.1f);
         // 플레이어 바인드
         _playerController.PlayerStop();
@@ -813,19 +841,17 @@ public class bossPatternTest : MonoBehaviour
         // 여기
         yield return new WaitForSeconds(1.5f);
 
-        ScreenGrayscale.SetGrayscale(false, 0.1f);
-
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         animator.SetBool("isPre", false);
         SoundManager.Instance.EffectSoundOn("16-2");
-
-        yield return new WaitForSeconds(0.1f);
-        ScreenGrayscale.SetGrayscale(false, 0.1f);
         yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
 
         Destroy(laserStart);
         _playerController.PlayerResume();
         PlayerHPManager.Instance.ResetBindContactDamageFlag();
+
+        yield return new WaitForSeconds(0.1f);
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         animator.SetBool("isSP2", false);
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }

@@ -74,6 +74,7 @@ public class BossEnragePopup : MonoBehaviour
         initBottomBarPos = BottomBar.GetComponent<RectTransform>().anchoredPosition;
         initTopTextPos = TopText.GetComponent<RectTransform>().anchoredPosition;
         initBottomTextPos = BottomText.GetComponent<RectTransform>().anchoredPosition;
+        ScreenGrayscale.SetGrayscale(false, 0.1f);
         OnEnrage();
     }
     public void OnEnrage() 
