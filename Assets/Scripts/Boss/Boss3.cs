@@ -163,18 +163,20 @@ public class Boss3 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
-        patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
-            BossState.WeakPattern3,
-            BossState.WeakPattern4,
-            //BossState.WeakPattern5,
-            //BossState.EnragedPattern,
-            //BossState.DesperatePattern1,
-            //BossState.DesperatePattern2,
-            //BossState.DesperatePattern3
-        });
+        //patternDic.Add(0, new BossState[] {
+        //    //BossState.WeakPattern1,
+        //    //BossState.WeakPattern2,
+        //    BossState.WeakPattern3,
+        //    BossState.WeakPattern4,
+        //    //BossState.WeakPattern5,
+        //    //BossState.EnragedPattern,
+        //    //BossState.DesperatePattern1,
+        //    //BossState.DesperatePattern2,
+        //    //BossState.DesperatePattern3
+        //});
 
+
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.WeakPattern5 });
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
