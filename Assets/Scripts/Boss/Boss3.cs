@@ -75,8 +75,7 @@ public class Boss3 : MonoBehaviour
     [Header("약공격2 데이터")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
     [SerializeField] private LaserScriptableObject weak2LaserData;
-    [SerializeField]
-    private float _wp2LaserDelay;
+    [SerializeField] private float _wp2LaserDelay;
 
     [Header("약공격3 데이터")]
     [SerializeField] private BossScriptableObject weakPattern3Data;
@@ -163,20 +162,20 @@ public class Boss3 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
-        //patternDic.Add(0, new BossState[] {
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    BossState.WeakPattern3,
-        //    BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.EnragedPattern,
-        //    //BossState.DesperatePattern1,
-        //    //BossState.DesperatePattern2,
-        //    //BossState.DesperatePattern3
-        //});
+        patternDic.Add(0, new BossState[] {
+            BossState.WeakPattern1,
+            BossState.WeakPattern2,
+            BossState.WeakPattern3,
+            BossState.WeakPattern4,
+            BossState.WeakPattern5,
+            //BossState.DesperatePattern1,
+            //BossState.DesperatePattern2,
+            //BossState.DesperatePattern3
+        });
 
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.WeakPattern5 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.WeakPattern5 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
         StartCoroutine(BeforeIdle());
     }
     [Header("광폭화 팝업")]
@@ -342,7 +341,7 @@ public class Boss3 : MonoBehaviour
         float mapHeight = topBound - bottomBound;
         float layerHeight = mapHeight / 3f;
         #endregion
-
+        animator.SetTrigger("isNormal");
         float[] layerPositions = new float[3];
         for (int i = 0; i < 3; i++)
         {
@@ -352,7 +351,7 @@ public class Boss3 : MonoBehaviour
         Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 15, 0);
         Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
 
-        int attackCount = isEnraged ? 4 : 3;
+        int attackCount = isEnraged ? 2 : 2;
         if (isDesEnr == true)
         {
             attackCount = 7;
@@ -404,7 +403,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak1LaserData.TargetLayer);
-                    animator.SetTrigger("isNormal");
+                    
                     StartCoroutine(laser.FireLaser(startPosition, targetPosition));
                 }
 
@@ -443,7 +442,7 @@ public class Boss3 : MonoBehaviour
             #endregion
             yield return new WaitForSeconds(weak1LaserData.LaserFollowDuration);
         }
-
+        animator.SetTrigger("isStrong");
 
         StartCoroutine(FinishPattern());
     }
@@ -467,7 +466,7 @@ public class Boss3 : MonoBehaviour
 
         transform.position = new Vector2(centerBound, bottomBound + 8.9f);
         FacePlayer();
-
+        animator.SetTrigger("isNormal");
         #region 강화약공2
         if (isEnraged)
         {
@@ -498,7 +497,7 @@ public class Boss3 : MonoBehaviour
                     warning.SetPosition(1, new Vector2(sectionPositions[pos], bottomBound));
                     allWarnings.Add(warning);
                 }
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.2f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
@@ -555,7 +554,7 @@ public class Boss3 : MonoBehaviour
                 warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
 
                 warningLines.Add(warningLine);
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.2f);
             }
 
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
@@ -585,7 +584,7 @@ public class Boss3 : MonoBehaviour
             yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
         }
         #endregion
-
+        animator.SetTrigger("isStrong");
         StartCoroutine(FinishPattern());
         yield return new WaitForSeconds(weakPattern2Data.AfterAttackDelay);
 
@@ -616,7 +615,7 @@ public class Boss3 : MonoBehaviour
         FacePlayer();
 
         // 레이저 나오는 횟수
-        int rand = Random.Range(3, 5);
+        int rand = Random.Range(2, 4);
         Debug.Log(rand);
 
 

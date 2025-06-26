@@ -9442,6 +9442,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1101572429}
     - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: maxHP
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: BossEnragePopup
       value: 
       objectReference: {fileID: 1984763623}
@@ -9479,7 +9483,7 @@ PrefabInstance:
       objectReference: {fileID: 2387997171456300935, guid: 0e8dda5623d44314ba66aa509313e82e, type: 3}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: _wp2LaserDelay
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: BossEnragePopup
@@ -9488,6 +9492,10 @@ PrefabInstance:
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: _wp4NormalDelay
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: _wp2LaserDelay_E
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: _wp4EnranageDelay

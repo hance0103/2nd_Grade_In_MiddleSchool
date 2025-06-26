@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 3 WeakLaser3
   m_EditorClassIdentifier: 
   laserType: "\uC57D\uACF5 3"
-  damage: 10
+  damage: 15
   laserSpeed: 1
-  laserDuration: 0.3
+  laserDuration: 0.2
   laserSprite: Sprites/Laser/WP2_laser_B3
   laserWidth: 0.5
   laserColor: {r: 1, g: 1, b: 1, a: 1}
@@ -23,5 +23,5 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  laserFollowDuration: 1
-  laserLockDuration: 0.75
+  laserFollowDuration: 0.5
+  laserLockDuration: 0.5

@@ -4320,7 +4320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &936808996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7066,7 +7066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484509623436859966, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7165545684217176000, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: Timer
