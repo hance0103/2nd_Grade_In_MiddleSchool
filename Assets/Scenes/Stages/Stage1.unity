@@ -1650,15 +1650,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.39999998
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.39999998
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.66666996
+      value: 1.000005
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2754,15 +2754,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.0015
+      value: 0.0025
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0015
+      value: 0.0025
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0025000125
+      value: 0.0041666874
       objectReference: {fileID: 0}
     - target: {fileID: 3624025543365072944, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9166,14 +9166,6 @@ PrefabInstance:
       propertyPath: ClosingTextPanel
       value: 
       objectReference: {fileID: 196237602}
-    - target: {fileID: 1202874204630465595, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1202874204630465595, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1640132069235199032, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9287,8 +9279,12 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8764766228156797977, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 380894479964904814, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
+    - target: {fileID: 8764766228156797977, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8828868463235153741, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_LocalScale.x
