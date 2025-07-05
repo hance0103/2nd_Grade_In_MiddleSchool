@@ -572,15 +572,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.71428573
+      value: 1.0714285
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6762,6 +6762,10 @@ PrefabInstance:
       propertyPath: ClosingTextPanel
       value: 
       objectReference: {fileID: 124391814}
+    - target: {fileID: 1120888826922028409, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1640132069235199032, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6842,9 +6846,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4036460271834609627, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6077842330806068022, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_Name
       value: FinishingPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633104056145804871, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8828868463235153741, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -8119,15 +8131,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.004
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.004
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.002857143
+      value: 0.0042857146
       objectReference: {fileID: 0}
     - target: {fileID: 7195187473222272353, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: m_LocalPosition.x

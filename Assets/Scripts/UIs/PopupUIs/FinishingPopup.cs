@@ -144,7 +144,7 @@ public class FinishingPopup : MonoBehaviour
         GameManager.isFinishBossZoominAllowed = true;
         yield return new WaitForSeconds(0.5f);
         bigexplosion.transform.position = new Vector3(900, 300, 0f);
-        if (Stage == 2) { bigexplosion.transform.position = new Vector3(1150, 500, 0f); }
+        if (Stage == 2) { bigexplosion.transform.position = new Vector3(850, 400, 0f); }
         bigexplosion.SetActive(true);
         yield return new WaitForSeconds(0.6f);
         bigexplosion.SetActive(false);
@@ -193,7 +193,7 @@ public class FinishingPopup : MonoBehaviour
             // 글자 하나 이동 시작
             StartCoroutine(MoveUI(rect, rect.anchoredPosition, bossPos, moveTime));
 
-            // 다음 글자까지 대기 → 0.1초 간격 “다다다닥”
+            // 다음 글자까지 대기 → 0.1초 간격
             yield return new WaitForSeconds(launchInterval);
         }
 
@@ -248,12 +248,13 @@ public class FinishingPopup : MonoBehaviour
         if (letterslength < 10) { Cycles = 1; }
         else if (letterslength < 20) { Cycles = 2; }
         else if (letterslength < 30) { Cycles = 3; }
-        else if (letterslength < 40) { Cycles = 4; }
-
+        else if (letterslength <= 40) { Cycles = 4; }
+        Debug.Log("폭발" + Cycles + "실행");
         for (int i = 0; i < Cycles; i++)
             {
-                // 폭발 오브젝트들을 각각 랜덤 위치에 배치
-                explosionObject1.transform.position = GetRandomPosition();
+            Debug.Log("폭발 사이클 실행");
+            // 폭발 오브젝트들을 각각 랜덤 위치에 배치
+            explosionObject1.transform.position = GetRandomPosition();
                 explosionObject2.transform.position = GetRandomPosition();
                 explosionObject3.transform.position = GetRandomPosition();
 
@@ -287,11 +288,11 @@ public class FinishingPopup : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        float randX = Random.Range(2000f, 1800f);
-        float randY = Random.Range(400f, 200f);
+        float randX = Random.Range(1300f, 1200f);
+        float randY = Random.Range(250f, 150f);
         if (Stage == 2)
         {
-            randY = Random.Range(800f, 600f);
+            randY = Random.Range(450f, 350f);
         }
         
         return new Vector3(randX, randY, 0f);
