@@ -163,9 +163,7 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
-            BossState.WeakPattern2,
-            BossState.WeakPattern3,
+            
             BossState.WeakPattern4,
             BossState.WeakPattern5,
             //BossState.DesperatePattern1,
@@ -803,6 +801,9 @@ public class Boss3 : MonoBehaviour
         int totalAttack = isEnraged ? 8 : 4;
         for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
+            string[] wp4Clips = { "3-4-1", "3-4-2", "3-4-3" };
+            string randomClip = wp4Clips[Random.Range(0, wp4Clips.Length)];
+            SoundManager.Instance.EffectSoundOn(randomClip);
             StartCoroutine(WeakPattern4Execute(attackCount));
             float timeBetweenAttacks = isEnraged ? _wp4EnranageDelay : _wp4NormalDelay;
             yield return new WaitForSeconds(timeBetweenAttacks);
@@ -939,7 +940,9 @@ public class Boss3 : MonoBehaviour
             }
             yield return new WaitForSeconds(weak5Delay);
         }
-
+        string[] wp5Clips = { "3-5-1", "3-5-2", "3-5-3" };
+        string randomClip = wp5Clips[Random.Range(0, wp5Clips.Length)];
+        SoundManager.Instance.EffectSoundOn(randomClip);
 
         
         StartCoroutine(FinishPattern());
@@ -982,6 +985,7 @@ public class Boss3 : MonoBehaviour
 
         GameObject projectile = Instantiate(MusicProjectile, vec, Quaternion.identity);
         StartCoroutine(weak5HitRemove(projectile));
+        PlayWeakPattern5SfxOnce();
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
         if (behaviour == null)
         {
@@ -1006,12 +1010,29 @@ public class Boss3 : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        ResetPatternFlags();
         Destroy(projectile);
         Destroy(projectileController.gameObject);
         #endregion
 
     }
+    #region 효과음 랜덤 재생
+    bool _wp5Played = false;
+    public void PlayWeakPattern5SfxOnce()
+    {
+        if (_wp5Played) return;  // 이미 울렸으면 아무 것도 안 함
+
+        string[] wp5Clips = { "3-5-1", "3-5-2", "3-5-3" };
+        string randomClip = wp5Clips[Random.Range(0, wp5Clips.Length)];
+        SoundManager.Instance.EffectSoundOn(randomClip);
+
+        _wp5Played = true;      // 플래그 ON
+    }
+    void ResetPatternFlags()
+    {
+        _wp5Played = false;
+    }
+    #endregion
 
     private IEnumerator weak5HitRemove(GameObject projectileObject)
     {
