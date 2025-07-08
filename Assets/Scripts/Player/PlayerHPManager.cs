@@ -92,7 +92,7 @@ public class PlayerHPManager : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            Colorcamera.enabled = false;
+            if (Stage == 1) { Colorcamera.enabled = false; }
             _gameOver = true;
             currentHP = 0;
             StartCoroutine(PlayerDying());
