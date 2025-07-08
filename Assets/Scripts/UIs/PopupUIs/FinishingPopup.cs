@@ -104,7 +104,7 @@ public class FinishingPopup : MonoBehaviour
         {
             if (Stage == 2)
             {
-                Boss.transform.position = new Vector3(6.5f, 1.67f, 0f);
+                Boss.transform.position = new Vector3(6.8f, 1.67f, 0f);
             }
             else
             {
@@ -143,8 +143,8 @@ public class FinishingPopup : MonoBehaviour
         // 예: bossAnimator.SetTrigger("Death");
         GameManager.isFinishBossZoominAllowed = true;
         yield return new WaitForSeconds(0.5f);
-        bigexplosion.transform.position = new Vector3(900, 300, 0f);
-        if (Stage == 2) { bigexplosion.transform.position = new Vector3(850, 400, 0f); }
+        bigexplosion.transform.position = new Vector3(1200, 450, 0f);
+        if (Stage == 2) { bigexplosion.transform.position = new Vector3(1200, 500, 0f); }
         bigexplosion.SetActive(true);
         yield return new WaitForSeconds(0.6f);
         bigexplosion.SetActive(false);
@@ -288,11 +288,11 @@ public class FinishingPopup : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        float randX = Random.Range(1300f, 1200f);
-        float randY = Random.Range(250f, 150f);
+        float randX = Random.Range(2100f, 1700f);
+        float randY = Random.Range(450f, 250f);
         if (Stage == 2)
         {
-            randY = Random.Range(450f, 350f);
+            randY = Random.Range(800f, 600f);
         }
         
         return new Vector3(randX, randY, 0f);
