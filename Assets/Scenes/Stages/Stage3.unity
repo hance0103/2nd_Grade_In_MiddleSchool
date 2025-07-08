@@ -12973,7 +12973,7 @@ MonoBehaviour:
   boss: {fileID: 1129969038}
   zoomSizeBoss: 3
   zoomDurationBoss: 1
-  pauseDurationBoss: 5
+  pauseDurationBoss: 3
   Finishboss: {fileID: 1009866283}
   zoomSizeBossF: 3
   zoomDurationBossF: 0.4
@@ -15733,6 +15733,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1439999889}
+    - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
+      propertyPath: waitBeforeClose
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3895351982120371741, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
       propertyPath: m_Name
       value: EnragePhase

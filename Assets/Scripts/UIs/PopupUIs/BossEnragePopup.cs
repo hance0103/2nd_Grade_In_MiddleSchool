@@ -92,7 +92,7 @@ public class BossEnragePopup : MonoBehaviour
         }
         if (Stage == 3) 
         { 
-            boss.transform.position = new Vector3(4.6f, -1.0f, 0f);
+            boss.transform.position = new Vector3(4.6f, -3.0f, 0f);
             SoundManager.Instance.EffectSoundOn("stage3scream");
         }
 
