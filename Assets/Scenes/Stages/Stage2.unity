@@ -7040,6 +7040,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1582770697}
     - target: {fileID: 225005236448796141, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: letterPrefab
+      value: 
+      objectReference: {fileID: 4408722047587706453, guid: e396ef9a9319ea147a20b48ed5ba4f89, type: 3}
+    - target: {fileID: 225005236448796141, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: endPosition.y
       value: -2
       objectReference: {fileID: 0}
@@ -7047,6 +7051,10 @@ PrefabInstance:
       propertyPath: ClosingTextPanel
       value: 
       objectReference: {fileID: 124391814}
+    - target: {fileID: 614697378726903492, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: faffed1b3cd396140bb31e2353e9917f, type: 3}
     - target: {fileID: 1120888826922028409, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -7142,6 +7150,18 @@ PrefabInstance:
     - target: {fileID: 7633104056145804871, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764766228156797977, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764766228156797977, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764766228156797977, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8828868463235153741, guid: ab5e2e4ec20ca4e47a6e1249f4176b6d, type: 3}
       propertyPath: m_SizeDelta.x

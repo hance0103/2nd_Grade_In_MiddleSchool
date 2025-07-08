@@ -37,7 +37,8 @@ public class VictoryTextInputPopup : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        PlayerHP.SetActive(false); BossHP.SetActive(false); timer1.SetActive(false); timerBG.SetActive(false);
+        PlayerHP.SetActive(false);
+        BossHP.SetActive(false); timer1.SetActive(false); timerBG.SetActive(false);
         FinishBoss.SetActive(true);
         
     }
