@@ -5183,6 +5183,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578913974}
   m_CullTransparentMesh: 1
+--- !u!1 &580444977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580444978}
+  m_Layer: 0
+  m_Name: PatternPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &580444978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580444977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &626856255
 GameObject:
   m_ObjectHideFlags: 0
@@ -9793,6 +9824,10 @@ PrefabInstance:
       propertyPath: _wp2LaserDelay_E
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: bossPatternPanel
+      value: 
+      objectReference: {fileID: 580444978}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: _wp4EnranageDelay
       value: 0.5
@@ -17917,6 +17952,7 @@ SceneRoots:
   - {fileID: 1810874512}
   - {fileID: 70441736}
   - {fileID: 1022155344}
+  - {fileID: 580444978}
   - {fileID: 1953349571}
   - {fileID: 1129969029}
   - {fileID: 2048989185}

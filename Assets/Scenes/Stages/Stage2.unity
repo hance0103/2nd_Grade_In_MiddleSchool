@@ -401,6 +401,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74514566}
   m_CullTransparentMesh: 1
+--- !u!1 &75801192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 75801193}
+  m_Layer: 0
+  m_Name: PatternPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &75801193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75801192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &120850469
 GameObject:
   m_ObjectHideFlags: 0
@@ -7495,6 +7526,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2067811844}
     - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
+      propertyPath: bossPatternPanel
+      value: 
+      objectReference: {fileID: 75801193}
+    - target: {fileID: 7231450267254571419, guid: 23aa9b1f24a2c4241bf9a030669cc283, type: 3}
       propertyPath: weak1MiddleDelay
       value: 1
       objectReference: {fileID: 0}
@@ -9164,7 +9199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10043,6 +10078,7 @@ SceneRoots:
   - {fileID: 1046336146}
   - {fileID: 1327325019}
   - {fileID: 1810874512}
+  - {fileID: 75801193}
   - {fileID: 1953349571}
   - {fileID: 1582770696}
   - {fileID: 564701173}

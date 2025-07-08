@@ -70,6 +70,7 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private Transform[] pattern53Positions;
     [Tooltip("약공격 5 위치4")]
     [SerializeField] private Transform[] pattern54Positions;
+    [SerializeField] private Transform bossPatternPanel;
 
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
@@ -126,6 +127,7 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private BossScriptableObject desperatePattern3Data;
     [SerializeField] private LaserScriptableObject desperate3LaserData;
 
+    
 
     private BossHPManager bossHPManager; // BossHPManager ����
     private bool shouldTriggerEnrage = false;
@@ -205,6 +207,7 @@ public class Boss3 : MonoBehaviour
         // 체력 0이 되어서 발악패턴 - isDesperate는 BossHpManager에서 True로 설정해줌
         if (isDesperate)
         {
+            RemoveAllPattern();
             // 모든 발악패턴이 종료되어 보스가 완전히 죽음 - isDead는 발악패턴 코루틴이 모두 종료되면 true로 바꿈
             if (isDead)
             {
@@ -395,6 +398,7 @@ public class Boss3 : MonoBehaviour
                     Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
                     LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                    warningLine.transform.SetParent(bossPatternPanel.transform, false);
                     StartCoroutine(BlinkDangerZone(warningLine));
                     warningLine.SetPosition(0, startPosition);
                     warningLine.SetPosition(1, targetPosition);
@@ -421,7 +425,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak1LaserData.TargetLayer);
-                    
+                    laser.transform.SetParent(bossPatternPanel.transform, false);
                     StartCoroutine(laser.FireLaser(startPosition, targetPosition));
                 }
 
@@ -441,6 +445,7 @@ public class Boss3 : MonoBehaviour
                 Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
                 LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                warningLine.transform.SetParent(bossPatternPanel.transform, false);
                 StartCoroutine(BlinkDangerZone(warningLine));
                 warningLine.SetPosition(0, startPosition);
                 warningLine.SetPosition(1, targetPosition);
@@ -454,6 +459,7 @@ public class Boss3 : MonoBehaviour
                     null
                 );
                 laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                laser.transform.SetParent(bossPatternPanel.transform, false);
                 animator.SetTrigger("isNormal");
                 yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
             }
@@ -516,6 +522,7 @@ public class Boss3 : MonoBehaviour
                     StartCoroutine(BlinkDangerZone(warning));
                     warning.SetPosition(0, new Vector2(sectionPositions[pos], topBound));
                     warning.SetPosition(1, new Vector2(sectionPositions[pos], bottomBound));
+                    warning.transform.SetParent(bossPatternPanel.transform, false);
                     allWarnings.Add(warning);
                 }
                 yield return new WaitForSeconds(0.2f);
@@ -539,6 +546,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(weak2LaserData.TargetLayer);
+                    laser.transform.SetParent(bossPatternPanel.transform, false);
                     StartCoroutine(laser.FireLaser(
                         new Vector2(sectionPositions[pos], topBound),
                         new Vector2(sectionPositions[pos], bottomBound)
@@ -573,7 +581,7 @@ public class Boss3 : MonoBehaviour
 
                 warningLine.SetPosition(0, new Vector2(sectionPositions[i], topBound));
                 warningLine.SetPosition(1, new Vector2(sectionPositions[i], bottomBound));
-
+                warningLine.transform.SetParent(bossPatternPanel.transform, false);
                 warningLines.Add(warningLine);
                 yield return new WaitForSeconds(0.2f);
             }
@@ -594,7 +602,7 @@ public class Boss3 : MonoBehaviour
                     null
                 );
                 laser.SetTargetLayer(weak2LaserData.TargetLayer);
-
+                laser.transform.SetParent(bossPatternPanel.transform, false);
                 StartCoroutine(laser.FireLaser(
                     new Vector2(sectionPositions[i], topBound),
                     new Vector2(sectionPositions[i], bottomBound)
@@ -655,8 +663,10 @@ public class Boss3 : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
                     LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    warningLine.transform.SetParent(bossPatternPanel.transform, false);
                     StartCoroutine(BlinkDangerZone(warningLine));
                     warningLines.Add(warningLine);
+                    
                 }
 
                 float trackingTime = 0f;
@@ -706,6 +716,7 @@ public class Boss3 : MonoBehaviour
                         null
                     );
                     laser.SetTargetLayer(selectedData.TargetLayer);
+                    laser.transform.SetParent(bossPatternPanel.transform, false);
                     animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(
                         startPos,
@@ -723,6 +734,7 @@ public class Boss3 : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
                     LineRenderer warningLine = CreateDangerZone(weak3LaserData);
+                    warningLine.transform.SetParent(bossPatternPanel.transform, false);
                     StartCoroutine(BlinkDangerZone(warningLine));
                     warningLines.Add(warningLine);
                 }
@@ -784,6 +796,7 @@ public class Boss3 : MonoBehaviour
                         exactStartPos,
                         null
                     );
+                    laser.transform.SetParent(bossPatternPanel.transform, false);
                     laser.SetTargetLayer(selectedData.TargetLayer);
                     animator.SetTrigger("isNormal");
                     StartCoroutine(laser.FireLaser(
@@ -898,6 +911,7 @@ public class Boss3 : MonoBehaviour
         string randomClip = wp4Clips[Random.Range(0, wp4Clips.Length)];
         SoundManager.Instance.EffectSoundOn(randomClip);
         GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
+        projectile.transform.SetParent(bossPatternPanel.transform, false);
         StartCoroutine(weak5HitRemove(projectile));
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
         if (behaviour == null)
@@ -960,6 +974,7 @@ public class Boss3 : MonoBehaviour
     {
         // 경고 표시 생성
         GameObject warningObj = Instantiate(warningPrefab);
+        warningObj.transform.SetParent(bossPatternPanel.transform, false);
         SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
 
         #region 경고 관련
@@ -993,6 +1008,7 @@ public class Boss3 : MonoBehaviour
         );
 
         GameObject projectile = Instantiate(MusicProjectile, vec, Quaternion.identity);
+        projectile.transform.SetParent(bossPatternPanel.transform, false);
         StartCoroutine(weak5HitRemove(projectile));
         PlayWeakPattern5SfxOnce();
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
@@ -2133,4 +2149,12 @@ public class Boss3 : MonoBehaviour
         }
     }
     #endregion
+
+    public void RemoveAllPattern()
+    {
+        foreach (Transform child in bossPatternPanel)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }

@@ -138,7 +138,7 @@ public class BossHPManager : MonoBehaviour
     {
         // 1. Timer 컴포넌트를 찾아서
         Timer timer = FindObjectOfType<Timer>();
-
+        Boss.GetComponent<BossPattern2>().RemoveAllPattern();
         if (timer != null)
         {
             // 2. TimeActive를 false로 변경하여 타이머 정지
@@ -169,7 +169,7 @@ public class BossHPManager : MonoBehaviour
     {
         // 1. Timer 컴포넌트를 찾아서
         Timer timer = FindObjectOfType<Timer>();
-
+        Boss.GetComponent<Boss3>().RemoveAllPattern();
         if (timer != null)
         {
             // 2. TimeActive를 false로 변경하여 타이머 정지

@@ -100,6 +100,7 @@ public class BossPattern2 : MonoBehaviour
     private bool isEnrageTriggered = false;
     private bool isDead = false;
 
+    [SerializeField] private Transform bossPatternPanel;
     #endregion
 
     void Start()
@@ -110,9 +111,9 @@ public class BossPattern2 : MonoBehaviour
 
         //패턴 조합 영역
         patternDic.Add(0, new BossState[] {
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
+            BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
             //BossState.Groggy
@@ -295,6 +296,10 @@ public class BossPattern2 : MonoBehaviour
         // 2. 레이저 경고선 표시 및 플레이어 추적
         //Debug.Log("추적 경고선");
         LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+
+        Debug.Log(warningLine.gameObject.name);
+        warningLine.transform.SetParent(bossPatternPanel, false);
+
         warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
         StartCoroutine(BlinkDangerZone(warningLine)); // 깜빡임 효과 시작
 
@@ -344,7 +349,7 @@ public class BossPattern2 : MonoBehaviour
             bossStartPosition, // 보스의 시작 위치
             player.transform
         );
-
+        laser.transform.SetParent(bossPatternPanel);
         // 레이저가 타겟 레이어에 충돌하도록 설정
         laser.SetTargetLayer(weak1LaserData.TargetLayer);
 
@@ -420,7 +425,7 @@ public class BossPattern2 : MonoBehaviour
 
             // 1. 경고선 생성 및 플레이어 추적
             LineRenderer warningLine = CreateDangerZone(weak3LaserData);
-            warningLine.transform.SetParent(this.transform);
+            warningLine.transform.SetParent(bossPatternPanel);
             warningLine.GetComponent<LineRenderer>().sortingOrder = -1;
             StartCoroutine(BlinkDangerZone(warningLine));
 
@@ -459,7 +464,7 @@ public class BossPattern2 : MonoBehaviour
                 player.transform
             );
             laser.SetTargetLayer(weak3LaserData.TargetLayer);
-
+            laser.transform.SetParent(bossPatternPanel.transform, false);
             // 단일 레이저 발사
             SoundManager.Instance.EffectSoundOn("24");
 
@@ -802,5 +807,13 @@ public class BossPattern2 : MonoBehaviour
             poisonRainSpacing,
             () => true  // Always continue as long as enraged
         ));
+    }
+
+    public void RemoveAllPattern()
+    {
+        foreach(Transform child in bossPatternPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
