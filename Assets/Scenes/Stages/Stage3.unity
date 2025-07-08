@@ -9683,11 +9683,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5
+      value: 5.49
       objectReference: {fileID: 0}
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.96
+      value: 2.97
       objectReference: {fileID: 0}
     - target: {fileID: 58188418078762215, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9727,7 +9727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 534670401125777719, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 651182969775359220, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: m_GravityScale
@@ -9845,6 +9845,50 @@ PrefabInstance:
       propertyPath: mapWidthPositions.Array.data[1]
       value: 
       objectReference: {fileID: 70441736}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[0].x
+      value: -4.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[0].y
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[1].x
+      value: -8.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[1].y
+      value: -3.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[2].x
+      value: 15.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[2].y
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[3].x
+      value: 21.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[3].y
+      value: -3.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[4].x
+      value: 5.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak1TeleportPosition.Array.data[4].y
+      value: 2.97
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
