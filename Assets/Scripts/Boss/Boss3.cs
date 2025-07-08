@@ -74,6 +74,7 @@ public class Boss3 : MonoBehaviour
     [Header("약공격1 데이터")]
     [SerializeField] private BossScriptableObject weakPattern1Data;
     [SerializeField] private LaserScriptableObject weak1LaserData;
+    [SerializeField] private Vector2[] weak1TeleportPosition;
 
     [Header("약공격2 데이터")]
     [SerializeField] private BossScriptableObject weakPattern2Data;
@@ -89,6 +90,7 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private BossScriptableObject weakPattern4Data;
     [SerializeField] private float _wp4NormalDelay;
     [SerializeField] private float _wp4EnranageDelay;
+    [SerializeField] private List<Sprite> explosionSprites;
 
     [Header("약공격5 데이터")]
     [SerializeField] private BossScriptableObject weakPattern5Data;
@@ -168,13 +170,13 @@ public class Boss3 : MonoBehaviour
 
         patternDic.Add(0, new BossState[] {
             
-            BossState.WeakPattern4,
-            BossState.WeakPattern5,
-            //BossState.WeakPattern1,
-            BossState.WeakPattern2,
-            //BossState.WeakPattern3,
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.WeakPattern4,
+            BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -343,7 +345,11 @@ public class Boss3 : MonoBehaviour
         Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
 
-        transform.position = new Vector2(mapWidthPositions[1].position.x, mapWidthPositions[0].position.y + 2f);
+
+        Debug.Log(weak1TeleportPosition.Length);
+        int randPoS = Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[randPoS];
         FacePlayer();
 
         #region 맵 데이터
