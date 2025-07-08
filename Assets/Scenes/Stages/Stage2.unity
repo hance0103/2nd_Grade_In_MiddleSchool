@@ -6093,6 +6093,7 @@ MonoBehaviour:
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
   minCamY: -2
+  maxCamY: 2
   minCamX: -5
   maxCamX: 15
 --- !u!114 &1210803083

@@ -30,6 +30,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private float zoomSizePlayer = 3f;    // 플레이어에게 줌인할 때의 Orthographic Size
     [SerializeField] private float zoomDurationPlayer = 1f;// 줌인/아웃에 걸리는 시간(초) 
     [SerializeField] private float minCamY = -2f; // 내려갈 수 있는 최저 높이
+    [SerializeField] private float maxCamY = 3f; // 올라갈 수 있는 최고 높이
     [SerializeField] private float minCamX = -5f;    // 왼쪽 끝
     [SerializeField] private float maxCamX = 5f;    // 오른쪽 끝
 
@@ -216,7 +217,7 @@ public class CameraMove : MonoBehaviour
 
         Vector3 targetPos = Player.position;
         targetPos.z = originalPos.z;
-        targetPos.y = Mathf.Max(targetPos.y, minCamY);           // Y 하한
+        targetPos.y = Mathf.Clamp(targetPos.y, minCamY, maxCamY); // Y 하한
         targetPos.x = Mathf.Clamp(targetPos.x, minCamX, maxCamX); // X 범위
 
         float t = 0f;
