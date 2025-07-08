@@ -21,7 +21,8 @@ public class PlayerHPManager : MonoBehaviour
     private float currentHP;
     [SerializeField]
     public float _InvincibleTime = 1f;
-
+    [Header("컬러 카메라")]
+    [SerializeField] private Camera Colorcamera;
     private Coroutine _blinkCoroutine;
     private bool _gameOver = false;
     public float GetttingCurrentHP() => currentHP;
@@ -91,6 +92,7 @@ public class PlayerHPManager : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            if (Stage == 1) { Colorcamera.enabled = false; }
             _gameOver = true;
             currentHP = 0;
             StartCoroutine(PlayerDying());
