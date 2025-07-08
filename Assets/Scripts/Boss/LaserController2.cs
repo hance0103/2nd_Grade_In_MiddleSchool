@@ -83,8 +83,14 @@ public class LaserController2 : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator FireStrongLaser(Vector2 startPosition, Vector2 staticPlayerPosition)
+    public IEnumerator FireStrongLaser(Vector2 startPosition, Vector2 staticPlayerPosition, Transform bossPatternPanel = null)
     {
+        if (bossPatternPanel != null)
+        {
+            gameObject.transform.SetParent(bossPatternPanel, false);
+        }
+        
+
         float fadeInTime = 0.1f;
         float fadeOutTime = 0.1f;
 
@@ -95,6 +101,7 @@ public class LaserController2 : MonoBehaviour
 
         transform.position = startPosition;
         transform.right = direction;
+
 
         // 페이드 인
         float elapsed = 0f;

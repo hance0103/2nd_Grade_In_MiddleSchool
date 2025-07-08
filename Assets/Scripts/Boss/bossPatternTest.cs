@@ -109,6 +109,9 @@ public class bossPatternTest : MonoBehaviour
     //[SerializeField] private float damageRange = 1.5f;
     //[SerializeField] private float damageCooldown = 1f;
     //[SerializeField] private float lastDamageTime = 0f;
+
+    [SerializeField]
+    private Transform patternPanel;
     #endregion
 
 
@@ -164,6 +167,8 @@ public class bossPatternTest : MonoBehaviour
         // 사망 조건 체크 - 최우선으로 처리
         if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
         {
+            Debug.Log("시발");
+            DestroyImmediate(patternPanel.gameObject);
             isDead = true;
             StartCoroutine(DeathEffect());
             return; // 다른 업데이트 로직 실행 방지
@@ -765,21 +770,19 @@ public class bossPatternTest : MonoBehaviour
     private IEnumerator NormalStrongPattern2(Vector2 bossPosition, Vector2 staticPlayerPosition)
     {
 
-        // �ӽ� ������ ��Ʈ�ѷ��� ����� ���� ���
         LaserController2 tempLaser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         Vector2 direction = tempLaser.GetHorizontalDirection(bossPosition, staticPlayerPosition);
         Vector2 endPosition = tempLaser.GetMapEndPoint(bossPosition, direction);
         Destroy(tempLaser.gameObject); // �ӽ� ��Ʈ�ѷ� ����
 
-        // �������� ǥ��
         LineRenderer dangerZone = CreateDangerZone();
         dangerZone.SetPosition(0, bossPosition);
         dangerZone.SetPosition(1, endPosition);
 
+        dangerZone.transform.SetParent(patternPanel, false);
+
         Coroutine blinkCoroutine = StartCoroutine(BlinkDangerZone(dangerZone));
 
-        // ī��Ʈ�ٿ�
-        //Debug.Log("ī��Ʈ�ٿ� ����");
         animator.SetBool("isSP2", true);
         animator.SetBool("isPre", true);
         SoundManager.Instance.EffectSoundOn("16-1");
@@ -800,6 +803,9 @@ public class bossPatternTest : MonoBehaviour
             laserStart = Instantiate(Resources.Load<GameObject>("Prefabs/LaserStart_E"), transform.position - leftPositionMover, Quaternion.identity);
             //Debug.Log(direction);
         }
+        laserStart.transform.SetParent(patternPanel, false);
+
+
         laserStart.GetComponent<Transform>().localScale = new Vector3(2.6f, 2.6f, 1);
         SpriteRenderer laserStartSR = laserStart.GetComponent<SpriteRenderer>();
         yield return StartCoroutine(ScaleUpSprite(laserStart.transform, new Vector3(5.2f, 5.2f, 1f), strongPattern2Data.BeforeAttackDelay));
@@ -821,7 +827,7 @@ public class bossPatternTest : MonoBehaviour
         LaserController2 laser = LaserController2.Create(strongLaserData, bossPosition, player.transform);
         animator.SetBool("isPre", false);
         SoundManager.Instance.EffectSoundOn("16-2");
-        yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition));
+        yield return StartCoroutine(laser.FireStrongLaser(bossPosition, staticPlayerPosition, patternPanel));
 
         Destroy(laserStart);
         _playerController.PlayerResume();
@@ -1023,7 +1029,7 @@ public class bossPatternTest : MonoBehaviour
 
         // 레이저 컨트롤러가 있다면 모든 레이저 비활성화
         DeactivateAllLasers();
-
+        
         // 사망 애니메이션
 
         // 사망 사운드 
@@ -1283,6 +1289,14 @@ public class bossPatternTest : MonoBehaviour
                 transform.position.y,
                 playerPos.z
             );
+        }
+    }
+
+    public void RemoveAllPattern()
+    {
+        foreach(Transform child in patternPanel.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 }

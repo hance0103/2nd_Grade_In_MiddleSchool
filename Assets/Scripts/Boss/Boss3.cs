@@ -45,6 +45,9 @@ public class Boss3 : MonoBehaviour
     private ProjectileController projectileController;
     public bool EndPattern = false;
 
+    private bool isDesperateEnd = false;
+    private bool isDesperatePatternExecuted = false;
+
     [SerializeField]
     private BossState[] currentBossStateArray = null;
 
@@ -134,6 +137,7 @@ public class Boss3 : MonoBehaviour
         foreach (Transform child in weak5Object.transform)
         {
             weak5ObjectList.Add(child.gameObject);
+
         }
 
         weak5PosDict = new();
@@ -166,6 +170,12 @@ public class Boss3 : MonoBehaviour
             
             BossState.WeakPattern4,
             BossState.WeakPattern5,
+            //BossState.WeakPattern1,
+            BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
             //BossState.DesperatePattern3
@@ -189,13 +199,28 @@ public class Boss3 : MonoBehaviour
     }
     void Update()
     {
-        // 사망 조건 체크 - 최우선으로 처리
-        if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
+        // 체력 0이 되어서 발악패턴 - isDesperate는 BossHpManager에서 True로 설정해줌
+        if (isDesperate)
         {
-            isDead = true;
-            StartCoroutine(DeathEffect());
-            return; // 다른 업데이트 로직 실행 방지
+            // 모든 발악패턴이 종료되어 보스가 완전히 죽음 - isDead는 발악패턴 코루틴이 모두 종료되면 true로 바꿈
+            if (isDead)
+            {
+                bossHPManager.BossDie3Execute();
+                StartCoroutine(DeathEffect());
+                return;
+            }
+
+            // 발악 패턴 실행
+            if(!isDesperatePatternExecuted)
+            {
+                isDesperatePatternExecuted = true;
+                // 여기서 발악패턴 코루틴 실행시켜줌
+
+            }
+
+            return;
         }
+
         if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
         {
             Debug.Log(EndPattern);
@@ -226,18 +251,6 @@ public class Boss3 : MonoBehaviour
         if (currentState == BossState.EnragedPattern && currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(EnragedPattern());
-        }
-        if (currentState == BossState.DesperatePattern1 && currentCoroutine == null)
-        {
-            currentCoroutine = StartCoroutine(DesperatePattern1());
-        }
-        if (currentState == BossState.DesperatePattern2 && currentCoroutine == null)
-        {
-            currentCoroutine = StartCoroutine(DesperatePattern2());
-        }
-        if (currentState == BossState.DesperatePattern3 && currentCoroutine == null)
-        {
-            currentCoroutine = StartCoroutine(DesperatePattern3());
         }
         if (currentState == BossState.Idle && currentCoroutine == null)
         {
@@ -480,7 +493,10 @@ public class Boss3 : MonoBehaviour
                 new int[] {0, 6},
                 new int[] {1, 5},
                 new int[] {2, 4},
-                new int[] {3}
+                new int[] {3},
+                new int[] {2, 4},
+                new int[] {1, 5},
+                new int[] {0, 6}
             };
 
             // 먼저 모든 경고선 표시
@@ -1176,6 +1192,15 @@ public class Boss3 : MonoBehaviour
     }
     #endregion
 
+    public void OnDesperate()
+    {
+        Debug.Log("0줄 패턴");
+        isDesperate = true;
+    }
+    private void OnBossDeath()
+    {
+
+    }
     #region 발악패턴1
     public IEnumerator DesperatePattern1()
     {

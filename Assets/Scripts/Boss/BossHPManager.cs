@@ -79,7 +79,8 @@ public class BossHPManager : MonoBehaviour
         if (currentHP <= 0 && Stage == 3)
         {
             currentHP = 0;
-            BossDie3();
+
+            Boss.GetComponent<Boss3>().OnDesperate();
         }
     }
     private IEnumerator BossHitBlink()
@@ -110,12 +111,12 @@ public class BossHPManager : MonoBehaviour
     {
         // 1. Timer 컴포넌트를 찾아서
         Timer timer = FindObjectOfType<Timer>();
-
+        Boss.GetComponent<bossPatternTest>().RemoveAllPattern();
         if (timer != null)
         {
             // 2. TimeActive를 false로 변경하여 타이머 정지
             timer.TimeActive = false;
-            Debug.Log(timer.curTime);
+
             // 3. 측정된 시간( curTime or CurrentTime )을 PlayerPrefs로 저장
             PlayerPrefs.SetFloat("FinalTime1", timer.curTime);
             PlayerPrefs.Save();
@@ -159,6 +160,10 @@ public class BossHPManager : MonoBehaviour
         
         // 보스 사망 처리 로직 (애니메이션, 드롭 아이템 등)
         // 예) 게임 오브젝트 비활성화, 패턴 루틴 종료 등
+    }
+    public void BossDie3Execute()
+    {
+        BossDie3();
     }
     private void BossDie3()
     {

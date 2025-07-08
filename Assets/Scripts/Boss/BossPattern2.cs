@@ -109,18 +109,18 @@ public class BossPattern2 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         //패턴 조합 영역
-        //patternDic.Add(0, new BossState[] {
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
-        //    BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.Groggy
-        //});
+        patternDic.Add(0, new BossState[] {
+            BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.Groggy
+        });
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.Groggy });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern2, BossState.Groggy });
-        patternDic.Add(2, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.Groggy });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.Groggy });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern4, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern2, BossState.Groggy });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern5, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.Groggy });
 
         if (isEnraged)
         {
