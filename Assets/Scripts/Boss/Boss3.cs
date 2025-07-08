@@ -801,12 +801,12 @@ public class Boss3 : MonoBehaviour
         int totalAttack = isEnraged ? 8 : 4;
         for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
-            string[] wp4Clips = { "3-4-1", "3-4-2", "3-4-3" };
-            string randomClip = wp4Clips[Random.Range(0, wp4Clips.Length)];
-            SoundManager.Instance.EffectSoundOn(randomClip);
+            
             StartCoroutine(WeakPattern4Execute(attackCount));
+
             float timeBetweenAttacks = isEnraged ? _wp4EnranageDelay : _wp4NormalDelay;
             yield return new WaitForSeconds(timeBetweenAttacks);
+
         }
 
 
@@ -871,7 +871,9 @@ public class Boss3 : MonoBehaviour
             MusicProjectile,
             false
         );
-
+        string[] wp4Clips = { "3-4-1", "3-4-2", "3-4-3" };
+        string randomClip = wp4Clips[Random.Range(0, wp4Clips.Length)];
+        SoundManager.Instance.EffectSoundOn(randomClip);
         GameObject projectile = Instantiate(MusicProjectile, targetPosition, Quaternion.identity);
         StartCoroutine(weak5HitRemove(projectile));
         ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
@@ -940,9 +942,6 @@ public class Boss3 : MonoBehaviour
             }
             yield return new WaitForSeconds(weak5Delay);
         }
-        string[] wp5Clips = { "3-5-1", "3-5-2", "3-5-3" };
-        string randomClip = wp5Clips[Random.Range(0, wp5Clips.Length)];
-        SoundManager.Instance.EffectSoundOn(randomClip);
 
         
         StartCoroutine(FinishPattern());
