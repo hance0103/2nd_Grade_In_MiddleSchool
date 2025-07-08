@@ -106,6 +106,7 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private ProjectileScriptableObject weak4ProjData;
     [SerializeField] private GameObject MusicProjectile;
     [SerializeField] private float musicProjectileHitTime;
+    [SerializeField] private float explosionDuration;
 
     [Header("광폭화 패턴 데이터")]
     [SerializeField] private BossScriptableObject enragedPatternData;
@@ -172,11 +173,11 @@ public class Boss3 : MonoBehaviour
             
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
-            BossState.WeakPattern1,
+            //BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
+            BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -905,25 +906,12 @@ public class Boss3 : MonoBehaviour
         }
         behaviour.Initialize(weak4ProjData.Damage, null);
 
-        float explosionDuration = isEnraged ? 0.25f : 0.5f;
-        //float startScale = 0.5f;
-        float endScale = isEnraged ? 3f : 3f;
-        float elapsed = 0f;
 
-        while (elapsed < explosionDuration)
+        foreach (Sprite sprite in explosionSprites)
         {
-            //float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
-            //projectile.transform.localScale = new Vector3(scale, scale, 1f);
-            float alpha = 1f - (elapsed / explosionDuration);
-            SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
-            if (projRenderer != null)
-            {
-                projRenderer.color = new Color(1f, 1f, 1f, alpha);
-            }
-            elapsed += Time.deltaTime;
-            yield return null;
+            yield return new WaitForSeconds(explosionDuration/5);
+            projectile.GetComponent<SpriteRenderer>().sprite = sprite;
         }
-
         Destroy(projectile);
         Destroy(projectileController.gameObject);
         #endregion
@@ -1014,23 +1002,12 @@ public class Boss3 : MonoBehaviour
         }
         behaviour.Initialize(weak4ProjData.Damage, null);
 
-        float explosionDuration = isEnraged ? 0.25f : 0.25f;
-
-        float elapsed = 0f;
-
-        while (elapsed < explosionDuration)
+        foreach (Sprite sprite in explosionSprites)
         {
-            //float scale = Mathf.Lerp(startScale, endScale, elapsed / explosionDuration);
-            projectile.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
-            float alpha = 1f - (elapsed / explosionDuration);
-            SpriteRenderer projRenderer = projectile.GetComponent<SpriteRenderer>();
-            if (projRenderer != null)
-            {
-                projRenderer.color = new Color(1f, 1f, 1f, alpha);
-            }
-            elapsed += Time.deltaTime;
-            yield return null;
+            yield return new WaitForSeconds(explosionDuration / 5);
+            projectile.GetComponent<SpriteRenderer>().sprite = sprite;
         }
+
         ResetPatternFlags();
         Destroy(projectile);
         Destroy(projectileController.gameObject);
