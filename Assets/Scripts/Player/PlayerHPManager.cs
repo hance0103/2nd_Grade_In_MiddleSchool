@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ public class PlayerHPManager : MonoBehaviour
     [Header("�й� �˾�")]
     [SerializeField] private GameObject DefeatPopup;
     [SerializeField] private DefeatPopup DefeatPopupScript;
-    [Header("��������")]
-    [SerializeField] private int Stage;
+    [Header("스테이지")]
+    [SerializeField] public int Stage;
     private float currentHP;
     [SerializeField]
     public float _InvincibleTime = 1f;
@@ -87,7 +88,20 @@ public class PlayerHPManager : MonoBehaviour
             }
         }
         currentHP -= damage;
-        //Debug.Log($"플레이어 {damage}데미지 히트. 남은 HP: {currentHP}");
+
+        if (currentHP <= 0)
+        {
+            _gameOver = true;
+            currentHP = 0;
+            StartCoroutine(PlayerDying());
+            Debug.Log($"[DeathCheck] Stage = {Stage} (직전 값)");
+            player.PlayerDefeat();
+            player.ActivateInvincible();
+            playerController.SetActive(false);
+            Time.timeScale = 0f;
+            return;
+        }
+
         player.ActivateInvincible();
         StartCoroutine(InvincibleCounter());
 
@@ -101,33 +115,35 @@ public class PlayerHPManager : MonoBehaviour
         player.CamShake(player.playerHitShakeMagnitude, player.playerHitShakeDuration);
 
 
-        if (currentHP <= 0 )
-        {
-            _gameOver = true;
-            currentHP = 0;
-            Debug.Log("플레이어 사망");
-            DefeatPopup.SetActive(true);
-            player.PlayerDefeat();
-            player.ActivateInvincible();
-            playerController.SetActive(false);
-            switch (Stage)
-            {
-                case 1:
-                    DefeatPopupScript.OpenDefeat1();
-                    break;
-                case 2:
-                    DefeatPopupScript.OpenDefeat2();
-                    break;
-                case 3:
-                    DefeatPopupScript.OpenDefeat3();
-                    break;
-                default:
-                    Debug.LogError("할당되지 않은 스테이지입니다.");
-                    break;
-            }
-            Time.timeScale = 0f;
-        }
+       
     }
+    private IEnumerator PlayerDying()
+    {
+        CameraMove.Instance.PlayerDie();
+        yield return new WaitForSecondsRealtime(2f);
+        DefeatPopup.SetActive(true);
+        switch (Stage)
+        {
+            case 1:
+                DefeatPopupScript.OpenDefeat1();
+                Debug.Log("플레이어 사망1");
+                break;
+            case 2:
+                DefeatPopupScript.OpenDefeat2();
+                Debug.Log("플레이어 사망2");
+                break;
+            case 3:
+                DefeatPopupScript.OpenDefeat3();
+                Debug.Log("플레이어 사망3");
+                break;
+            default:
+                Debug.LogError("할당되지 않은 스테이지입니다.");
+                break;
+        }
+        player.ResumeAfterDefeat();
+        yield return null;
+    }
+
     public float GetCurrentHP()
     {
         return currentHP;

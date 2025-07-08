@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInputProxy input;
 
     public PlayerAnimation anim;
+    private Animator animator;
     private SpriteRenderer sprite;
     private BoxCollider2D collider2d;
 
@@ -166,6 +167,7 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<PlayerAnimation>();
+        animator = GetComponent<Animator>();
         collider2d = GetComponent<BoxCollider2D>();
         stateMachine = new PlayerStateMachine();
         stateMachine.ChangeState(new IdleState(this));
@@ -536,13 +538,21 @@ public class PlayerController : MonoBehaviour
         _canPlayerControll = true;
         rb.isKinematic = false;
     }
+    bool _canPlayerControl = true;
     public void PlayerDefeat()
     {
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+
         ChangeState(new IdleState(this));
         _canPlayerControll = false;
+
         anim.PlayAnimation("Defeat");
     }
-
+    public void ResumeAfterDefeat()
+    {
+        animator.updateMode = AnimatorUpdateMode.Normal;
+        _canPlayerControll = true;
+    }
     public void StartDash()
     {
         if (!canDash) return;

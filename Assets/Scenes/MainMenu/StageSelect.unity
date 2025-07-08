@@ -4683,7 +4683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 578309585}
         m_TargetAssemblyTypeName: DiaryPopup, Assembly-CSharp
-        m_MethodName: CloseDiaryPage
+        m_MethodName: CloseDiaryPage2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

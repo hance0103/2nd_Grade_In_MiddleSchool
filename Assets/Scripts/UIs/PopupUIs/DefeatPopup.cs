@@ -44,13 +44,13 @@ public class DefeatPopup : MonoBehaviour
     // 패배 팝업 열기 (게임 일시정지)
     private void Awake()
     {
-        Controller = GameObject.FindGameObjectWithTag("Controller");
-        if (Controller == null)
-            Debug.LogError("Controller 태그가 붙은 오브젝트를 찾을 수 없습니다!");
+        //Controller = GameObject.FindGameObjectWithTag("Controller");
+        //if (Controller == null)
+            //Debug.LogError("Controller 태그가 붙은 오브젝트를 찾을 수 없습니다!");
     }
     public void OpenDefeat1()
     {
-        Controller.SetActive(false);
+        //Controller.SetActive(false);
         ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts1.Length);
@@ -66,7 +66,7 @@ public class DefeatPopup : MonoBehaviour
     }
     public void OpenDefeat2()
     {
-        Controller.SetActive(false);
+        //Controller.SetActive(false);
         ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts2.Length);
@@ -82,7 +82,6 @@ public class DefeatPopup : MonoBehaviour
     }
     public void OpenDefeat3()
     {
-        Controller.SetActive(false);
         ScreenGrayscale.SetGrayscale(false, 0.1f);
         SoundManager.Instance.loseBgmOn();
         int randomIndex = Random.Range(0, Defeattexts3.Length);
