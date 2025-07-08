@@ -9,9 +9,13 @@ public class DamageBoss : MonoBehaviour
     {
         
     }
-    public void Onclick()
+    public void OnclickBoss()
     {
         BossHPManager.Instance.TakeDamage(100);
+    }
+    public void OnclickPlayer()
+    {
+        PlayerHPManager.Instance.TakeDamage(100);
     }
     // Update is called once per frame
     void Update()

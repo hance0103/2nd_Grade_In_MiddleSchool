@@ -74,4 +74,9 @@ public class DiaryPopup : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         gameObject.SetActive(false);
     }
+    public void CloseDiaryPage2()
+    {
+        SoundManager.Instance.EffectSoundOn("1");
+        gameObject.SetActive(false);
+    }
 }

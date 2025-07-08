@@ -29,7 +29,11 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private Transform Player;         // 플레이어 오브젝트의 Transform
     [SerializeField] private float zoomSizePlayer = 3f;    // 플레이어에게 줌인할 때의 Orthographic Size
     [SerializeField] private float zoomDurationPlayer = 1f;// 줌인/아웃에 걸리는 시간(초) 
-    
+    [SerializeField] private float minCamY = -2f; // 내려갈 수 있는 최저 높이
+    [SerializeField] private float maxCamY = 3f; // 올라갈 수 있는 최고 높이
+    [SerializeField] private float minCamX = -5f;    // 왼쪽 끝
+    [SerializeField] private float maxCamX = 5f;    // 오른쪽 끝
+
     private bool isZooming = false;
     private Camera cam;                // 메인 카메라
     private GameObject player;         // 플레이어
@@ -199,56 +203,55 @@ public class CameraMove : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-
+    public void PlayerDie()
+    {
+        StartCoroutine(ZoomToPlayerCoroutine());
+    }
     private IEnumerator ZoomToPlayerCoroutine()
     {
         isZooming = true;
-
-        // 1) 게임 시간을 멈춤
         Time.timeScale = 0f;
 
-        // 카메라 현 상태 저장
         originalSize = cam.orthographicSize;
         originalPos = transform.position;
 
-        // 플레이어 위치 (z값은 카메라의 z 유지)
-        Vector3 playerPos = Player.position;
-        playerPos.z = transform.position.z;
+        Vector3 targetPos = Player.position;
+        targetPos.z = originalPos.z;
+        targetPos.y = Mathf.Clamp(targetPos.y, minCamY, maxCamY); // Y 하한
+        targetPos.x = Mathf.Clamp(targetPos.x, minCamX, maxCamX); // X 범위
 
-        // 2) 카메라 줌인
         float t = 0f;
         while (t < 1f)
         {
             t += Time.unscaledDeltaTime / zoomDurationPlayer;
+
             cam.orthographicSize = Mathf.Lerp(originalSize, zoomSizePlayer, t);
-            transform.position = Vector3.Lerp(originalPos, playerPos, t);
+            transform.position = Vector3.Lerp(originalPos, targetPos, t);
+
             yield return null;
         }
 
-        
-        // 정적 변수가 true가 될 때까지 대기
         while (!GameManager.isPlayerZoomOutAllowed)
-        {
-            // 정적 변수가 false인 동안 계속 대기
             yield return null;
-        }
 
-        // 3) 카메라 원상 복귀 (줌 아웃)
+        Vector3 zoomOutStartPos = transform.position;
+        zoomOutStartPos.y = Mathf.Max(zoomOutStartPos.y, minCamY);
+        zoomOutStartPos.x = Mathf.Clamp(zoomOutStartPos.x, minCamX, maxCamX);
+
         t = 0f;
         while (t < 1f)
         {
             t += Time.unscaledDeltaTime / zoomDurationPlayer;
+
             cam.orthographicSize = Mathf.Lerp(zoomSizePlayer, originalSize, t);
-            transform.position = Vector3.Lerp(playerPos, originalPos, t);
+            transform.position = Vector3.Lerp(zoomOutStartPos, originalPos, t);
+
             yield return null;
         }
 
-        // 4) 시간 복원
+        /* 5) 시간 복원 */
         Time.timeScale = 1f;
         isZooming = false;
-
-        // 줌 아웃이 끝나면 다시 false로 바꿔서 재사용할 수도 있음
-        // GameManager.isPlayerZoomOutAllowed = false;
     }
     private IEnumerator ZoomToFinishBossCoroutine()
     {
