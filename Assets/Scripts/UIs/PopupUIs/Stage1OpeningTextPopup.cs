@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using UnityEngine.TextCore.Text;
 
 public class Stage1OpeningTextPopup : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class Stage1OpeningTextPopup : MonoBehaviour
     }
     IEnumerator OpeningTextStage1() //("등장인물", "대사")로 입력
     {
+        character1.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character1, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "오늘은 이 몸이 문화재에 공연을 하러 가는 초-스페셜한 날 !!"));
         yield return StartCoroutine(NormalChat("주인공", "벌써 1년 반 째 이 몸에 어울리는 동료를 찾지 못했지만... "));
@@ -74,9 +76,12 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("주인공", "기필코!! 인간놈들과 어울려 주겠다!"));
         yield return StartCoroutine(NormalChat("주인공", "모두 나에게 반해 친해지려 안달날 상황이 그려지는구나 크큭."));
         character1.gameObject.SetActive(false);
-        //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
+
+        yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.1f, 100f));
         yield return StartCoroutine(NormalChat("???", "거기까지다 소녀여..."));
-        //boss1.gameObject.SetActive(false);
+        boss1.gameObject.SetActive(false);
+
+        character2.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "나타났구나."));
         yield return StartCoroutine(NormalChat("주인공", "엉겁의 세월 동안 [오 레 사 마]를 잡아두고"));
@@ -86,12 +91,16 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..사라져라."));
         yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
         character2.gameObject.SetActive(false);
-        //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
+
+        boss1.gameObject.SetActive(true);
+        yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.1f, 100f));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "연약한 [소녀]여"));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "모든 사물은 내 앞에서 멈춘다."));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "예외는 없다 소녀여..."));
-        //boss1.gameObject.SetActive(false);
+        boss1.gameObject.SetActive(false);
+
+        character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("주인공", "아-? 하찮구나 고작 속세의 [미물] 따위가-"));
         yield return StartCoroutine(NormalChat("주인공", "감히 나... ?"));
@@ -162,7 +171,6 @@ public class Stage1OpeningTextPopup : MonoBehaviour
 
     IEnumerator FadeInImageFromRight(Image targetImage, float duration, float distance)
     {
-
         Color originalColor = targetImage.color;
         originalColor.a = 0f;
         targetImage.color = originalColor;

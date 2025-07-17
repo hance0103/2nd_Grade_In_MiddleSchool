@@ -53,20 +53,21 @@ public class Stage2ClosingTextPopup : MonoBehaviour
     IEnumerator ClosingTextStage2() //("등장인물", "대사")로 입력 
     {
         yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "잘가라 [정념의 잔존물]이여...! 이걸로 끝이다!"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "잘가라 [정념의 잔존물]이여...! 이걸로 끝이다!"));
         character2.gameObject.SetActive(false);
         yield return StartCoroutine(NormalChat("", "(소녀는 청심환을 삼켰다.)"));
         //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.5f, 100f));
-        yield return StartCoroutine(NormalChat("거미", "큭... 승리도 너의 착각이다.."));
-        yield return StartCoroutine(NormalChat("거미", "내 저주는 널 따라다닐 것이다.."));
+        yield return StartCoroutine(NormalChat("영혼의 직조자", "큭... 승리도 너의 착각이다.."));
+        yield return StartCoroutine(NormalChat("영혼의 직조자", "내 저주는 널 따라다닐 것이다.."));
         //boss1.gameObject.SetActive(false);
         yield return StartCoroutine(FadeInImageFromRight(character5, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "흥, 어디 한 번 실컷 저주해 보거라 !"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "흥, 어디 한 번 실컷 저주해 보거라 !"));
         character5.gameObject.SetActive(false);
+        character2.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "이 몸의 숙원을 막을 수 있다고 생각한 너의 그 [오만]..."));
-        yield return StartCoroutine(NormalChat("주인공", "그것이 너의 패착이다.."));
-        yield return StartCoroutine(NormalChat("주인공", "소음의 저편으로 사라져라."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "이 몸의 숙원을 막을 수 있다고 생각한 너의 그 [오만]..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "그것이 너의 패착이다.."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "소음의 저편으로 사라져라."));
         character2.gameObject.SetActive(false);
         CloseClosingText();
     }
