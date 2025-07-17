@@ -66,47 +66,51 @@ public class Stage3OpeningTextPopup : MonoBehaviour
     }
     IEnumerator OpeningTextStage3() //("등장인물", "대사")로 입력
     {
+        character5.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character5, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "여기서 한발만 내딛으면... 분명 이 몸에 어울리는 동료를 많이..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "여기서 한발만 내딛으면... 분명 이 몸에 어울리는 동료를 많이..."));
         character5.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("", "..."));
         yield return StartCoroutine(NormalChat("???", "( 고작 공연 따위를 잘한다고 동료가 생길까..?)"));
 
+        character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "... "));
-        yield return StartCoroutine(NormalChat("주인공", "분명..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "... "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "분명..."));
         character3.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("???", "( 그럼 너의 그 1년 반은 뭐였지? )"));
         yield return StartCoroutine(NormalChat("", "..."));
         yield return StartCoroutine(NormalChat("???", "( 이 현실을 그냥 외면하고 있던 것 아닌가? )"));
 
+        character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "알아... "));
-        yield return StartCoroutine(NormalChat("주인공", "안다고...! "));
-        yield return StartCoroutine(NormalChat("주인공", "이 이상한 성격 때문인 거 잘 안다고..."));
-        yield return StartCoroutine(NormalChat("주인공", "그렇지만 두렵다고..! "));
-        yield return StartCoroutine(NormalChat("주인공", "사람들이랑 대화하는 것도..."));
-        yield return StartCoroutine(NormalChat("주인공", "누군가와 관계를 맺는 것도..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자 ", "알아... "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "안다고...! "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "이 이상한 성격 때문인 거 잘 안다고..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "그렇지만 두렵다고..! "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "사람들이랑 대화하는 것도..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "누군가와 관계를 맺는 것도..."));
         character3.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("???", "( 분명 실수 하게 될 것이다. )"));
 
         yield return StartCoroutine(FadeInImageFromRight(character2, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "...아니야!"));
-        yield return StartCoroutine(NormalChat("주인공", "두 손을 벌벌 떨면서 공연 신청을 할 때도...!"));
-        yield return StartCoroutine(NormalChat("주인공", "실수 하지 않으려고 수 백 수 천 번을 연습할 때도...! "));
-        yield return StartCoroutine(NormalChat("주인공", "난 내 자신을 바꾸기 위해서 선택했고"));
-        yield return StartCoroutine(NormalChat("주인공", "여기까지 온거라고...!."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "...아니야!"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "두 손을 벌벌 떨면서 공연 신청을 할 때도...!"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "실수 하지 않으려고 수 백 수 천 번을 연습할 때도...! "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "난 내 자신을 바꾸기 위해서 선택했고"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "여기까지 온거라고...!."));
         character2.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("???", "( 그렇다면 증명해라. )"));
 
+        character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "..."));
-        yield return StartCoroutine(NormalChat("주인공", "그래... "));
-        yield return StartCoroutine(NormalChat("주인공", "들어줘... 나의 시작의 광시곡을..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "..."));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "그래... "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "들어줘... 나의 시작의 광시곡을..."));
         character3.gameObject.SetActive(false);
 
         CloseOpeningText();

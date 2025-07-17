@@ -54,21 +54,24 @@ public class Stage3ClosingTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("", "..."));
         yield return StartCoroutine(NormalChat("???", "( 할 수 있겠어? )"));
 
+        character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "물론이지. "));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "물론이지. "));
         character3.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("???", "( 난... 할 수 있을거야 )"));
 
+        character5.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character5, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "그래 맞아."));
-        character3.gameObject.SetActive(false);
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "그래 맞아."));
+        character5.gameObject.SetActive(false);
 
         yield return StartCoroutine(NormalChat("???", " 준비 됐어? )"));
 
+        character1.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character1, 0.2f, 100f));
-        yield return StartCoroutine(NormalChat("주인공", "가자...! 후회없이 즐기고 오자고!"));
-        yield return StartCoroutine(NormalChat("주인공", "목도하라! 이 몸의 강림(학교 생활 데뷔)을!"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "가자...! 후회없이 즐기고 오자고!"));
+        yield return StartCoroutine(NormalChat("적혈의 서약자", "목도하라! 이 몸의 강림(학교 생활 데뷔)을!"));
         character1.gameObject.SetActive(false);
         CloseClosingText();
     }
