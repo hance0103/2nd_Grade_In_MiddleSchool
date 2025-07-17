@@ -80,8 +80,11 @@ public class BossHPManager : MonoBehaviour
         {
             currentHP = 0;
 
-            Boss.GetComponent<Boss3>().OnDesperate();
+            Boss.GetComponent<Boss3>().DesperateReady();
+
+
         }
+
     }
     private IEnumerator BossHitBlink()
     {

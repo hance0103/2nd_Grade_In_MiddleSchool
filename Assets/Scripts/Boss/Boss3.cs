@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,7 @@ public class Boss3 : MonoBehaviour
     private Coroutine currentCoroutine = null;
     private Dictionary<int, BossState[]> patternDic = new();
     private bool isDesEnr = false;
+    [SerializeField]
     private BossState currentState;
     public GameObject player;
     private LaserController2 laserController;
@@ -123,22 +125,30 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private BossScriptableObject desperatePattern2Data;
     [SerializeField] private ProjectileScriptableObject desperate2ProjData;
 
+
+
     [Header("발악패턴3 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern3Data;
     [SerializeField] private LaserScriptableObject desperate3LaserData;
 
     
-
     private BossHPManager bossHPManager; // BossHPManager ����
     private bool shouldTriggerEnrage = false;
     private bool isEnrageTriggered = false;
     private bool isDead = false;
     Animator animator;
+
+    private BossState[] desperatePatternArray;
     #endregion
 
     private void Awake()
     {
+        bossHPManager = GetComponent<BossHPManager>();
+
+
         weak5ObjectList = new();
+
+
         foreach (Transform child in weak5Object.transform)
         {
             weak5ObjectList.Add(child.gameObject);
@@ -171,15 +181,21 @@ public class Boss3 : MonoBehaviour
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
 
+        desperatePatternArray = new BossState[] {
+            BossState.DesperatePattern1,
+            BossState.DesperatePattern2,
+            BossState.DesperatePattern3
+        };
+
         patternDic.Add(0, new BossState[] {
             
             //BossState.WeakPattern4,
             //BossState.WeakPattern5,
-            //BossState.WeakPattern1,
+            BossState.WeakPattern1,
             //BossState.WeakPattern2,
             //BossState.WeakPattern3,
             //BossState.WeakPattern4,
-            BossState.WeakPattern5,
+            //BossState.WeakPattern5,
             //BossState.EnragedPattern,
             //BossState.DesperatePattern1,
             //BossState.DesperatePattern2,
@@ -189,7 +205,12 @@ public class Boss3 : MonoBehaviour
 
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.WeakPattern5 });
         //patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
-        StartCoroutine(BeforeIdle());
+        
+        if (!isDesperate)
+        {
+            StartCoroutine(BeforeIdle());
+        }
+        
     }
     [Header("광폭화 팝업")]
     [SerializeField] private GameObject BossEnragePopup;
@@ -204,25 +225,39 @@ public class Boss3 : MonoBehaviour
     }
     void Update()
     {
+        if(ready4Desperate && EndPattern && !isDesperate)
+        {
+            Debug.Log("패턴 종료. 발악 시작");
+            currentState = BossState.Idle;
+            OnDesperate();
+        }
+
         // 체력 0이 되어서 발악패턴 - isDesperate는 BossHpManager에서 True로 설정해줌
         if (isDesperate)
         {
-            RemoveAllPattern();
+            EndPattern = true;
             // 모든 발악패턴이 종료되어 보스가 완전히 죽음 - isDead는 발악패턴 코루틴이 모두 종료되면 true로 바꿈
             if (isDead)
             {
+
                 bossHPManager.BossDie3Execute();
                 StartCoroutine(DeathEffect());
                 return;
             }
-
-            // 발악 패턴 실행
-            if(!isDesperatePatternExecuted)
+            if (!isDesperatePatternExecuted)
             {
+                Debug.Log("발악 idle 실행");
                 isDesperatePatternExecuted = true;
-                // 여기서 발악패턴 코루틴 실행시켜줌
-
+                
+                StartCoroutine(DesperateIdle());
             }
+
+            if (currentState == BossState.DesperatePattern1 && currentCoroutine == null)
+            {
+
+                currentCoroutine = StartCoroutine(DesperatePattern1());
+            }
+
 
             return;
         }
@@ -303,6 +338,7 @@ public class Boss3 : MonoBehaviour
         currentState = BossState.None;
         currentCoroutine = null;
     }
+
     public IEnumerator Idle()
     {
         int patternNum = Random.Range(0, patternDic.Count);
@@ -320,7 +356,7 @@ public class Boss3 : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 isDelayed = true;
             }
-        }
+        } 
         currentBossStateArray = null;
     }
     public IEnumerator BeforeIdle()
@@ -340,7 +376,22 @@ public class Boss3 : MonoBehaviour
 
         currentBossStateArray = null;
     }
+    private IEnumerator DesperateIdle()
+    {
+        currentBossStateArray = desperatePatternArray;
+        for (int i = 0; i < currentBossStateArray.Length; i++)
+        {
+            yield return new WaitForSeconds(PATTERN_GAP);
+            currentState = currentBossStateArray[i];
+            yield return new WaitUntil(() => currentState == BossState.None); // 패턴이 모두 실행되길 기다림
 
+            currentState = BossState.Idle;
+            currentCoroutine = null;
+        }
+
+        Debug.Log("모든 패턴 종료");
+        isDead = true;
+    }
     #region 약공격1
     public IEnumerator WeakPattern1()
     {
@@ -350,7 +401,6 @@ public class Boss3 : MonoBehaviour
         currentState = BossState.WeakPattern1;
 
 
-        Debug.Log(weak1TeleportPosition.Length);
         int randPoS = Random.Range(0, weak1TeleportPosition.Length);
 
         transform.position = weak1TeleportPosition[randPoS];
@@ -1193,82 +1243,140 @@ public class Boss3 : MonoBehaviour
 
     public void OnDesperate()
     {
-        Debug.Log("0줄 패턴");
         isDesperate = true;
+
+        currentState = BossState.None;
+        // 현재 나와있는 패턴들 삭제해주기
+        RemoveAllPattern();
     }
     private void OnBossDeath()
     {
 
     }
     #region 발악패턴1
+    bool isDesperatePattern1End = false;
+
     public IEnumerator DesperatePattern1()
     {
-        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
+        yield return new WaitForSeconds(0.5f);
+        
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
 
-        #region 맵데이터
-        float bottomBound = mapWidthPositions[0].position.y;
-        float topBound = mapWidthPositions[1].position.y;
+        StartCoroutine(DesperatePattern1_Sub());
+
+        #region 맵 데이터
+        float bottomBound = mapWidthPositions[0].position.y - 1;
+        float topBound = mapWidthPositions[1].position.y + 1;
         float leftBound = mapWidthPositions[0].position.x;
         float rightBound = mapWidthPositions[1].position.x;
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, bottomBound + 4);
-        FacePlayer();
-
-        bool weakPattern1Complete = false;
-        bool weakPattern2Complete = false;
-
-        // WeakPattern1 (not enraged)
-        StartCoroutine(WeakPattern1Wrapper(() => {
-            weakPattern1Complete = true;
-        }));
-
-        // WeakPattern2 (enraged, 7 times)
-        StartCoroutine(WeakPattern2Wrapper(() => {
-            weakPattern2Complete = true;
-        }));
-
-        // Wait until both patterns complete
-        yield return new WaitUntil(() => weakPattern1Complete && weakPattern2Complete);
+        transform.position = new Vector2(centerBound, bottomBound + 8.9f);
+        animator.SetTrigger("isNormal");
 
 
-        StartCoroutine(FinishPattern());
-    }
-    #endregion
-
-    #region 발악1의 약공1
-    public IEnumerator WeakPattern1Des()
-    {
-        yield return new WaitForSeconds(0.5f);
-        EndPattern = false;
-        Debug.Log("약공격1 - 기본(발악1)");
-        currentState = BossState.WeakPattern1;
-
-        #region 맵데이터
-        float bottomBound = mapWidthPositions[0].position.y;
-        float topBound = mapWidthPositions[1].position.y;
-        float mapHeight = topBound - bottomBound;
-        float layerHeight = mapHeight / 3f;
-        #endregion
-
-        float[] layerPositions = new float[3];
-        for (int i = 0; i < 3; i++)
-        {
-            layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
-        }
-
-        Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 1, 0);
-        Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 1, 0);
-
-        
+        float mapWidth = rightBound - leftBound;
+        float sectionWidth = mapWidth / 7f;
+        float[] sectionPositions = new float[7];
         for (int i = 0; i < 7; i++)
         {
-            
-                // 기본 상태: 1개 레이어 공격 
+            sectionPositions[i] = leftBound + (sectionWidth * i) + (sectionWidth * 0.5f);
+        }
+
+        int[][] firePairs = new int[][] {
+                new int[] {0, 6},
+                new int[] {1, 5},
+                new int[] {2, 4},
+                new int[] {3},
+                new int[] {2, 4},
+                new int[] {1, 5},
+                new int[] {0, 6}
+            };
+
+        // 먼저 모든 경고선 표시
+        List<LineRenderer> allWarnings = new List<LineRenderer>();
+        foreach (var pair in firePairs)
+        {
+            foreach (int pos in pair)
+            {
+                LineRenderer warning = CreateDangerZone(weak2LaserData);
+                StartCoroutine(BlinkDangerZone(warning));
+                warning.SetPosition(0, new Vector2(sectionPositions[pos], topBound));
+                warning.SetPosition(1, new Vector2(sectionPositions[pos], bottomBound));
+                warning.transform.SetParent(bossPatternPanel.transform, false);
+                allWarnings.Add(warning);
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        yield return new WaitForSeconds(weak2LaserData.LaserLockDuration);
+
+        foreach (var warning in allWarnings)
+        {
+            Destroy(warning.gameObject);
+        }
+
+        // 그 다음 레이저 발사
+        foreach (var pair in firePairs)
+        {
+            foreach (int pos in pair)
+            {
+                LaserController2 laser = LaserController2.Create(
+                    weak2LaserData,
+                    new Vector2(sectionPositions[pos], topBound),
+                    null
+                );
+                laser.SetTargetLayer(weak2LaserData.TargetLayer);
+                laser.transform.SetParent(bossPatternPanel.transform, false);
+                StartCoroutine(laser.FireLaser(
+                    new Vector2(sectionPositions[pos], topBound),
+                    new Vector2(sectionPositions[pos], bottomBound)
+                ));
+            }
+            yield return new WaitForSeconds(_wp2LaserDelay);
+        }
+
+        StopCoroutine(DesperatePattern1_Sub());
+
+        isDesperatePattern1End = true;
+        StartCoroutine(FinishPattern());
+
+
+    }
+    public IEnumerator DesperatePattern1_Sub()
+    {
+        while (!isDesperatePattern1End)
+        {
+
+
+            int randPoS = Random.Range(0, weak1TeleportPosition.Length);
+
+            transform.position = weak1TeleportPosition[randPoS];
+            FacePlayer();
+
+            #region 맵 데이터
+            float bottomBound = mapWidthPositions[0].position.y;
+            float topBound = mapWidthPositions[1].position.y;
+            float mapHeight = topBound - bottomBound;
+            float layerHeight = mapHeight / 3f;
+            #endregion
+
+
+            animator.SetTrigger("isNormal");
+            float[] layerPositions = new float[3];
+            for (int i = 0; i < 3; i++)
+            {
+                layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
+            }
+
+            Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 15, 0);
+            Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
+
+            {
+                // 기본 상태: 1개 레이어 공격 (기존 코드와 동일)
                 int randomLayer = Random.Range(0, 3);
                 float targetY = layerPositions[randomLayer];
 
@@ -1276,6 +1384,7 @@ public class Boss3 : MonoBehaviour
                 Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
                 LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                warningLine.transform.SetParent(bossPatternPanel.transform, false);
                 StartCoroutine(BlinkDangerZone(warningLine));
                 warningLine.SetPosition(0, startPosition);
                 warningLine.SetPosition(1, targetPosition);
@@ -1289,36 +1398,17 @@ public class Boss3 : MonoBehaviour
                     null
                 );
                 laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                laser.transform.SetParent(bossPatternPanel.transform, false);
+                animator.SetTrigger("isNormal");
                 yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
-            
-
-            if (i < 6)
-            {
-                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
             }
-        }
 
-        currentState = BossState.None;
-        currentCoroutine = null;
-    }
-    #endregion
+            yield return new WaitForSeconds(weak1LaserData.LaserFollowDuration);
+            animator.SetTrigger("isStrong");
 
-    #region 발악1 동시 실행을 위한 코루틴
-    private IEnumerator WeakPattern1Wrapper(System.Action onComplete)
-    {
-        yield return StartCoroutine(WeakPattern1Des());
-        onComplete?.Invoke();
-    }
-    private IEnumerator WeakPattern2Wrapper(System.Action onComplete)
-    {
-        isEnraged = true;
-        int repeatCount = 0;
-        while (repeatCount < 7)
-        {
-            yield return StartCoroutine(WeakPattern2());
-            repeatCount++;
+
+            yield return null;
         }
-        onComplete?.Invoke();
     }
     #endregion
 
@@ -2149,12 +2239,18 @@ public class Boss3 : MonoBehaviour
         }
     }
     #endregion
-
     public void RemoveAllPattern()
     {
+        StopAllCoroutines();
         foreach (Transform child in bossPatternPanel)
         {
             Destroy(child.gameObject);
         }
+    }
+    private bool ready4Desperate = false;
+    public void DesperateReady()
+    {
+        ready4Desperate = true;
+        Debug.Log("현재 진행중인 패턴이 끝나면 발악 시작");
     }
 }

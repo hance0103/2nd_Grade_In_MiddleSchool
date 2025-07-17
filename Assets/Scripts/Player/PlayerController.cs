@@ -778,7 +778,6 @@ public class PlayerController : MonoBehaviour
             attack.AttackSetting(_normalAttackDmg, _normalAttackSpeed, _normalAttackRange, atttackDirection);
 
             int rand = Random.Range(1, 5);
-            Debug.Log(rand);
             SoundManager.Instance.Play($"PlayerSound/PlayerNormalAttack{rand}");
         }
     }
