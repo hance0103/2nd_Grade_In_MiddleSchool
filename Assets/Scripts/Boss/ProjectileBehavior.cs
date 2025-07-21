@@ -60,7 +60,6 @@ public class ProjectileBehaviour : MonoBehaviour
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                  collision.gameObject.layer == delProjWallLayer) // Ground 또는 DelProjWall과 충돌
         {
-            Debug.Log("회수");
             ReleaseProjectile();
         }
     }
