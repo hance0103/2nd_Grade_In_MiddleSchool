@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -132,8 +134,11 @@ public class Boss3 : MonoBehaviour
     [Header("발악패턴3 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern3Data;
     [SerializeField] private LaserScriptableObject desperate3LaserData;
+    [SerializeField] private float desperate3Count;
+    [SerializeField] private Desperate3Vec desperate3Vec1;
+    [SerializeField] private Desperate3Vec desperate3Vec2;
 
-    
+
     private BossHPManager bossHPManager; // BossHPManager ����
     private bool shouldTriggerEnrage = false;
     private bool isEnrageTriggered = false;
@@ -167,6 +172,21 @@ public class Boss3 : MonoBehaviour
         public int num;
         public bool isActive;
     }
+    #endregion
+    #region 발악패턴3 관련
+
+    [Serializable]
+    public class Desperate3Vec
+    {
+        public List<VectorPair> vecList;
+    }
+    [Serializable]
+    public class VectorPair
+    {
+        public Vector2 startVec;
+        public Vector2 endVec;
+    }
+
     #endregion
     private void Awake()
     {
@@ -210,7 +230,7 @@ public class Boss3 : MonoBehaviour
 
         desperatePatternArray = new BossState[] {
             //BossState.DesperatePattern1,
-            BossState.DesperatePattern2,
+            //BossState.DesperatePattern2,
             BossState.DesperatePattern3
         };
 
@@ -285,6 +305,10 @@ public class Boss3 : MonoBehaviour
             else if (currentState == BossState.DesperatePattern2 && currentCoroutine == null)
             {
                 currentCoroutine = StartCoroutine(DesperatePattern2());
+            }
+            else if (currentState == BossState.DesperatePattern3 && currentCoroutine == null)
+            {
+                currentCoroutine = StartCoroutine(DesperatePattern3());
             }
 
 
@@ -1565,8 +1589,9 @@ public class Boss3 : MonoBehaviour
     #region 발악패턴3
     public IEnumerator DesperatePattern3()
     {
-        yield return new WaitForSeconds(0.5f);
         EndPattern = false;
+        yield return new WaitForSeconds(0.5f);
+        
         Debug.Log("발악패턴3");
         currentState = BossState.DesperatePattern3;
 
@@ -1580,53 +1605,83 @@ public class Boss3 : MonoBehaviour
         #endregion
 
         #region 레이저 리스트
-        List<List<(Vector2, Vector2)>> selectedSets = new List<List<(Vector2, Vector2)>>();
+    //    List<List<(Vector2, Vector2)>> selectedSets = new List<List<(Vector2, Vector2)>>();
 
-        // 계획서상 하단 이미지 레이저
-        List<(Vector2, Vector2)> firstSet = new List<(Vector2, Vector2)>
-    {
-        (new Vector2(leftBound, topBound), new Vector2(rightBound, bottomBound)),
-        (new Vector2(rightBound, topBound), new Vector2(leftBound, bottomBound)),
-        (new Vector2(centerBound - 6, topBound), new Vector2(centerBound + 6, bottomBound)),
-        (new Vector2(centerBound + 6, topBound), new Vector2(centerBound - 6, bottomBound))
-    };
+    //    // 계획서상 하단 이미지 레이저
+    //    List<(Vector2, Vector2)> firstSet = new List<(Vector2, Vector2)>
+    //{
+    //    (new Vector2(leftBound, topBound), new Vector2(rightBound, bottomBound)),
+    //    (new Vector2(rightBound, topBound), new Vector2(leftBound, bottomBound)),
+    //    (new Vector2(centerBound - 6, topBound), new Vector2(centerBound + 6, bottomBound)),
+    //    (new Vector2(centerBound + 6, topBound), new Vector2(centerBound - 6, bottomBound))
+    //};
 
-        // 계획서상 상단 이미지 레이저
-        List<(Vector2, Vector2)> secondSet = new List<(Vector2, Vector2)>
-    {
-        (new Vector2(centerBound + 14, topBound), new Vector2(centerBound - 14, bottomBound)),
-        (new Vector2(centerBound - 14, topBound), new Vector2(centerBound + 14, bottomBound)),
-        (new Vector2(leftBound, centerYBound), new Vector2(rightBound, centerYBound)),
-        (new Vector2(centerBound, topBound), new Vector2(centerBound, bottomBound))
-    };
+    //    // 계획서상 상단 이미지 레이저
+    //    List<(Vector2, Vector2)> secondSet = new List<(Vector2, Vector2)>
+    //{
+    //    (new Vector2(centerBound + 14, topBound), new Vector2(centerBound - 14, bottomBound)),
+    //    (new Vector2(centerBound - 14, topBound), new Vector2(centerBound + 14, bottomBound)),
+    //    (new Vector2(leftBound, centerYBound), new Vector2(rightBound, centerYBound)),
+    //    (new Vector2(centerBound, topBound), new Vector2(centerBound, bottomBound))
+    //};
         #endregion
 
         #region 레이저 경고 및 발사 로직
         // 첫 번째와 두 번째 세트에서 랜덤으로 8개의 세트를 선택
-        for (int i = 0; i < 8; i++)
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    if (UnityEngine.Random.value < 0.5f)
+        //    {
+        //        selectedSets.Add(new List<(Vector2, Vector2)>(firstSet));
+        //    }
+        //    else
+        //    {
+        //        selectedSets.Add(new List<(Vector2, Vector2)>(secondSet));
+        //    }
+        //}
+
+        List<int> patternTypeList = new();
+
+        // 카운트 수 만큼
+        for (int i = 0; i < desperate3Count; i++)
         {
-            if (UnityEngine.Random.value < 0.5f)
-            {
-                selectedSets.Add(new List<(Vector2, Vector2)>(firstSet));
-            }
-            else
-            {
-                selectedSets.Add(new List<(Vector2, Vector2)>(secondSet));
-            }
+            int rand = UnityEngine.Random.Range(1, 3);
+            patternTypeList.Add(rand);
         }
 
+
+
         // 선택된 세트에 대해 경고선 표시
-        foreach (var set in selectedSets)
+        foreach (var num in patternTypeList)
         {
             List<LineRenderer> warningLines = new List<LineRenderer>();
 
-            foreach (var (startPos, endPos) in set)
+
+            if (num == 1)
             {
-                LineRenderer warningLine = CreateDangerZone(desperate3LaserData);
-                warningLine.SetPosition(0, startPos);
-                warningLine.SetPosition(1, endPos);
-                StartCoroutine(BlinkDangerZone(warningLine));
-                warningLines.Add(warningLine);
+                foreach (var vec in desperate3Vec1.vecList)
+                {
+                    LineRenderer warningLine = CreateDangerZone(desperate3LaserData);
+                    warningLine.SetPosition(0, vec.startVec);
+                    warningLine.SetPosition(1, vec.endVec);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
+                }
+            }
+            else if (num == 2)
+            {
+                foreach (var vec in desperate3Vec2.vecList)
+                {
+                    LineRenderer warningLine = CreateDangerZone(desperate3LaserData);
+                    warningLine.SetPosition(0, vec.startVec);
+                    warningLine.SetPosition(1, vec.endVec);
+                    StartCoroutine(BlinkDangerZone(warningLine));
+                    warningLines.Add(warningLine);
+                }
+            }
+            else
+            {
+                Debug.LogError("Error : 허용되지 않은 원소 할당");
             }
 
             yield return new WaitForSeconds(0.5f); // 세트 전체가 표시된 후 잠시 대기
@@ -1642,25 +1697,40 @@ public class Boss3 : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // 레이저 발사
-        foreach (var set in selectedSets)
+        foreach (var num in patternTypeList)
         {
-            foreach (var (startPos, endPos) in set)
+            if (num == 1)
             {
-                LaserController2 laser = LaserController2.Create(
-                    desperate3LaserData,
-                    startPos,
-                    null
-                );
-                laser.SetTargetLayer(desperate3LaserData.TargetLayer);
-                StartCoroutine(laser.FireLaser(startPos, endPos));
+                foreach (var vec in desperate3Vec1.vecList)
+                {
+                    LaserController2 laser = LaserController2.Create(
+                        desperate3LaserData,
+                        vec.startVec,
+                        null
+                    );
+                    laser.SetTargetLayer(desperate3LaserData.TargetLayer);
+                    StartCoroutine(laser.FireLaser(vec.startVec, vec.endVec));
+                }
             }
-
-            yield return new WaitForSeconds(0.5f); // 세트 간 딜레이
+            else if (num == 2)
+            {
+                foreach (var vec in desperate3Vec2.vecList)
+                {
+                    LaserController2 laser = LaserController2.Create(
+                        desperate3LaserData,
+                        vec.startVec,
+                        null
+                    );
+                    laser.SetTargetLayer(desperate3LaserData.TargetLayer);
+                    StartCoroutine(laser.FireLaser(vec.startVec, vec.endVec));
+                }
+            }
+            yield return new WaitForSeconds(0.8f); // 세트 간 딜레이
         }
         #endregion
 
         // 패턴 종료
-        yield return new WaitForSeconds(desperatePattern3Data.AfterAttackDelay);
+        //yield return new WaitForSeconds(desperatePattern3Data.AfterAttackDelay);
 
 
         StartCoroutine(FinishPattern());
