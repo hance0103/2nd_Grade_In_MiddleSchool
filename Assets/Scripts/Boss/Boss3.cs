@@ -1400,7 +1400,7 @@ public class Boss3 : MonoBehaviour
 
             int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
 
-            transform.position = weak1TeleportPosition[randPoS];
+            transform.position = weak1TeleportPosition[2];
             FacePlayer();
 
             #region 맵 데이터
@@ -1429,21 +1429,21 @@ public class Boss3 : MonoBehaviour
                 Vector2 startPosition = new Vector2(leftPosition.x, targetY);
                 Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
 
-                LineRenderer warningLine = CreateDangerZone(weak1LaserData);
+                LineRenderer warningLine = CreateDangerZone(desperate1LaserData);
                 warningLine.transform.SetParent(bossPatternPanel.transform, false);
                 StartCoroutine(BlinkDangerZone(warningLine));
                 warningLine.SetPosition(0, startPosition);
                 warningLine.SetPosition(1, targetPosition);
 
-                yield return new WaitForSeconds(weak1LaserData.LaserLockDuration);
+                yield return new WaitForSeconds(desperate1LaserData.LaserLockDuration);
                 Destroy(warningLine.gameObject);
 
                 LaserController2 laser = LaserController2.Create(
-                    weak1LaserData,
+                    desperate1LaserData,
                     startPosition,
                     null
                 );
-                laser.SetTargetLayer(weak1LaserData.TargetLayer);
+                laser.SetTargetLayer(desperate1LaserData.TargetLayer);
                 laser.transform.SetParent(bossPatternPanel.transform, false);
                 animator.SetTrigger("isNormal");
                 yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
@@ -1725,7 +1725,7 @@ public class Boss3 : MonoBehaviour
                     StartCoroutine(laser.FireLaser(vec.startVec, vec.endVec));
                 }
             }
-            yield return new WaitForSeconds(0.8f); // 세트 간 딜레이
+            yield return new WaitForSeconds(1.2f); // 세트 간 딜레이
         }
         #endregion
 

@@ -9853,6 +9853,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4c4cd794daed3394c838e3ebe7a25a95, type: 2}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate1LaserData
+      value: 
+      objectReference: {fileID: 11400000, guid: b20703159d578e6459d829646486e822, type: 2}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: BossEnragePopupScript
       value: 
       objectReference: {fileID: 1984763622}
@@ -9974,35 +9978,131 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec1.vecList.Array.data[0].endVec.x
-      value: 5.29
+      value: 23.94
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec1.vecList.Array.data[0].endVec.y
-      value: -5.15
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[1].endVec.x
+      value: 5.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[1].endVec.y
+      value: 9.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[2].endVec.x
+      value: 22.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[2].endVec.y
+      value: 9.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[3].endVec.x
+      value: 22.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[3].endVec.y
+      value: -9.13
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec2.vecList.Array.data[0].endVec.x
-      value: 22.87
+      value: 34.22
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec2.vecList.Array.data[0].endVec.y
-      value: -0.12
+      value: 8.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[1].endVec.x
+      value: 34.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[1].endVec.y
+      value: -8.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[2].endVec.x
+      value: 11.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[2].endVec.y
+      value: 9.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[3].endVec.x
+      value: -0.751
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[3].endVec.y
+      value: 9.135
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec1.vecList.Array.data[0].startVec.x
-      value: 5.29
+      value: -22.2
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec1.vecList.Array.data[0].startVec.y
-      value: 4.89
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[1].startVec.x
+      value: 5.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[1].startVec.y
+      value: -9.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[2].startVec.x
+      value: -11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[2].startVec.y
+      value: -9.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[3].startVec.x
+      value: -11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec1.vecList.Array.data[3].startVec.y
+      value: 9.13
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec2.vecList.Array.data[0].startVec.x
-      value: -11.12
+      value: -23.44
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate3Vec2.vecList.Array.data[0].startVec.y
-      value: -0.41
+      value: -8.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[1].startVec.x
+      value: -23.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[1].startVec.y
+      value: 8.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[2].startVec.x
+      value: -1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[2].startVec.y
+      value: -10.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[3].startVec.x
+      value: 12.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: desperate3Vec2.vecList.Array.data[3].startVec.y
+      value: -11.21
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate2Position.positionList.Array.data[0].num
