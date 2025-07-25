@@ -15,7 +15,7 @@ MonoBehaviour:
   laserType: "\uC57D\uACF5 1"
   damage: 20
   laserSpeed: 1
-  laserDuration: 0.75
+  laserDuration: 0.2
   laserSprite: Sprites/Laser/Laserbeam3_0003
   laserWidth: 1
   laserColor: {r: 1, g: 1, b: 1, a: 1}
@@ -23,5 +23,5 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  laserFollowDuration: 0.5
+  laserFollowDuration: 0.2
   laserLockDuration: 1.2

@@ -229,30 +229,31 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         desperatePatternArray = new BossState[] {
-            //BossState.DesperatePattern1,
-            //BossState.DesperatePattern2,
+            BossState.DesperatePattern1,
+            BossState.DesperatePattern2,
             BossState.DesperatePattern3
         };
 
-        patternDic.Add(0, new BossState[] {
-            
-            //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
-            BossState.WeakPattern1,
-            //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
-            //BossState.WeakPattern4,
-            //BossState.WeakPattern5,
-            //BossState.EnragedPattern,
-            //BossState.DesperatePattern1,
-            //BossState.DesperatePattern2,
-            //BossState.DesperatePattern3
-        });
+        //patternDic.Add(0, new BossState[] {
+
+        //    //BossState.WeakPattern4,
+        //    //BossState.WeakPattern5,
+        //    BossState.WeakPattern1,
+        //    //BossState.WeakPattern2,
+        //    //BossState.WeakPattern3,
+        //    //BossState.WeakPattern4,
+        //    //BossState.WeakPattern5,
+        //    //BossState.EnragedPattern,
+        //    //BossState.DesperatePattern1,
+        //    //BossState.DesperatePattern2,
+        //    //BossState.DesperatePattern3
+        //});
 
 
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern4, BossState.WeakPattern5 });
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern2, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
-        
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern5 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
+        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern2 });
+
         if (!isDesperate)
         {
             StartCoroutine(BeforeIdle());
@@ -570,7 +571,6 @@ public class Boss3 : MonoBehaviour
             #endregion
             yield return new WaitForSeconds(weak1LaserData.LaserFollowDuration);
         }
-        animator.SetTrigger("isStrong");
 
         StartCoroutine(FinishPattern());
     }
@@ -592,7 +592,9 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, bottomBound + 8.9f);
+        int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[randPoS];
         FacePlayer();
         animator.SetTrigger("isNormal");
         #region 강화약공2
@@ -744,7 +746,9 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(centerBound, bottomBound + 8.9f);
+        int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[randPoS];
         FacePlayer();
 
         // 레이저 나오는 횟수
@@ -934,7 +938,9 @@ public class Boss3 : MonoBehaviour
         float centerBound = (leftBound + rightBound) / 2;
         #endregion
 
-        transform.position = new Vector2(leftBound + 10, bottomBound + 4);
+        int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[randPoS];
         FacePlayer();
 
         // 공격 반복
