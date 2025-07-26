@@ -3651,6 +3651,22 @@ PrefabInstance:
       propertyPath: Controller
       value: 
       objectReference: {fileID: 541900550}
+    - target: {fileID: 2122348215515185553, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
+      propertyPath: Defeattexts3.Array.data[0]
+      value: "\uB2E4\uC2DC \uC99D\uBA85\uD574\uC8FC\uACA0\uC5B4..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122348215515185553, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
+      propertyPath: Defeattexts3.Array.data[1]
+      value: "\uD06C\uC73D...\uC595\uBCF4\uC9C0\uB9C8\uB77C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122348215515185553, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
+      propertyPath: Defeattexts3.Array.data[3]
+      value: "\uBBFF\uC744 \uC218 \uC5C6\uB2E4...\uC9C0\uAE08\uAE4C\uC9C0\uC758 \uC218\uD589\uC774...."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122348215515185553, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
+      propertyPath: Defeattexts3.Array.data[4]
+      value: "\uBC29\uC2EC\uD588\uAD6C\uB098..."
+      objectReference: {fileID: 0}
     - target: {fileID: 2540538669094884848, guid: edb8a9f09cd52f84faf6b9a463ba86c9, type: 3}
       propertyPath: m_Name
       value: DefeatPanel
@@ -8391,6 +8407,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VictoryPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 1901023293921856499, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4889592045958588064, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
       propertyPath: Stage
       value: 3
@@ -8496,7 +8516,8 @@ PrefabInstance:
       value: Stage 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6416537467536027185, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb8ac1ffb00b0fb449209462b1b76f03, type: 3}
@@ -9764,12 +9785,20 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1058210780029493442, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: Timer
       value: 
       objectReference: {fileID: 1101572429}
     - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: maxHP
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: currentHP
       value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1429691242810751894, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
@@ -9794,7 +9823,7 @@ PrefabInstance:
       objectReference: {fileID: 1439999889}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: isEnraged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak5Delay
@@ -9802,7 +9831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: isDesperate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak5Object

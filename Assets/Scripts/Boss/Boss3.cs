@@ -49,7 +49,7 @@ public class Boss3 : MonoBehaviour
     private LaserController2 laserController;
     private ProjectileController projectileController;
     public bool EndPattern = false;
-
+    public static bool Enrageactive = true;
     private bool isDesperateEnd = false;
     private bool isDesperatePatternExecuted = false;
 
@@ -220,6 +220,13 @@ public class Boss3 : MonoBehaviour
         {
             Debug.Log($"{list.Key} : {list.Value.Count}");
         }
+
+
+        if (Enrageactive)
+        {
+            Enrageactive = false;
+            BossEnrage();
+        }
     }
 
     void Start()
@@ -264,7 +271,6 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private GameObject BossEnragePopup;
     [SerializeField] private BossEnragePopup BossEnragePopupScript;
 
-    private bool Enrageactive = true;
     private void BossEnrage()
     {
         player.GetComponent<PlayerController>().PlayerStop();
@@ -316,12 +322,12 @@ public class Boss3 : MonoBehaviour
             return;
         }
 
-        if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
-        {
-            Debug.Log(EndPattern);
-            Enrageactive = false;
-            BossEnrage();
-        }
+        //if (Enrageactive && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f && EndPattern)
+        //{
+        //    Debug.Log(EndPattern);
+        //    Enrageactive = false;
+        //    BossEnrage();
+        //}
         #region 보스 상태 체크
         if (currentState == BossState.WeakPattern1 && currentCoroutine == null)
         {
@@ -357,29 +363,29 @@ public class Boss3 : MonoBehaviour
         }
         #endregion
 
-        #region 광폭화 체크
-        if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        {
-            isEnraged = true;
-            //animator.SetBool("isEnraged", true);
-            // ����ȭ ȿ��
-        }
+        //#region 광폭화 체크
+        //if (!isEnraged && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        //{
+        //    isEnraged = true;
+        //    //animator.SetBool("isEnraged", true);
+        //    // ����ȭ ȿ��
+        //}
 
-        // 광폭화 조건 확인 - 체력이 50% 이하일 때
-        if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
-        {
-            isEnrageTriggered = true; // 한 번만 트리거되도록 설정
-            shouldTriggerEnrage = true;
-            Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
-        }
+        //// 광폭화 조건 확인 - 체력이 50% 이하일 때
+        //if (!isEnraged && !isEnrageTriggered && BossHPManager.Instance.GetCurrentHP() <= BossHPManager.Instance.GetMaxHP() * 0.5f)
+        //{
+        //    isEnrageTriggered = true; // 한 번만 트리거되도록 설정
+        //    shouldTriggerEnrage = true;
+        //    Debug.Log("광폭화 준비됨: 현재 패턴 완료 후 광폭화 시작");
+        //}
 
-        // 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
-        if (shouldTriggerEnrage && currentState == BossState.None && currentCoroutine == null)
-        {
-            shouldTriggerEnrage = false;
-            StartCoroutine(EnrageEffect(transform.position, player.transform.position));
-        }
-        #endregion
+        //// 현재 패턴 상태가 None으로 변경되었을 때(패턴이 완료됨) 광폭화 체크
+        //if (shouldTriggerEnrage && currentState == BossState.None && currentCoroutine == null)
+        //{
+        //    shouldTriggerEnrage = false;
+        //    StartCoroutine(EnrageEffect(transform.position, player.transform.position));
+        //}
+        //#endregion
 
     }
     private const float PATTERN_GAP = 0.3f;

@@ -9,6 +9,7 @@ public class SceneStage3 : MonoBehaviour
     {
         SoundManager.Instance.EffectSoundOn("3");
         Stage3OpeningTextPopup.isFirstTime3 = true;
+        Boss3.Enrageactive = true;
         SceneManager.LoadScene("Main");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
@@ -17,6 +18,7 @@ public class SceneStage3 : MonoBehaviour
     {
         SoundManager.Instance.EffectSoundOn("3");
         Stage3OpeningTextPopup.isFirstTime3 = true;
+        Boss3.Enrageactive = true;
         SceneManager.LoadScene("StageSelect");
         SoundManager.Instance.MainBgmOn();
         Time.timeScale = 1.0f;
