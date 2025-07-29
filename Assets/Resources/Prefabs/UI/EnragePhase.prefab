@@ -345,8 +345,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage: 1
-  Player: {fileID: 0}
-  Boss: {fileID: 0}
   TopBar: {fileID: 3384257262550492753}
   MiddleBar: {fileID: 249243713587658646}
   BottomBar: {fileID: 6283176229319934531}
@@ -363,7 +361,7 @@ MonoBehaviour:
   moveRight: 1000
   moveLeft: -1000
   waitBeforeClose: 3
-  blinkDuration: 1
+  blinkDuration: 5
   blinkSpeed: 1
 --- !u!1 &5293952797115742158
 GameObject:

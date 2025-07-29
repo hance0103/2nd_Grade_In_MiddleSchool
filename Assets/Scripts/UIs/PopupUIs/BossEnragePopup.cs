@@ -67,7 +67,6 @@ public class BossEnragePopup : MonoBehaviour
     }
     private void Start()
     {
-       
         // 시작 시, RectTransform들의 원본 위치를 기억
         initTopBarPos = TopBar.GetComponent<RectTransform>().anchoredPosition;
         initMiddleBarPos = MiddleBar.GetComponent<RectTransform>().anchoredPosition;
@@ -102,14 +101,10 @@ public class BossEnragePopup : MonoBehaviour
         // 트리거(또는 처음부터) 발동 시 코루틴 실행
         StartCoroutine(MoveFirst());
         StartCoroutine(MoveText());
-
-
-        
     }
 
     private IEnumerator MoveText()
     {
-        
         RectTransform topTextRect = TopText.GetComponent<RectTransform>();
         RectTransform bottomTextRect = BottomText.GetComponent<RectTransform>();
         Vector2 topTextStartPos = topTextRect.anchoredPosition;
@@ -150,24 +145,24 @@ public class BossEnragePopup : MonoBehaviour
     }
     private IEnumerator BlinkText(Image targetImage, float blinkDuration, float blinkSpeed)
     {
-        //글씨 깜빡이는 연출
         float elapsed = 0f;
+
         while (elapsed < blinkDuration)
         {
-            elapsed += Time.unscaledDeltaTime;
-            float alpha = Mathf.PingPong(Time.time * blinkSpeed, 1.5f);
+            elapsed += Time.unscaledDeltaTime;               // 진행 시간 누적
+            float alpha = Mathf.PingPong(elapsed * blinkSpeed, 1f);
 
-            Color c = targetImage.color;
+            var c = targetImage.color;
             c.a = alpha;
             targetImage.color = c;
 
             yield return null;
         }
 
-        // 끝나면 알파값 복원
-        Color finalColor = targetImage.color;
-        finalColor.a = 1f;
-        targetImage.color = finalColor;
+        // 끝나면 알파 값 복원
+        var final = targetImage.color;
+        final.a = 1f;
+        targetImage.color = final;
     }
 
     private IEnumerator MoveFirst()
