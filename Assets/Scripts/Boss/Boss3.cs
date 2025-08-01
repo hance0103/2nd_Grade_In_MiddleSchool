@@ -256,7 +256,7 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         desperatePatternArray = new BossState[] {
-            BossState.DesperatePattern1,
+            //BossState.DesperatePattern1,
             BossState.DesperatePattern2,
             BossState.DesperatePattern3
         };
@@ -959,14 +959,6 @@ public class Boss3 : MonoBehaviour
         Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
 
-        #region 맵데이터
-        float bottomBound = mapWidthPositions[0].position.y;
-        float topBound = mapWidthPositions[1].position.y;
-        float leftBound = mapWidthPositions[0].position.x;
-        float rightBound = mapWidthPositions[1].position.x;
-        float centerBound = (leftBound + rightBound) / 2;
-        #endregion
-
         int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
 
         transform.position = weak1TeleportPosition[randPoS];
@@ -1345,14 +1337,6 @@ public class Boss3 : MonoBehaviour
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
 
-        //if (desperate1Type == Boss3DesperatePattern1_Type.Constant)
-        //{
-        //    // 계속 지속
-        //    StartCoroutine(DesperatePattern1_Constant());
-        //}
-
-
-
         #region 가로 레이저 맵 데이터
         float bottomBoundHorizontal = mapWidthPositions[0].position.y;
         float topBoundHorizontal = mapWidthPositions[1].position.y;
@@ -1539,9 +1523,6 @@ public class Boss3 : MonoBehaviour
     public IEnumerator DesperatePattern2()
     {
 
-
-
-
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         Debug.Log("발악패턴2");
@@ -1564,24 +1545,9 @@ public class Boss3 : MonoBehaviour
         Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
 
 
-
-
-
-        // 총 8번 실행
         for (int i = 0; i < desperate2AttackCount; i++)
         {
             // 경고 파트
-            if (i % 2 == 0)
-            {
-                Debug.Log("짝수");
-            }
-            else
-            {
-                Debug.Log("홀수");
-
-            }
-
-
 
             List<LineRenderer> pattern1WarningLines = new List<LineRenderer>();
             int[] selectedLayers = null;
@@ -1611,10 +1577,44 @@ public class Boss3 : MonoBehaviour
                 }
             }
 
+            Vector2 pattern4TargetPosition = player.transform.position;
+
+            // 경고 표시 생성
+            GameObject warningObj = new GameObject($"Warning_{desperate2AttackCount}");
+            SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+
+            #region 원형 스프라이트 직접 생성
+            Texture2D circleTexture = new Texture2D(128, 128);
+            for (int y = 0; y < circleTexture.height; y++)
+            {
+                for (int x = 0; x < circleTexture.width; x++)
+                {
+                    float dx = x - circleTexture.width / 2;
+                    float dy = y - circleTexture.height / 2;
+                    float distance = Mathf.Sqrt(dx * dx + dy * dy);
+                    float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
+                    circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
+                }
+            }
+            circleTexture.Apply();
+
+            Sprite circleSprite = Sprite.Create(circleTexture,
+                new Rect(0, 0, circleTexture.width, circleTexture.height),
+                new Vector2(0.5f, 0.5f));
+            #endregion
+
+            // 경고 표시 설정
+            warningRenderer.sprite = circleSprite;
+            warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
+            warningRenderer.transform.position = pattern4TargetPosition;
+            warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
+            warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
+
 
 
             yield return new WaitForSeconds(desperate2AfterWarningDelay);
             // 경고 제거
+            Destroy(warningObj);
             foreach (var line in pattern1WarningLines)
             {
                 Destroy(line.gameObject);
@@ -1623,6 +1623,37 @@ public class Boss3 : MonoBehaviour
 
 
             // 공격 파트
+
+            #region 폭발 프로젝타일 생성
+            ProjectileController projectileController = ProjectileController.Create(
+                weak4ProjData,
+                transform,
+                player.transform,
+                MusicProjectile,
+                false
+            );
+            string[] wp4Clips = { "3-4-1", "3-4-2", "3-4-3" };
+            string randomClip = wp4Clips[UnityEngine.Random.Range(0, wp4Clips.Length)];
+            SoundManager.Instance.EffectSoundOn(randomClip);
+            GameObject projectile = Instantiate(MusicProjectile, pattern4TargetPosition, Quaternion.identity);
+            projectile.transform.SetParent(bossPatternPanel.transform, false);
+            StartCoroutine(weak5HitRemove(projectile));
+            ProjectileBehaviour behaviour = projectile.GetComponent<ProjectileBehaviour>();
+            if (behaviour == null)
+            {
+                behaviour = projectile.AddComponent<ProjectileBehaviour>();
+            }
+            behaviour.Initialize(weak4ProjData.Damage, null);
+
+
+            foreach (Sprite sprite in explosionSprites)
+            {
+                yield return new WaitForSeconds(explosionDuration / 5);
+                projectile.GetComponent<SpriteRenderer>().sprite = sprite;
+            }
+            Destroy(projectile);
+            Destroy(projectileController.gameObject);
+            #endregion
 
             // 짝수이면 패턴1도 같이 실행
             if (i % 2 == 0 && selectedLayers != null)
