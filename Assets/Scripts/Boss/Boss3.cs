@@ -123,6 +123,8 @@ public class Boss3 : MonoBehaviour
     [Header("발악패턴1 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern1Data;
     [SerializeField] private LaserScriptableObject desperate1LaserData;
+    [SerializeField] private Boss3DesperatePattern1_Type desperate1Type;
+
 
     [Header("발악패턴2 데이터")]
     [SerializeField] private BossScriptableObject desperatePattern2Data;
@@ -172,6 +174,12 @@ public class Boss3 : MonoBehaviour
         public int num;
         public bool isActive;
     }
+    public enum Boss3DesperatePattern1_Type
+    {
+        Constant,
+        Intermittent
+    }
+
     #endregion
     #region 발악패턴3 관련
 
@@ -1322,8 +1330,19 @@ public class Boss3 : MonoBehaviour
         Debug.Log("발악패턴1");
         currentState = BossState.DesperatePattern1;
 
-        StartCoroutine(DesperatePattern1_Sub());
 
+        // 가로 레이저 생성해주는 코드
+        //StartCoroutine(DesperatePattern1_Sub());
+
+        
+        if (desperate1Type == Boss3DesperatePattern1_Type.Constant)
+        {
+            // 계속 지속
+            StartCoroutine(DesperatePattern1_Constant());
+        }
+
+        #region 발악패턴1 세로로 나가는 레이저
+        // 세로 레이저 나가는 코드
         #region 맵 데이터
         float bottomBound = mapWidthPositions[0].position.y - 1;
         float topBound = mapWidthPositions[1].position.y + 1;
@@ -1396,77 +1415,79 @@ public class Boss3 : MonoBehaviour
             }
             yield return new WaitForSeconds(_wp2LaserDelay);
         }
+        #endregion
 
-        StopCoroutine(DesperatePattern1_Sub());
+
+
 
         isDesperatePattern1End = true;
-        StartCoroutine(FinishPattern());
+        
+        //StartCoroutine(FinishPattern());
 
 
     }
-    public IEnumerator DesperatePattern1_Sub()
+    public IEnumerator DesperatePattern1_Constant()
     {
+        int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[2];
+        FacePlayer();
+
+        #region 맵 데이터
+        float bottomBound = mapWidthPositions[0].position.y;
+        float topBound = mapWidthPositions[1].position.y;
+        float mapHeight = topBound - bottomBound;
+        float layerHeight = mapHeight / 3f;
+        #endregion
+
+
+        float laserPositionY = bottomBound + (layerHeight * (0 + 0.5f));
+
+        Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 15, 0);
+        Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
+
+
+
+        Vector2 startPosition = new Vector2(leftPosition.x, laserPositionY);
+        Vector2 targetPosition = new Vector2(rightPosition.x, laserPositionY);
+
+        LineRenderer warningLine = CreateDangerZone(desperate1LaserData);
+        warningLine.transform.SetParent(bossPatternPanel.transform, false);
+        StartCoroutine(BlinkDangerZone(warningLine));
+        warningLine.SetPosition(0, startPosition);
+        warningLine.SetPosition(1, targetPosition);
+
+        yield return new WaitForSeconds(desperate1LaserData.LaserLockDuration);
+        Destroy(warningLine.gameObject);
+
+        LaserController2 laser = LaserController2.Create(
+            desperate1LaserData,
+            startPosition,
+            null
+        );
+        laser.SetTargetLayer(desperate1LaserData.TargetLayer);
+        laser.transform.SetParent(bossPatternPanel.transform, false);
+
+
+        //animator.SetTrigger("isNormal");
+
+
+        StartCoroutine(laser.FireLaser(startPosition, targetPosition));
+
+        // 패턴이 끝나기 전까지 지속
         while (!isDesperatePattern1End)
         {
-
-
-            int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
-
-            transform.position = weak1TeleportPosition[2];
-            FacePlayer();
-
-            #region 맵 데이터
-            float bottomBound = mapWidthPositions[0].position.y;
-            float topBound = mapWidthPositions[1].position.y;
-            float mapHeight = topBound - bottomBound;
-            float layerHeight = mapHeight / 3f;
-            #endregion
-
-
-            animator.SetTrigger("isNormal");
-            float[] layerPositions = new float[3];
-            for (int i = 0; i < 3; i++)
-            {
-                layerPositions[i] = bottomBound + (layerHeight * (i + 0.5f));
-            }
-
-            Vector2 leftPosition = new Vector2(mapWidthPositions[0].position.x - 15, 0);
-            Vector2 rightPosition = new Vector2(mapWidthPositions[1].position.x + 15, 0);
-
-            {
-                // 기본 상태: 1개 레이어 공격 (기존 코드와 동일)
-                int randomLayer = UnityEngine.Random.Range(0, 3);
-                float targetY = layerPositions[randomLayer];
-
-                Vector2 startPosition = new Vector2(leftPosition.x, targetY);
-                Vector2 targetPosition = new Vector2(rightPosition.x, targetY);
-
-                LineRenderer warningLine = CreateDangerZone(desperate1LaserData);
-                warningLine.transform.SetParent(bossPatternPanel.transform, false);
-                StartCoroutine(BlinkDangerZone(warningLine));
-                warningLine.SetPosition(0, startPosition);
-                warningLine.SetPosition(1, targetPosition);
-
-                yield return new WaitForSeconds(desperate1LaserData.LaserLockDuration);
-                Destroy(warningLine.gameObject);
-
-                LaserController2 laser = LaserController2.Create(
-                    desperate1LaserData,
-                    startPosition,
-                    null
-                );
-                laser.SetTargetLayer(desperate1LaserData.TargetLayer);
-                laser.transform.SetParent(bossPatternPanel.transform, false);
-                animator.SetTrigger("isNormal");
-                yield return StartCoroutine(laser.FireLaser(startPosition, targetPosition));
-            }
-
-            yield return new WaitForSeconds(weak1LaserData.LaserFollowDuration);
-            animator.SetTrigger("isStrong");
+            //triggerStay 발동하기 위해 좌우로 움직여줌
+            laser.transform.position += new Vector3(1f, 0f, 0f);
+            laser.transform.position -= new Vector3(1f, 0f, 0f);
 
 
             yield return null;
         }
+
+        // 패턴이 종료되면 게임오브젝트 삭제
+        Destroy(laser.gameObject);
+
     }
     #endregion
 
