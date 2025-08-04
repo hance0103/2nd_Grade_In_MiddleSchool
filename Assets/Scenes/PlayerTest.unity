@@ -381,6 +381,10 @@ MonoBehaviour:
   Player: {fileID: 7487909770649839616}
   zoomSizePlayer: 3
   zoomDurationPlayer: 1
+  minCamY: -2
+  maxCamY: 3
+  minCamX: -5
+  maxCamX: 5
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,6 +1416,10 @@ PrefabInstance:
     - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3470539325071022635, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5949930095949123849, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: m_LocalPosition.x

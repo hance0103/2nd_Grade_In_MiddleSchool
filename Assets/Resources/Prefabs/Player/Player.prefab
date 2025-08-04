@@ -183,8 +183,9 @@ MonoBehaviour:
   playerObject: {fileID: 3470539325071022635}
   DefeatPopup: {fileID: 0}
   DefeatPopupScript: {fileID: 0}
-  Stage: 3
+  Stage: 1
   _InvincibleTime: 1
+  Colorcamera: {fileID: 0}
 --- !u!114 &7146377930768844338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ MonoBehaviour:
   bindTimer: 1
   _hitCollider: {fileID: 3413741197682053332}
   enemy: {fileID: 0}
-  isKeyboardControll: 1
+  isKeyboardControll: 0
   controller: {fileID: 0}
   input: {fileID: 6994913468536392741}
   anim: {fileID: 2690200176240171712}

@@ -261,7 +261,7 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         desperatePatternArray = new BossState[] {
-            //BossState.DesperatePattern1,
+            BossState.DesperatePattern1,
             BossState.DesperatePattern2,
             BossState.DesperatePattern3
         };
