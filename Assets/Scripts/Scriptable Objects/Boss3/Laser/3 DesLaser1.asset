@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 DesLaser1
   m_EditorClassIdentifier: 
   laserType: "\uC57D\uACF5 1"
-  damage: 20
+  damage: 15
   laserSpeed: 1
   laserDuration: 100
   laserSprite: Sprites/Laser/Laserbeam3_0003
