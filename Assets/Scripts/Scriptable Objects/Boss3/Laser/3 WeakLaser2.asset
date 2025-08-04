@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 WeakLaser2
   m_EditorClassIdentifier: 
   laserType: "\uC57D\uACF5 2"
-  damage: 20
+  damage: 15
   laserSpeed: 1
   laserDuration: 0.2
   laserSprite: Sprites/Laser/Laserbeam3_b3
