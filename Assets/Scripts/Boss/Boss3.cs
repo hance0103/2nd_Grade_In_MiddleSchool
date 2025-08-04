@@ -261,8 +261,8 @@ public class Boss3 : MonoBehaviour
             animator.SetBool("isEnraged", true);
 
         desperatePatternArray = new BossState[] {
-            BossState.DesperatePattern1,
-            BossState.DesperatePattern2,
+            //BossState.DesperatePattern1,
+            //BossState.DesperatePattern2,
             BossState.DesperatePattern3
         };
 
@@ -270,7 +270,7 @@ public class Boss3 : MonoBehaviour
 
         //    //BossState.WeakPattern4,
         //    //BossState.WeakPattern5,
-        //    BossState.WeakPattern1,
+        //    //BossState.WeakPattern1,
         //    //BossState.WeakPattern2,
         //    //BossState.WeakPattern3,
         //    //BossState.WeakPattern4,
@@ -550,6 +550,7 @@ public class Boss3 : MonoBehaviour
                 {
                     Destroy(line.gameObject);
                 }
+                SoundManager.Instance.EffectSoundOn("18");
 
                 // 두 레이저 동시 발사
                 foreach (int layer in selectedLayers)
@@ -678,8 +679,11 @@ public class Boss3 : MonoBehaviour
             // 그 다음 레이저 발사
             foreach (var pair in firePairs)
             {
+                SoundManager.Instance.EffectSoundOn("18");
+
                 foreach (int pos in pair)
                 {
+
                     LaserController2 laser = LaserController2.Create(
                         weak2LaserData,
                         new Vector2(sectionPositions[pos], topBound),
@@ -847,6 +851,8 @@ public class Boss3 : MonoBehaviour
 
                 // 우물 정자 패턴 레이저 발사
                 // 경고선 위치에 맞춰 레이저 발사
+                SoundManager.Instance.EffectSoundOn("18");
+
                 foreach (var warningLine in warningLines)
                 {
                     Vector2 startPos = warningLine.GetPosition(0); // 경고선의 시작 위치를 가져옵니다.
@@ -926,6 +932,7 @@ public class Boss3 : MonoBehaviour
                 {
                     Destroy(line.gameObject);
                 }
+                SoundManager.Instance.EffectSoundOn("18");
 
                 // 저장된 정확한 위치로 레이저 발사
                 for (int i = 0; i < laserPaths.Count; i++)
@@ -1437,6 +1444,8 @@ public class Boss3 : MonoBehaviour
 
         foreach (var pair in firePairs)
         {
+            SoundManager.Instance.EffectSoundOn("18");
+
             foreach (int pos in pair)
             {
                 LaserController2 laser = LaserController2.Create(
@@ -1976,6 +1985,8 @@ public class Boss3 : MonoBehaviour
         // 레이저 발사
         foreach (var num in patternTypeList)
         {
+            SoundManager.Instance.EffectSoundOn("18");
+
             if (num == 1)
             {
                 foreach (var vec in desperate3Vec1.vecList)
