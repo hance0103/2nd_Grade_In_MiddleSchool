@@ -64,7 +64,6 @@ public class PlayerInputProxy : MonoBehaviour
     {
         JumpPressed = true;
         JumpHeld = true;
-        Debug.Log("Jump 버튼 눌림");
     }
 
     public void OnJumpButtonUp()
@@ -84,7 +83,12 @@ public class PlayerInputProxy : MonoBehaviour
         JumpReleased = false;
         // JumpHeld는 누르고 있는 동안 유지
     }
-    public void OnDashButton() => DashPressed = true;
+    public void OnDashButton()
+    {
+        Debug.Log("대시 버튼 눌림");
+        Debug.Log(GameManager.Inst.player.GetDirection());
+        DashPressed = true;
+    }
 
     public void OnAttackButtonDown()
     {

@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
@@ -483,7 +482,6 @@ public class Boss3 : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log(isEnraged ? "약공격1 - 광폭화" : "약공격1 - 기본");
         currentState = BossState.WeakPattern1;
 
         //랜덤 텔레포트
@@ -770,11 +768,9 @@ public class Boss3 : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
 
-        Debug.Log(isEnraged ? "약공격3 - 광폭화" : "약공격3");
         currentState = BossState.WeakPattern3;
 
         LaserScriptableObject selectedData = !isEnraged ? weak3LaserData : weak3Laser_E_Data;
-        Debug.Log(selectedData);
 
         #region 맵데이터
         float bottomBound = mapWidthPositions[0].position.y - 1;
@@ -791,7 +787,6 @@ public class Boss3 : MonoBehaviour
 
         // 레이저 나오는 횟수
         int rand = UnityEngine.Random.Range(2, 4);
-        Debug.Log(rand);
 
 
         for (int j = 0; j < rand; j++)
@@ -799,7 +794,6 @@ public class Boss3 : MonoBehaviour
             // 짝수번째 우물정자 레이저
             if (j % 2 == 1)
             {
-                Debug.Log($"우물정자 레이저");
 
                 // 우물 정자 레이저 생성 (세로 2개, 가로 2개)
                 List<LineRenderer> warningLines = new List<LineRenderer>();
@@ -877,7 +871,6 @@ public class Boss3 : MonoBehaviour
             }
             else    // 홀수번째 십자 레이저
             {
-                Debug.Log($"십자 레이저");
                 List<LineRenderer> warningLines = new List<LineRenderer>();
                 for (int i = 0; i < 4; i++)
                 {
@@ -968,7 +961,6 @@ public class Boss3 : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("약공격4");
         currentState = BossState.WeakPattern4;
 
         int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);

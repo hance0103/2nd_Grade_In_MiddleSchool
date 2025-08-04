@@ -198,11 +198,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        
+
         if (!_canPlayerControll)
         {
             return;
         }
-        direction = GetInputDirection();
+
         stateMachine.Update();
 
         if (isKeyboardControll)
@@ -303,41 +305,6 @@ public class PlayerController : MonoBehaviour
         Vector2 rayVecLeft = new Vector2(colliderLeft, colliderBottom);
         Vector2 rayVecRight = new Vector2(colliderRight, colliderBottom);
         Vector2 rayDirection = Vector2.down;
-
-        //float rayDistance = 0.2f;
-
-        //RaycastHit2D hitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, rayDistance, platformMask);
-        //RaycastHit2D hitright = Physics2D.Raycast(rayVecRight, rayDirection, rayDistance, platformMask);
-
-        //if ((hitLeft.collider != null || hitright.collider != null))
-        //{
-        //    Collider2D hitCol = hitLeft.collider != null ? hitLeft.collider : hitright.collider;
-        //    if (!isOnPlatform && !isDownJumping)
-        //    {
-        //        canJump = true;
-        //        isJumpingDash = false;
-        //        isOnPlatform = true;
-        //        isFallingFromPlatform = false;
-        //        nowPlatform = hitCol.gameObject;
-        //        hitCol.isTrigger = false;
-        //        ChangeState(new IdleState(this));
-        //    }
-        //}
-        //else if (hitLeft.collider == null && hitright.collider == null)
-        //{
-        //    if (isOnPlatform && !isJumping && !(stateMachine.GetCurrentState() is DashState))
-        //    {
-        //        isFallingFromPlatform = true;
-        //        ChangeState(new JumpState(this));
-        //    }
-
-        //    isOnPlatform = false;
-        //    if (nowPlatform != null)
-        //    {
-        //        nowPlatform.GetComponent<BoxCollider2D>().isTrigger = true;
-        //        nowPlatform = null;
-        //    }
-        //}
         
 
         RaycastHit2D jumpAttackHitLeft = Physics2D.Raycast(rayVecLeft, rayDirection, _jumpAttackMinHeight, jumpAttackMask);
@@ -557,6 +524,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!canDash) return;
 
+
         isDashing = true;
 
         canDash = false;
@@ -570,24 +538,34 @@ public class PlayerController : MonoBehaviour
         
         // 방향계산 넣어야함
         dashDirection = Vector2.zero;
+
+        Debug.Log(direction);
+
         switch (direction)
         {
             case PlayerInputDirection.Up:
                 dashDirection = new Vector2(0, verticalDashDistance);
+                Debug.Log("Up Dash");
                 break;
             case PlayerInputDirection.Down:
+                Debug.Log("Down Dash");
                 dashDirection = new Vector2(0, -verticalDashDistance);
                 break;
             case PlayerInputDirection.Right:
+                    
                 dashDirection = new Vector2(horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.Left:
+                Debug.Log("Left Dash");
                 dashDirection = new Vector2(-horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.UpRight:
+                Debug.Log("UpRight Dash");
                 dashDirection = new Vector2(diagonalDashX, diagonalDashY);
                 break;
             case PlayerInputDirection.UpLeft:
+                Debug.Log("UpLeft Dash");
+
                 dashDirection = new Vector2(-diagonalDashX, diagonalDashY);
                 break;
             case PlayerInputDirection.DownRight:
@@ -887,7 +865,10 @@ public class PlayerController : MonoBehaviour
     {
         return _blinkDelay;
     }
-
+    public PlayerInputDirection GetDirection()
+    {
+        return direction;
+    }
     public void PlayerSlow(float time, float speedLimit, float accelLimit)
     {
         StartCoroutine(PlayerSlowCoroutine(time, speedLimit, accelLimit)); ;

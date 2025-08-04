@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BossEnragePopup : MonoBehaviour
 {

@@ -46,7 +46,7 @@ public class IdleState : IPlayerState
 
     public void Exit()
     {
-        //Debug.Log("Idle 상태 종료");
+
     }
     public override string ToString() => "Idle";
 }
@@ -54,7 +54,7 @@ public class IdleState : IPlayerState
 public class MoveState : IPlayerState
 {
     private PlayerController player;
-    public MoveState(PlayerController player) { this.player = player; }
+    public MoveState(PlayerController player) { this.player = GameManager.Inst.player; }
 
     public void Enter()
     {
@@ -69,9 +69,9 @@ public class MoveState : IPlayerState
         var input = player.input;
 
         player.SetMoveInput(moveInput);
-
         if (player.isOnPlatform)
         {
+
             // 플랫폼 위에 있을때
             if (player.GetInputDirection() == PlayerInputDirection.Down ||
                 player.GetInputDirection() == PlayerInputDirection.DownRight ||
@@ -97,8 +97,10 @@ public class MoveState : IPlayerState
 
     public void Exit()
     {
-        //Debug.Log("Move 상태 종료");
+
         SoundManager.Instance.StopLoopEffect();
+
+
     }
 
     public override string ToString() => "Move";
@@ -186,11 +188,14 @@ public class DashState : IPlayerState
 
     public void Enter()
     {
+
+
         player.StartDash();
     }
 
     public void Update()
     {
+
 
     }
 

@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI; // 일반 UI를 쓴다면
 

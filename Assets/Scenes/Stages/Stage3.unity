@@ -16323,6 +16323,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: Stage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510565823026689214, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: DefeatPopup
       value: 
       objectReference: {fileID: 396312333}
@@ -16340,6 +16344,10 @@ PrefabInstance:
       objectReference: {fileID: 541900552}
     - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
       propertyPath: _canPlayerControll
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146377930768844338, guid: 2f7bfb9a31e0cc44c92df791f934422b, type: 3}
+      propertyPath: isKeyboardControll
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

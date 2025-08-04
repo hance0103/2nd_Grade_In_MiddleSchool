@@ -92,6 +92,8 @@ public class PlayerHPManager : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            Debug.Log("사망");
+
             if (Stage == 1) { Colorcamera.enabled = false; }
             _gameOver = true;
             currentHP = 0;
