@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 Weak 4
   m_EditorClassIdentifier: 
   patternName: 2 weak1
-  damage: 10
+  damage: 8
   beforeAttackDelay: 3
   attackRange: 0
   afterAttackDelay: 1

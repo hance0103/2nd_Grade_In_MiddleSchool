@@ -7616,7 +7616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab3c614779ad144096a0febf4a95ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 10
+  _damage: 5
   _isContacting: 0
   _hp: {fileID: 1953349572}
 --- !u!1 &1808834813
