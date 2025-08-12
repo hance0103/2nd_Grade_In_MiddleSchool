@@ -10011,7 +10011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak1TeleportPosition.Array.data[0].y
-      value: 0.65
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak1TeleportPosition.Array.data[1].x
@@ -10027,7 +10027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak1TeleportPosition.Array.data[2].y
-      value: 0.65
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak1TeleportPosition.Array.data[3].x
@@ -10043,7 +10043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: weak1TeleportPosition.Array.data[4].y
-      value: 2.97
+      value: 2.83
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: desperate2Position.positionList.Array.size
