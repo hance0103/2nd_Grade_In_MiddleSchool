@@ -9938,6 +9938,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
+      propertyPath: weak4FirstAttackDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060334556971368982, guid: f3c6ebe8b18429641a7cd4f23c6eb7ea, type: 3}
       propertyPath: explosionWarningPrefab
       value: 
       objectReference: {fileID: 2031091997697121634, guid: cde0617698bdbff4ba849b17800f5cfd, type: 3}
