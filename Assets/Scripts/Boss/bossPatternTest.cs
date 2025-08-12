@@ -133,17 +133,17 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        //patternDic.Add(0, new BossState[] {
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
-        //    //BossState.StrongPattern1,
-        //    BossState.StrongPattern2
-        //});
+        patternDic.Add(0, new BossState[] {
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            //BossState.StrongPattern1,
+            BossState.StrongPattern2
+        });
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
-        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
 
         StartCoroutine(BeforeIdle());
     }
@@ -738,7 +738,6 @@ public class bossPatternTest : MonoBehaviour
     #region 강패턴 2
     public IEnumerator StrongPattern2() //ī��Ʈ �ٿ��� ������ �ð��� ���� �Ŀ� ������ ����
     {
-        Debug.Log("강패턴 2");
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
         currentState = BossState.StrongPattern2;
