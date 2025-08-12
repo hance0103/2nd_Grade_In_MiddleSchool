@@ -27,6 +27,14 @@ public class ColorCamera : MonoBehaviour
     }
     private void LateUpdate()
     {
+        if (transform.parent != null)
+        {
+            var parentCam = transform.parent.GetComponent<Camera>();
+            if (parentCam != null)
+            {
+                cam.orthographicSize = parentCam.orthographicSize;
+            }
+        }
         // ============ 플레이어 활성화 여부 재확인 로직 ============
         // player가 null이면(씬에 없거나 아직 못찾았으면) 다시 찾기 시도
         //찾게 된다면 카메라가 플레이어를 쫒아가는 로직 실행
