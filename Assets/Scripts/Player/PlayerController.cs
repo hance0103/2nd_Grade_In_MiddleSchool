@@ -888,6 +888,14 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"원래속도 {originMaxSpeed}로 속도 복구");
         maxSpeed = originMaxSpeed;
     }
+
+    public void OnStageEnd()
+    {
+        _canPlayerControl = false;
+        stateMachine.ChangeState(new IdleState(this));
+
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

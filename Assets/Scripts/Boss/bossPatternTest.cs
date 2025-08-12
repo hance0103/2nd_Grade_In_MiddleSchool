@@ -167,7 +167,6 @@ public class bossPatternTest : MonoBehaviour
         // 사망 조건 체크 - 최우선으로 처리
         if (BossHPManager.Instance.GetCurrentHP() <= 0 && !isDead)
         {
-            Debug.Log("시발");
             DestroyImmediate(patternPanel.gameObject);
             isDead = true;
             StartCoroutine(DeathEffect());
