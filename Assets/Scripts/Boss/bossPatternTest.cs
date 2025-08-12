@@ -218,13 +218,12 @@ public class bossPatternTest : MonoBehaviour
         }
         #endregion
     }
-    private const float PATTERN_GAP = 0.0001f;
+    private const float PATTERN_GAP = 0.1f;
     private bool isDelayed = false;
     private IEnumerator FinishPattern()
     {
-        EndPattern = true;
         yield return new WaitForSeconds(PATTERN_GAP);
-
+        EndPattern = true;
         currentState = BossState.None;
         currentCoroutine = null;
     }

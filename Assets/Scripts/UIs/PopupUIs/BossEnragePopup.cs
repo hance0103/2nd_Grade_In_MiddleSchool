@@ -15,8 +15,10 @@ public class BossEnragePopup : MonoBehaviour
     [SerializeField] private GameObject TopBar;
     [SerializeField] private GameObject MiddleBar;
     [SerializeField] private GameObject BottomBar;
+    [SerializeField] private GameObject pauseButton;
     [SerializeField] private Image TopText;
     [SerializeField] private Image BottomText;
+    [SerializeField] bool bossFaceRightOnSpawn = false;
 
     [Header("1차 이동 시간(초)")]
     [SerializeField] private float moveDuration1 = 0.5f;
@@ -55,6 +57,7 @@ public class BossEnragePopup : MonoBehaviour
     private Vector2 initBottomTextPos;
     private void Awake()
     {
+        pauseButton.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
             Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");
@@ -93,7 +96,8 @@ public class BossEnragePopup : MonoBehaviour
             boss.transform.position = new Vector3(4.6f, -3.0f, 0f);
             SoundManager.Instance.EffectSoundOn("stage3scream");
         }
-
+        foreach (var sr in boss.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.flipX = !bossFaceRightOnSpawn;
         CameraMove.Instance.EnrageBoss();
         // 1) 보스 광폭화 패널(이 스크립트가 붙은 GameObject) 활성화
         gameObject.SetActive(true);
@@ -136,10 +140,8 @@ public class BossEnragePopup : MonoBehaviour
 
             yield return null; // 다음 프레임까지 대기
         }
-        // 이동이 정확히 끝났는지 보정 (t=1 상태)
         
-        topTextRect.anchoredPosition = topTextStartPos + new Vector2(moveSlowRight1, 0f);
-        bottomTextRect.anchoredPosition = bottomTextStartPos + new Vector2(moveSlowLeft1, 0f);
+        // 이동이 정확히 끝났는지 보정 (t=1 상태)
         Debug.Log("광폭화 텍스트 코루틴 종료");
     }
     private IEnumerator BlinkText(Image targetImage, float blinkDuration, float blinkSpeed)
@@ -160,7 +162,7 @@ public class BossEnragePopup : MonoBehaviour
 
         // 끝나면 알파 값 복원
         var final = targetImage.color;
-        final.a = 1f;
+        final.a = 0f;
         targetImage.color = final;
     }
 
@@ -235,7 +237,11 @@ public class BossEnragePopup : MonoBehaviour
         Vector2 topBarStartPos = topBarRect.anchoredPosition;
         Vector2 middleBarStartPos = middleBarRect.anchoredPosition;
         Vector2 bottomBarStartPos = bottomBarRect.anchoredPosition;
-        
+
+        RectTransform topTextRect = TopText.GetComponent<RectTransform>();
+        RectTransform bottomTextRect = BottomText.GetComponent<RectTransform>();
+        Vector2 topTextStartPos = topTextRect.anchoredPosition;
+        Vector2 bottomTextStartPos = bottomTextRect.anchoredPosition;
         // 2) moveDuration 동안 옆으로 부드럽게 이동
         float elapsed = 0f;
         while (elapsed < moveDuration2)
@@ -272,9 +278,13 @@ public class BossEnragePopup : MonoBehaviour
         middleBarRect.anchoredPosition = middleBarStartPos + new Vector2(moveFastLeft2, 0f);
         bottomBarRect.anchoredPosition = bottomBarStartPos + new Vector2(moveFastRight2, 0f);
 
+        yield return new WaitForSeconds(0.5f);
+        pauseButton.SetActive(true);
         // 패널(보스 광폭화 팝업) 비활성화
         gameObject.SetActive(false);
         // 다시 켰을 때도 동일하게 연출되도록, 원본 위치로 복원
+        topTextRect.anchoredPosition = topTextStartPos + new Vector2(moveSlowRight1, 0f);
+        bottomTextRect.anchoredPosition = bottomTextStartPos + new Vector2(moveSlowLeft1, 0f);
         TopBar.GetComponent<RectTransform>().anchoredPosition = initTopBarPos;
         MiddleBar.GetComponent<RectTransform>().anchoredPosition = initMiddleBarPos;
         BottomBar.GetComponent<RectTransform>().anchoredPosition = initBottomBarPos;

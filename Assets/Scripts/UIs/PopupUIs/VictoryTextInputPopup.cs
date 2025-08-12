@@ -14,6 +14,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     [Header("비활성화용 UI")]
     public GameObject PlayerHP;
     public GameObject BossHP;
+    public GameObject pauseButton;
     public GameObject timer1;
     public GameObject timerBG;
 
@@ -39,7 +40,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         PlayerHP.SetActive(false);
         BossHP.SetActive(false); timer1.SetActive(false); timerBG.SetActive(false);
         FinishBoss.SetActive(true);
-        
+        pauseButton.SetActive(false);
     }
     private void Awake()
     {

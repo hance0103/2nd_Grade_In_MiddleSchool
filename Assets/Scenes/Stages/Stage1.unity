@@ -980,7 +980,7 @@ PrefabInstance:
       objectReference: {fileID: 1239949766}
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: maxHP
-      value: 500
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: -4572463076565148710, guid: 8215de91705a6be41ba1cb7c727d8e76, type: 3}
       propertyPath: _blinkCount
@@ -9161,6 +9161,10 @@ PrefabInstance:
       propertyPath: FinishBoss
       value: 
       objectReference: {fileID: 957145368}
+    - target: {fileID: 9202793753529441, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1623571886}
     - target: {fileID: 1630513290546324358, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_Name
       value: VictoryTextInputPanel
@@ -9213,6 +9217,10 @@ PrefabInstance:
       propertyPath: FinishPanel
       value: 
       objectReference: {fileID: 122115807}
+    - target: {fileID: 5043665583073251643, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1623571886}
     - target: {fileID: 8037192568198160113, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9621,6 +9629,18 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 104924279}
+    - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
+      propertyPath: Button1
+      value: 
+      objectReference: {fileID: 1623571886}
+    - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1623571886}
+    - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
+      propertyPath: bossFaceRightOnSpawn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3895351982120371741, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
       propertyPath: m_Name
       value: EnragePhase

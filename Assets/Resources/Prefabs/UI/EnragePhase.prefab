@@ -348,11 +348,12 @@ MonoBehaviour:
   TopBar: {fileID: 3384257262550492753}
   MiddleBar: {fileID: 249243713587658646}
   BottomBar: {fileID: 6283176229319934531}
+  pauseButton: {fileID: 0}
   TopText: {fileID: 4475604824882163850}
   BottomText: {fileID: 6820852830673644866}
-  moveDuration1: 1
-  moveDuration2: 1
-  TextmoveDuration: 5
+  moveDuration1: 2
+  moveDuration2: 2
+  TextmoveDuration: 6
   moveFastRight1: 1000
   moveSlowRight1: 300
   moveSlowLeft1: -300
@@ -360,8 +361,8 @@ MonoBehaviour:
   moveFastLeft2: -2000
   moveRight: 1000
   moveLeft: -1000
-  waitBeforeClose: 3
-  blinkDuration: 5
+  waitBeforeClose: 2
+  blinkDuration: 7
   blinkSpeed: 1
 --- !u!1 &5293952797115742158
 GameObject:

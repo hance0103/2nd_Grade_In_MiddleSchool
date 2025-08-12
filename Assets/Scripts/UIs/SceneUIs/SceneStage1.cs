@@ -66,8 +66,7 @@ public class SceneStage1 : MonoBehaviour
     {
         SoundManager.Instance.EffectSoundOn("3");
         //controllerUI.SetActive(false);
-        if (GameManager.Inst.player != null)
-            GameManager.Inst.player.PlayerStop();
+
         PausePopup.SetActive(true);
         Time.timeScale = 0f; // 시간 정지
     }
@@ -77,8 +76,6 @@ public class SceneStage1 : MonoBehaviour
     {
         SoundManager.Instance.EffectSoundOn("3");
 
-        if (GameManager.Inst.player != null)
-            GameManager.Inst.player.PlayerResume();
 
         PausePopup.SetActive(false);
         //controllerUI.SetActive(true);

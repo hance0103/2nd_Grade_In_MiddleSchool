@@ -1010,6 +1010,10 @@ PrefabInstance:
       propertyPath: FinishPanel
       value: 
       objectReference: {fileID: 972903728}
+    - target: {fileID: 5043665583073251643, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 626856255}
     - target: {fileID: 8037192568198160113, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -16461,6 +16465,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1439999889}
+    - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 626856255}
     - target: {fileID: 2572140822390754445, guid: a64e71751a633404b9b53e4ebe76e0a2, type: 3}
       propertyPath: waitBeforeClose
       value: 2
