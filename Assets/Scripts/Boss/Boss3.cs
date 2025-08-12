@@ -94,6 +94,7 @@ public class Boss3 : MonoBehaviour
 
     [Header("약공격4 데이터")]
     [SerializeField] private BossScriptableObject weakPattern4Data;
+    [SerializeField] private float weak4FirstAttackDelay;
     [SerializeField] private float _wp4NormalDelay;
     [SerializeField] private float _wp4EnranageDelay;
     [SerializeField] private List<Sprite> explosionSprites;
@@ -111,6 +112,7 @@ public class Boss3 : MonoBehaviour
     [Header("약공 4, 5 공용 데이터")]
     [SerializeField] private ProjectileScriptableObject weak4ProjData;
     [SerializeField] private GameObject MusicProjectile;
+    [SerializeField] private GameObject explosionWarningPrefab;
     [SerializeField] private float musicProjectileHitTime;
     [SerializeField] private float explosionDuration;
 
@@ -265,25 +267,25 @@ public class Boss3 : MonoBehaviour
             BossState.DesperatePattern3
         };
 
-        //patternDic.Add(0, new BossState[] {
+        patternDic.Add(0, new BossState[] {
 
-        //    //BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
-        //    //BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.EnragedPattern,
-        //    //BossState.DesperatePattern1,
-        //    //BossState.DesperatePattern2,
-        //    //BossState.DesperatePattern3
-        //});
+            //BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.EnragedPattern,
+            //BossState.DesperatePattern1,
+            //BossState.DesperatePattern2,
+            //BossState.DesperatePattern3
+        });
 
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern5 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
-        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern2 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern5 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern2 });
 
         if (!isDesperate)
         {
@@ -988,40 +990,23 @@ public class Boss3 : MonoBehaviour
         Vector2 targetPosition = player.transform.position;
 
         // 경고 표시 생성
-        GameObject warningObj = new GameObject($"Warning_{attackCount}");
-        SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
-
-        #region 원형 스프라이트 직접 생성
-        Texture2D circleTexture = new Texture2D(128, 128);
-        for (int y = 0; y < circleTexture.height; y++)
-        {
-            for (int x = 0; x < circleTexture.width; x++)
-            {
-                float dx = x - circleTexture.width / 2;
-                float dy = y - circleTexture.height / 2;
-                float distance = Mathf.Sqrt(dx * dx + dy * dy);
-                float alpha = distance < circleTexture.width / 2 ? 1f : 0f;
-                circleTexture.SetPixel(x, y, new Color(1f, 0f, 0f, alpha));
-            }
-        }
-        circleTexture.Apply();
-
-        Sprite circleSprite = Sprite.Create(circleTexture,
-            new Rect(0, 0, circleTexture.width, circleTexture.height),
-            new Vector2(0.5f, 0.5f));
-        #endregion
+        //GameObject warningObj = new GameObject($"Warning_{attackCount}");
+        //SpriteRenderer warningRenderer = warningObj.AddComponent<SpriteRenderer>();
+        GameObject warningObj = Instantiate(explosionWarningPrefab);
+        warningObj.transform.position = targetPosition;
+        SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
 
         #region 경고 관련
-        // 경고 표시 설정
-        warningRenderer.sprite = circleSprite;
-        warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
-        warningRenderer.transform.position = targetPosition;
-        warningRenderer.transform.localScale = new Vector3(3f, 3f, 1f); // 더 큰 경고 크기
-        warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
-
         // 경고 표시 깜빡임
         float warningDuration = isEnraged ? 0.5f : 0.7f;
         float currentTime = 0f;
+
+
+        // 첫번째 공격일 경우
+        if (attackCount == 0)
+        {
+            warningDuration = weak4FirstAttackDelay;
+        }
 
         while (currentTime < warningDuration)
         {
@@ -1105,16 +1090,12 @@ public class Boss3 : MonoBehaviour
     private IEnumerator warningCoroutine(Vector3 vec)
     {
         // 경고 표시 생성
-        GameObject warningObj = Instantiate(warningPrefab);
+        GameObject warningObj = Instantiate(explosionWarningPrefab);
         warningObj.transform.SetParent(bossPatternPanel.transform, false);
+        warningObj.transform.position = vec;
         SpriteRenderer warningRenderer = warningObj.GetComponent<SpriteRenderer>();
 
         #region 경고 관련
-        // 경고 표시 설정
-        warningRenderer.color = new Color(1f, 0f, 0f, 0.7f); // 더 진한 빨간색
-        warningRenderer.transform.position = vec;
-        warningRenderer.sortingOrder = 10; // 레이어 순서를 높여서 확실히 보이게 함
-
         // 경고 표시 깜빡임
         float warningDuration = isEnraged ? 1.5f : 1.7f;
         float currentTime = 0f;
