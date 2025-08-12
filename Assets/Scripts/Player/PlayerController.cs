@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-
+        _canPlayerControll = true;
     }
     private void Update()
     {
