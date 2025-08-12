@@ -44,6 +44,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     private void Awake()
     {
+        GameManager.Inst.player.PlayerStop();
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
             Debug.LogError("Player 태그가 붙은 오브젝트를 찾을 수 없습니다!");

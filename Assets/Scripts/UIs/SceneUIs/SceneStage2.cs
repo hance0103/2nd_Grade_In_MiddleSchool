@@ -84,6 +84,7 @@ public class SceneStage2 : MonoBehaviour
         SoundManager.Instance.EffectSoundOn("3");
         PausePopup.SetActive(false);
         Time.timeScale = 1f; // 시간 재개
+        GameManager.Inst.player.PlayerResume();
         // 게임 재시작 로직 추가 (필요 시 장면 다시 로드 등)
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
