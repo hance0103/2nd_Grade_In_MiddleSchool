@@ -293,7 +293,6 @@ public class PlayerController : MonoBehaviour
 
         input.ResetInputs();
 
-
     }
     private void FixedUpdate()
     {

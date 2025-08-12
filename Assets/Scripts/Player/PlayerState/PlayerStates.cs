@@ -76,6 +76,7 @@ public class MoveState : IPlayerState
         if (player.isOnPlatform)
         {
             Debug.Log("플랫폼 위에 있음");
+            Debug.Log(player.GetInputDirection());
             // 플랫폼 위에 있을때
             if (player.GetInputDirection() == PlayerInputDirection.Down ||
                 player.GetInputDirection() == PlayerInputDirection.DownRight ||
