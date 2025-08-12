@@ -23,11 +23,12 @@ public class IdleState : IPlayerState
         {
             Debug.Log("플랫폼 위에 있음");
 
+            Debug.Log(player.GetDirection());
 
             // 플랫폼 위에 있을때
-            if (player.GetInputDirection() == PlayerInputDirection.Down ||
-                player.GetInputDirection() == PlayerInputDirection.DownRight ||
-                player.GetInputDirection() == PlayerInputDirection.DownLeft)
+            if (player.GetDirection() == PlayerInputDirection.Down ||
+                player.GetDirection() == PlayerInputDirection.DownRight ||
+                player.GetDirection() == PlayerInputDirection.DownLeft)
             {
                 Debug.Log("아래방향");
                 if (Input.GetKeyDown(KeyCode.Space) || input.JumpPressed)
@@ -76,11 +77,11 @@ public class MoveState : IPlayerState
         if (player.isOnPlatform)
         {
             Debug.Log("플랫폼 위에 있음");
-            Debug.Log(player.GetInputDirection());
+            Debug.Log(player.GetDirection());
             // 플랫폼 위에 있을때
-            if (player.GetInputDirection() == PlayerInputDirection.Down ||
-                player.GetInputDirection() == PlayerInputDirection.DownRight ||
-                player.GetInputDirection() == PlayerInputDirection.DownLeft)
+            if (player.GetDirection() == PlayerInputDirection.Down ||
+                player.GetDirection() == PlayerInputDirection.DownRight ||
+                player.GetDirection() == PlayerInputDirection.DownLeft)
             {
                 Debug.Log("아래방향");
 

@@ -260,33 +260,38 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // 컨트롤러 조작
-            direction = controller.GetDirection(controller.GetInput());
-            if (direction == PlayerInputDirection.Right ||
-                direction == PlayerInputDirection.UpRight || 
-                direction == PlayerInputDirection.DownRight)
+            if (direction != controller.GetDirection(controller.GetInput()))
             {
-                if (!isAttacking)
+                // 컨트롤러 조작
+                direction = controller.GetDirection(controller.GetInput());
+                if (direction == PlayerInputDirection.Right ||
+                    direction == PlayerInputDirection.UpRight ||
+                    direction == PlayerInputDirection.DownRight)
                 {
-                    looking = PlayerLookingDirection.Right;
+                    if (!isAttacking)
+                    {
+                        looking = PlayerLookingDirection.Right;
+                    }
+
+                    moveInput = 1f;
                 }
-                
-                moveInput = 1f;
-            }
-            else if (direction == PlayerInputDirection.Left ||
-                    direction == PlayerInputDirection.UpLeft || 
-                    direction == PlayerInputDirection.DownLeft)
-            {
-                if (!isAttacking)
+                else if (direction == PlayerInputDirection.Left ||
+                        direction == PlayerInputDirection.UpLeft ||
+                        direction == PlayerInputDirection.DownLeft)
                 {
-                    looking = PlayerLookingDirection.Left;
+                    if (!isAttacking)
+                    {
+                        looking = PlayerLookingDirection.Left;
+                    }
+                    moveInput = -1f;
                 }
-                moveInput = -1f;
+                else
+                {
+                    moveInput = 0f;
+                }
             }
-            else
-            {
-                moveInput = 0f;
-            }
+
+            
         }
 
         ApplyMovement();
