@@ -7,6 +7,7 @@ public class SceneStage1 : MonoBehaviour
 {
     public void LoadMain()
     {
+        SoundManager.Instance.StopLoopEffect();
         SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Main");
@@ -15,6 +16,7 @@ public class SceneStage1 : MonoBehaviour
     }
     public void LoadStageSelect()
     {
+        SoundManager.Instance.StopLoopEffect();
         SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("StageSelect");
@@ -23,6 +25,7 @@ public class SceneStage1 : MonoBehaviour
     }
     public void LoadStage2()
     {
+        SoundManager.Instance.StopLoopEffect();
         SoundManager.Instance.EffectSoundOn("3");
         Stage1OpeningTextPopup.isFirstTime1 = true;
         SceneManager.LoadScene("Stage2");

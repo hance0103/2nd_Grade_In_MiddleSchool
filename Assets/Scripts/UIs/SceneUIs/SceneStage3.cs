@@ -7,6 +7,7 @@ public class SceneStage3 : MonoBehaviour
 {
     public void LoadMain()
     {
+        SoundManager.Instance.StopLoopEffect();
         SoundManager.Instance.EffectSoundOn("3");
         Stage3OpeningTextPopup.isFirstTime3 = true;
         Boss3.Enrageactive = true;
@@ -16,6 +17,7 @@ public class SceneStage3 : MonoBehaviour
     }
     public void LoadStageSelect()
     {
+        SoundManager.Instance.StopLoopEffect();
         SoundManager.Instance.EffectSoundOn("3");
         Stage3OpeningTextPopup.isFirstTime3 = true;
         Boss3.Enrageactive = true;
