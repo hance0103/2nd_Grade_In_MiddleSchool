@@ -68,18 +68,19 @@ public class BossHPManager : MonoBehaviour
         //Debug.Log($"보스 {damage} 데미지. 남은 HP: {currentHP}");
         if (currentHP <= 0&& Stage ==1)
         {
+            GameManager.Inst.player.OnStageEnd();
             currentHP = 0;
             BossDie1();
         }
         if (currentHP <= 0 && Stage == 2)
         {
+            GameManager.Inst.player.OnStageEnd();
             currentHP = 0;
             BossDie2();
         }
         if (currentHP <= 0 && Stage == 3)
         {
             currentHP = 0;
-
             Boss.GetComponent<Boss3>().DesperateReady();
 
 

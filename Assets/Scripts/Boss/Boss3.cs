@@ -316,7 +316,7 @@ public class Boss3 : MonoBehaviour
             // 모든 발악패턴이 종료되어 보스가 완전히 죽음 - isDead는 발악패턴 코루틴이 모두 종료되면 true로 바꿈
             if (isDead)
             {
-
+                player.GetComponent<PlayerController>().OnStageEnd();
                 bossHPManager.BossDie3Execute();
                 StartCoroutine(DeathEffect());
                 return;
@@ -1316,7 +1316,7 @@ public class Boss3 : MonoBehaviour
         EndPattern = false;
         yield return new WaitForSeconds(0.5f);
         
-        Debug.Log("발악패턴1");
+
         currentState = BossState.DesperatePattern1;
 
         #region 가로 레이저 맵 데이터
@@ -1488,6 +1488,7 @@ public class Boss3 : MonoBehaviour
         // 패턴이 끝나기 전까지 지속
         while (!isDesperatePattern1End)
         {
+
             //triggerStay 발동하기 위해 좌우로 움직여줌
             laser.transform.position += new Vector3(1f, 0f, 0f);
             laser.transform.position -= new Vector3(1f, 0f, 0f);
@@ -1509,7 +1510,7 @@ public class Boss3 : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         EndPattern = false;
-        Debug.Log("발악패턴2");
+
         currentState = BossState.DesperatePattern2;
 
         #region 맵 데이터

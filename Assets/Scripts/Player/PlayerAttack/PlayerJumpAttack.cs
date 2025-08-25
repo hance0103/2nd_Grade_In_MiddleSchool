@@ -9,7 +9,6 @@ public class PlayerJumpAttack : MonoBehaviour
     // Start is called before the first frame update
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"트리거 엔터 : {collision.name}");
         if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             

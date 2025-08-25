@@ -177,11 +177,7 @@ public class LaserController2 : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("레이저 충돌 중");
-        if (GameManager.Inst.NowStage != 3)
-        {
-            Debug.Log($"3스테이지 아님 현재 스테이지 {GameManager.Inst.NowStage}");
-        }
+
 
         if (collision.CompareTag("Player") && GameManager.Inst.NowStage == 3)
         {
