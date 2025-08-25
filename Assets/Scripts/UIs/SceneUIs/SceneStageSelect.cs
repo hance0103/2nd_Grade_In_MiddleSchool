@@ -14,6 +14,7 @@ public class StageSelect : MonoBehaviour
     }
     public void LoadStage1()
     {
+        GameManager.Inst.SetNowStage(1);
         SoundManager.Instance.EffectSoundOn("3");
         SceneManager.LoadScene("Stage1");
         SoundManager.Instance.Stage1BgmOn();
@@ -22,6 +23,7 @@ public class StageSelect : MonoBehaviour
 
     public void LoadStage2()
     {
+        GameManager.Inst.SetNowStage(2);
         SoundManager.Instance.EffectSoundOn("3");
         SceneManager.LoadScene("Stage2");
         SoundManager.Instance.Stage2BgmOn();
@@ -30,6 +32,7 @@ public class StageSelect : MonoBehaviour
 
     public void LoadStage3()
     {
+        GameManager.Inst.SetNowStage(3);
         SoundManager.Instance.EffectSoundOn("3");
         SceneManager.LoadScene("Stage3");
         SoundManager.Instance.Stage3BgmOn();

@@ -141,8 +141,6 @@ public class BossEnragePopup : MonoBehaviour
             yield return null; // 다음 프레임까지 대기
         }
         
-        // 이동이 정확히 끝났는지 보정 (t=1 상태)
-        Debug.Log("광폭화 텍스트 코루틴 종료");
     }
     private IEnumerator BlinkText(Image targetImage, float blinkDuration, float blinkSpeed)
     {

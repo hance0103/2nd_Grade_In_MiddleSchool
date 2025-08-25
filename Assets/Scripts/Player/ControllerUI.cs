@@ -13,6 +13,10 @@ public class ControllerUI : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     void Update()
     {
+        //if(isControllerInput)
+        //{
+        //    Debug.Log(GetDirection(inputVector));
+        //}
     }
     public Vector2 GetInput()
     {

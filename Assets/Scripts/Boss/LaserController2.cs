@@ -169,11 +169,17 @@ public class LaserController2 : MonoBehaviour
         {
             PlayerHPManager hpManager= collision.gameObject.GetComponent<PlayerHPManager>();
             hpManager.TakeDamage(laserData.Damage);
+
+
         }
+
+
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+
+
+        if (collision.CompareTag("Player") && GameManager.Inst.NowStage == 3)
         {
             PlayerHPManager hpManager = collision.gameObject.GetComponent<PlayerHPManager>();
             hpManager.TakeDamage(laserData.Damage);

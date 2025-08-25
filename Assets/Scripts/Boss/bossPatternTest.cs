@@ -122,6 +122,8 @@ public class bossPatternTest : MonoBehaviour
 
     void Start()
     {
+        GameManager.Inst.SetNowStage(2);
+
         animator = gameObject.GetComponent<Animator>();
         _col = GetComponent<BoxCollider2D>();
         if (isEnraged == true)
@@ -133,17 +135,17 @@ public class bossPatternTest : MonoBehaviour
             Debug.LogError("Strong pattern positions are not assigned!");
         }
 
-        patternDic.Add(0, new BossState[] {
-            //BossState.WeakPattern1,
-            //BossState.WeakPattern2,
-            //BossState.WeakPattern3,
-            //BossState.StrongPattern1,
-            BossState.StrongPattern2
-        });
+        //patternDic.Add(0, new BossState[] {
+        //    //BossState.WeakPattern1,
+        //    //BossState.WeakPattern2,
+        //    //BossState.WeakPattern3,
+        //    //BossState.StrongPattern1,
+        //    BossState.StrongPattern2
+        //});
 
-        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
-        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
-        //patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
+        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
+        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern2 });
+        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern3, BossState.StrongPattern1 });
 
         StartCoroutine(BeforeIdle());
     }

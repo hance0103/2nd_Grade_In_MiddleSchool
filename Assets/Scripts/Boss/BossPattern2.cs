@@ -105,6 +105,8 @@ public class BossPattern2 : MonoBehaviour
 
     void Start()
     {
+        GameManager.Inst.SetNowStage(2);
+
         animator = gameObject.GetComponent<Animator>();
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);

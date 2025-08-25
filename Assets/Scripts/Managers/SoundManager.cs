@@ -166,7 +166,10 @@ public class SoundManager : MonoBehaviour
         audioSource.clip = null;
         audioSource.Stop();
     }
-    
+    public bool isLoopEffectPlaying()
+    {
+        return _audioSources[(int)Sound.LoopEffect].isPlaying;
+    }
     void Start() // 게임 처음 시작시 음악세팅
     {
 

@@ -293,6 +293,7 @@ public class PlayerController : MonoBehaviour
 
             
         }
+        Debug.Log(moveInput);
 
         ApplyMovement();
 
@@ -498,6 +499,8 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerStop()
     {
+        SoundManager.Instance.StopLoopEffect();
+
         anim.PauseAnimation();
         _canPlayerControll = false;
         rb.velocity = Vector2.zero;
@@ -509,7 +512,6 @@ public class PlayerController : MonoBehaviour
         _canPlayerControll = true;
         rb.isKinematic = false;
     }
-    bool _canPlayerControl = true;
     public void PlayerDefeat()
     {
         animator.updateMode = AnimatorUpdateMode.UnscaledTime;
@@ -895,10 +897,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnStageEnd()
     {
-        _canPlayerControl = false;
+        SoundManager.Instance.StopLoopEffect();
+        moveInput = 0;
+        _canPlayerControll = false;
         stateMachine.ChangeState(new IdleState(this));
-
-
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
