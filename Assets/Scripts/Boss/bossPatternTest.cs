@@ -122,6 +122,8 @@ public class bossPatternTest : MonoBehaviour
 
     void Start()
     {
+        GameManager.Inst.SetNowStage(2);
+
         animator = gameObject.GetComponent<Animator>();
         _col = GetComponent<BoxCollider2D>();
         if (isEnraged == true)

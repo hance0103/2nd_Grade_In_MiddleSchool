@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,12 @@ public class GameManager : MonoBehaviour
         {
             if (s_inst == null)
             {
-                s_inst = new GameManager();
+                s_inst = FindObjectOfType<GameManager>();
+                if (s_inst == null)
+                {
+                    GameObject go = new GameObject("@GameManager");
+                    s_inst = go.AddComponent<GameManager>();
+                }
             }
             return s_inst;
         }
@@ -52,31 +58,23 @@ public class GameManager : MonoBehaviour
     public static bool isStage2Cleared = false;
     public static bool isStage3Cleared = false;
 
-    public int nowStage { get; private set; }
+    private int nowStage = 0;
     public void SetNowStage(int stage)
     {
         nowStage = stage;
     }
+    public int NowStage { get { return nowStage; } }
 
     private void Awake()
     {
-        Init();
-    }
-    static void Init()
-    {
-        if (s_inst == null)
+        if (s_inst != null && s_inst != this)
         {
-            GameObject go = GameObject.Find("@GameManager");
-            if (go == null)
-            {
-                go = new GameObject { name = "@GameManager" };
-                go.AddComponent<GameManager>();
-            }
-
-            DontDestroyOnLoad(go);
-            s_inst = go.GetComponent<GameManager>();
-
+            Destroy(gameObject);
+            return;
         }
+
+        s_inst = this;
+        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {

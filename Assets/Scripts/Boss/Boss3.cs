@@ -242,11 +242,6 @@ public class Boss3 : MonoBehaviour
             dictIndex++;
         }
 
-        foreach( var list in weak5PosDict)
-        {
-            Debug.Log($"{list.Key} : {list.Value.Count}");
-        }
-
 
         if (Enrageactive)
         {
@@ -257,6 +252,8 @@ public class Boss3 : MonoBehaviour
 
     void Start()
     {
+        GameManager.Inst.SetNowStage(3);
+
         animator = gameObject.GetComponent<Animator>();
         if (isEnraged == true)
             animator.SetBool("isEnraged", true);
