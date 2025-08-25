@@ -52,6 +52,12 @@ public class GameManager : MonoBehaviour
     public static bool isStage2Cleared = false;
     public static bool isStage3Cleared = false;
 
+    public int nowStage { get; private set; }
+    public void SetNowStage(int stage)
+    {
+        nowStage = stage;
+    }
+
     private void Awake()
     {
         Init();
