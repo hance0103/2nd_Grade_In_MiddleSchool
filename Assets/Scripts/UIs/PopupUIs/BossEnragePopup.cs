@@ -279,7 +279,7 @@ public class BossEnragePopup : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         pauseButton.SetActive(true);
         // 패널(보스 광폭화 팝업) 비활성화
-        gameObject.SetActive(false);
+        
         // 다시 켰을 때도 동일하게 연출되도록, 원본 위치로 복원
         topTextRect.anchoredPosition = topTextStartPos + new Vector2(moveSlowRight1, 0f);
         bottomTextRect.anchoredPosition = bottomTextStartPos + new Vector2(moveSlowLeft1, 0f);
@@ -289,7 +289,7 @@ public class BossEnragePopup : MonoBehaviour
         TopText.GetComponent<RectTransform>().anchoredPosition = initTopTextPos;
         BottomText.GetComponent<RectTransform>().anchoredPosition = initBottomTextPos;
         // 코루틴 종료
-
+        gameObject.SetActive(false);
         _playerController.PlayerResume();
         _playerController.DeactivateInvincible();
     }

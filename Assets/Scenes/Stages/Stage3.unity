@@ -959,9 +959,21 @@ PrefabInstance:
       propertyPath: FinishPanel
       value: 
       objectReference: {fileID: 972903728}
+    - target: {fileID: 1262345398067028798, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1630513290546324358, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_Name
       value: VictoryTextInputPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630513290546324358, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3852134314713054313, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4314944439791108409, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1015,6 +1027,10 @@ PrefabInstance:
       propertyPath: pauseButton
       value: 
       objectReference: {fileID: 626856255}
+    - target: {fileID: 7359985950297355902, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: m_text
+      value: "<u>\u313B</u>\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 8037192568198160113, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

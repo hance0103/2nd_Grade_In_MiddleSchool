@@ -7,7 +7,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TMP_InputField inputField; // TextMeshPro 버전
     [SerializeField] private Timer timer;
-    private GameObject Controller;
+    public GameObject Controller;
     private PlayerController pc;
     public GameObject FinishPanel;
     private string savedData;
@@ -45,7 +45,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     }
     private void Awake()
     {
-        pc.ChangeState(new IdleState(pc));
+        //pc.ChangeState(new IdleState(pc));
         SoundManager.Instance.StopLoopEffect();
         GameManager.Inst.player.PlayerStop();
         player = GameObject.FindGameObjectWithTag("Player");
