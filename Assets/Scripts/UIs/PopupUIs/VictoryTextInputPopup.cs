@@ -10,6 +10,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     public GameObject Controller;
     private PlayerController pc;
     public GameObject FinishPanel;
+    public GameObject FinishButton;
     private string savedData;
 
     [Header("비활성화용 UI")]
@@ -62,7 +63,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         {
             FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
         }
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
@@ -75,7 +76,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         {
             FinishBoss.transform.position = new Vector3(6.5f, 2f, 0f);
         }
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, 2f));
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3.5f, 6.5f, 2f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
@@ -89,7 +90,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         {
             FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
         }
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -2.5f, 6.5f, -1.5f));
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3.5f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
@@ -143,7 +144,7 @@ public class VictoryTextInputPopup : MonoBehaviour
     {
         //  텍스트 입력창 닫기
         inputField.gameObject.SetActive(false);
-
+        FinishButton.gameObject.SetActive(false);
         //  페이드 아웃
         yield return StartCoroutine(FadeOutCoroutine());
 
@@ -151,6 +152,8 @@ public class VictoryTextInputPopup : MonoBehaviour
         if (player != null)
         {
             player.transform.position = new Vector3(playerX, playerY, 0f);
+            foreach (var sr in player.GetComponentsInChildren<SpriteRenderer>(true))
+                sr.flipX = false;
             player.SetActive(true);
         }
         
@@ -219,6 +222,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         finalColor.a = 0f;
         fadeImage.color = finalColor;
         inputField.gameObject.SetActive(true);
+        FinishButton.gameObject.SetActive(true);
     }
 
    

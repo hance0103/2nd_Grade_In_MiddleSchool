@@ -1027,6 +1027,10 @@ PrefabInstance:
       propertyPath: pauseButton
       value: 
       objectReference: {fileID: 626856255}
+    - target: {fileID: 5043665583073251643, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: FinishButton
+      value: 
+      objectReference: {fileID: 105774018}
     - target: {fileID: 7359985950297355902, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_text
       value: "<u>\u313B</u>\u200B"
@@ -1138,6 +1142,11 @@ MonoBehaviour:
 --- !u!1 &105774017 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1630513290546324358, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+  m_PrefabInstance: {fileID: 105774014}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &105774018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2583312559485052190, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
   m_PrefabInstance: {fileID: 105774014}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &110282945

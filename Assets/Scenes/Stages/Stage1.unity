@@ -9361,6 +9361,10 @@ PrefabInstance:
       propertyPath: pauseButton
       value: 
       objectReference: {fileID: 1623571886}
+    - target: {fileID: 5043665583073251643, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+      propertyPath: FinishButton
+      value: 
+      objectReference: {fileID: 121673499255442286}
     - target: {fileID: 5087682074734625322, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9505,6 +9509,11 @@ PrefabInstance:
       addedObject: {fileID: 1497085079}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+--- !u!1 &121673499255442286 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2583312559485052190, guid: aa155a3f88685674ea9f31a3f74cc66e, type: 3}
+  m_PrefabInstance: {fileID: 121673499255442285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3188409903411303782
 PrefabInstance:
   m_ObjectHideFlags: 0
