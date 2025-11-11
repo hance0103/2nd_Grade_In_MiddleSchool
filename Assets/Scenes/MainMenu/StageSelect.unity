@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -315,8 +314,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.48, y: -0.79}
-  m_SizeDelta: {x: 6.677, y: 2.449}
+  m_AnchoredPosition: {x: 4.354706, y: -0.79}
+  m_SizeDelta: {x: 6.426413, y: 2.449}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &102042584
 MonoBehaviour:
@@ -358,7 +357,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "                       \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C"
+  m_text: "              \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
   m_sharedMaterial: {fileID: 380894479964904814, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
@@ -395,7 +394,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 15
   m_wordSpacing: 0
   m_lineSpacing: 55
   m_lineSpacingMax: 0
@@ -1269,7 +1268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "                       \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C"
+  m_text: "               \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
   m_sharedMaterial: {fileID: 380894479964904814, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
@@ -1306,7 +1305,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 15
   m_wordSpacing: 0
   m_lineSpacing: 55
   m_lineSpacingMax: 0
@@ -4976,7 +4975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2083608133
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5143,7 +5142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "                       \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C"
+  m_text: "               \uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C\uB2E4\uB78C\uC950\uD5CC\uCCC7\uBC14\uD034\uC5D0\uD0C0\uACE0\uD30C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
   m_sharedMaterial: {fileID: 380894479964904814, guid: 5df95b08ab0fd4f4a8b72da807346931, type: 2}
@@ -5180,7 +5179,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 15
   m_wordSpacing: 0
   m_lineSpacing: 55
   m_lineSpacingMax: 0

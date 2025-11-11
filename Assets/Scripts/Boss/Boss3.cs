@@ -2185,6 +2185,7 @@ public class Boss3 : MonoBehaviour
     public void RemoveAllPattern()
     {
         StopAllCoroutines();
+        currentCoroutine = null;
         foreach (Transform child in bossPatternPanel)
         {
             Destroy(child.gameObject);
