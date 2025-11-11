@@ -82,6 +82,7 @@ public class EndingPopup : MonoBehaviour
 
     void End()
     {
+        SoundManager.Instance.MainBgmOn();
         SceneManager.LoadScene("Main");
     }
 }

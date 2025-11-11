@@ -5,39 +5,55 @@ using TMPro;
 public class PlayerHPSlider : MonoBehaviour
 {
     [Header("플레이어 HP 슬라이더")]
-    [SerializeField] private Slider PlayerHpSlider;
     [SerializeField] private TMP_Text HPText;
-    GameObject Player;
-    private void Start()
-    {
-        // 슬라이더의 MinValue, MaxValue를 0~1로 맞추는 경우
-        PlayerHpSlider.minValue = 0f;
-        PlayerHpSlider.maxValue = 1f;
+    [SerializeField] private Image hpBarImage;
 
-        // 시작 시 풀피 상태
-        PlayerHpSlider.value = 1f;
-    }
+    private GameObject Player;
+    private Material _instancedMat;
+
+    [Range(0f, 1f)]
+    public float fillAmount = 1f;
+
     private void Awake()
     {
         Player = GameObject.Find("Player");
+
+        // 원본 머티리얼을 복제해서 개별 인스턴스화
+        if (hpBarImage != null && hpBarImage.material != null)
+        {
+            _instancedMat = Instantiate(hpBarImage.material);
+            hpBarImage.material = _instancedMat;
+        }
     }
+
     private void Update()
     {
         if (Player == null)
         {
             Player = GameObject.Find("Player");
-            // 찾지 못했다면 더 이상 진행할 수 없으니 return
             if (Player == null) return;
         }
-        // BossHPManager 싱글톤에서 HP 정보 가져오기
+
+        if (PlayerHPManager.Instance == null) return;
+
         float currentHP = PlayerHPManager.Instance.GetCurrentHP();
         float maxHP = PlayerHPManager.Instance.GetMaxHP();
+        if (maxHP <= 0f) return;
 
-        // 현재 HP 비율을 0~1로 환산
         float hpRatio = currentHP / maxHP;
 
-        // 슬라이더의 값 갱신
-        PlayerHpSlider.value = hpRatio;
+        SetFillAmount(hpRatio);
         HPText.text = $"{(int)currentHP}/{(int)maxHP}";
+    }
+
+    public void SetFillAmount(float targetPercent)
+    {
+        if (_instancedMat == null) return;
+
+        float clamped = Mathf.Clamp01(targetPercent);
+        fillAmount = clamped;
+
+        // 쉐이더의 _Fill 값에 비율 전달
+        _instancedMat.SetFloat("_Fill", clamped);
     }
 }
