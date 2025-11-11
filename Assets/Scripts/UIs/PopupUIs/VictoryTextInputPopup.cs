@@ -63,7 +63,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         {
             FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
         }
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3.5f, 6.5f, -1.5f));
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
@@ -90,7 +90,7 @@ public class VictoryTextInputPopup : MonoBehaviour
         {
             FinishBoss.transform.position = new Vector3(6.5f, -2.7f, 0f);
         }
-        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3.5f, 6.5f, -1.5f));
+        StartCoroutine(DoFadeSequenceAndRespawn(-4.0f, -3f, 6.5f, -1.5f));
         Controller.SetActive(false);
         Timer timer = FindObjectOfType<Timer>();
         timer.TimeActive = false;
