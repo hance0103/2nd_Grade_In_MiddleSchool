@@ -1067,7 +1067,9 @@ public class Boss3 : MonoBehaviour
         #endregion
 
         // 보스 위치 조정
-        transform.position = new Vector2(rightBound - 16, bottomBound + 4);
+        int randPoS = UnityEngine.Random.Range(0, weak1TeleportPosition.Length);
+
+        transform.position = weak1TeleportPosition[randPoS];
         FacePlayer();
 
 
