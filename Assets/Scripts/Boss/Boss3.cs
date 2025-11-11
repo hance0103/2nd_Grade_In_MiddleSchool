@@ -243,11 +243,7 @@ public class Boss3 : MonoBehaviour
         }
 
 
-        if (Enrageactive)
-        {
-            Enrageactive = false;
-            BossEnrage();
-        }
+        
     }
 
     void Start()
@@ -312,6 +308,11 @@ public class Boss3 : MonoBehaviour
         // 체력 0이 되어서 발악패턴 - isDesperate는 BossHpManager에서 True로 설정해줌
         if (isDesperate)
         {
+            if (Enrageactive)
+            {
+                Enrageactive = false;
+                BossEnrage();
+            }
             EndPattern = true;
             // 모든 발악패턴이 종료되어 보스가 완전히 죽음 - isDead는 발악패턴 코루틴이 모두 종료되면 true로 바꿈
             if (isDead)
@@ -547,7 +548,7 @@ public class Boss3 : MonoBehaviour
                 {
                     Destroy(line.gameObject);
                 }
-                SoundManager.Instance.EffectSoundOn("18");
+                SoundManager.Instance.EffectSoundOn("18-03");
 
                 // 두 레이저 동시 발사
                 foreach (int layer in selectedLayers)
@@ -676,7 +677,7 @@ public class Boss3 : MonoBehaviour
             // 그 다음 레이저 발사
             foreach (var pair in firePairs)
             {
-                SoundManager.Instance.EffectSoundOn("18");
+                SoundManager.Instance.EffectSoundOn("18-03");
 
                 foreach (int pos in pair)
                 {
@@ -844,7 +845,7 @@ public class Boss3 : MonoBehaviour
 
                 // 우물 정자 패턴 레이저 발사
                 // 경고선 위치에 맞춰 레이저 발사
-                SoundManager.Instance.EffectSoundOn("18");
+                SoundManager.Instance.EffectSoundOn("18-03");
 
                 foreach (var warningLine in warningLines)
                 {
@@ -924,7 +925,7 @@ public class Boss3 : MonoBehaviour
                 {
                     Destroy(line.gameObject);
                 }
-                SoundManager.Instance.EffectSoundOn("18");
+                SoundManager.Instance.EffectSoundOn("18-03");
 
                 // 저장된 정확한 위치로 레이저 발사
                 for (int i = 0; i < laserPaths.Count; i++)
@@ -1153,7 +1154,7 @@ public class Boss3 : MonoBehaviour
     {
         if (_wp5Played) return;  // 이미 울렸으면 아무 것도 안 함
 
-        string[] wp5Clips = { "3-5-1", "3-5-2", "3-5-3" };
+        string[] wp5Clips = { "3-6-1", "3-6-2", "3-6-3" };
         string randomClip = wp5Clips[UnityEngine.Random.Range(0, wp5Clips.Length)];
         SoundManager.Instance.EffectSoundOn(randomClip);
 
@@ -1421,7 +1422,7 @@ public class Boss3 : MonoBehaviour
 
         foreach (var pair in firePairs)
         {
-            SoundManager.Instance.EffectSoundOn("18");
+            SoundManager.Instance.EffectSoundOn("18-55");
 
             foreach (int pos in pair)
             {
@@ -1963,7 +1964,7 @@ public class Boss3 : MonoBehaviour
         // 레이저 발사
         foreach (var num in patternTypeList)
         {
-            SoundManager.Instance.EffectSoundOn("18");
+            SoundManager.Instance.EffectSoundOn("18-03");
 
             if (num == 1)
             {
