@@ -227,7 +227,6 @@ public class AttackState : IPlayerState
     public void Enter()
     {
         player.anim.PlayAnimationCrossFade("NormalAttack");
-        attackDirection = player.GetLookingDirection();
         player.isAttacking = true;
         input = player.input;
         input.OnAttackButtonDown();
@@ -241,7 +240,7 @@ public class AttackState : IPlayerState
 
         if (Input.GetKeyUp(KeyCode.A) || input.AttackReleased) player.ChangeState(new IdleState(player));
 
-        player.PlayerNormalAttack(attackDirection);
+        player.PlayerNormalAttack(player.GetLookingDirection());
 
     }
 
