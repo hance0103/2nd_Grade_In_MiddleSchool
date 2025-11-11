@@ -224,6 +224,8 @@ public class PlayerController : MonoBehaviour
                 {
                     direction = PlayerInputDirection.Right;
                 }
+
+                looking = PlayerLookingDirection.Right;
                 moveInput = 1f;
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
@@ -240,6 +242,7 @@ public class PlayerController : MonoBehaviour
                 {
                     direction = PlayerInputDirection.Left;
                 }
+                looking = PlayerLookingDirection.Left;
                 moveInput = -1f;
             }
             else if (Input.GetKey(KeyCode.UpArrow))
@@ -293,7 +296,6 @@ public class PlayerController : MonoBehaviour
 
             
         }
-        Debug.Log(moveInput);
 
         ApplyMovement();
 
