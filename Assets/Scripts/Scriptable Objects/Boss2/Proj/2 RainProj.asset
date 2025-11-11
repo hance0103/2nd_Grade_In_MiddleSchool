@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2 RainProj
   m_EditorClassIdentifier: 
   damage: 8
-  projectileSpeed: 7
+  projectileSpeed: 5
   projectileCount: 20
   projectileScale: {x: 1, y: 1, z: 1}
   verticalSpacing: 0

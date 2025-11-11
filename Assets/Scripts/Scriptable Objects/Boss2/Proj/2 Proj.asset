@@ -15,7 +15,12 @@ MonoBehaviour:
   damage: 10
   projectileSpeed: 6
   projectileCount: 9
-  projectileScale: {x: 0.5, y: 0.5, z: 0.5}
+  projectileScale: {x: 0.45, y: 0.45, z: 0.5}
   verticalSpacing: 0
   fireRate: 2
   afterFireDelay: 0.5
+  effect:
+    effectActive: 0
+    time: 0
+    maxSpeed: 0
+    accel: 0

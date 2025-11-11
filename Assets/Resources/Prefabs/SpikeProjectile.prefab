@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 42.399998, z: 50}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 50, y: 43, z: 50}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -217,7 +217,7 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.9173658, y: 0.62682676}
-      - {x: -0.9334748, y: -0.7192496}
-      - {x: 1.0507628, y: -0.008059502}
+    - - {x: -0.82470757, y: 0.5450914}
+      - {x: -0.8248411, y: -0.5329112}
+      - {x: 0.8718367, y: 0.0030862289}
   m_UseDelaunayMesh: 0
