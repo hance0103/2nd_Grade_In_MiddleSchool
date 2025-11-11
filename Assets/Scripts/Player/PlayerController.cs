@@ -261,6 +261,7 @@ public class PlayerController : MonoBehaviour
         {
             if (direction != controller.GetDirection(controller.GetInput()))
             {
+                
                 // 컨트롤러 조작
                 direction = controller.GetDirection(controller.GetInput());
                 if (direction == PlayerInputDirection.Right ||
@@ -270,6 +271,9 @@ public class PlayerController : MonoBehaviour
                     if (!isAttacking && !isDashing)
                     {
                         looking = PlayerLookingDirection.Right;
+                        sprite.flipX = false;
+                        collider2d.offset = colliderOffset;
+                        _hitCollider.offset = _hitColliderOffset;
                     }
                     
                     moveInput = 1f;
@@ -280,7 +284,10 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!isAttacking && !isDashing)
                     {
+                        sprite.flipX = true;
                         looking = PlayerLookingDirection.Left;
+                        collider2d.offset = new Vector2(-colliderOffset.x, colliderOffset.y);
+                        _hitCollider.offset = new Vector2 (-_hitColliderOffset.x, _hitColliderOffset.y);
                     }
                     moveInput = -1f;
                 }
@@ -395,19 +402,6 @@ public class PlayerController : MonoBehaviour
         {
             nowSpeed += moveAccel * Time.deltaTime;
             nowSpeed = Mathf.Min(nowSpeed, maxSpeed);
-            sprite.flipX = moveInput < 0;
-
-            if (moveInput > 0)
-            {
-                collider2d.offset = colliderOffset;
-                _hitCollider.offset = _hitColliderOffset;
-            }
-            else if (moveInput < 0)
-            {
-                collider2d.offset = new Vector2(-colliderOffset.x, colliderOffset.y);
-
-                _hitCollider.offset = new Vector2 (-_hitColliderOffset.x, _hitColliderOffset.y);
-            }
         }
         else if (currentState is MoveState)
         {
