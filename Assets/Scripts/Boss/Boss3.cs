@@ -264,25 +264,25 @@ public class Boss3 : MonoBehaviour
             BossState.DesperatePattern3
         };
 
-        //patternDic.Add(0, new BossState[] {
+        patternDic.Add(0, new BossState[] {
 
-        //    //BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.WeakPattern1,
-        //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
-        //    BossState.WeakPattern4,
-        //    //BossState.WeakPattern5,
-        //    //BossState.EnragedPattern,
-        //    //BossState.DesperatePattern1,
-        //    //BossState.DesperatePattern2,
-        //    //BossState.DesperatePattern3
-        //});
+            //BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.WeakPattern1,
+            //BossState.WeakPattern2,
+            //BossState.WeakPattern3,
+            BossState.WeakPattern4,
+            //BossState.WeakPattern5,
+            //BossState.EnragedPattern,
+            //BossState.DesperatePattern1,
+            //BossState.DesperatePattern2,
+            //BossState.DesperatePattern3
+        });
 
 
-        patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern5 });
-        patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
-        patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern2 });
+        //patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern5 });
+        //patternDic.Add(1, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern3, BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern5 });
+        //patternDic.Add(2, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern4, BossState.WeakPattern3, BossState.WeakPattern4, BossState.WeakPattern2 });
 
         if (!isDesperate)
         {
@@ -973,7 +973,10 @@ public class Boss3 : MonoBehaviour
         {
             
             StartCoroutine(WeakPattern4Execute(attackCount));
-
+            if (attackCount == 0)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
             float timeBetweenAttacks = isEnraged ? _wp4EnranageDelay : _wp4NormalDelay;
             yield return new WaitForSeconds(timeBetweenAttacks);
 
@@ -1012,8 +1015,9 @@ public class Boss3 : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
-
+        
         Destroy(warningObj);
+
         #endregion
         animator.SetTrigger("isNormal");
         #region 폭발 프로젝타일 생성
@@ -1045,9 +1049,10 @@ public class Boss3 : MonoBehaviour
         }
         Destroy(projectile);
         Destroy(projectileController.gameObject);
+        
         #endregion
 
-        
+
     }
     #endregion
 
