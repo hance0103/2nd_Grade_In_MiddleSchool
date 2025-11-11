@@ -65,9 +65,11 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("적혈의 서약자", "하지만, 다시는 방해할 생각하지 마라. 어리석은 자여..."));
         yield return StartCoroutine(NormalChat("적혈의 서약자", "다음은 없다."));
         character2.gameObject.SetActive(false);
+        SetNarratorFontSize(50f);
         //yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.2f, 100f));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "크윽..오늘은 여기까지만 하지.."));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "하지만 널 막을 자는 나뿐만이 아니다.."));
+        SetNarratorFontSize(60f);
         //boss1.gameObject.SetActive(false);
         yield return StartCoroutine(NormalChat("적혈의 서약자", "크큭..그 꼴로 말은 잘 하는구나 !!"));
         yield return StartCoroutine(NormalChat("적혈의 서약자", "나는 이만 가보겠다"));
@@ -208,5 +210,10 @@ public class Stage1ClosingTextPopup : MonoBehaviour
         VictoryPanel.SetActive(true);
         
 
+    }
+    public void SetNarratorFontSize(float size)
+    {
+        if (CharacterName != null)
+            CharacterName.fontSize = size;
     }
 }

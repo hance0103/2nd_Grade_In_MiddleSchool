@@ -91,17 +91,19 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         yield return StartCoroutine(NormalChat("주인공", "한 줌의 재가 되고 싶지 않다면..사라져라."));
         yield return StartCoroutine(NormalChat("주인공", "내 안에 꿈틀거리는 [락의 영혼]이 [살의]를 내비치고 있다."));
         character2.gameObject.SetActive(false);
-
+        yield return null;
         boss1.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromLeft(boss1, 0.1f, 100f));
+        SetNarratorFontSize(50f);
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "연약한 [소녀]여"));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "너 따위가 감히 나를 지나칠 수 있다 생각하느냐?"));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "모든 사물은 내 앞에서 멈춘다."));
         yield return StartCoroutine(NormalChat("멈춤을 속삭이는 자", "예외는 없다 소녀여..."));
         boss1.gameObject.SetActive(false);
-
+        yield return null;
         character3.gameObject.SetActive(true);
         yield return StartCoroutine(FadeInImageFromRight(character3, 0.2f, 100f));
+        SetNarratorFontSize(60f);
         yield return StartCoroutine(NormalChat("주인공", "아-? 하찮구나 고작 속세의 [미물] 따위가-"));
         yield return StartCoroutine(NormalChat("주인공", "감히 나... ?"));
         yield return StartCoroutine(NormalChat("주인공", "[적혈의 서약자(bloody valentine)]에게 도전장을 던진다는 것이냐?"));
@@ -255,5 +257,10 @@ public class Stage1OpeningTextPopup : MonoBehaviour
         PlayerHP.SetActive(true);
         BossHP.SetActive(true);
         controller.SetActive(true);
+    }
+    public void SetNarratorFontSize(float size)
+    {
+        if (CharacterName != null)
+            CharacterName.fontSize = size;
     }
 }
