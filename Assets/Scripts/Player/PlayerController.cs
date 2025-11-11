@@ -195,7 +195,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(stateMachine.GetCurrentState());
         if (!_canPlayerControll)
         {
             return;

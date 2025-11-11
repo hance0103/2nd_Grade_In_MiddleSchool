@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="efd575a8-70e0-4991-95d8-41d149fb3f39" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.2nd_Grade_In_MiddleSchool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2nd_Grade_In_MiddleSchool/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stages/Stage1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stages/Stage1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Boss/Boss3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Boss/Boss3.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,6 +115,7 @@
       <workItem from="1762846394997" duration="2146000" />
       <workItem from="1762849540743" duration="4493000" />
       <workItem from="1762854191127" duration="1443000" />
+      <workItem from="1762863290729" duration="3004000" />
     </task>
     <servers />
   </component>
