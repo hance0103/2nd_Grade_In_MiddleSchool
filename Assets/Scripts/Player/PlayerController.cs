@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float diagonalDashY;
     [SerializeField] private GameObject dashEffect;
     private float dashCooldownTimer = 0f;
-    private float dashEffectPosX;
-    private float dashEffectPosY;
 
     
     private Vector2 dashStartPos;
@@ -184,9 +182,7 @@ public class PlayerController : MonoBehaviour
         _jumpAttackObjX = _jumpAttackObject.transform.localPosition.x;
         _jumpAttackObjY = _jumpAttackObject.transform.localPosition.y;
         _jumpAttackObject.SetActive(false);
-
-        dashEffectPosX = dashEffect.transform.localPosition.x;
-        dashEffectPosY = dashEffect.transform.localPosition.y;
+        
         dashEffect.SetActive(false);
 
         _hitColliderOffset = _hitCollider.offset;
@@ -606,17 +602,54 @@ public class PlayerController : MonoBehaviour
 
         if (dashDirection.x > 0)    // 오른쪽 방향으로 대시
         {
-            dashEffect.transform.localPosition = new Vector2(dashEffectPosX, dashEffectPosY);
+            dashEffect.transform.localPosition = new Vector2(-0.75f, 0);
+            dashEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
             dashEffect.GetComponent<SpriteRenderer>().flipX = false;
             looking = PlayerLookingDirection.Right;
         }
-        else // 왼쪽 방향으로 대시
+        else if (dashDirection.x < 0) // 왼쪽 방향으로 대시
         {
-            dashEffect.transform.localPosition = new Vector2(-dashEffectPosX, dashEffectPosY);
+            dashEffect.transform.localPosition = new Vector2(0.75f, 0);
+            dashEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
             dashEffect.GetComponent<SpriteRenderer>().flipX = true;
             looking = PlayerLookingDirection.Left;
         }
-        
+        else if (dashDirection.x == 0)  // 수직 방향 대시
+        { 
+            // 위로 대시
+            if (dashDirection.y > 0)
+            {
+                if (looking == PlayerLookingDirection.Right)
+                {
+                    dashEffect.transform.localPosition = new Vector2(0.36f, -1.37f);
+                    dashEffect.transform.rotation = Quaternion.Euler(0, 0, 90);
+                    dashEffect.GetComponent<SpriteRenderer>().flipX = false;
+                }
+                else if (looking == PlayerLookingDirection.Left)
+                {
+                    dashEffect.transform.localPosition = new Vector2(-0.36f, -1.37f);
+                    dashEffect.transform.rotation = Quaternion.Euler(0, 0, 90);
+                    dashEffect.GetComponent<SpriteRenderer>().flipX = true;
+                }
+
+            }
+            else
+            {
+                if (looking == PlayerLookingDirection.Right)
+                {
+                    dashEffect.transform.localPosition = new Vector2(0.53f, 1.27f);
+                    dashEffect.transform.rotation = Quaternion.Euler(0, 0, -90);
+                    dashEffect.GetComponent<SpriteRenderer>().flipX = false;
+                }
+                else if (looking == PlayerLookingDirection.Left)
+                {
+                    dashEffect.transform.localPosition = new Vector2(-0.53f, 1.27f);
+                    dashEffect.transform.rotation = Quaternion.Euler(0, 0, -90);
+                    dashEffect.GetComponent<SpriteRenderer>().flipX = true;
+                }
+
+            }
+        }
 
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
