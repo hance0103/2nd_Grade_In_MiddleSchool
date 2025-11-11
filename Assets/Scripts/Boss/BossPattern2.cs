@@ -141,7 +141,7 @@ public class BossPattern2 : MonoBehaviour
     private void BossEnrage()
     {
         // 보스에게 달려 있는 모든 ProjectileBehaviour 찾아서 회수
-        foreach (var proj in GetComponentsInChildren<ProjectileBehaviour>(true)) // 비활성 오브젝트 포함
+        foreach (var proj in GetComponentsInChildren<ProjectileBehaviour>(false))
         {
             proj.ReleaseProjectile();
         }

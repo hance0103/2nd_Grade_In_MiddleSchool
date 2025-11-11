@@ -11,13 +11,12 @@ public class ControllerUI : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Vector2 inputVector = Vector2.zero;
     public bool isControllerInput = false;
 
-    void Update()
+    public PlayerInputDirection GetInputDirection()
     {
-        //if(isControllerInput)
-        //{
-        //    Debug.Log(GetDirection(inputVector));
-        //}
+        return GetDirection(inputVector);
     }
+    
+    
     public Vector2 GetInput()
     {
         return inputVector;  // 조이스틱 입력 반환

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Diagnostics.Contracts;
 using System.Threading;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     
     private Vector2 dashStartPos;
-    private Vector2 dashDirection;
+    private Vector2 dashVec;
 
     [SerializeField]
     private bool isJumpingDash;
@@ -198,8 +199,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        
-
+        Debug.Log(stateMachine.GetCurrentState());
         if (!_canPlayerControll)
         {
             return;
@@ -271,18 +271,18 @@ public class PlayerController : MonoBehaviour
                     direction == PlayerInputDirection.UpRight ||
                     direction == PlayerInputDirection.DownRight)
                 {
-                    if (!isAttacking)
+                    if (!isAttacking && !isDashing)
                     {
                         looking = PlayerLookingDirection.Right;
                     }
-
+                    
                     moveInput = 1f;
                 }
                 else if (direction == PlayerInputDirection.Left ||
                         direction == PlayerInputDirection.UpLeft ||
                         direction == PlayerInputDirection.DownLeft)
                 {
-                    if (!isAttacking)
+                    if (!isAttacking && !isDashing)
                     {
                         looking = PlayerLookingDirection.Left;
                     }
@@ -296,12 +296,13 @@ public class PlayerController : MonoBehaviour
 
             
         }
-
         ApplyMovement();
-
         input.ResetInputs();
 
     }
+    /// <summary>
+    /// 플랫폼 관련 레이캐스트들 처리는 FixedUpdate에서 처리
+    /// </summary>
     private void FixedUpdate()
     {
         //RayCast
@@ -386,6 +387,8 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    
+    
     private void ApplyMovement()
     {
         var currentState = stateMachine.GetCurrentState();
@@ -545,51 +548,44 @@ public class PlayerController : MonoBehaviour
         dashBeforeVelocity.y = 0;
         
         // 방향계산 넣어야함
-        dashDirection = Vector2.zero;
+        dashVec = Vector2.zero;
 
-        Debug.Log(direction);
-
-        switch (direction)
+        PlayerInputDirection dashDirection = controller.GetInputDirection();
+        switch (dashDirection)
         {
             case PlayerInputDirection.Up:
-                dashDirection = new Vector2(0, verticalDashDistance);
-                Debug.Log("Up Dash");
+                dashVec = new Vector2(0, verticalDashDistance);
                 break;
             case PlayerInputDirection.Down:
-                Debug.Log("Down Dash");
-                dashDirection = new Vector2(0, -verticalDashDistance);
+                dashVec = new Vector2(0, -verticalDashDistance);
                 break;
             case PlayerInputDirection.Right:
-                    
-                dashDirection = new Vector2(horizontalDashDistance, 0);
+                dashVec = new Vector2(horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.Left:
-                Debug.Log("Left Dash");
-                dashDirection = new Vector2(-horizontalDashDistance, 0);
+                dashVec = new Vector2(-horizontalDashDistance, 0);
                 break;
             case PlayerInputDirection.UpRight:
-                Debug.Log("UpRight Dash");
-                dashDirection = new Vector2(diagonalDashX, diagonalDashY);
+                dashVec = new Vector2(diagonalDashX, diagonalDashY);
                 break;
             case PlayerInputDirection.UpLeft:
-                Debug.Log("UpLeft Dash");
 
-                dashDirection = new Vector2(-diagonalDashX, diagonalDashY);
+                dashVec = new Vector2(-diagonalDashX, diagonalDashY);
                 break;
             case PlayerInputDirection.DownRight:
-                dashDirection = new Vector2(diagonalDashX, -diagonalDashY);
+                dashVec = new Vector2(diagonalDashX, -diagonalDashY);
                 break;
             case PlayerInputDirection.DownLeft:
-                dashDirection = new Vector2(-diagonalDashX, -diagonalDashY);
+                dashVec = new Vector2(-diagonalDashX, -diagonalDashY);
                 break;
             case PlayerInputDirection.None:
                 switch (looking)
                 {
                     case PlayerLookingDirection.Right:
-                        dashDirection = new Vector2(horizontalDashDistance, 0);
+                        dashVec = new Vector2(horizontalDashDistance, 0);
                         break;
                     case PlayerLookingDirection.Left:
-                        dashDirection = new Vector2(-horizontalDashDistance, 0);
+                        dashVec = new Vector2(-horizontalDashDistance, 0);
                         break;
                 }
                 break;
@@ -598,25 +594,29 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;
 
-        StartCoroutine(DashCoroutine(dashDirection));
+        StartCoroutine(DashCoroutine(dashVec));
     }
-    private IEnumerator DashCoroutine(Vector2 direction)
+    private IEnumerator DashCoroutine(Vector2 dashDirection)
     {
         bool wasOnPlatform = isOnPlatform;
 
         anim.PlayAnimation("Dash");
         SoundManager.Instance.Play("PlayerSound/PlayerDash");
         dashEffect.SetActive(true);
-        if (looking == PlayerLookingDirection.Right)
+
+        if (dashDirection.x > 0)    // 오른쪽 방향으로 대시
         {
             dashEffect.transform.localPosition = new Vector2(dashEffectPosX, dashEffectPosY);
             dashEffect.GetComponent<SpriteRenderer>().flipX = false;
+            looking = PlayerLookingDirection.Right;
         }
-        else if (looking == PlayerLookingDirection.Left)
+        else // 왼쪽 방향으로 대시
         {
-            dashEffect.transform.localPosition = new Vector2(-dashEffectPosX, -dashEffectPosY);
+            dashEffect.transform.localPosition = new Vector2(-dashEffectPosX, dashEffectPosY);
             dashEffect.GetComponent<SpriteRenderer>().flipX = true;
+            looking = PlayerLookingDirection.Left;
         }
+        
 
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
@@ -624,9 +624,9 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashBeforeDelay);
 
         Vector2 dashStartPos = rb.position;
-        Vector2 dashEndPos = dashStartPos + direction;
+        Vector2 dashEndPos = dashStartPos + dashDirection;
 
-        Vector2 dashSpeed = direction/dashDuration;
+        Vector2 dashSpeed = dashDirection/dashDuration;
 
         float elapsed = 0f;
         while (elapsed < dashDuration)
@@ -691,43 +691,6 @@ public class PlayerController : MonoBehaviour
     public void ChangeState(IPlayerState newState)
     {
         stateMachine.ChangeState(newState);
-    }
-    public PlayerInputDirection GetInputDirection()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        if (horizontal == 0 && vertical == 0)
-            return PlayerInputDirection.None;
-        if (horizontal > 0)
-        {
-            if (!isAttacking)
-            {
-                looking = PlayerLookingDirection.Right;
-            }
-            
-            if (vertical > 0) return PlayerInputDirection.UpRight;
-            else if (vertical < 0) return PlayerInputDirection.DownRight;
-            else return PlayerInputDirection.Right;
-        }
-        else if (horizontal < 0)
-        {
-            if (!isAttacking)
-            {
-                looking = PlayerLookingDirection.Left;
-            }
-
-            
-            if (vertical > 0) return PlayerInputDirection.UpLeft;
-            else if (vertical < 0) return PlayerInputDirection.DownLeft;
-            else return PlayerInputDirection.Left;
-        }
-
-
-        if (vertical > 0) return PlayerInputDirection.Up;
-        if (vertical < 0) return PlayerInputDirection.Down;
-
-        return PlayerInputDirection.None;
     }
 
     public void PlayerNormalAttack(PlayerLookingDirection attackDirection)

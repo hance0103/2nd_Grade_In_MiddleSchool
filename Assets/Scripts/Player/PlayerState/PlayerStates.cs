@@ -62,14 +62,17 @@ public class MoveState : IPlayerState
 
     public void Enter()
     {
-
         player.anim.PlayAnimation("Move");
         SoundManager.Instance.Play("PlayerSound/PlayerMove", Sound.LoopEffect);
     }
 
     public void Update()
     {
-
+        if (!player.anim.animator.GetCurrentAnimatorStateInfo(0).IsName("Move"))
+        {
+            player.anim.PlayAnimation("Move");
+        }
+        
         float moveInput = player.GetMoveInput();
         var input = player.input;
 
@@ -201,14 +204,11 @@ public class DashState : IPlayerState
 
     public void Enter()
     {
-
-
         player.StartDash();
     }
 
     public void Update()
     {
-
 
     }
 

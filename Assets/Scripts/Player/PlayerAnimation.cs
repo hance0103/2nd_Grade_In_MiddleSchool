@@ -6,7 +6,7 @@ public class PlayerAnimation : MonoBehaviour
     public Animator animator;
 
     private Dictionary<string, int> animCache = new Dictionary<string, int>();
-
+    private string curAnim;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -33,6 +33,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (animCache.TryGetValue(name, out int hash))
         {
+            curAnim = name;
             animator.Play(hash);
         }
         else
@@ -41,6 +42,10 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    public string GetCurAnimString()
+    {
+        return curAnim;
+    }
     public void PlayAnimationCrossFade(string name, float fadeTime = 0.1f)
     {
         if (animCache.TryGetValue(name, out int hash))
