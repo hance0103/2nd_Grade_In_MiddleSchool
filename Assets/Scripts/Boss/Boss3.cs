@@ -271,7 +271,7 @@ public class Boss3 : MonoBehaviour
         //    //BossState.WeakPattern1,
         //    //BossState.WeakPattern2,
         //    //BossState.WeakPattern3,
-        //    //BossState.WeakPattern4,
+        //    BossState.WeakPattern4,
         //    //BossState.WeakPattern5,
         //    //BossState.EnragedPattern,
         //    //BossState.DesperatePattern1,
@@ -968,7 +968,7 @@ public class Boss3 : MonoBehaviour
         FacePlayer();
 
         // 공격 반복
-        int totalAttack = isEnraged ? 8 : 4;
+        int totalAttack = isEnraged ? 6 : 4;
         for (int attackCount = 0; attackCount < totalAttack; attackCount++)
         {
             
