@@ -138,9 +138,9 @@ public class bossPatternTest : MonoBehaviour
         //patternDic.Add(0, new BossState[] {
         //    //BossState.WeakPattern1,
         //    //BossState.WeakPattern2,
-        //    //BossState.WeakPattern3,
+        //    BossState.WeakPattern3,
         //    //BossState.StrongPattern1,
-        //    BossState.StrongPattern2
+        //    //BossState.StrongPattern2
         //});
 
         patternDic.Add(0, new BossState[] { BossState.WeakPattern1, BossState.WeakPattern2, BossState.WeakPattern1, BossState.WeakPattern3, BossState.StrongPattern1 });
@@ -602,9 +602,9 @@ public class bossPatternTest : MonoBehaviour
             }
 
             // 광폭화 상태일 때 대기시간 감소
-            if (isEnraged)
+            if (isEnraged && strike != 0)
             {
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             rb.gravityScale = 1f;
