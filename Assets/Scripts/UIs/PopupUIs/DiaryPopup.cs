@@ -33,7 +33,7 @@ public class DiaryPopup : MonoBehaviour
         
         string SavedText1 = PlayerPrefs.GetString("FinalText1", "");
         Debug.Log("불러온 데이터: " + SavedText1);
-        Stage1ClearText.text = "                      " + SavedText1;
+        Stage1ClearText.text = "              " + SavedText1;
 
     }
     
@@ -51,7 +51,7 @@ public class DiaryPopup : MonoBehaviour
         Stage2ClearTime.text = minute.ToString("00") + ":" + second.ToString("00");
         string SavedText2 = PlayerPrefs.GetString("FinalText2","");
         Debug.Log("불러온 데이터: " + SavedText2);
-        Stage2ClearText.text = "                      " + SavedText2;
+        Stage2ClearText.text = "              " + SavedText2;
 
 
         float savedTime3 = PlayerPrefs.GetFloat("FinalTime3", 0f);
@@ -63,7 +63,7 @@ public class DiaryPopup : MonoBehaviour
         Stage3ClearTime.text = minute.ToString("00") + ":" + second.ToString("00");
         string SavedText3 = PlayerPrefs.GetString("FinalText3", "");
         Debug.Log("불러온 데이터: " + SavedText3);
-        Stage3ClearText.text = "                      " + SavedText3;
+        Stage3ClearText.text = "              " + SavedText3;
 
     }
 
