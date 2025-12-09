@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efd575a8-70e0-4991-95d8-41d149fb3f39" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ScriptableBuildPipeline.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ScriptableBuildPipeline.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.2nd_Grade_In_MiddleSchool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2nd_Grade_In_MiddleSchool/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/link.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/link.xml.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Boss/BossPattern2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Boss/BossPattern2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerAttack/PlayerJumpAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerAttack/PlayerJumpAttack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,6 +117,10 @@
       <workItem from="1762849540743" duration="4493000" />
       <workItem from="1762854191127" duration="1443000" />
       <workItem from="1762863290729" duration="3139000" />
+      <workItem from="1763357158629" duration="558000" />
+      <workItem from="1764351902456" duration="1834000" />
+      <workItem from="1764488380898" duration="3931000" />
+      <workItem from="1765262924611" duration="994000" />
     </task>
     <servers />
   </component>

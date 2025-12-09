@@ -416,14 +416,14 @@ public class BossPattern2 : MonoBehaviour
     public IEnumerator WeakPattern3()
     {
         EndPattern = false;
-        Debug.Log("약공격3");
+        //Debug.Log("약공격3");
         currentState = BossState.WeakPattern3;
         Vector2 bossStartPosition = transform.position - new Vector3(0, 0.8f, 0);
 
         // 레이저 공격 반복 (추적 경고선 + 레이저 공격 Ver.)
         for (int attackCount = 0; attackCount < weak3AttackCount; attackCount++)
         {
-            Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
+            //Debug.Log($"레이저 {attackCount + 1}회 공격 시작");
 
             // 1. 경고선 생성 및 플레이어 추적
             LineRenderer warningLine = CreateDangerZone(weak3LaserData);
@@ -546,7 +546,7 @@ public class BossPattern2 : MonoBehaviour
     public IEnumerator WeakPattern5()
     {
         EndPattern = false;
-        Debug.Log("약공격5");
+        //Debug.Log("약공격5");
         currentState = BossState.WeakPattern5;
 
         // 맵 너비 계산
