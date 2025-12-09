@@ -760,6 +760,19 @@ public class PlayerController : MonoBehaviour
     {
         _jumpAttackObject.SetActive(false);
     }
+
+    public void StartJumpAttack()
+    {
+        _jumpAttackObject.GetComponent<PlayerJumpAttack>().isBossHit = false;
+        StartCoroutine(PlayerJumpAttackBeforeDelay());
+    }
+    private IEnumerator PlayerJumpAttackBeforeDelay()
+    {
+        PlayerStop();
+        yield return new WaitForSeconds(_jumpAttackBeforeDelay);
+        PlayerResume();
+        PlayerJumpAttack();
+    }
     private void PlayerJumpAttack()
     {
         SoundManager.Instance.Play("PlayerSound/PlayerJumpAttack");
@@ -776,17 +789,6 @@ public class PlayerController : MonoBehaviour
             _jumpAttackObject.GetComponent<SpriteRenderer>().flipX = true;
         }
         rb.velocity = new Vector2(0, -_jumpAttack_diveVelocity);
-    }
-    private IEnumerator PlayerJumpAttackBeforeDelay()
-    {
-        PlayerStop();
-        yield return new WaitForSeconds(_jumpAttackBeforeDelay);
-        PlayerResume();
-        PlayerJumpAttack();
-    }
-    public void StartJumpAttack()
-    {
-        StartCoroutine(PlayerJumpAttackBeforeDelay());
     }
     public IEnumerator PlayerJumpAttackDelay()
     {
@@ -882,7 +884,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(time);
 
-        Debug.Log($"원래속도 {originMaxSpeed}로 속도 복구");
+        //Debug.Log($"원래속도 {originMaxSpeed}로 속도 복구");
         maxSpeed = originMaxSpeed;
     }
 
