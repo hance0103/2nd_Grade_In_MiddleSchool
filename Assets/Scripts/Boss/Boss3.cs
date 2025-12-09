@@ -218,7 +218,7 @@ public class Boss3 : MonoBehaviour
     {
         bossHPManager = GetComponent<BossHPManager>();
 
-
+        Enrageactive = true;
         weak5ObjectList = new();
 
 
