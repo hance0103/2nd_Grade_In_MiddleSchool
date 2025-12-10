@@ -1,3 +1,4 @@
+using UnityEditor.AddressableAssets.Build;
 using UnityEngine;
 
 public class IdleState : IPlayerState
@@ -62,6 +63,14 @@ public class MoveState : IPlayerState
 
     public void Enter()
     {
+        if (player.MoveInput > 0)
+        {
+            player.CharacterSprite.flipX = false;
+        }
+        else
+        {
+            player.CharacterSprite.flipX = true;
+        }
         player.anim.PlayAnimation("Move");
         SoundManager.Instance.Play("PlayerSound/PlayerMove", Sound.LoopEffect);
     }
@@ -146,6 +155,18 @@ public class JumpState : IPlayerState
     {
         var input = player.input;
 
+        if (player.MoveInput != 0)
+        {
+            if (player.MoveInput > 0)
+            {
+                player.CharacterSprite.flipX = false;
+            }
+            else
+            {
+                player.CharacterSprite.flipX = true;
+            }
+        }
+        
         if (player.GetFallingVelocity() < 0)
         {
             player.anim.PlayAnimation("JumpDown");
@@ -238,7 +259,20 @@ public class AttackState : IPlayerState
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || input.DashPressed) player.ChangeState(new DashState(player));
 
-        if (Input.GetKeyUp(KeyCode.A) || input.AttackReleased) player.ChangeState(new IdleState(player));
+
+
+        if (Input.GetKeyUp(KeyCode.A) || input.AttackReleased)
+        {
+
+            if (player.MoveInput != 0)
+            {
+                player.ChangeState(new MoveState(player));
+            }
+            else
+                player.ChangeState(new IdleState(player));
+        }
+
+
 
         player.PlayerNormalAttack(player.GetLookingDirection());
 

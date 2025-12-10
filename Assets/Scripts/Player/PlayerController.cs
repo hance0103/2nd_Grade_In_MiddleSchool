@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveAccel;
 
     private float moveInput = 0f;
-
+    public float MoveInput => moveInput;
     [Header("Jump")]
     [SerializeField] private float minChargeTime = 0.1f;
     [SerializeField] private float minJumpForce = 5f;  // 최소 점프 힘
@@ -131,7 +131,8 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAnimation anim;
     private Animator animator;
-    private SpriteRenderer sprite;
+    private SpriteRenderer characterSprite;
+    public SpriteRenderer CharacterSprite => characterSprite;
     private BoxCollider2D collider2d;
 
 
@@ -163,7 +164,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         input = GetComponent<PlayerInputProxy>();
-        sprite = GetComponent<SpriteRenderer>();
+        characterSprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<PlayerAnimation>();
         animator = GetComponent<Animator>();
@@ -270,7 +271,7 @@ public class PlayerController : MonoBehaviour
                     if (!isAttacking && !isDashing)
                     {
                         looking = PlayerLookingDirection.Right;
-                        sprite.flipX = false;
+                        characterSprite.flipX = false;
                         collider2d.offset = colliderOffset;
                         _hitCollider.offset = _hitColliderOffset;
                     }
@@ -283,7 +284,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!isAttacking && !isDashing)
                     {
-                        sprite.flipX = true;
+                        characterSprite.flipX = true;
                         looking = PlayerLookingDirection.Left;
                         collider2d.offset = new Vector2(-colliderOffset.x, colliderOffset.y);
                         _hitCollider.offset = new Vector2 (-_hitColliderOffset.x, _hitColliderOffset.y);
@@ -838,27 +839,27 @@ public class PlayerController : MonoBehaviour
     }
     public void DeactivateInvincible()
     {
-        sprite.color = Color.white;
+        characterSprite.color = Color.white;
         _isInvincible = false;
     }
     public IEnumerator InvincibleBlink()
     {
         while (_isInvincible)
         {
-            sprite.color = new Color(70/255f,70/255f,70/255f);
+            characterSprite.color = new Color(70/255f,70/255f,70/255f);
             //sprite.color = Color.red;
             yield return new WaitForSeconds(_blinkDelay);
-            sprite.color = Color.white;
+            characterSprite.color = Color.white;
             yield return new WaitForSeconds(_blinkDelay);
         }
     }
     public SpriteRenderer GetSpriteRenderer()
     {
-        return sprite;
+        return characterSprite;
     }
     public void SetSpriteColor(Color color)
     {
-        sprite.color = color;
+        characterSprite.color = color;
     }
     public float GetBlinkDelay()
     {
